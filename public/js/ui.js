@@ -212,14 +212,14 @@ function renderCombattimento(box, i) {
         ...azioniMagiche(e, pronti)));
     eroiBox.append(rowEl);
   });
-  box.append(h('h4', {}, 'Turno del gruppo'), eroiBox);
+  const sezGruppo = [h('h4', {}, 'Turno del gruppo'), eroiBox];
 
   // mostri
   const key = `${i.id}-${i.turno}-${i.n}-${i.pv}-${gruppo.map(g => g.id).join('')}-${i.sorpresa}`;
   if (ui.assegnKey !== key) { ui.assegn = C.propostaAttacchi(); ui.assegnKey = key; }
   const as = h('div', { class: 'assign' });
   ui.assegn.forEach((a, k) => as.append(h('div', { class: 'row' }, h('span', {}, `Attacco ${k + 1} →`), h('select', { onchange: ev => { a.eroeId = ev.target.value; } }, gruppo.map(g => h('option', { value: g.id, selected: g.id === a.eroeId }, g.nome))))));
-  box.append(h('h4', {}, 'Turno dei mostri'),
+  const sezMostri = [h('h4', {}, 'Turno dei mostri'),
     i.mostriPrima && i.turno === 1 ? h('p', { class: 'hint' }, 'I mostri colpiscono per primi in questo turno.') : '',
     h('div', { class: 'card' }, ui.assegn.length ? as : h('small', {}, 'Nessun attacco da risolvere.'),
       h('div', { class: 'row wrap' },
@@ -228,7 +228,9 @@ function renderCombattimento(box, i) {
     h('div', { class: 'row wrap' },
       btn('Ritirata (+1 difesa, serve una porta)', () => C.sottrarsi('ritirata')),
       btn('Fuga (niente scudo)', () => C.sottrarsi('fuga'), 'danger'),
-      btn('Mostri in fuga / sconfitti', async () => { i.stato = 'finito'; i.esito = 'sconfitti'; C.nota('Combattimento concluso.'); modificato('avventura'); })));
+      btn('Mostri in fuga / sconfitti', async () => { i.stato = 'finito'; i.esito = 'sconfitti'; C.nota('Combattimento concluso.'); modificato('avventura'); }))];
+  // chi agisce per primo sta in cima al pannello
+  box.append(...(i.mostriPrima ? [...sezMostri, ...sezGruppo] : [...sezGruppo, ...sezMostri]));
 }
 
 function azioniMagiche(e, pronti) {

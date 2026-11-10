@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+- **Foglio quadrettato espandibile:** parte da 20×28 quadretti e cresce in tutte le direzioni insieme al dungeon;
+  il posizionamento automatico delle stanze non è più limitato al foglio e «Adatta» inquadra tutto.
+- **Pannello Incontro:** chi agisce per primo (gruppo o mostri) sta in cima al quadrante di destra.
+
 ## 1.1.0
 - **Perquisire una stanza vuota** ora segue davvero la tabella: si tira il d6 (−1 nei corridoi), si mostra l'esito
   in una finestra e se ne applicano gli effetti: 1 = arrivano i mostri erranti, 2-4 = stanza vuota,

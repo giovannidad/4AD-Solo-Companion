@@ -11,7 +11,7 @@ del regolamento automatizzate. Tutti i dati sono salvati in **file di testo** (J
 
 - **Gruppo:** 8 classi (barbaro, chierico, elfo, furfante, guerriero, mago, mezzuomo, nano), schede complete,
   equipaggiamento, negozio, ordine di marcia, lanterna, incantesimi preparati, indizi, riposo.
-- **Mappa:** foglio quadrettato 20×28. Il d66 sceglie la tessera, che si adatta ai quadretti e si disegna "a matita".
+- **Mappa:** foglio quadrettato che parte da 20×28 e si espande con il dungeon. Il d66 sceglie la tessera, che si adatta ai quadretti e si disegna "a matita".
   Si può ruotare (R), specchiare (F), trascinare liberamente, zoomare e spostare il foglio.
 - **Segnalini:** un pedone per eroe, che segue il gruppo di stanza in stanza; si possono dividere trascinandoli.
 - **Dadi 3D:** i dadi rotolano sopra la mappa (three.js + cannon-es). Il valore è letto dalla faccia superiore.

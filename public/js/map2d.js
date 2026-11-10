@@ -117,7 +117,8 @@ function stepAnim(e, now) {
 // ---------------- disegno ----------------
 function drawPaper() {
   ctx.fillStyle = '#1c140d'; ctx.fillRect(0, 0, W, H);
-  const [x0, y0] = toScreen(0, 0), [x1, y1] = toScreen(SHEET.w, SHEET.h), z = view.zoom;
+  const sr = sheetRect();
+  const [x0, y0] = toScreen(sr.x0, sr.y0), [x1, y1] = toScreen(sr.x1, sr.y1), z = view.zoom;
   ctx.save(); ctx.shadowColor = '#000a'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 6; ctx.fillStyle = PAPER; ctx.fillRect(x0, y0, x1 - x0, y1 - y0); ctx.restore();
   if (!paperPattern) {
     const c = mk(128, 128), g = c.getContext('2d'); g.fillStyle = PAPER; g.fillRect(0, 0, 128, 128);
@@ -126,8 +127,8 @@ function drawPaper() {
   }
   ctx.fillStyle = paperPattern; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
   ctx.lineWidth = 1;
-  for (let i = 0; i <= SHEET.w; i++) { const [x] = toScreen(i, 0); ctx.strokeStyle = i % 5 === 0 ? 'rgba(70,120,175,.55)' : 'rgba(70,120,175,.28)'; ctx.beginPath(); ctx.moveTo(Math.round(x) + .5, y0); ctx.lineTo(Math.round(x) + .5, y1); ctx.stroke(); }
-  for (let j = 0; j <= SHEET.h; j++) { const [, y] = toScreen(0, j); ctx.strokeStyle = j % 5 === 0 ? 'rgba(70,120,175,.55)' : 'rgba(70,120,175,.28)'; ctx.beginPath(); ctx.moveTo(x0, Math.round(y) + .5); ctx.lineTo(x1, Math.round(y) + .5); ctx.stroke(); }
+  for (let i = sr.x0; i <= sr.x1; i++) { const [x] = toScreen(i, 0); ctx.strokeStyle = i % 5 === 0 ? 'rgba(70,120,175,.55)' : 'rgba(70,120,175,.28)'; ctx.beginPath(); ctx.moveTo(Math.round(x) + .5, y0); ctx.lineTo(Math.round(x) + .5, y1); ctx.stroke(); }
+  for (let j = sr.y0; j <= sr.y1; j++) { const [, y] = toScreen(0, j); ctx.strokeStyle = j % 5 === 0 ? 'rgba(70,120,175,.55)' : 'rgba(70,120,175,.28)'; ctx.beginPath(); ctx.moveTo(x0, Math.round(y) + .5); ctx.lineTo(x1, Math.round(y) + .5); ctx.stroke(); }
   ctx.strokeStyle = 'rgba(200,70,60,.35)'; ctx.beginPath(); ctx.moveTo(x0 + z * 1, y0); ctx.lineTo(x0 + z * 1, y1); ctx.stroke(); // margine
 }
 
@@ -254,7 +255,6 @@ function rectOf(d) { const { dw, dh } = dims(d); return [d.x - dw / 2, d.z - dh 
 const overlap = (a, b) => a[0] < b[2] - 0.3 && a[2] > b[0] + 0.3 && a[1] < b[3] - 0.3 && a[3] > b[1] + 0.3;
 function libera(d, altre) {
   const r = rectOf(d);
-  if (r[0] < -0.01 || r[1] < -0.01 || r[2] > SHEET.w + 0.01 || r[3] > SHEET.h + 0.01) return false;
   return !altre.some(o => o.id !== d.id && !o.pending && overlap(r, rectOf(o)));
 }
 /** Mette la stanza accanto a quella di riferimento (sopra, a sinistra, a destra, sotto) o nel primo spazio libero. */
@@ -265,7 +265,8 @@ export function autoPlace(d, ref, altre) {
     const rr = rectOf(ref), cx = (rr[0] + rr[2]) / 2, cy = (rr[1] + rr[3]) / 2;
     cand.push([cx, rr[1] - dh / 2], [rr[0] - dw / 2, cy], [rr[2] + dw / 2, cy], [cx, rr[3] + dh / 2]);
   }
-  for (let r = 0; r < 20; r += 2) for (let c = 0; c < 20; c += 2) cand.push([dw / 2 + c, dh / 2 + r]);
+  const ox = ref ? ref.x : SHEET.w / 2, oy = ref ? ref.z : SHEET.h / 2;
+  for (let k = 1; k <= 14; k++) for (let dx = -k; dx <= k; dx++) for (let dy = -k; dy <= k; dy++) if (Math.max(Math.abs(dx), Math.abs(dy)) === k) cand.push([ox + dx * 2, oy + dy * 2]);
   for (const [x, y] of cand) {
     [d.x, d.z] = snapCenter(d, x, y);
     if (libera(d, altre)) return true;
@@ -278,11 +279,24 @@ export function ensureVisible(d) {
   if (sx < 40 || sy < 40 || sx > W - 40 || sy > H - 40) { view.x = d.x; view.y = d.z; invalidate(); }
 }
 
+// ---------------- foglio che cresce con il dungeon ----------------
+const PAD = 3;   // quadretti di margine attorno alle stanze
+/** Il foglio parte da 20x28 quadretti e si espande (in tutte le direzioni) man mano che il dungeon cresce. */
+export function sheetRect() {
+  let x0 = 0, y0 = 0, x1 = SHEET.w, y1 = SHEET.h;
+  for (const e of tiles.values()) {
+    const r = rectOf(e.d);
+    x0 = Math.min(x0, Math.floor(r[0]) - PAD); y0 = Math.min(y0, Math.floor(r[1]) - PAD);
+    x1 = Math.max(x1, Math.ceil(r[2]) + PAD); y1 = Math.max(y1, Math.ceil(r[3]) + PAD);
+  }
+  return { x0, y0, x1, y1, w: x1 - x0, h: y1 - y0 };
+}
+
 // ---------------- viste ----------------
 export function setView(nome) {
-  if (nome === 'fit') { view.zoom = Math.max(8, Math.min((W - 40) / SHEET.w, (H - 40) / SHEET.h)); view.x = SHEET.w / 2; view.y = SHEET.h / 2; }
+  if (nome === 'fit') { const r = sheetRect(); view.zoom = Math.max(6, Math.min((W - 40) / r.w, (H - 40) / r.h)); view.x = (r.x0 + r.x1) / 2; view.y = (r.y0 + r.y1) / 2; }
   else if (nome === 'in') view.zoom = Math.min(90, view.zoom * 1.25);
-  else if (nome === 'out') view.zoom = Math.max(8, view.zoom / 1.25);
+  else if (nome === 'out') view.zoom = Math.max(4, view.zoom / 1.25);
   invalidate();
 }
 
@@ -319,7 +333,7 @@ function onUp(ev) {
 function onWheel(ev) {
   ev.preventDefault();
   const [px, py] = pos(ev), [wx, wy] = toWorld(px, py);
-  view.zoom = Math.max(8, Math.min(90, view.zoom * Math.exp(-ev.deltaY * 0.0012)));
+  view.zoom = Math.max(4, Math.min(90, view.zoom * Math.exp(-ev.deltaY * 0.0012)));
   view.x = wx - (px - W / 2) / view.zoom; view.y = wy - (py - H / 2) / view.zoom; invalidate();
 }
 function onKey(ev) {
