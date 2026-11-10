@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.1
+- **Barbaro:** la spunta «Furioso» si azzera dopo ogni attacco e non resta attiva a usi esauriti.
+
 ## 1.4.0
 - **Prestazioni:** i dadi 3D si disegnano solo mentre rotolano (a riposo 0 fotogrammi); ombre più leggere; la mappa non
   disegna le tessere fuori schermo e non usa più ombre sfocate per il foglio.

@@ -203,12 +203,12 @@ function renderCombattimento(box, i) {
     const fronte = !i.corridoio || idx < 2;
     const m = modAttacco(e, C.contestoAttacco(e, { armaId: ui.arma[e.id] }));
     const armiSel = (e.armi || []).length > 1 ? h('select', { onchange: ev => { ui.arma[e.id] = ev.target.value; modificato('avventura'); } }, e.armi.map(id => h('option', { value: id, selected: (ui.arma[e.id] || e.armaPrincipale) === id }, armaDi(id)?.nome))) : null;
-    const fur = e.classe === 'barbaro' ? h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!ui.furioso[e.id], disabled: (e.usi.furie || 0) >= Math.ceil(e.livello / 2), onchange: ev => { ui.furioso[e.id] = ev.target.checked; } }), `Furioso (${Math.ceil(e.livello / 2) - (e.usi.furie || 0)})`) : null;
+    const fur = e.classe === 'barbaro' ? h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2), disabled: (e.usi.furie || 0) >= Math.ceil(e.livello / 2), onchange: ev => { ui.furioso[e.id] = ev.target.checked; } }), `Furioso (${Math.ceil(e.livello / 2) - (e.usi.furie || 0)})`) : null;
     const pronti = (e.incantesimi || []).map((s, idx2) => ({ ...s, idx2 })).filter(s => !s.usato);
     const rowEl = h('div', { class: `actor ${i.agito?.[e.id] ? 'done' : ''}` },
       h('div', { class: 'ahead' }, h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} ${e.livello} · ${e.pv}/${e.pvMax} PV`), h('span', { class: 'mod', title: m.parti.map(p => `${p[0]} ${p[1] > 0 ? '+' : ''}${p[1]}`).join('\n') || 'Nessun modificatore' }, `ATT ${m.tot >= 0 ? '+' : ''}${m.tot}`)),
       h('div', { class: 'arow' },
-        fronte ? [armiSel, fur, btn('Attacca', () => C.attacca(e, { armaId: ui.arma[e.id], furioso: !!ui.furioso[e.id] }), 'primary')] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
+        fronte ? [armiSel, fur, btn('Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary')] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
         ...azioniMagiche(e, pronti)));
     eroiBox.append(rowEl);
   });
