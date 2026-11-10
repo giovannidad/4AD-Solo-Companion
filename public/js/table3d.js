@@ -18,14 +18,17 @@ let renderer, scene, camera, world, container, key, walls = {};
 const dice = [];                   // {mesh, body, value}
 const dieMaterials = {};
 let rollChain = Promise.resolve(), rollToken = 0;
+let running = false, idleFrames = 0;
+export const stats = { frames: 0 };      // fotogrammi disegnati (per misurare il carico)
+export const qualita = { ombre: true, dpr: 2 };
 
 // ---------------- inizializzazione ----------------
 export function initTable(el) {
   container = el;
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, qualita.dpr));
   renderer.setClearColor(0x000000, 0);
-  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.enabled = qualita.ombre;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);
@@ -36,7 +39,7 @@ export function initTable(el) {
   floor.rotation.x = -Math.PI / 2; floor.position.y = 0.02; floor.receiveShadow = true; scene.add(floor);
   new ResizeObserver(resize).observe(container);
   resize();
-  renderer.setAnimationLoop(loop);
+  draw();   // un solo fotogramma: finché non ci sono dadi la GPU resta ferma
 }
 
 function buildLights() {
@@ -44,7 +47,7 @@ function buildLights() {
   key = new THREE.DirectionalLight(0xffeccc, 1.5);
   key.position.set(5, 30, 9);
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.mapSize.set(1024, 1024);
   key.shadow.bias = -0.0004;
   scene.add(key);
 }
@@ -87,12 +90,25 @@ function resize() {
   Object.assign(key.shadow.camera, { left: -B.halfW - 2, right: B.halfW + 2, top: B.halfH + 2, bottom: -B.halfH - 2, near: 5, far: 80 });
   key.shadow.camera.updateProjectionMatrix();
   placeWalls();
+  draw();
 }
 
+function draw() { stats.frames++; renderer.render(scene, camera); }
+
+/** Il ciclo di animazione parte con un lancio e si ferma da solo quando i dadi sono fermi. */
+function startLoop() { idleFrames = 0; if (!running) { running = true; requestAnimationFrame(loop); } }
 function loop() {
+  if (!dice.length) { running = false; draw(); return; }            // un ultimo fotogramma a tavolo vuoto
   world.step(1 / 60, 1 / 60, 3);
-  for (const d of dice) { d.mesh.position.copy(d.body.position); d.mesh.quaternion.copy(d.body.quaternion); }
-  renderer.render(scene, camera);
+  let moving = false;
+  for (const d of dice) {
+    d.mesh.position.copy(d.body.position); d.mesh.quaternion.copy(d.body.quaternion);
+    if (d.body.sleepState !== CANNON.Body.SLEEPING) moving = true;
+  }
+  idleFrames = moving ? 0 : idleFrames + 1;
+  draw();
+  if (idleFrames > 30) { running = false; return; }                  // dadi fermi: niente più fotogrammi
+  requestAnimationFrame(loop);
 }
 export const setView = () => {};
 
@@ -127,6 +143,7 @@ function materialsFor(colorName) {
 function clearDice() {
   for (const d of dice) { scene.remove(d.mesh); d.mesh.geometry.dispose(); world.removeBody(d.body); }
   dice.length = 0;
+  if (renderer && !running) draw();
 }
 function readTop(d) {
   let best = -2, val = 1;
@@ -150,7 +167,7 @@ export function rollDice(specs) {
   return rollChain;
 }
 function doRoll(specs) {
-  clearDice(); const mio = ++rollToken;
+  clearDice(); const mio = ++rollToken; startLoop();
   if (!specs.length) return Promise.resolve([]);
   const geo = new THREE.BoxGeometry(DIE, DIE, DIE);
   const shape = new CANNON.Box(new CANNON.Vec3(DIE / 2, DIE / 2, DIE / 2));
@@ -174,7 +191,7 @@ function doRoll(specs) {
       const reads = dice.map(readTop);
       const cocked = reads.some(r => r.flat < 0.97);
       if (cocked && kicks < 2 && waited < 7000) {
-        kicks++; dice.forEach((d, i) => { if (reads[i].flat < 0.97) { d.body.wakeUp(); d.body.applyImpulse(new CANNON.Vec3((Math.random() - .5) * 4, 3, (Math.random() - .5) * 4)); } });
+        kicks++; dice.forEach((d, i) => { if (reads[i].flat < 0.97) { d.body.wakeUp(); startLoop(); d.body.applyImpulse(new CANNON.Vec3((Math.random() - .5) * 4, 3, (Math.random() - .5) * 4)); } });
         return;
       }
       clearInterval(timer);

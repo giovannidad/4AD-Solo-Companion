@@ -9,6 +9,14 @@ import { renderGruppo } from './party.js';
 import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro } from './ui.js';
 
 let tab = 'dungeon';
+
+// ---------------- qualità grafica (leggera = per computer datati) ----------------
+const debole = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 8) <= 2;
+const QUALITA = localStorage.getItem('fad-qualita') || (debole ? 'leggera' : 'alta');
+const LEGGERA = QUALITA === 'leggera';
+table.qualita.leggera = LEGGERA;
+if (LEGGERA) dice.settings.fisici = false;
+
 const RENDER = { dungeon: renderDungeon, incontro: renderIncontro, strumenti: renderStrumenti, registro: renderRegistro };
 
 function disegna() {
@@ -97,8 +105,7 @@ async function avvia() {
   try {
     await caricaRegole();
     table.initMap($('#mapView'));
-    dadi3d.initTable($('#diceLayer'));
-    dice.tableIsReady();
+    if (!LEGGERA) { dadi3d.initTable($('#diceLayer')); dice.tableIsReady(); }
     table.onTileChange(() => modificato('avventura'));
     table.onTileSelect(t => disegnaStrumentiTessera(t));
     table.onTokenMove((id, tileId) => {
@@ -113,6 +120,9 @@ async function avvia() {
     $('#loading').remove();
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
+  $('#qualita').value = QUALITA;
+  $('#qualita').onchange = e => { localStorage.setItem('fad-qualita', e.target.value); location.reload(); };
+  if (LEGGERA) { $('#dicePhys').checked = false; $('#dicePhys').disabled = true; $('#diceLayer').remove(); }
   $$('#stageTop [data-view]').forEach(b => b.onclick = () => table.setView(b.dataset.view));
   $$('#tabs button').forEach(b => b.onclick = () => apriTab(b.dataset.tab));
   document.addEventListener('apri-tab', e => apriTab(e.detail));

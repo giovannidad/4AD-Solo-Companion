@@ -59,3 +59,11 @@ alla punta del tratto.
 - Reazioni dei mostri: `[da, a, azione, parametro?, "totale"?]` con azioni `fugge, fugge-inf, corruzione, combatte, morte,
   combatte-sempre, dorme, missione`.
 - Effetti speciali per singolo mostro (veleno, soffi, sguardi…): `combat.js` (`inizioScontro`, `effettoFerita`, `eseguiDifese`).
+
+## Prestazioni e qualità
+
+- `table3d.js` non ha un ciclo di animazione fisso: parte con un lancio e si ferma quando i dadi sono addormentati.
+  Il contatore `stats.frames` permette di misurare il carico.
+- `map2d.js` ridisegna solo su richiesta (`invalidate`), salta le tessere fuori schermo e, con `qualita.leggera`, evita ombre sfocate e animazione.
+- Modalità **Leggera** (`localStorage` → `fad-qualita`): non crea il livello WebGL e usa tiri virtuali. Si attiva da sola se
+  `navigator.hardwareConcurrency <= 2` o `deviceMemory <= 2`.

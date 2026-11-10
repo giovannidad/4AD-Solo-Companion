@@ -2,7 +2,7 @@
 
 ## Tessere delle stanze
 
-- `assets/tiles/NN.png` – le 36 tessere del d66 (11…66); `assets/ingressi/1-6.png` – le 6 stanze d'ingresso.
+- `assets/tiles/NN.webp` – le 36 tessere del d66 (11…66); `assets/ingressi/1-6.webp` – le 6 stanze d'ingresso.
 - Sono le tessere **a colori in pietra** del PDF `manuali/tiles-base.pdf` (42 pagine, una immagine per pagina, JPEG2000 con
   trasparenza). Sono state estratte con `pypdf`, lo sfondo nero esterno è stato reso trasparente, sono state ritagliate e
   dimezzate di risoluzione.
@@ -11,7 +11,7 @@
   il che non conta ai fini del gioco). L'abbinamento è in `docs/abbinamento-tessere.json`.
 - `docs/confronto-tessere.png` mostra, per ogni numero del d66, la tessera del manuale (a sinistra) e quella usata (a destra).
   Gli abbinamenti **meno sicuri** sono scritti in rosso (e nel campo `incerte` del JSON): 11, 12, 13, 14, 16, 26, 41, 43, 46, 64.
-  Per correggerli basta scambiare i file `assets/tiles/NN.png` corrispondenti.
+  Per correggerli basta scambiare i file `assets/tiles/NN.webp` corrispondenti.
 
 ## Misure (`data/rules/tiles.json`)
 

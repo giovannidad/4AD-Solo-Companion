@@ -2,6 +2,7 @@
 export const SHEET = { w: 20, h: 28 };     // 20x28 quadretti, come consigliato dal manuale
 
 const PAPER = '#f4efe0', GRAPHITE = [46, 46, 54];
+export const qualita = { leggera: false };   // true: niente ombre sfocate né animazione a matita
 let host, canvas, ctx, W = 0, H = 0, dpr = 1;
 const view = { x: SHEET.w / 2, y: SHEET.h / 2, zoom: 24 };
 const tiles = new Map();                    // id -> {d, img, proc, anim, drawn}
@@ -63,6 +64,7 @@ const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; 
 // ---------------- gestione tessere ----------------
 export function upsertTile(d) {
   retargetSoon();
+  d.src = d.src.replace(/\.png$/, '.webp');   // salvataggi vecchi: le immagini ora sono WebP
   let e = tiles.get(d.id);
   if (!e) {
     e = { d, proc: null, anim: null };
@@ -93,6 +95,7 @@ export const scaleSelected = f => { const d = getSelected(); if (d) updateTile({
 /** Fa "scrivere a matita" la stanza. */
 export function animate(id) {
   const e = tiles.get(id); if (!e) return;
+  if (qualita.leggera) { e.drawn = true; invalidate(); return; }
   if (e.proc) startAnim(e); else e.wantAnim = true;
 }
 function startAnim(e) {
@@ -122,7 +125,9 @@ function drawPaper() {
   ctx.fillStyle = '#1c140d'; ctx.fillRect(0, 0, W, H);
   const sr = sheetRect();
   const [x0, y0] = toScreen(sr.x0, sr.y0), [x1, y1] = toScreen(sr.x1, sr.y1), z = view.zoom;
-  ctx.save(); ctx.shadowColor = '#000a'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 6; ctx.fillStyle = PAPER; ctx.fillRect(x0, y0, x1 - x0, y1 - y0); ctx.restore();
+  // ombra del foglio: due rettangoli sfumati a costo quasi nullo (niente shadowBlur, lento sulle GPU vecchie)
+  ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(x0 + 6, y0 + 8, x1 - x0, y1 - y0); ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.fillRect(x0 + 3, y0 + 4, x1 - x0, y1 - y0);
+  ctx.fillStyle = PAPER; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
   if (!paperPattern) {
     const c = mk(128, 128), g = c.getContext('2d'); g.fillStyle = PAPER; g.fillRect(0, 0, 128, 128);
     for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(120,100,60,${Math.random() * 0.07})`; g.fillRect(Math.random() * 128, Math.random() * 128, 1 + Math.random() * 2, 1); }
@@ -139,6 +144,7 @@ function drawTile(e, now, pencils) {
   const d = e.d; if (!e.proc) return;
   const z = view.zoom, { bw, bh, dw, dh } = dims(d);
   const [sx, sy] = toScreen(d.x, d.z);
+  if (!e.anim && (sx + dw * z / 2 < 0 || sx - dw * z / 2 > W || sy + dh * z / 2 < 0 || sy - dh * z / 2 > H)) return;   // fuori schermo
   ctx.save();
   ctx.translate(sx, sy); ctx.rotate((d.rot || 0) * Math.PI / 2); ctx.scale(d.flip ? -1 : 1, 1);
   const x = -bw * z / 2, y = -bh * z / 2, w = bw * z, h = bh * z;
@@ -175,7 +181,6 @@ function drawTile(e, now, pencils) {
 
 function drawPencil(x, y, now) {
   ctx.save(); ctx.translate(x, y + Math.sin(now / 40) * 1.5); ctx.rotate(-0.62);
-  ctx.shadowColor = '#0007'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 5;
   ctx.fillStyle = '#ecd2a8'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(30, -7); ctx.lineTo(30, 7); ctx.fill();
   ctx.shadowColor = 'transparent'; ctx.fillStyle = '#2d2d33'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(9, -2.4); ctx.lineTo(9, 2.4); ctx.fill();
   ctx.fillStyle = '#e3a21f'; ctx.fillRect(30, -7, 78, 14); ctx.fillStyle = '#b87b0d'; ctx.fillRect(30, 3, 78, 4);
@@ -233,7 +238,7 @@ function drawTokens(now) {
     const [sx, sy0] = toScreen(t.x, t.y), lift = (t === drag?.token ? 8 : 0), sy = sy0 - lift;
     const dead = t.stato === 'morto', stone = t.stato === 'pietra';
     ctx.save();
-    ctx.shadowColor = '#0008'; ctx.shadowBlur = 8 + lift; ctx.shadowOffsetY = 3 + lift;
+    if (!qualita.leggera) { ctx.shadowColor = '#0008'; ctx.shadowBlur = 8 + lift; ctx.shadowOffsetY = 3 + lift; }
     const g = ctx.createRadialGradient(sx - r * 0.35, sy - r * 0.4, r * 0.1, sx, sy, r);
     const col = dead || stone ? '#8a8a8a' : t.color; g.addColorStop(0, '#ffffff66'); g.addColorStop(0.25, col); g.addColorStop(1, shade(col, -0.45));
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
@@ -349,7 +354,7 @@ function onKey(ev) {
 function resize() {
   const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
   const first = !W;
-  dpr = Math.min(devicePixelRatio || 1, 2); W = w; H = h;
+  dpr = qualita.leggera ? 1 : Math.min(devicePixelRatio || 1, 2); W = w; H = h;
   canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
   canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
   if (first) setView('fit');

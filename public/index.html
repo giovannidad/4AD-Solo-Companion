@@ -8,8 +8,7 @@
   <script type="importmap">
   {
     "imports": {
-      "three": "/vendor/three/three.module.js",
-      "three/addons/": "/vendor/three/examples/jsm/",
+      "three": "/vendor/three/three.module.min.js",
       "cannon-es": "/vendor/cannon-es/cannon-es.js"
     }
   }
@@ -19,6 +18,7 @@
   <header id="top">
     <div class="brand"><span class="logo">&#9876;</span><div><b>Four Against Darkness</b><small>Tavolo da gioco in solitario</small></div></div>
     <div class="camp">
+      <label title="Leggera: niente dadi 3D, ombre né animazione a matita (per computer datati)">Qualità <select id="qualita"><option value="alta">Alta</option><option value="leggera">Leggera</option></select></label>
       <label>Campagna <select id="campSel"></select></label>
       <button id="campNew">Nuova</button>
       <button id="campDel" class="danger" title="Elimina la campagna selezionata">Elimina</button>

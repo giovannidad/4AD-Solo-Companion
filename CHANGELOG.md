@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0
+- **Prestazioni:** i dadi 3D si disegnano solo mentre rotolano (a riposo 0 fotogrammi); ombre più leggere; la mappa non
+  disegna le tessere fuori schermo e non usa più ombre sfocate per il foglio.
+- **Qualità «Leggera»:** interruttore in alto (attivo da solo su computer con 2 core o 2 GB di RAM): niente dadi 3D, ombre
+  né animazione a matita.
+- **Peso:** tessere in WebP (da 9,1 a 1,2 MB), three.js minificata; pacchetti più piccoli di circa 7 MB.
+- I salvataggi vecchi continuano a funzionare.
+
 ## 1.3.0
 - **Nuove tessere:** al posto di quelle del manuale ora si usano le tessere a colori in pietra di `tiles-base.pdf`, abbinate
   alle 36 del d66 e ai 6 ingressi (vedi `docs/ASSET.md` e `docs/confronto-tessere.png`).

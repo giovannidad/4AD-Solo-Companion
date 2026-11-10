@@ -12,7 +12,7 @@ export const tileById = id => adv().tessere.find(t => t.id === id);
 function nuovaTessera(tipo, n) {
   const m = tipo === 'ingresso' ? R.tiles.ingressi[n] : R.tiles.tiles[n];
   return {
-    id: uid(), tipo, n, src: `/assets/${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.png`,
+    id: uid(), tipo, n, src: `/assets/${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.webp`,
     w: m.w, h: m.h, cx: m.cx, cy: m.cy, ox: m.ox, oy: m.oy,
     x: 10, z: 14, rot: 0, flip: false, scale: 1, pending: false, nome: `Stanza ${n}`, corridoio: false, contenuto: null, perquisita: false
   };

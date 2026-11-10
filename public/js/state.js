@@ -26,6 +26,7 @@ export async function apriCampagna(id) {
   S.camp = id;
   S.party = (await api.leggi(id, 'party')) || nuovaPartita();
   S.adv = Object.assign(nuovaAvventura(), (await api.leggi(id, 'avventura')) || {});
+  S.adv.tessere.forEach(t => { t.src = t.src.replace(/\.png$/, '.webp'); });   // salvataggi vecchi
   S.registro = (await api.leggi(id, 'registro')).split('\n').filter(Boolean);
   localStorage.setItem('4ad-campagna', id);
   emit();
