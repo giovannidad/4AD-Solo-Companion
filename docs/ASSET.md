@@ -3,18 +3,24 @@
 ## Tessere delle stanze
 
 - `assets/tiles/NN.png` – le 36 tessere del d66 (11…66); `assets/ingressi/1-6.png` – le 6 stanze d'ingresso.
-- Sono state estratte dalle pagine 40–43 del manuale con `pypdf` (immagini incorporate); l'ordine corrisponde alla lettura per righe
-  (le immagini di ogni pagina vengono elencate in ordine alfabetico dei nomi dei moduli, `Fm0, Fm1, Fm10, …`).
-- Ogni immagine è stata ritagliata ai bordi non bianchi.
+- Sono le tessere **a colori in pietra** del PDF `manuali/tiles-base.pdf` (42 pagine, una immagine per pagina, JPEG2000 con
+  trasparenza). Sono state estratte con `pypdf`, lo sfondo nero esterno è stato reso trasparente, sono state ritagliate e
+  dimezzate di risoluzione.
+- Le pagine 3–8 del PDF sono gli ingressi 1–6 (stesso ordine del manuale); le altre 36 pagine sono state **abbinate a mano**
+  alle tessere del manuale confrontando forma, numero e posizione delle porte (le immagini possono essere ruotate o specchiate,
+  il che non conta ai fini del gioco). L'abbinamento è in `docs/abbinamento-tessere.json`.
+- `docs/confronto-tessere.png` mostra, per ogni numero del d66, la tessera del manuale (a sinistra) e quella usata (a destra).
+  Gli abbinamenti **meno sicuri** sono scritti in rosso (e nel campo `incerte` del JSON): 11, 12, 13, 14, 16, 26, 41, 43, 46, 64.
+  Per correggerli basta scambiare i file `assets/tiles/NN.png` corrispondenti.
 
-## Misure della griglia (`data/rules/tiles.json`)
+## Misure (`data/rules/tiles.json`)
 
-Per ogni immagine sono memorizzati: `w, h` (pixel), `cx, cy` (pixel per quadretto sui due assi: alcune immagini nel PDF sono state
-stirate) e `ox, oy` (posizione della prima linea di griglia, modulo quadretto).
+Per ogni immagine: `w, h` (pixel), `cx, cy` (pixel per quadretto), `ox, oy` (scostamento della griglia, 0 per le tessere a colori).
+Le tessere a colori non hanno griglia disegnata: i corridoi sono larghi 1 quadretto e si è assunto 175 px per quadretto
+sull'originale (87,5 px dopo il dimezzamento). Se una stanza risulta troppo grande o piccola, ritocca `cx`/`cy` oppure usa −/+ nel gioco.
 
-Metodo: si individuano le linee nere continue (colonne/righe con più del 60–90 % di pixel scuri, larghezza ≤ 16 px),
-si prende la distanza più frequente fra le linee e la posizione media modulo la distanza. Se un asse ha pochi voti si usa l'altro.
-Se una tessera risulta troppo grande o piccola, correggi `cx`/`cy` a mano nel JSON.
+Le vecchie tessere disegnate a mano (dal manuale) usavano invece una griglia misurata con le linee nere continue;
+quel metodo è rimasto nella storia git.
 
 ## Icona
 

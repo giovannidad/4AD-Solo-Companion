@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+- **Nuove tessere:** al posto di quelle del manuale ora si usano le tessere a colori in pietra di `tiles-base.pdf`, abbinate
+  alle 36 del d66 e ai 6 ingressi (vedi `docs/ASSET.md` e `docs/confronto-tessere.png`).
+
 ## 1.2.0
 - **Foglio quadrettato espandibile:** parte da 20×28 quadretti e cresce in tutte le direzioni insieme al dungeon;
   il posizionamento automatico delle stanze non è più limitato al foglio e «Adatta» inquadra tutto.

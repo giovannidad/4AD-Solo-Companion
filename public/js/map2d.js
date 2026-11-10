@@ -43,6 +43,9 @@ function pencilize(img) {
   const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
   const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(img, 0, 0);
   const im = g.getImageData(0, 0, c.width, c.height), p = im.data;
+  // tessere a colori con sfondo trasparente (testura in pietra): si usano così come sono
+  let trasp = 0; for (let i = 3; i < p.length; i += 4) if (p[i] < 200) trasp++;
+  if (trasp > p.length / 4 * 0.005) return c;
   for (let i = 0; i < p.length; i += 4) {
     const L = (p[i] + p[i + 1] + p[i + 2]) / 765;              // 0 nero .. 1 bianco
     if (L > 0.93) { p[i] = 249; p[i + 1] = 245; p[i + 2] = 231; p[i + 3] = 255; continue; }
