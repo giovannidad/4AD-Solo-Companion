@@ -1,0 +1,34 @@
+{
+  "armi": [
+    { "id": "arco", "nome": "Arco", "costo": 15, "mani": 2, "tipo": "taglio", "mod": 0, "lancio": true },
+    { "id": "due-mani-taglio", "nome": "Arma a due mani (da taglio)", "costo": 15, "mani": 2, "tipo": "taglio", "mod": 1, "categoria": "due-mani" },
+    { "id": "due-mani-contundente", "nome": "Arma a due mani (contundente)", "costo": 15, "mani": 2, "tipo": "contundente", "mod": 1, "categoria": "due-mani" },
+    { "id": "una-mano-taglio", "nome": "Arma a una mano (da taglio)", "costo": 6, "mani": 1, "tipo": "taglio", "mod": 0, "categoria": "una-mano" },
+    { "id": "una-mano-contundente", "nome": "Arma a una mano (contundente)", "costo": 6, "mani": 1, "tipo": "contundente", "mod": 0, "categoria": "una-mano" },
+    { "id": "leggera-taglio", "nome": "Arma leggera (da taglio)", "costo": 5, "mani": 1, "tipo": "taglio", "mod": -1, "categoria": "leggera" },
+    { "id": "leggera-contundente", "nome": "Arma leggera (contundente)", "costo": 5, "mani": 1, "tipo": "contundente", "mod": -1, "categoria": "leggera" },
+    { "id": "fionda", "nome": "Fionda", "costo": 4, "mani": 1, "tipo": "contundente", "mod": -1, "lancio": true, "categoria": "fionda" }
+  ],
+  "oggetti": [
+    { "id": "armatura-leggera", "nome": "Armatura leggera", "costo": 10 },
+    { "id": "armatura-pesante", "nome": "Armatura pesante", "costo": 30 },
+    { "id": "scudo", "nome": "Scudo", "costo": 5 },
+    { "id": "acqua-santa", "nome": "Acqua santa (fiala)", "costo": 30 },
+    { "id": "bende", "nome": "Bende", "costo": 5 },
+    { "id": "benedizione", "nome": "Benedizione (incantesimo)", "costo": 100 },
+    { "id": "chiodi", "nome": "Chiodi (sacchetto)", "costo": 4 },
+    { "id": "corda", "nome": "Corda", "costo": 4 },
+    { "id": "lanterna", "nome": "Lanterna", "costo": 4 },
+    { "id": "pozione", "nome": "Pozione di guarigione", "costo": 100 },
+    { "id": "razioni", "nome": "Razioni (per 1 giorno)", "costo": 1 },
+    { "id": "rituale", "nome": "Rituale di resurrezione", "costo": 1000 }
+  ],
+  "incantesimi": [
+    { "id": "benedizione", "nome": "Benedizione", "desc": "Rimuove una maledizione o la pietrificazione. Maghi e chierici (non elfi). Funziona automaticamente." },
+    { "id": "fuga", "nome": "Fuga", "desc": "Il mago riappare nella stanza d'ingresso. Può sostituire il tiro di difesa. Automatico." },
+    { "id": "fulmine", "nome": "Fulmine Magico", "desc": "Attacco (+livello). Contro minori ne elimina 1; contro maggiori infligge almeno 2 ferite." },
+    { "id": "palla-di-fuoco", "nome": "Palla di Fuoco", "desc": "Attacco (+livello). Contro minori uccide (tiro - LIV mostro) creature, minimo 1. Nessun effetto sui draghi." },
+    { "id": "protezione", "nome": "Protezione", "desc": "+2 ai tiri di difesa di un personaggio per tutto il combattimento." },
+    { "id": "sonno", "nome": "Sonno", "desc": "Attacco (+livello). Addormenta 1 maggiore o 1d6+L minori. Non su non-morti e draghi." }
+  ]
+}

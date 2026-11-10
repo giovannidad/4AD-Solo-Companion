@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+# manuali protetti da copyright: mai nel repository
+manuali/
+*.pdf
+# salvataggi personali
+data/campagne/*
+!data/campagne/.gitkeep

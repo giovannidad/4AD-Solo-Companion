@@ -1,0 +1,55 @@
+{
+  "barbaro": {
+    "nome": "Barbaro", "vitaBase": 7, "oro": "1d6",
+    "armature": ["leggera"], "scudo": true, "armi": "tutte",
+    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
+    "tratti": "Aggiunge il livello ai tiri di attacco. Attacco furioso 1 volta per avventura ogni 2 livelli (tira 1d6 per 3 volte, tieni il migliore; se colpisce, danni doppi). Non usa oggetti magici, pergamene o pozioni; non sa leggere. Può accettare la guarigione del chierico e usare l'acqua santa.",
+    "furie": "ceil(livello/2)"
+  },
+  "chierico": {
+    "nome": "Chierico", "vitaBase": 4, "oro": "1d6",
+    "armature": ["leggera", "pesante"], "scudo": true, "armi": ["due-mani", "una-mano", "fionda"],
+    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
+    "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco, il livello intero contro i non-morti. Benedizione 3 volte per avventura e Guarigione 3 volte per avventura (1d6 + livello PV, non può attaccare nello stesso turno).",
+    "benedizioni": 3, "guarigioni": 3
+  },
+  "elfo": {
+    "nome": "Elfo", "vitaBase": 4, "oro": "2d6",
+    "armature": ["leggera", "pesante"], "scudo": true, "armi": "tutte",
+    "equip": ["Arma a una mano", "Armatura leggera", "Arco"],
+    "tratti": "Aggiunge il livello ai tiri di attacco (non con armi a due mani) e ai lanci di incantesimi. +1 contro orchi. 1 incantesimo per livello per avventura, solo con armatura leggera e senza scudo.",
+    "incantatore": true, "incantesimiPerLivello": 1
+  },
+  "furfante": {
+    "nome": "Furfante", "vitaBase": 3, "oro": "3d6",
+    "armature": ["leggera"], "scudo": false, "armi": ["leggera", "fionda"],
+    "equip": ["Arma leggera", "Armatura leggera", "Corda", "Grimaldelli"],
+    "tratti": "Aggiunge il livello ai tiri di difesa e per disarmare trappole. Aggiunge il livello all'attacco solo contro mostri minori in inferiorità numerica."
+  },
+  "guerriero": {
+    "nome": "Guerriero", "vitaBase": 6, "oro": "2d6",
+    "armature": ["leggera", "pesante"], "scudo": true, "armi": "tutte",
+    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
+    "tratti": "Aggiunge il livello ai tiri di attacco."
+  },
+  "mago": {
+    "nome": "Mago", "vitaBase": 2, "oro": "4d6",
+    "armature": [], "scudo": false, "armi": ["leggera", "fionda"],
+    "equip": ["Arma leggera", "Libro di incantesimi", "Strumenti per scrivere"],
+    "tratti": "Aggiunge il livello quando attacca con incantesimi (anche da pergamena) e ai tiri per enigmi. Inizia con 2 incantesimi + 1 per livello, da preparare prima dell'avventura.",
+    "incantatore": true, "incantesimiBase": 2
+  },
+  "mezzuomo": {
+    "nome": "Mezzuomo", "vitaBase": 3, "oro": "2d6",
+    "armature": ["leggera"], "scudo": false, "armi": ["leggera", "fionda"],
+    "equip": ["Arma leggera", "Fionda", "3 razioni di cibo"],
+    "tratti": "Livello in difesa contro giganti, ogri e troll; +1/3 livello con la fionda. Punti fortuna = livello + 1 (fuga senza attacchi o ritiro di attacco/difesa/perquisizione/tesori). Può cucinare un pasto rifocillante.",
+    "fortuna": "livello+1"
+  },
+  "nano": {
+    "nome": "Nano", "vitaBase": 5, "oro": "3d6",
+    "armature": ["leggera", "pesante"], "scudo": true, "armi": "tutte",
+    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
+    "tratti": "Aggiunge il livello ai tiri di attacco (non con armi da lancio). +1 in difesa contro giganti, ogri, troll; +1 in attacco contro goblin. Fiuta il tesoro: 1d6+livello >= 6 permette di vedere il tesoro prima di attaccare. Con 2+ nani non si corrompono i mostri."
+  }
+}

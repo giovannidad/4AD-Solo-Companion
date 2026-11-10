@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Four Against Darkness – Tavolo da gioco</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/vendor/three/three.module.js",
+      "three/addons/": "/vendor/three/examples/jsm/",
+      "cannon-es": "/vendor/cannon-es/cannon-es.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header id="top">
+    <div class="brand"><span class="logo">&#9876;</span><div><b>Four Against Darkness</b><small>Tavolo da gioco in solitario</small></div></div>
+    <div class="camp">
+      <label>Campagna <select id="campSel"></select></label>
+      <button id="campNew">Nuova</button>
+      <button id="campDel" class="danger" title="Elimina la campagna selezionata">Elimina</button>
+    </div>
+  </header>
+
+  <main id="layout">
+    <aside id="left"><div id="partyBox"></div></aside>
+
+    <section id="stageWrap">
+      <div id="mapView"></div>
+      <div id="diceLayer"></div>
+      <div id="stageTop">
+        <div class="seg">
+          <button data-view="fit" title="Mostra tutto il foglio (doppio clic sul foglio)">Adatta</button><button data-view="out" title="Rimpicciolisci">&minus;</button><button data-view="in" title="Ingrandisci">+</button>
+        </div>
+        <div id="tileTools" class="seg hidden"></div>
+      </div>
+      <div id="diceBar">
+        <button data-d="1d6">1d6</button><button data-d="2d6">2d6</button><button data-d="d66">d66</button><button data-d="3d6">3d6</button>
+        <input id="diceExpr" type="text" placeholder="es. 2d6+1" size="9">
+        <button id="diceGo" class="primary">Tira</button>
+        <label class="chk"><input id="dicePhys" type="checkbox" checked> dadi 3D</label>
+      </div>
+      <div id="rollLog"></div>
+      <div id="loading">Carico il tavolo&hellip;</div>
+    </section>
+
+    <aside id="right">
+      <nav id="tabs">
+        <button data-tab="dungeon" class="on">Dungeon</button>
+        <button data-tab="incontro">Incontro</button>
+        <button data-tab="strumenti">Strumenti</button>
+        <button data-tab="registro">Registro</button>
+      </nav>
+      <div id="panel"></div>
+    </aside>
+  </main>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

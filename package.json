@@ -1,0 +1,59 @@
+{
+  "name": "4ad-solo-mode",
+  "version": "1.0.0",
+  "description": "Four Against Darkness - assistente da tavolo in solitario con dadi 3D",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "node server.js",
+    "desktop": "electron .",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "dist:tutto": "electron-builder --mac --win"
+  },
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "cannon-es": "^0.20.0",
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0",
+    "three": "^0.160.0"
+  },
+  "author": "4AD Solo",
+  "build": {
+    "appId": "it.local.fad.solo",
+    "productName": "Four Against Darkness",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**",
+      "server.js",
+      "public/**",
+      "assets/**",
+      "data/rules/**",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "identity": null,
+      "category": "public.app-category.games"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}
