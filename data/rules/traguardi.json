@@ -1,0 +1,295 @@
+{
+ "traguardi": [
+  {
+   "d66": 11,
+   "id": "passo-morte",
+   "nome": "A un passo dalla morte",
+   "obiettivo": 6,
+   "unita": "punti",
+   "testo": "Con 1 solo PV e nessuna guarigione per almeno 6 incontri ottieni 1 punto; a 6 punti: +1 PV permanente.",
+   "effetto": {
+    "pvMax": 1
+   }
+  },
+  {
+   "d66": 12,
+   "id": "buon-padrone",
+   "nome": "Buon padrone",
+   "obiettivo": 5,
+   "unita": "avventure",
+   "testo": "Paga il doppio un mercenario: dopo 5 avventure è leale (morale +1, +1 PV)."
+  },
+  {
+   "d66": 13,
+   "id": "cercatore",
+   "nome": "Cercatore di tesori",
+   "obiettivo": 3,
+   "unita": "risultati minimi",
+   "testo": "Dopo 3 volte che il gruppo ottiene il risultato minimo in un tesoro casuale, il prossimo tiro è automaticamente il massimo."
+  },
+  {
+   "d66": 14,
+   "id": "gemme",
+   "nome": "Collezionista di gemme",
+   "obiettivo": 10,
+   "unita": "gemme da 50+ p.o.",
+   "testo": "Con 10 gemme da almeno 50 p.o. fai costruire un gioiello che vale il 50% in più."
+  },
+  {
+   "d66": 15,
+   "id": "pergamene",
+   "nome": "Collezionista di pergamene",
+   "obiettivo": 20,
+   "unita": "pergamene",
+   "testo": "Solo incantatori. 20 pergamene rilegate in un grimorio: 1 incantesimo in più per avventura (fra quelli usati)."
+  },
+  {
+   "d66": 16,
+   "id": "grazia",
+   "nome": "Colpo di grazia",
+   "obiettivo": 10,
+   "unita": "colpi di grazia",
+   "testo": "10 colpi che uccidono un maggiore in mischia: +2 permanente agli attacchi in mischia contro maggiori con 1 solo PV."
+  },
+  {
+   "d66": 21,
+   "id": "abitanti",
+   "nome": "Conoscenza degli abitanti dei sotterranei",
+   "obiettivo": 5,
+   "unita": "incontri",
+   "testo": "Spendi 1 indizio e scegli un tipo di mostro minore: dopo 5 incontri puoi ritirare il loro numero (accettando il secondo tiro)."
+  },
+  {
+   "d66": 22,
+   "id": "cuoco",
+   "nome": "Cuoco dei sotterranei",
+   "obiettivo": 10,
+   "unita": "pasti",
+   "testo": "Non ti riposi ma cucini: dopo 10 pasti chi ha più follia ne perde 1 (altrimenti il ferito più grave guarisce 1 PV in più)."
+  },
+  {
+   "d66": 23,
+   "id": "dragonidi",
+   "nome": "Distruttore di dragonidi",
+   "obiettivo": 10,
+   "unita": "PV inflitti",
+   "testo": "10 PV inflitti a dragonidi: +1 permanente agli attacchi contro di loro."
+  },
+  {
+   "d66": 24,
+   "id": "boschi",
+   "nome": "Esperto dei boschi",
+   "obiettivo": 50,
+   "unita": "dungeon silvani",
+   "testo": "Dopo 50 dungeon silvani puoi invertire le cifre del d66 delle aree e dare ±1 al 2d6 dei contenuti (in prima fila)."
+  },
+  {
+   "d66": 25,
+   "id": "dungeon",
+   "nome": "Esperto dei dungeon",
+   "obiettivo": 50,
+   "unita": "dungeon",
+   "testo": "Dopo 50 dungeon (min. 10 stanze, almeno 1 tiro ES) puoi invertire le cifre del d66 e dare ±1 al 2d6 dei contenuti (in prima fila)."
+  },
+  {
+   "d66": 26,
+   "id": "segreti",
+   "nome": "Esperto dei segreti",
+   "obiettivo": 10,
+   "unita": "segreti",
+   "testo": "Dopo 10 segreti scoperti ne ottieni subito 1 senza pagare indizi."
+  },
+  {
+   "d66": 31,
+   "id": "flagello-hobgoblin",
+   "nome": "Flagello degli hobgoblin",
+   "obiettivo": 60,
+   "unita": "livelli uccisi",
+   "testo": "60 livelli di hobgoblin uccisi direttamente: +1 permanente ad attacco e difesa contro di loro."
+  },
+  {
+   "d66": 32,
+   "id": "flagello-orchi",
+   "nome": "Flagello degli orchi",
+   "obiettivo": 60,
+   "unita": "livelli uccisi",
+   "testo": "60 livelli di orchi uccisi direttamente: +1 permanente ad attacco e difesa contro di loro."
+  },
+  {
+   "d66": 33,
+   "id": "flagello-coboldi",
+   "nome": "Flagello dei coboldi",
+   "obiettivo": 100,
+   "unita": "livelli uccisi",
+   "testo": "100 livelli di coboldi uccisi direttamente: +1 permanente ad attacco e difesa contro di loro."
+  },
+  {
+   "d66": 34,
+   "id": "flagello-ghoul",
+   "nome": "Flagello dei ghoul",
+   "obiettivo": 50,
+   "unita": "livelli uccisi",
+   "testo": "50 livelli di ghoul uccisi direttamente: +1 permanente agli attacchi in mischia e ai salvezza contro il loro tocco."
+  },
+  {
+   "d66": 35,
+   "id": "flagello-goblin",
+   "nome": "Flagello dei goblin",
+   "obiettivo": 70,
+   "unita": "livelli uccisi",
+   "testo": "70 livelli di goblin (non hobgoblin) uccisi direttamente: +1 permanente ad attacco e difesa contro di loro."
+  },
+  {
+   "d66": 36,
+   "id": "flagello-troll",
+   "nome": "Flagello dei troll",
+   "obiettivo": 30,
+   "unita": "livelli uccisi",
+   "testo": "Non per i troll verdi. 30 livelli di troll uccisi direttamente: +1 permanente ad attacco e difesa contro di loro."
+  },
+  {
+   "d66": 41,
+   "id": "generoso",
+   "nome": "Generoso",
+   "obiettivo": 500,
+   "unita": "p.o. donate",
+   "testo": "Dona 500 p.o. a enti benefici: nella prossima avventura puoi lanciare 2 volte Benedizione come azione gratuita (divina, anche se barbaro)."
+  },
+  {
+   "d66": 42,
+   "id": "serrature",
+   "nome": "Padronanza delle serrature",
+   "obiettivo": 30,
+   "unita": "serrature",
+   "testo": "Solo furfanti e simili. 30 porte o scrigni scassinati: +1 permanente a scassinare."
+  },
+  {
+   "d66": 43,
+   "id": "fulmine",
+   "nome": "Padronanza del fulmine",
+   "obiettivo": 20,
+   "unita": "PV inflitti",
+   "testo": "Solo incantatori. 20 PV inflitti con Fulmine (almeno un lancio esplosivo): +1 permanente al lancio di Fulmine."
+  },
+  {
+   "d66": 44,
+   "id": "sonno",
+   "nome": "Padronanza del sonno",
+   "obiettivo": 100,
+   "unita": "livelli addormentati",
+   "testo": "Solo incantatori. 100 livelli di creature addormentate con Sonno: +1 permanente al lancio di Sonno."
+  },
+  {
+   "d66": 45,
+   "id": "panoplia",
+   "nome": "Panoplia",
+   "obiettivo": 3,
+   "unita": "oggetti magici",
+   "testo": "Raccogli 1 arma, 1 armatura e 1 scudo magici e spendi 100 p.o. per decorarli: donati a un'autorità valgono 1 favore (fino a 300 p.o., multa annullata, uscita di prigione o resurrezione)."
+  },
+  {
+   "d66": 46,
+   "id": "sguardo",
+   "nome": "Resistente allo sguardo",
+   "obiettivo": 5,
+   "unita": "salvezze riuscite",
+   "testo": "5 salvezze riuscite contro lo sguardo pietrificante: +2 permanente contro di esso."
+  },
+  {
+   "d66": 51,
+   "id": "risparmiatore",
+   "nome": "Risparmiatore",
+   "obiettivo": 1000,
+   "unita": "p.o. accumulate",
+   "testo": "Con 1.000 p.o. accumulate ne guadagni 100 da un investimento. Ripetibile."
+  },
+  {
+   "d66": 52,
+   "id": "ritratto",
+   "nome": "Ritratto eroico",
+   "obiettivo": 500,
+   "unita": "p.o. spese",
+   "testo": "Paga 100 p.o. per sessione di posa: a 500 p.o. l'opera è completa e ottieni +1 al tuo prossimo tiro ES."
+  },
+  {
+   "d66": 53,
+   "id": "rubacuori",
+   "nome": "Rubacuori",
+   "obiettivo": 10,
+   "unita": "amoreggiamenti riusciti",
+   "testo": "10 amoreggiamenti riusciti: +1 permanente ad amoreggiare oppure un regalo da 250 p.o."
+  },
+  {
+   "d66": 54,
+   "id": "saali",
+   "nome": "Santuario di Saali",
+   "obiettivo": 300,
+   "unita": "p.o. spese",
+   "testo": "Costruisci il santuario (100 p.o. a volta): recuperi 1 punto follia a fine avventura, 5 razioni gratis per il gruppo e immunità alle api. Mai cacciare cervi."
+  },
+  {
+   "d66": 55,
+   "id": "tamas-santuario",
+   "nome": "Santuario di Tamas Zeya",
+   "obiettivo": 500,
+   "unita": "p.o. spese",
+   "testo": "Costruisci il santuario (100 p.o. a volta): prima di un'avventura presta un giuramento; se rispettato trovi una pergamena di Benedizione."
+  },
+  {
+   "d66": 56,
+   "id": "thuugas",
+   "nome": "Santuario di Thuugas Min",
+   "obiettivo": 500,
+   "unita": "p.o. spese",
+   "testo": "Costruisci il santuario (100 p.o. a volta, 5 p.o. al guardiano): il gruppo ha +2 contro gelo e freddo e +1 contro creature di ghiaccio/gelo/neve/inverno."
+  },
+  {
+   "d66": 61,
+   "id": "missioni",
+   "nome": "Sempre in missione",
+   "obiettivo": 5,
+   "unita": "missioni",
+   "testo": "5 missioni completate: ottieni la reazione Missione da un prossimo incontro e durante quella missione puoi ripetere fino a 6 attacchi falliti."
+  },
+  {
+   "d66": 62,
+   "id": "infestanti",
+   "nome": "Sterminatore di infestanti",
+   "obiettivo": 100,
+   "unita": "infestanti uccisi",
+   "testo": "100 infestanti uccisi direttamente: +1 permanente agli attacchi contro tutti gli infestanti."
+  },
+  {
+   "d66": 63,
+   "id": "streghe",
+   "nome": "Sterminatore di streghe",
+   "obiettivo": 10,
+   "unita": "streghe uccise",
+   "testo": "10 streghe/stregoni/megere uccisi direttamente: +1 permanente ai salvezza contro i loro attacchi magici e maledizioni."
+  },
+  {
+   "d66": 64,
+   "id": "veleno",
+   "nome": "Tolleranza al veleno",
+   "obiettivo": 15,
+   "unita": "salvezze fallite",
+   "testo": "15 salvezze fallite contro il veleno: +1 permanente ai salvezza contro il veleno."
+  },
+  {
+   "d66": 65,
+   "id": "trasformazione",
+   "nome": "Tolleranza alla trasformazione",
+   "obiettivo": 3,
+   "unita": "pietrificazioni",
+   "testo": "Trasformato in pietra 3 volte: +1 permanente ai salvezza contro la pietrificazione."
+  },
+  {
+   "d66": 66,
+   "id": "tomo",
+   "nome": "Tomo di conoscenza proibita",
+   "obiettivo": 6,
+   "unita": "indizi accumulati",
+   "testo": "Con 6 indizi accumulati li spendi per ottenere un tomo: 1 volta per avventura ottieni 2 indizi e 1 punto follia."
+  }
+ ]
+}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0
+- **Tabelle avanzate «Nemici diabolici»** e **«Caverne del Caos»** del supplemento «Contro il Caos»; al 3° livello di tutto il
+  gruppo l'app chiede quali tabelle usare (selettore nel pannello *Dungeon*).
+- **Caverne del Caos:** 6 missioni, contenuti, trappole, eventi unici, tesori, mostri, «Toccato dal caos», follia, incantesimi del caos.
+- **Supplemento (opzionale):** 6 nuovi incantesimi (d12), 5 nuove classi, 6 nuove armi, tratti e traguardi.
+
 ## 1.4.1
 - **Barbaro:** la spunta «Furioso» si azzera dopo ogni attacco e non resta attiva a usi esauriti.
 

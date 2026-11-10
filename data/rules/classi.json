@@ -1,55 +1,252 @@
 {
-  "barbaro": {
-    "nome": "Barbaro", "vitaBase": 7, "oro": "1d6",
-    "armature": ["leggera"], "scudo": true, "armi": "tutte",
-    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
-    "tratti": "Aggiunge il livello ai tiri di attacco. Attacco furioso 1 volta per avventura ogni 2 livelli (tira 1d6 per 3 volte, tieni il migliore; se colpisce, danni doppi). Non usa oggetti magici, pergamene o pozioni; non sa leggere. Può accettare la guarigione del chierico e usare l'acqua santa.",
-    "furie": "ceil(livello/2)"
-  },
-  "chierico": {
-    "nome": "Chierico", "vitaBase": 4, "oro": "1d6",
-    "armature": ["leggera", "pesante"], "scudo": true, "armi": ["due-mani", "una-mano", "fionda"],
-    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
-    "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco, il livello intero contro i non-morti. Benedizione 3 volte per avventura e Guarigione 3 volte per avventura (1d6 + livello PV, non può attaccare nello stesso turno).",
-    "benedizioni": 3, "guarigioni": 3
-  },
-  "elfo": {
-    "nome": "Elfo", "vitaBase": 4, "oro": "2d6",
-    "armature": ["leggera", "pesante"], "scudo": true, "armi": "tutte",
-    "equip": ["Arma a una mano", "Armatura leggera", "Arco"],
-    "tratti": "Aggiunge il livello ai tiri di attacco (non con armi a due mani) e ai lanci di incantesimi. +1 contro orchi. 1 incantesimo per livello per avventura, solo con armatura leggera e senza scudo.",
-    "incantatore": true, "incantesimiPerLivello": 1
-  },
-  "furfante": {
-    "nome": "Furfante", "vitaBase": 3, "oro": "3d6",
-    "armature": ["leggera"], "scudo": false, "armi": ["leggera", "fionda"],
-    "equip": ["Arma leggera", "Armatura leggera", "Corda", "Grimaldelli"],
-    "tratti": "Aggiunge il livello ai tiri di difesa e per disarmare trappole. Aggiunge il livello all'attacco solo contro mostri minori in inferiorità numerica."
-  },
-  "guerriero": {
-    "nome": "Guerriero", "vitaBase": 6, "oro": "2d6",
-    "armature": ["leggera", "pesante"], "scudo": true, "armi": "tutte",
-    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
-    "tratti": "Aggiunge il livello ai tiri di attacco."
-  },
-  "mago": {
-    "nome": "Mago", "vitaBase": 2, "oro": "4d6",
-    "armature": [], "scudo": false, "armi": ["leggera", "fionda"],
-    "equip": ["Arma leggera", "Libro di incantesimi", "Strumenti per scrivere"],
-    "tratti": "Aggiunge il livello quando attacca con incantesimi (anche da pergamena) e ai tiri per enigmi. Inizia con 2 incantesimi + 1 per livello, da preparare prima dell'avventura.",
-    "incantatore": true, "incantesimiBase": 2
-  },
-  "mezzuomo": {
-    "nome": "Mezzuomo", "vitaBase": 3, "oro": "2d6",
-    "armature": ["leggera"], "scudo": false, "armi": ["leggera", "fionda"],
-    "equip": ["Arma leggera", "Fionda", "3 razioni di cibo"],
-    "tratti": "Livello in difesa contro giganti, ogri e troll; +1/3 livello con la fionda. Punti fortuna = livello + 1 (fuga senza attacchi o ritiro di attacco/difesa/perquisizione/tesori). Può cucinare un pasto rifocillante.",
-    "fortuna": "livello+1"
-  },
-  "nano": {
-    "nome": "Nano", "vitaBase": 5, "oro": "3d6",
-    "armature": ["leggera", "pesante"], "scudo": true, "armi": "tutte",
-    "equip": ["Arma a una mano", "Armatura leggera", "Scudo"],
-    "tratti": "Aggiunge il livello ai tiri di attacco (non con armi da lancio). +1 in difesa contro giganti, ogri, troll; +1 in attacco contro goblin. Fiuta il tesoro: 1d6+livello >= 6 permette di vedere il tesoro prima di attaccare. Con 2+ nani non si corrompono i mostri."
-  }
+ "barbaro": {
+  "nome": "Barbaro",
+  "vitaBase": 7,
+  "oro": "1d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco. Attacco furioso 1 volta per avventura ogni 2 livelli (tira 1d6 per 3 volte, tieni il migliore; se colpisce, danni doppi). Non usa oggetti magici, pergamene o pozioni; non sa leggere. Può accettare la guarigione del chierico e usare l'acqua santa.",
+  "furie": "ceil(livello/2)"
+ },
+ "chierico": {
+  "nome": "Chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco, il livello intero contro i non-morti. Benedizione 3 volte per avventura e Guarigione 3 volte per avventura (1d6 + livello PV, non può attaccare nello stesso turno).",
+  "benedizioni": 3,
+  "guarigioni": 3
+ },
+ "elfo": {
+  "nome": "Elfo",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Arco"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco (non con armi a due mani) e ai lanci di incantesimi. +1 contro orchi. 1 incantesimo per livello per avventura, solo con armatura leggera e senza scudo.",
+  "incantatore": true,
+  "incantesimiPerLivello": 1
+ },
+ "furfante": {
+  "nome": "Furfante",
+  "vitaBase": 3,
+  "oro": "3d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "equip": [
+   "Arma leggera",
+   "Armatura leggera",
+   "Corda",
+   "Grimaldelli"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di difesa e per disarmare trappole. Aggiunge il livello all'attacco solo contro mostri minori in inferiorità numerica."
+ },
+ "guerriero": {
+  "nome": "Guerriero",
+  "vitaBase": 6,
+  "oro": "2d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco."
+ },
+ "mago": {
+  "nome": "Mago",
+  "vitaBase": 2,
+  "oro": "4d6",
+  "armature": [],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "equip": [
+   "Arma leggera",
+   "Libro di incantesimi",
+   "Strumenti per scrivere"
+  ],
+  "tratti": "Aggiunge il livello quando attacca con incantesimi (anche da pergamena) e ai tiri per enigmi. Inizia con 2 incantesimi + 1 per livello, da preparare prima dell'avventura.",
+  "incantatore": true,
+  "incantesimiBase": 2
+ },
+ "mezzuomo": {
+  "nome": "Mezzuomo",
+  "vitaBase": 3,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "equip": [
+   "Arma leggera",
+   "Fionda",
+   "3 razioni di cibo"
+  ],
+  "tratti": "Livello in difesa contro giganti, ogri e troll; +1/3 livello con la fionda. Punti fortuna = livello + 1 (fuga senza attacchi o ritiro di attacco/difesa/perquisizione/tesori). Può cucinare un pasto rifocillante.",
+  "fortuna": "livello+1"
+ },
+ "nano": {
+  "nome": "Nano",
+  "vitaBase": 5,
+  "oro": "3d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco (non con armi da lancio). +1 in difesa contro giganti, ogri, troll; +1 in attacco contro goblin. Fiuta il tesoro: 1d6+livello >= 6 permette di vedere il tesoro prima di attaccare. Con 2+ nani non si corrompono i mostri."
+ },
+ "arlecchino": {
+  "nome": "Arlecchino",
+  "vitaBase": 3,
+  "oro": "3d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "una-mano",
+   "leggera",
+   "arco",
+   "fionda"
+  ],
+  "suppl": true,
+  "equip": [
+   "3 armi a una mano o leggere",
+   "Costume da menestrello",
+   "Grimaldelli"
+  ],
+  "tratti": "Aggiunge metà livello alla difesa. Con 2 o 3 armi leggere o a una mano fa fino a 3 attacchi in mischia per turno (premi più volte «Attacca»), senza bonus di livello; con 1 sola arma fa 1 attacco e aggiunge metà livello. Può scassinare e disarmare trappole (senza aggiungere il livello) e usare gli attrezzi dei furfanti."
+ },
+ "assassino": {
+  "nome": "Assassino",
+  "vitaBase": 3,
+  "oro": "5d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": "tutte",
+  "suppl": true,
+  "equip": [
+   "2 armi a scelta",
+   "Armatura leggera",
+   "Grimaldelli"
+  ],
+  "tratti": "Aggiunge il livello a tutti gli attacchi, anche a distanza. Può rinunciare a un attacco per nascondersi e marchiare un bersaglio (pulsante «Marchia»): se riesce nella furtività contro il mostro di LIV più alto (+L), il suo prossimo attacco infligge il triplo dei PV (non su non-morti, artificiali e informi)."
+ },
+ "elfo-fuoco": {
+  "nome": "Elfo del fuoco",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "mischia"
+  ],
+  "suppl": true,
+  "incantatore": true,
+  "equip": [
+   "Arma a una mano o leggera da mischia"
+  ],
+  "tratti": "Aggiunge il livello agli attacchi in mischia (non con armi a due mani) e ai raggi di fuoco. Nessuna arma a distanza. Al 1° turno di ogni combattimento può lanciare 1 Palla di Fuoco con la vista di fuoco al posto di attaccare; con 1 naturale subisce 1d3 PV (1d6 con armatura pesante) e gli altri salvano (L = suo livello) o perdono 1 PV. Immune agli sguardi se non usa la vista di fuoco. Non condivide oro ed equipaggiamento con altre razze; non legge pergamene."
+ },
+ "tiratore": {
+  "nome": "Tiratore scelto",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "distanza",
+   "una-mano",
+   "leggera"
+  ],
+  "suppl": true,
+  "equip": [
+   "Arma a distanza",
+   "Arma leggera",
+   "Armatura leggera"
+  ],
+  "tratti": "Aggiunge livello+1 agli attacchi a distanza (e infligge sempre 1 PV in più: minimo 2) e metà livello a quelli in mischia. All'aperto fa 2 attacchi a distanza prima della mischia. Cambia arma senza perdere un'azione."
+ },
+ "veterano": {
+  "nome": "Veterano",
+  "vitaBase": 3,
+  "oro": "4d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "suppl": true,
+  "equip": [
+   "Arma leggera",
+   "Lanterna"
+  ],
+  "tratti": "Nessun bonus ad attacco e difesa. Inizia con Assistenza (presta una capacità di classe a un compagno per 1 incontro) e Leader carismatico. Gli altri eroi possono proteggerlo rinunciando a un attacco per difenderlo. Salva come un chierico ma sottrae il livello ai tiri salvezza fisici. Non porta armi a due mani, armature pesanti né più di 200 p.o."
+ }
 }

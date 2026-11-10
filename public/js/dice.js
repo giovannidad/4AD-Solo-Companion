@@ -32,7 +32,8 @@ export async function tira(expr, label = '') {
     if (!m[2]) { valori.push(+m[1]); continue; }
     const n = +m[1], facce = +m[2], bonus = +(m[3] || 0);
     const usaD3 = facce === 3;
-    const raw = await fisici(n, [i === 0 ? 'avorio' : 'rosso', i === 0 ? 'avorio' : 'rosso', 'avorio', 'avorio']);
+    const raw = (facce === 6 || facce === 3) ? await fisici(n, [i === 0 ? 'avorio' : 'rosso', i === 0 ? 'avorio' : 'rosso', 'avorio', 'avorio'])
+      : Array.from({ length: n }, () => Math.floor(Math.random() * facce) + 1);   // d8 ecc.: dadi virtuali
     dadi.push(...raw);
     const somma = raw.reduce((a, v) => a + (usaD3 ? Math.ceil(v / 2) : v), 0);
     valori.push(somma + bonus);

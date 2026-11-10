@@ -56,3 +56,23 @@ export const confirmBox = (msg) => new Promise(res => {
       h('button', { class: 'primary', onclick: () => { res(true); close(); } }, 'Conferma')));
   }, { onClose: () => res(false) });
 });
+
+/** Finestra di scelta: opzioni = [[valore, titolo, descrizione?]]. Restituisce il valore scelto, o null se chiusa. */
+export const scelta = (titolo, testo, opzioni) => new Promise(res => {
+  modal(titolo, (b, close) => {
+    if (testo) b.append(h('p', {}, testo));
+    const lista = h('div', { class: 'list' });
+    opzioni.forEach(([v, t, d]) => lista.append(h('button', { class: 'item-btn', onclick: () => { res(v); close(); } }, h('b', {}, t), d ? h('span', {}, d) : null)));
+    b.append(lista);
+  }, { onClose: () => res(null) });
+});
+
+/** Scelta di uno o più eroi (caselle da spuntare). Restituisce un array (vuoto se annullata). */
+export const sceltaMultipla = (titolo, testo, voci) => new Promise(res => {
+  modal(titolo, (b, close) => {
+    if (testo) b.append(h('p', {}, testo));
+    const box = voci.map(([v, t]) => ({ v, el: h('input', { type: 'checkbox' }), t }));
+    box.forEach(x => b.append(h('label', { class: 'chk' }, x.el, x.t)));
+    b.append(h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: () => { res(box.filter(x => x.el.checked).map(x => x.v)); close(); } }, 'Conferma')));
+  }, { onClose: () => res([]) });
+});

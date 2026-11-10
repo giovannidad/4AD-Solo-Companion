@@ -1,34 +1,312 @@
 {
-  "armi": [
-    { "id": "arco", "nome": "Arco", "costo": 15, "mani": 2, "tipo": "taglio", "mod": 0, "lancio": true },
-    { "id": "due-mani-taglio", "nome": "Arma a due mani (da taglio)", "costo": 15, "mani": 2, "tipo": "taglio", "mod": 1, "categoria": "due-mani" },
-    { "id": "due-mani-contundente", "nome": "Arma a due mani (contundente)", "costo": 15, "mani": 2, "tipo": "contundente", "mod": 1, "categoria": "due-mani" },
-    { "id": "una-mano-taglio", "nome": "Arma a una mano (da taglio)", "costo": 6, "mani": 1, "tipo": "taglio", "mod": 0, "categoria": "una-mano" },
-    { "id": "una-mano-contundente", "nome": "Arma a una mano (contundente)", "costo": 6, "mani": 1, "tipo": "contundente", "mod": 0, "categoria": "una-mano" },
-    { "id": "leggera-taglio", "nome": "Arma leggera (da taglio)", "costo": 5, "mani": 1, "tipo": "taglio", "mod": -1, "categoria": "leggera" },
-    { "id": "leggera-contundente", "nome": "Arma leggera (contundente)", "costo": 5, "mani": 1, "tipo": "contundente", "mod": -1, "categoria": "leggera" },
-    { "id": "fionda", "nome": "Fionda", "costo": 4, "mani": 1, "tipo": "contundente", "mod": -1, "lancio": true, "categoria": "fionda" }
-  ],
-  "oggetti": [
-    { "id": "armatura-leggera", "nome": "Armatura leggera", "costo": 10 },
-    { "id": "armatura-pesante", "nome": "Armatura pesante", "costo": 30 },
-    { "id": "scudo", "nome": "Scudo", "costo": 5 },
-    { "id": "acqua-santa", "nome": "Acqua santa (fiala)", "costo": 30 },
-    { "id": "bende", "nome": "Bende", "costo": 5 },
-    { "id": "benedizione", "nome": "Benedizione (incantesimo)", "costo": 100 },
-    { "id": "chiodi", "nome": "Chiodi (sacchetto)", "costo": 4 },
-    { "id": "corda", "nome": "Corda", "costo": 4 },
-    { "id": "lanterna", "nome": "Lanterna", "costo": 4 },
-    { "id": "pozione", "nome": "Pozione di guarigione", "costo": 100 },
-    { "id": "razioni", "nome": "Razioni (per 1 giorno)", "costo": 1 },
-    { "id": "rituale", "nome": "Rituale di resurrezione", "costo": 1000 }
-  ],
-  "incantesimi": [
-    { "id": "benedizione", "nome": "Benedizione", "desc": "Rimuove una maledizione o la pietrificazione. Maghi e chierici (non elfi). Funziona automaticamente." },
-    { "id": "fuga", "nome": "Fuga", "desc": "Il mago riappare nella stanza d'ingresso. Può sostituire il tiro di difesa. Automatico." },
-    { "id": "fulmine", "nome": "Fulmine Magico", "desc": "Attacco (+livello). Contro minori ne elimina 1; contro maggiori infligge almeno 2 ferite." },
-    { "id": "palla-di-fuoco", "nome": "Palla di Fuoco", "desc": "Attacco (+livello). Contro minori uccide (tiro - LIV mostro) creature, minimo 1. Nessun effetto sui draghi." },
-    { "id": "protezione", "nome": "Protezione", "desc": "+2 ai tiri di difesa di un personaggio per tutto il combattimento." },
-    { "id": "sonno", "nome": "Sonno", "desc": "Attacco (+livello). Addormenta 1 maggiore o 1d6+L minori. Non su non-morti e draghi." }
-  ]
+ "armi": [
+  {
+   "id": "arco",
+   "nome": "Arco",
+   "costo": 15,
+   "mani": 2,
+   "tipo": "taglio",
+   "mod": 0,
+   "lancio": true
+  },
+  {
+   "id": "due-mani-taglio",
+   "nome": "Arma a due mani (da taglio)",
+   "costo": 15,
+   "mani": 2,
+   "tipo": "taglio",
+   "mod": 1,
+   "categoria": "due-mani"
+  },
+  {
+   "id": "due-mani-contundente",
+   "nome": "Arma a due mani (contundente)",
+   "costo": 15,
+   "mani": 2,
+   "tipo": "contundente",
+   "mod": 1,
+   "categoria": "due-mani"
+  },
+  {
+   "id": "una-mano-taglio",
+   "nome": "Arma a una mano (da taglio)",
+   "costo": 6,
+   "mani": 1,
+   "tipo": "taglio",
+   "mod": 0,
+   "categoria": "una-mano"
+  },
+  {
+   "id": "una-mano-contundente",
+   "nome": "Arma a una mano (contundente)",
+   "costo": 6,
+   "mani": 1,
+   "tipo": "contundente",
+   "mod": 0,
+   "categoria": "una-mano"
+  },
+  {
+   "id": "leggera-taglio",
+   "nome": "Arma leggera (da taglio)",
+   "costo": 5,
+   "mani": 1,
+   "tipo": "taglio",
+   "mod": -1,
+   "categoria": "leggera"
+  },
+  {
+   "id": "leggera-contundente",
+   "nome": "Arma leggera (contundente)",
+   "costo": 5,
+   "mani": 1,
+   "tipo": "contundente",
+   "mod": -1,
+   "categoria": "leggera"
+  },
+  {
+   "id": "fionda",
+   "nome": "Fionda",
+   "costo": 4,
+   "mani": 1,
+   "tipo": "contundente",
+   "mod": -1,
+   "lancio": true,
+   "categoria": "fionda"
+  },
+  {
+   "id": "archibugio",
+   "nome": "Archibugio",
+   "costo": 100,
+   "mani": 2,
+   "tipo": "taglio",
+   "mod": 3,
+   "lancio": true,
+   "fuoco": true,
+   "suppl": true,
+   "note": "Solo guerrieri, nani, tiratori scelti. 1 colpo a inizio incontro. Con 1 naturale esplode (1d3 PV a chi lo imbraccia) e va riparato in città (15 p.o.). Ogni sparo: 1d6, con 1-2 arrivano i mostri erranti dopo lo scontro."
+  },
+  {
+   "id": "balestra",
+   "nome": "Balestra",
+   "costo": 20,
+   "mani": 2,
+   "tipo": "taglio",
+   "mod": 1,
+   "lancio": true,
+   "suppl": true,
+   "note": "Due mani; dopo ogni colpo serve 1 azione per ricaricarla. Usa dardi (come le frecce)."
+  },
+  {
+   "id": "bolas",
+   "nome": "Bolas",
+   "costo": 4,
+   "mani": 1,
+   "tipo": "contundente",
+   "mod": 0,
+   "lancio": true,
+   "suppl": true,
+   "note": "Max 2. Non infliggono danni: se colpiscono, tiro salvezza contro il LIV (+½L) per intrappolare il bersaglio, che si libera con la prossima azione. Inefficaci su fluidi, orde e mostri maggiori dal 5° livello."
+  },
+  {
+   "id": "boomerang",
+   "nome": "Boomerang",
+   "costo": 5,
+   "mani": 1,
+   "tipo": "contundente",
+   "mod": -1,
+   "lancio": true,
+   "suppl": true,
+   "note": "Max 1. Se manca ritorna nelle mani del lanciatore. Non nei corridoi, stanze sotto i 6 quadretti, foreste e giungle."
+  },
+  {
+   "id": "pistola",
+   "nome": "Pistola",
+   "costo": 50,
+   "mani": 1,
+   "tipo": "taglio",
+   "mod": 2,
+   "lancio": true,
+   "fuoco": true,
+   "suppl": true,
+   "note": "Solo guerrieri, nani, spadaccini, tiratori scelti. 1 volta per incontro. Con 1 naturale esplode (1d3 PV) e va riparata (10 p.o.)."
+  },
+  {
+   "id": "stella",
+   "nome": "Stella da lancio",
+   "costo": 1,
+   "mani": 1,
+   "tipo": "taglio",
+   "mod": -1,
+   "lancio": true,
+   "categoria": "leggera",
+   "suppl": true,
+   "note": "Utilizzabile da qualsiasi personaggio."
+  }
+ ],
+ "oggetti": [
+  {
+   "id": "armatura-leggera",
+   "nome": "Armatura leggera",
+   "costo": 10
+  },
+  {
+   "id": "armatura-pesante",
+   "nome": "Armatura pesante",
+   "costo": 30
+  },
+  {
+   "id": "scudo",
+   "nome": "Scudo",
+   "costo": 5
+  },
+  {
+   "id": "acqua-santa",
+   "nome": "Acqua santa (fiala)",
+   "costo": 30
+  },
+  {
+   "id": "bende",
+   "nome": "Bende",
+   "costo": 5
+  },
+  {
+   "id": "benedizione",
+   "nome": "Benedizione (incantesimo)",
+   "costo": 100
+  },
+  {
+   "id": "chiodi",
+   "nome": "Chiodi (sacchetto)",
+   "costo": 4
+  },
+  {
+   "id": "corda",
+   "nome": "Corda",
+   "costo": 4
+  },
+  {
+   "id": "lanterna",
+   "nome": "Lanterna",
+   "costo": 4
+  },
+  {
+   "id": "pozione",
+   "nome": "Pozione di guarigione",
+   "costo": 100
+  },
+  {
+   "id": "razioni",
+   "nome": "Razioni (per 1 giorno)",
+   "costo": 1
+  },
+  {
+   "id": "rituale",
+   "nome": "Rituale di resurrezione",
+   "costo": 1000
+  }
+ ],
+ "incantesimi": [
+  {
+   "id": "benedizione",
+   "nome": "Benedizione",
+   "desc": "Rimuove una maledizione o la pietrificazione. Maghi e chierici (non elfi). Funziona automaticamente."
+  },
+  {
+   "id": "fuga",
+   "nome": "Fuga",
+   "desc": "Il mago riappare nella stanza d'ingresso. Può sostituire il tiro di difesa. Automatico."
+  },
+  {
+   "id": "fulmine",
+   "nome": "Fulmine Magico",
+   "desc": "Attacco (+livello). Contro minori ne elimina 1; contro maggiori infligge almeno 2 ferite."
+  },
+  {
+   "id": "palla-di-fuoco",
+   "nome": "Palla di Fuoco",
+   "desc": "Attacco (+livello). Contro minori uccide (tiro - LIV mostro) creature, minimo 1. Nessun effetto sui draghi."
+  },
+  {
+   "id": "protezione",
+   "nome": "Protezione",
+   "desc": "+2 ai tiri di difesa di un personaggio per tutto il combattimento."
+  },
+  {
+   "id": "sonno",
+   "nome": "Sonno",
+   "desc": "Attacco (+livello). Addormenta 1 maggiore o 1d6+L minori. Non su non-morti e draghi."
+  },
+  {
+   "id": "comunicazione",
+   "nome": "Comunicazione a Distanza",
+   "desc": "Condivide con i compagni un indizio ottenuto lontano dal gruppo. Nessun tiro.",
+   "suppl": true
+  },
+  {
+   "id": "distruggi-aberranti",
+   "nome": "Distruggi Aberranti",
+   "desc": "Se il tiro supera il LIV di un mostro aberrante: 3 PV (+1 con il doppio del LIV). Nessun effetto sugli altri tipi di mostro.",
+   "suppl": true
+  },
+  {
+   "id": "illusione",
+   "nome": "Illusione",
+   "desc": "Se il tiro supera il LIV: corrompe, sceglie una reazione, impone un morale ai seguaci o crea un bersaglio illusorio.",
+   "suppl": true
+  },
+  {
+   "id": "muro-ghiaccio",
+   "nome": "Muro di Ghiaccio",
+   "desc": "Muro che blocca i nemici e permette di sottrarsi indenni. Automatico.",
+   "suppl": true
+  },
+  {
+   "id": "ondata-forza",
+   "nome": "Ondata di Forza",
+   "desc": "Per 6 stanze: armi a due mani con una mano e nessuna penalità di peso. Automatico.",
+   "suppl": true
+  },
+  {
+   "id": "ponte-illusorio",
+   "nome": "Ponte Illusorio",
+   "desc": "Attraversa ogni ostacolo invalicabile; può sparire sotto gli inseguitori. Automatico.",
+   "suppl": true
+  },
+  {
+   "id": "bacio-xichtul",
+   "nome": "Bacio di Xichtul",
+   "desc": "Caos. Tutti (personaggi e mostri) tirano 1d6 esplosivo: chi supera il proprio livello perde 1 PV.",
+   "caos": true
+  },
+  {
+   "id": "dono-oro",
+   "nome": "Dono d’Oro",
+   "desc": "Caos. Raddoppia l’oro trovato come tesoro in una stanza. Automatico.",
+   "caos": true
+  },
+  {
+   "id": "missile-caos",
+   "nome": "Missile del Caos",
+   "desc": "Caos. 2 PV a ogni mostro maggiore e 1 PV all’incantatore. Automatico.",
+   "caos": true
+  },
+  {
+   "id": "occhio-terrore",
+   "nome": "Occhio del Terrore",
+   "desc": "Caos. Se il tiro riesce, tutti gli avversari tirano il morale a -1.",
+   "caos": true
+  },
+  {
+   "id": "scarica-oculare",
+   "nome": "Scarica Oculare",
+   "desc": "Caos. 1 punto follia e un attacco a distanza (elfi e maghi +L): 2 PV.",
+   "caos": true
+  },
+  {
+   "id": "teletrasporto-caos",
+   "nome": "Teletrasporto del Caos",
+   "desc": "Caos. Dopo 6 stanze esplorate: teletrasporto su 1 di 6 stanze scelte (d6). Automatico.",
+   "caos": true
+  }
+ ]
 }

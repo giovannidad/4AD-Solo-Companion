@@ -1,9 +1,10 @@
 // Flusso di gioco: avventura, generazione stanze, contenuti, tesori, ricerche, esperienza.
 import { R, S, log, modificato, eroiVivi, livelloMax, eroePerId, emit } from './state.js';
 import { tira, d66, dado, d6Esplosivo } from './dice.js';
-import { riga, tabella, creaIncontro } from './rules.js';
+import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, incantesimoACasoLista } from './rules.js';
+import * as K from './caos.js';
 import * as table from './map2d.js';
-import { toast, uid, modal, h } from './util.js';
+import { toast, uid, modal, h, scelta } from './util.js';
 
 const adv = () => S.adv;
 export const tileById = id => adv().tessere.find(t => t.id === id);
@@ -24,9 +25,27 @@ export function muoviGruppo(da, a) {
 }
 
 // ---------------- avventura ----------------
+/** Decide quali tabelle usare: a partire dal 3° livello di tutto il gruppo si chiede una volta se passare alle avanzate. */
+async function risolviSet() {
+  const vivi = eroiVivi();
+  const pronti = vivi.length > 0 && vivi.every(e => e.livello >= 3);
+  if (S.party.set === undefined && pronti) {
+    const v = await scelta('Tabelle avanzate', 'Tutti i personaggi hanno raggiunto il 3° livello. Quali tabelle vuoi usare per il prossimo dungeon? (Potrai cambiare scelta prima di ogni avventura.)', [
+      ['diabolici', 'Nemici diabolici', 'Tabelle avanzate del manuale base: tesori e mostri più letali.'],
+      ['caos', 'Caverne del Caos', 'Supplemento «Contro il Caos»: dungeon a tema con missione, trappole, eventi e incantesimi del caos.'],
+      ['base', 'Tabelle base', 'Resta con le tabelle normali.']]);
+    if (v === null) return S.party.set || 'base';
+    S.party.set = v; modificato('party');
+  }
+  return S.party.set || 'base';
+}
+
 export async function iniziaAvventura() {
   if (!eroiVivi().length) { toast('Crea prima almeno un eroe nel gruppo.', 'warn'); return false; }
-  Object.assign(S.adv, {
+  const set = await risolviSet();
+  let missione = null;
+  if (set === 'caos') { missione = await K.scegliMissione(); }
+  Object.assign(S.adv, { set, missione, eventiUsati: [],
     attiva: true, numero: (S.adv.numero || 0) + 1, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null, coda: [],
     maggioriSconfitti: 0, incontriSeguaci: 0, esPendenti: [], bottino: [], fine: null,
     guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: []
@@ -48,7 +67,8 @@ export async function iniziaAvventura() {
   S.party.eroi.forEach(e => { e.posizione = t.id; });
   table.setTiles(adv().tessere);
   table.selectTile(null); table.animate(t.id);
-  log(`Inizia l’avventura n. ${adv().numero}. Ingresso ${idx}.`);
+  log(`Inizia l’avventura n. ${adv().numero} (${set === 'caos' ? 'Caverne del Caos' : set === 'diabolici' ? 'Nemici diabolici' : 'tabelle base'}). Ingresso ${idx}.`);
+  if (missione) log(`Missione: ${missione.nome} (livello consigliato ${missione.liv}).`);
   toast(`Ingresso ${idx}: la stanza viene disegnata sul foglio.`);
   modificato();
   return true;
@@ -96,12 +116,13 @@ export function annullaStanza(t) {
 }
 
 // ---------------- contenuti ----------------
-async function monstroDa(nomeTab, opzioni = {}) {
+export async function monstroDa(nomeTab, opzioni = {}) {
   let voce, v;
   do {
     const r = await dado(`Tabella mostri ${nomeTab}`);
-    v = r.totale; voce = R.mostri[nomeTab][v - 1];
-  } while (opzioni.errante && voce.drago);
+    v = r.totale; voce = mostriTabella(nomeTab)[v - 1];
+  } while (opzioni.errante && (voce.drago || voce.maiErrante));
+  const diff = inCaos() ? K.differenzaLivello() : 0;   // gruppo sopra il livello consigliato: più mostri e più PV
   let quantita = 1, nome = voce.nome, extra = {};
   if (voce.speciale === 'scheletri-o-zombi') {
     const t = await dado('Scheletri (1-3) o zombi (4-6)');
@@ -110,10 +131,26 @@ async function monstroDa(nomeTab, opzioni = {}) {
   } else if (voce.conta && voce.conta !== '1') {
     quantita = (await tira(voce.conta, `Numero ${voce.nome}`)).totale;
   }
-  const inc = creaIncontro(nomeTab, { ...voce, nome }, quantita, opzioni);
+  const inc = creaIncontro(nomeTab, { ...voce, nome }, quantita + (inc_minore(nomeTab) ? diff : 0), { ...opzioni, pvExtra: diff });
   if (voce.id === 'ratti-scheletrici') inc.contundentePiu = true;
   Object.assign(inc, extra);
   return inc;
+}
+
+const inc_minore = t => ['infestanti', 'seguaci'].includes(t);
+
+/** Mostro fisso del supplemento (signore del caos, carnefice, mostro del vuoto…). */
+export function creaSpeciale(chiave, finale = false) {
+  const voce = R.caos.speciali[chiave];
+  const i = creaIncontro('boss', voce, 1, { bossFinale: finale });
+  if (finale) { i.att = voce.att; i.pv = i.pvMax = voce.pv; }
+  return i;
+}
+
+/** Un mostro maggiore a scelta fra aberranti e boss. */
+export async function mostroMaggioreScelto(t) {
+  const tab = await scelta('Mostro maggiore', 'Gli eventi unici sono finiti: incontri un mostro maggiore. Quale tabella?', [['aberranti', 'Mostri aberranti'], ['boss', 'Mostri boss']]);
+  const i = await monstroDa(tab || 'boss'); avviaIncontro(i, t); return `${i.nome} (evento esaurito)`;
 }
 
 export async function monstroErrante() {
@@ -136,15 +173,20 @@ export function avviaIncontro(inc, tessera) {
 
 async function bossCheck(inc) {
   if (inc.errante) return inc;
+  if (adv().missione?.id === 'esplorazione') return inc;   // non si tira il boss finale
   const r = await dado('Boss finale? (1d6 + maggiori sconfitti)');
   const tot = r.totale + adv().maggioriSconfitti;
   log(`Boss finale? ${r.totale} + ${adv().maggioriSconfitti} = ${tot}${tot >= 6 ? ' → È IL BOSS FINALE!' : ''}`);
-  if (tot >= 6) return creaIncontro(inc.tabella, R.mostri[inc.tabella].find(m => m.id === inc.id), 1, { bossFinale: true });
+  if (tot >= 6) {
+    const fisso = adv().missione?.bossFinale;
+    if (fisso) { const f = creaSpeciale(fisso, true); log(`Missione: il boss finale è ${f.nome}.`); return f; }
+    return creaIncontro(inc.tabella, mostriTabella(inc.tabella).find(m => m.id === inc.id), 1, { bossFinale: true });
+  }
   return inc;
 }
 async function boss(tessera, forzaFinale = false) {
   let inc = await monstroDa('boss');
-  if (forzaFinale) inc = creaIncontro('boss', R.mostri.boss.find(m => m.id === inc.id), 1, { bossFinale: true });
+  if (forzaFinale) inc = adv().missione?.bossFinale ? creaSpeciale(adv().missione.bossFinale, true) : creaIncontro('boss', mostriTabella('boss').find(m => m.id === inc.id), 1, { bossFinale: true });
   else inc = await bossCheck(inc);
   avviaIncontro(inc, tessera);
   return inc.bossFinale ? `BOSS FINALE: ${inc.nome}` : `Mostro boss: ${inc.nome}`;
@@ -161,7 +203,23 @@ export async function generaContenuto(t) {
     case 'tesoro': testo += ' ' + await tesoro(); break;
     case 'tesoro-trappola': testo += ' ' + await trappola() + ' ' + await tesoro(); break;
     case 'evento-o-vuoto': if (corr) vuotaCorr(); else testo += ' ' + await evento(t); break;
-    case 'vuota-speciale': vuota = true; testo += ' ' + await caratteristica(); break;
+    case 'vuota-speciale': if (inCaos() && corr) { vuotaCorr(); break; } vuota = true; testo += ' ' + await caratteristica(); break;
+    case 'tesoro-guardiano': {
+      testo += ' ' + await tesoro();
+      const g = await dado('Il tesoro è custodito? (4-6 sì)');
+      if (g.totale >= 4) { const i = await mostroMaggioreScelto2(); avviaIncontro(i, t); testo += ` Custodito da ${i.nome}.`; }
+      break;
+    }
+    case 'vuota-o-evento': {
+      const g = await dado('Stanza vuota (1-4) o evento unico (5-6)');
+      if (g.totale <= 4) { vuota = true; testo += ' → stanza vuota (si può perquisire).'; } else testo += ' ' + await evento(t);
+      break;
+    }
+    case 'boss-o-vuoto': if (corr) vuotaCorr(); else testo += ' ' + await boss(t); break;
+    case 'doppio-o-boss': if (corr) vuotaCorr(); else {
+      if (R.caos.grandi.includes(String(t.n))) { const a = await monstroDa('aberranti'); avviaIncontro(a, t); testo += ` Stanza grande: ${a.nome} e ` + await boss(t); }
+      else testo += ' ' + await boss(t);
+    } break;
     case 'infestanti': { const i = await monstroDa('infestanti'); avviaIncontro(i, t); testo += ` ${i.nome} ×${i.n}`; break; }
     case 'seguaci': { const i = await monstroDa('seguaci'); avviaIncontro(i, t); testo += ` ${i.nome} ×${i.n}`; break; }
     case 'seguaci-o-vuoto': if (corr) vuotaCorr(); else { const i = await monstroDa('seguaci'); avviaIncontro(i, t); testo += ` ${i.nome} ×${i.n}`; } break;
@@ -173,13 +231,18 @@ export async function generaContenuto(t) {
     } break;
     case 'boss': testo += ' ' + await boss(t); break;
     case 'drago-o-vuoto': if (corr) vuotaCorr(); else {
-      let i = creaIncontro('boss', R.mostri.boss.find(m => m.id === 'piccolo-drago'), 1);
+      let i = creaIncontro('boss', mostriTabella('boss').find(m => m.drago), 1);
       i = await bossCheck(i); avviaIncontro(i, t); testo += ` ${i.nome}${i.bossFinale ? ' (BOSS FINALE)' : ''}`;
     } break;
   }
   t.contenuto = { testo, vuota };
   log(`Stanza ${t.n}: ${testo}`);
   modificato();
+}
+
+async function mostroMaggioreScelto2() {
+  const tab = await scelta('Guardiano del tesoro', 'Quale tabella?', [['aberranti', 'Mostri aberranti'], ['boss', 'Mostri boss']]);
+  return await monstroDa(tab || 'aberranti');
 }
 
 async function gremlin() {
@@ -192,6 +255,7 @@ export async function caratteristica() {
   const r = await dado('Caratteristica speciale (d6)');
   const row = riga(tabella('caratteristiche'), r.totale);
   let t = `${row.nome}: ${row.testo}`;
+  if (inCaos()) { t = `${row.nome}: ${await K.caratteristicaCaos(row)}`; log(t); modificato(); return t; }
   if (row.nome === 'Fontana') {
     if (!adv().fontanaUsata) { adv().fontanaUsata = true; eroiVivi().forEach(e => { if (e.stato === 'ok') e.pv = Math.min(e.pvMax, e.pv + 1); }); t += ' (applicata: +1 PV a tutti)'; }
     else t += ' (già usata in questa avventura: nessun effetto)';
@@ -205,6 +269,7 @@ export async function caratteristica() {
 }
 
 async function evento(t) {
+  if (inCaos()) { const x = await K.eventoCaos(t); log(x); modificato(); return x; }
   const r = await dado('Evento speciale (d6)');
   const row = riga(tabella('eventi'), r.totale);
   let tx = `${row.nome}: ${row.testo}`;
@@ -222,8 +287,10 @@ async function evento(t) {
 export async function trappola(forzaLiv) {
   const r = await dado('Trappola (d6)');
   const row = riga(tabella('trappole'), r.totale);
-  const t = `Trappola – ${row.nome} (L${forzaLiv || row.liv}): ${row.testo}`;
-  adv().trappolaAttiva = { nome: row.nome, liv: forzaLiv || row.liv, testo: row.testo };
+  let liv = forzaLiv || row.liv;
+  if (!forzaLiv && row.livExpr) liv = (await tira(row.livExpr, `Livello della trappola (${row.livExpr})`)).totale;
+  const t = `Trappola – ${row.nome} (L${liv}): ${row.testo}`;
+  adv().trappolaAttiva = { nome: row.nome, liv, testo: row.testo, caos: !!row.caos };
   log(t); modificato(); document.dispatchEvent(new CustomEvent('apri-tab', { detail: 'strumenti' }));
   return t;
 }
@@ -232,22 +299,48 @@ export async function trappola(forzaLiv) {
 export async function tesoro(mod = 0, ctx = {}) {
   const r = await dado(`Tabella Tesori (d6${mod ? (mod > 0 ? '+' : '') + mod : ''})`);
   const v = r.totale + mod;
-  const row = riga(tabella('tesori'), v);
+  const tab = tabella('tesori');
   const molt = (ctx.molt || 1) * (ctx.segreta ? 2 : 1);
   const voci = [];
   const aggiungi = (o) => { adv().bottino = adv().bottino || []; const b = { id: uid(), ...o }; adv().bottino.push(b); voci.push(b); };
-  switch (row.azione) {
-    case 'niente': log(`Tesoro (${v}): nessun tesoro.`); modificato(); return 'Nessun tesoro.';
-    case 'oro': { const x = await tira(row.dadi, 'Monete d’oro'); let q = x.totale * molt; if (ctx.finale) q = Math.max(q * 3, 100); aggiungi({ tipo: 'oro', testo: `${q} pezzi d’oro`, valore: q }); break; }
-    case 'pergamena': aggiungi(await generaPergamena(ctx.orcoSenzaMagia)); break;
-    case 'gemma': { const x = await tira(row.dadi, 'Valore gemma'); aggiungi({ tipo: 'gemma', testo: `Gemma da ${x.totale * molt} p.o.`, valore: x.totale * molt }); break; }
-    case 'gioiello': { const x = await tira(row.dadi, 'Valore gioiello'); aggiungi({ tipo: 'gioiello', testo: `Gioiello da ${x.totale * molt} p.o.`, valore: x.totale * molt }); break; }
-    case 'magico': {
-      const n = ctx.finale ? 2 : 1;
-      for (let i = 0; i < n; i++) aggiungi(await oggettoMagico(ctx.orcoSenzaMagia));
-      break;
+  const esegui = async (row) => {
+    switch (row.azione) {
+      case 'niente': return;
+      case 'scelta': {
+        const k = await scelta(row.nome, 'Scegli cosa prendi:', row.opzioni.map((o, i) => [i, o.testo]));
+        return esegui(row.opzioni[k ?? 0]);
+      }
+      case 'scegli-riga': {
+        const base = tab.filter(x => x.da >= 1 && x.da <= 6);
+        const k = await scelta('Tesoro a scelta', 'Scegli un risultato della tabella:', base.map((x, i) => [i, x.nome]));
+        return esegui(base[k ?? 0]);
+      }
+      case 'oro': { const x = await tira(row.dadi, 'Monete d’oro'); let q = x.totale * molt; if (ctx.finale) q = Math.max(q * 3, 100); aggiungi({ tipo: 'oro', testo: `${q} pezzi d’oro`, valore: q }); return; }
+      case 'pergamena': aggiungi(await generaPergamena(ctx.orcoSenzaMagia)); return;
+      case 'pergamena-caos': aggiungi(await K.pergamenaCaos()); return;
+      case 'pergamena-o-arma': {
+        const k = await scelta('Pergamena o arma', 'A scelta:', [['p', 'Una pergamena con 1 incantesimo a caso'], ['a', 'Un’arma non magica (2 su 1d6 è d’argento)']]);
+        if (k === 'a') {
+          const x = await dado('L’arma è d’argento? (1-2 sì)');
+          aggiungi({ tipo: 'oggetto', testo: x.totale <= 2 ? 'Arma non magica a scelta, d’ARGENTO (+20 p.o., +40 se a due mani; colpisce gli spettri)' : 'Arma non magica a scelta' });
+        } else aggiungi(await generaPergamena(ctx.orcoSenzaMagia));
+        return;
+      }
+      case 'arma': aggiungi({ tipo: 'oggetto', testo: 'Un’arma non magica a scelta' }); return;
+      case 'equip': {
+        const k = await scelta('Equipaggiamento', 'Scegli:', ['Fiala di acqua santa', 'Bende', 'Corda', 'Lanterna'].map(x => [x, x]));
+        aggiungi({ tipo: 'oggetto', testo: k || 'Bende' }); return;
+      }
+      case 'utile': for (let i = 0; i < (row.n || 1); i++) aggiungi(await oggettoUtile()); return;
+      case 'cristallo': aggiungi({ tipo: 'cristallo', testo: 'Cristallo del caos (Toccato dal caos + 1 incantesimo del caos; 5d6 p.o. se venduto)' }); return;
+      case 'gemma': { const x = await tira(row.dadi, 'Valore gemma'); const q = x.totale * molt; aggiungi({ tipo: 'gemma', testo: `Gemma da ${q} p.o.`, valore: q }); return; }
+      case 'gioiello': { const x = await tira(row.dadi, 'Valore gioiello'); const q = x.totale * molt; aggiungi({ tipo: 'gioiello', testo: `Gioiello da ${q} p.o.`, valore: q }); return; }
+      case 'magico': { const n = ctx.finale ? 2 : 1; for (let i = 0; i < n; i++) aggiungi(await oggettoMagico(ctx.orcoSenzaMagia)); return; }
     }
-  }
+  };
+  const row = riga(tab, v);
+  await esegui(row);
+  if (row.azione === 'niente' && !voci.length) { log(`Tesoro (${v}): nessun tesoro.`); modificato(); return 'Nessun tesoro.'; }
   const testo = voci.map(b => b.testo).join('; ');
   log(`Tesoro (${v}): ${testo}`); modificato();
   return `Tesoro: ${testo}`;
@@ -255,22 +348,60 @@ export async function tesoro(mod = 0, ctx = {}) {
 
 async function generaPergamena(orco) {
   if (orco) { const x = await tira('1d6x1d6', 'Pergamena degli orchi = monete'); return { tipo: 'oro', testo: `${x.totale} p.o. (pergamena degli orchi)`, valore: x.totale }; }
-  const s = await dado('Incantesimo a caso (d6)');
-  const nome = R.tabelle.incantesimoCaso[s.totale - 1];
+  const lista = incantesimoACasoLista();
+  const s = lista.length === 12 ? await d12('Incantesimo a caso (d12)') : (await dado('Incantesimo a caso (d6)')).totale;
+  const nome = lista[s - 1];
   return { tipo: 'pergamena', testo: `Pergamena: ${nome}`, incantesimo: nome };
 }
+/** d12 = d6 + d6 «a due fasi» come fa il tavolo (1-6 poi 7-12 con un secondo dado). */
+async function d12(label) { const a = await dado(label); const b = await dado(`${label} – metà`); return (b.totale <= 3 ? 0 : 6) + a.totale; }
+
+/** Oggetti utili del supplemento (tabella d6). */
+export async function oggettoUtile() {
+  const r = await dado('Oggetti utili (d6)');
+  const row = riga(tabella('oggettiUtili'), r.totale);
+  let testo = `${row.nome}: ${row.testo}`;
+  if (row.azione === 'scelta-equip') {
+    const k = await scelta(row.nome, 'Scegli:', ['Arma a una mano (taglio o contundente)', 'Arco con 3d6 frecce', 'Bende', 'Corda', 'Lanterna', 'Sacchetto di sale (6 p.o.)'].map(x => [x, x]));
+    testo = k || 'Bende';
+  } else if (row.azione === 'stelle') { const x = await tira('1d6', 'Stelle da lancio'); testo = `${x.totale} stelle da lancio`; }
+  else if (row.azione === 'polvere') { const x = await tira('1d3', 'Dosi di polvere melmicida'); testo = `Polvere melmicida (${x.totale} dosi): 1 azione per scagliarla contro cubi, melme, muffe e fungoidi: 2 PV a un maggiore o 2 minori uccisi. 40 p.o. a dose.`; }
+  return { tipo: 'oggetto', testo, nome: row.nome };
+}
+
 export async function oggettoMagico(orco) {
   if (orco) { const x = await tira('2d6x1d6', 'Oggetto magico degli orchi = monete'); return { tipo: 'oro', testo: `${x.totale} p.o. (oggetto magico degli orchi)`, valore: x.totale }; }
   const r = await dado('Tesori magici (d6)');
   const row = riga(tabella('tesoriMagici'), r.totale);
   let testo = `${row.nome}: ${row.testo}`;
-  const bonus = {};
-  if (row.azione === 'arma-magica') {
-    const w = await dado('Tipo di arma magica (d6)');
-    const tipo = riga(tabella('armaMagica'), w.totale).nome;
-    testo = `Arma magica (${tipo}) +1 all’attacco. Permanente.`; bonus.bonusArma = 1; bonus.armaTipo = tipo;
+  const bonus = {}; let tipo = 'magico';
+  const TIPI_ARMA = ['arma leggera da taglio', 'arma a una mano contundente', 'arma a una mano da taglio', 'arma a una mano da taglio', 'arma a due mani contundente', 'arma a due mani da taglio'];
+  const TIPI_ARM = ['scudo', 'scudo', 'armatura leggera', 'armatura pesante', 'armatura pesante', 'anello magico di protezione (+1 alla difesa; non per barbari)'];
+  switch (row.azione) {
+    case 'arma-magica': {
+      const w = await dado('Tipo di arma magica (d6)');
+      const t = riga(tabella('armaMagica'), w.totale).nome;
+      testo = `Arma magica (${t}) +1 all’attacco. Permanente.`; bonus.bonusArma = 1; bonus.armaTipo = t; break;
+    }
+    case 'arma-migliorata': {
+      const b = await dado('Arma magica migliorata: bonus (1-4 = +1, 5-6 = +2)'); const w = await dado('Tipo di arma (d6)');
+      const q = b.totale >= 5 ? 2 : 1; const t = TIPI_ARMA[w.totale - 1];
+      testo = `Arma magica migliorata (${t}) +${q} all’attacco. Permanente.`; bonus.bonusArma = q; bonus.armaTipo = t; tipo = 'arma-magica'; break;
+    }
+    case 'armatura-magica': {
+      const b = await dado('Armatura magica: bonus (1-4 = +1, 5-6 = +2)'); const w = await dado('Tipo di armatura (d6)');
+      const q = w.totale === 6 ? 1 : (b.totale >= 5 ? 2 : 1); const t = TIPI_ARM[w.totale - 1];
+      testo = `Armatura magica (${t}) +${q} alla difesa. Permanente.`; bonus.bonusDifesa = q; if (w.totale === 6) bonus.noBarbaro = true; tipo = 'armatura-magica'; break;
+    }
+    case 'fiale': {
+      const n = (await tira('1d3+1', 'Numero di fiale')).totale; const c = [];
+      for (let i = 0; i < n; i++) { const x = await dado(`Contenuto della fiala ${i + 1}`); c.push(x.totale <= 3 ? 'Pozione di Guarigione' : x.totale <= 5 ? 'Acido' : 'Acqua santa'); }
+      testo = `${n} fiale: ${c.join(', ')}. (Guarigione: tutti i PV, azione gratuita, max 1 per avventura a testa, non per barbari. Acido: al posto di un attacco, 1d6: con 1 si rompe e ferisce chi lo lancia, con 2+ 1 PV a un maggiore o 1 minore ucciso; non su non-morti e golem. Acqua santa: 1 PV a spettri e demoni scheletrici.)`; break;
+    }
+    case 'bacchetta-potere': { const x = await tira('2d3', 'Cariche della bacchetta'); testo = `Bacchetta del potere (${x.totale} cariche): solo maghi, ogni carica aggiunge 1 livello a un incantesimo. Vale 25 p.o. per carica rimasta.`; break; }
+    case 'rosario': { const x = await dado('Grani del rosario'); testo = `Rosario (${x.totale} grani): quando un chierico recita una benedizione o guarigione tira 1d6: con 4+ non consuma il potere; ogni tiro consuma un grano. 10 p.o. per grano.`; break; }
   }
-  return { tipo: 'magico', testo, nome: row.nome, ...bonus };
+  return { tipo, testo, nome: row.nome, ...bonus };
 }
 
 // ---------------- perquisire ----------------
@@ -291,7 +422,8 @@ export async function tesoroNascosto(t) {
   const c = await dado('Complicazione tesoro nascosto (d6)');
   const row = riga(tabella('tesoroNascostoComplicazioni'), c.totale);
   log(`Tesoro nascosto: ${row.testo}`);
-  if (row.azione === 'errante') { const i = await monstroErrante(); avviaIncontro(i, t); }
+  if (inCaos()) await K.complicazioneCaos(row, t);
+  else if (row.azione === 'errante') { const i = await monstroErrante(); avviaIncontro(i, t); }
   const x = await tira('3d6x3d6', 'Oro nascosto (3d6×3d6)');
   adv().bottino = adv().bottino || [];
   adv().bottino.push({ id: uid(), tipo: 'oro', testo: `${x.totale} pezzi d’oro (tesoro nascosto)`, valore: x.totale });
@@ -320,7 +452,7 @@ export function eroePuoSalire(e) {
 }
 export async function tiroES(es, e) {
   const r = await d6Esplosivo(`Tiro ES di ${e.nome} (deve superare il livello ${e.livello})`);
-  const tot = r.totale + (es.meno1 ? -1 : 0);
+  const tot = r.totale + (es.meno1 ? -1 : 0) + (inCaos() ? 1 : 0) + (e.bonusES || 0) + ((e.tratti || []).some(t => t.id === 'lesto-esperienza') ? 1 : 0);
   const ok = r.naturale !== 1 && tot > e.livello;
   adv().esPendenti = adv().esPendenti.filter(x => x.id !== es.id);
   if (ok) {
@@ -333,6 +465,9 @@ export async function tiroES(es, e) {
 }
 
 export function vittoria(inc) {
+  const mid = adv().missione?.id;
+  if (mid === 'cuoco') return;                              // la missione del cuoco non dà ES per i mostri
+  if (mid === 'salvataggio' && inc.minore) return;          // niente ES dai minori
   if (inc.errante && inc.minore && inc.tabella === 'infestanti') return;
   if (!inc.minore) {
     if (inc.speciale === 'gremlin') return;
@@ -357,7 +492,7 @@ export async function aggiungiIndizio(eroe) {
     modal(`${eroe.nome} ha scoperto un segreto!`, (b, close) => {
       b.append(h('p', {}, 'Scegli un effetto di gioco (annotalo nelle note dell’eroe):'));
       const lista = h('div', { class: 'list' });
-      R.tabelle.indizi.forEach(s => lista.append(h('button', { class: 'item-btn', onclick: () => {
+      [...R.tabelle.indizi, ...(inCaos() ? R.caos.tabelle.segretiCaos : [])].forEach(s => lista.append(h('button', { class: 'item-btn', onclick: () => {
         eroe.segreti = [...(eroe.segreti || []), s.nome]; log(`${eroe.nome} sceglie il segreto: ${s.nome}.`); modificato(); close();
       } }, h('b', {}, s.nome), h('span', {}, s.testo))));
       b.append(lista);

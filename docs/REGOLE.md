@@ -25,12 +25,34 @@ Tutto può essere corretto a mano (PV, mostri rimasti, oggetti, posizione dei se
   poteri del signore del caos, ferrofago, minotauro.
 - **Esperienza**: tiri ES per maggiori sconfitti, 10 incontri con seguaci (−1), indizi; limiti di livello 5.
 
+## Tabelle avanzate e supplemento «Contro il Caos»
+
+Prima di ogni avventura (pannello *Dungeon*) scegli il **set di tabelle**; quando **tutti** i personaggi vivi hanno raggiunto il
+3° livello l'app te lo chiede una volta (potrai cambiare scelta in seguito):
+
+- **Tabelle base**: quelle del manuale.
+- **Nemici diabolici** (manuale base, p. 89-95): sostituiscono Tesori, Tesori magici e le quattro tabelle di mostri
+  (`data/rules/avanzate.json`). Gli infestanti contano come seguaci per l'esperienza.
+- **Caverne del Caos** (supplemento «Contro il Caos», p. 47-72, `data/rules/caos.json`): contenuti delle stanze, trappole,
+  caratteristiche, eventi unici (una volta per avventura), tesori, oggetti magici e utili, complicazioni dei tesori nascosti,
+  mostri del caos, «Toccato dal caos» con punti follia, incantesimi del caos, i 4 segreti e le **6 missioni**
+  (livello consigliato: mostri e PV in più se il gruppo è più forte; tiri ES a +1).
+
+La casella **«Usa il supplemento Contro il Caos»** abilita inoltre: tabella degli incantesimi a caso d12 con i 6 nuovi
+incantesimi, le 5 classi (arlecchino, assassino, elfo del fuoco, tiratore scelto, veterano), le 6 nuove armi (archibugio e pistola
+esplodono con un 1), i **tratti** (d66 e tratti rari d8) e i **traguardi** (d66 con contatore) nella scheda dell'eroe.
+
+Sono automatici: i modificatori delle nuove classi, il «Marchia» dell'assassino (danni tripli), la vista di fuoco, gli
+incantesimi nuovi e del caos, i poteri dei mostri più comuni (livello al primo turno, immunità, veleni, pietrificazione,
+inghiottimento del cubo, malattia della melma verde, tagliola degli schiavisti, sciame di vespe, ecc.).
+
 ## Manuale (non automatizzato)
 
 - Missioni di soccorso, rituale di resurrezione, vendita di oggetti (solo promemoria).
 - Rigenerazione dei troll, sedare/legare i mostri, trasporto di compagni caduti o pietrificati.
 - Più di un tipo di nemico nella stessa stanza (si gestisce un incontro alla volta con la coda).
-- Tabelle avanzate "Nemici diabolici" e modalità cooperativa/competitiva.
+- Modalità cooperativa/competitiva e le abilità avanzate del volume «Contro l'Abisso» (non fornito).
+- Alcuni poteri dei mostri avanzati sono solo descritti nella nota del mostro: rospi giganti, nani posseduti, doppelganger, manto predatore, golem (2 PV con un 1), maestri di spada hobgoblin, demone scheletrico, capo hobgoblin, spettro, troll, gremlin del caos (punti sfortuna), leader dei seguaci del caos, manticora e mutante tentacolato.
 - Le uscite delle tessere non sono codificate: il giocatore le fa combaciare a mano.
 
 ## Fedeltà al manuale

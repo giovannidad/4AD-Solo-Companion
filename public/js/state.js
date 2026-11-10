@@ -13,11 +13,11 @@ export const nuovaAvventura = () => ({
   attiva: false, numero: 0, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null,
   maggioriSconfitti: 0, incontriSeguaci: 0, ultimoLivello: null, indizi: [],
   guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, ricompense: [],
-  fine: null
+  fine: null, set: 'base', missione: null, eventiUsati: []
 });
 
 export async function caricaRegole() {
-  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles'];
+  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'avanzate', 'caos', 'tratti', 'traguardi'];
   const dati = await Promise.all(nomi.map(n => api.regola(n)));
   nomi.forEach((n, i) => { R[n] = dati[i]; });
 }
@@ -67,7 +67,7 @@ export function nuovoEroe(classe, nome) {
     id: uid(), nome, classe, livello: 1, pvMax: c.vitaBase + 1, pv: c.vitaBase + 1, oro: 0,
     armi: [], armaPrincipale: null, armatura: 'nessuna', scudo: false, lanterna: false,
     oggetti: [], incantesimi: [], usi: { benedizione: 0, guarigione: 0, furie: 0, fortuna: 0 },
-    indizi: 0, stato: 'ok', maledetto: false, zoppo: false, note: ''
+    indizi: 0, follia: 0, stato: 'ok', maledetto: false, zoppo: false, note: ''
   };
   return e;
 }

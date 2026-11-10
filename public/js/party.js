@@ -4,20 +4,23 @@ import { h, modal, toast, confirmBox, sign, uid } from './util.js';
 import { tira } from './dice.js';
 import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaLanterna } from './rules.js';
 import { tiroES, eroePuoSalire } from './game.js';
+import * as T from './tratti.js';
 
 const NOMI = ['Bruggo', 'Aldric', 'Thora', 'Kenna', 'Marcus', 'Elowen', 'Dollom', 'Grimli', 'Sera', 'Tobin', 'Vesna', 'Rurik', 'Ilya', 'Fenn', 'Mirela', 'Orsolo', 'Brannoc', 'Zadi', 'Nerys', 'Cael'];
-const ICONE = { barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
+const ICONE = { arlecchino: '\u{1F3AD}', assassino: '\u{1F5E1}', 'elfo-fuoco': '\u{1F525}', tiratore: '\u{1F3AF}', veterano: '\u{1F396}', barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
 export const iconaClasse = c => ICONE[c] || '✦';
 
 export function slotIncantesimi(e) {
   if (e.classe === 'mago') return 2 + e.livello;
   if (e.classe === 'elfo') return e.livello;
+  if (e.classe === 'elfo-fuoco') return 1;
   return 0;
 }
 export function sistemaSlot(e) {
   const n = slotIncantesimi(e);
   e.incantesimi = e.incantesimi || [];
-  while (e.incantesimi.length < n) e.incantesimi.push({ nome: 'Sonno', usato: false });
+  while (e.incantesimi.length < n) e.incantesimi.push({ nome: e.classe === 'elfo-fuoco' ? 'Palla di Fuoco' : 'Sonno', usato: false });
+  if (e.classe === 'elfo-fuoco') e.incantesimi.forEach(s => { s.nome = 'Palla di Fuoco'; });
   if (e.incantesimi.length > n) e.incantesimi.length = n;
 }
 
@@ -29,6 +32,11 @@ export function equipaggiamentoIniziale(e) {
     case 'elfo': A('una-mano-taglio'); e.armi.push('arco'); e.armatura = 'leggera'; break;
     case 'furfante': A('leggera-taglio'); e.armatura = 'leggera'; e.oggetti.push({ nome: 'Corda', qta: 1 }, { nome: 'Grimaldelli', qta: 1 }); break;
     case 'mago': A('leggera-taglio'); e.oggetti.push({ nome: 'Libro di incantesimi', qta: 1 }, { nome: 'Strumenti per scrivere', qta: 1 }); break;
+    case 'arlecchino': A('leggera-taglio'); e.armi.push('leggera-taglio', 'una-mano-taglio'); e.armatura = 'leggera'; e.oggetti.push({ nome: 'Costume da menestrello', qta: 1 }, { nome: 'Grimaldelli', qta: 1 }); break;
+    case 'assassino': A('una-mano-taglio'); e.armi.push('leggera-taglio'); e.armatura = 'leggera'; e.oggetti.push({ nome: 'Grimaldelli', qta: 1 }); break;
+    case 'elfo-fuoco': A('una-mano-taglio'); e.armatura = 'leggera'; break;
+    case 'tiratore': A('arco'); e.armi.push('leggera-taglio'); e.armatura = 'leggera'; break;
+    case 'veterano': A('leggera-taglio'); e.lanterna = true; break;
     case 'mezzuomo': A('leggera-taglio'); e.armi.push('fionda'); e.oggetti.push({ nome: 'Razioni', qta: 3 }); break;
   }
   sistemaSlot(e);
@@ -131,7 +139,7 @@ export async function creaEroe() {
       const c = R.classi[classe];
       info.textContent = `${c.tratti} Vita iniziale: ${c.vitaBase + 1}. Ricchezza: ${c.oro} p.o.`;
     };
-    Object.entries(R.classi).forEach(([id, c]) => grid.append(h('button', { class: 'class-card', dataset: { c: id }, onclick: () => { classe = id; aggiorna(); } }, h('span', { class: 'ico' }, iconaClasse(id)), c.nome)));
+    Object.entries(R.classi).filter(([, c]) => !c.suppl || S.party.supplCaos).forEach(([id, c]) => grid.append(h('button', { class: 'class-card', dataset: { c: id }, onclick: () => { classe = id; aggiorna(); } }, h('span', { class: 'ico' }, iconaClasse(id)), c.nome)));
     b.append(h('label', {}, 'Nome', nome), grid, info,
       h('div', { class: 'row end' }, h('button', { onclick: close }, 'Annulla'),
         h('button', { class: 'primary', onclick: async () => {
@@ -173,10 +181,10 @@ export function scheda(id) {
 
     b.append(h('div', { class: 'grid2' },
       h('label', {}, 'Nome', h('input', { type: 'text', value: e.nome, onchange: ev => { e.nome = ev.target.value; modificato('party'); } })),
-      sel('Stato', 'stato', [['ok', 'In forma'], ['pietra', 'Pietrificato'], ['morto', 'Caduto / morto']]),
+      sel('Stato', 'stato', [['ok', 'In forma'], ['pietra', 'Pietrificato'], ['pazzo', 'Pazzo'], ['morto', 'Caduto / morto']]),
       num('Livello', 'livello', { min: 0 }), num('PV massimi', 'pvMax', { min: 1 }), num('PV attuali', 'pv'), num('Pezzi d’oro', 'oro'),
-      num('Bonus arma magica', 'bonusMagico', { min: 0 }), num('Indizi (0-2)', 'indizi')),
-      h('div', { class: 'chk-row' }, chk('Porta la lanterna', 'lanterna'), chk('Maledetto (-1 difesa)', 'maledetto'), chk('Zoppicante', 'zoppo')),
+      num('Bonus arma magica', 'bonusMagico', { min: 0 }), num('Bonus difesa magico', 'bonusDifesa', { min: 0 }), num('Indizi (0-2)', 'indizi'), num('Punti follia', 'follia', { min: 0 })),
+      h('div', { class: 'chk-row' }, chk('Porta la lanterna', 'lanterna'), chk('Maledetto (-1 difesa)', 'maledetto'), chk('Zoppicante', 'zoppo'), chk('Si sta trasformando (caos)', 'caosTrasf'), chk('Malattia della melma verde', 'malattia')),
       h('p', { class: 'hint' }, R.classi[e.classe].tratti));
 
     // equipaggiamento
@@ -192,7 +200,7 @@ export function scheda(id) {
       if (!e.armi?.length) armi.append(h('small', {}, 'Nessuna arma (attacca a mani nude: -2).'));
     };
     rArmi();
-    const aggArma = h('select', {}, R.equipaggiamento.armi.map(a => h('option', { value: a.id }, a.nome)));
+    const aggArma = h('select', {}, R.equipaggiamento.armi.filter(a => !a.suppl || S.party.supplCaos).map(a => h('option', { value: a.id }, a.nome)));
     b.append(h('h4', {}, 'Armi (spunta quella impugnata)'), armi,
       h('div', { class: 'row' }, aggArma, h('button', { onclick: () => { (e.armi = e.armi || []).push(aggArma.value); if (!e.armaPrincipale) e.armaPrincipale = aggArma.value; rArmi(); modificato('party'); } }, 'Aggiungi arma')),
       h('div', { class: 'grid2' }, sel('Armatura', 'armatura', Object.entries(NOME_ARMATURA)), chk('Scudo', 'scudo')));
@@ -202,7 +210,7 @@ export function scheda(id) {
       const sl = h('div', { class: 'list' });
       const rs = () => {
         sl.replaceChildren();
-        const permessi = R.equipaggiamento.incantesimi.filter(s => e.classe === 'mago' || s.id !== 'benedizione');
+        const permessi = R.equipaggiamento.incantesimi.filter(s => (e.classe === 'mago' || s.id !== 'benedizione') && (!s.suppl || S.party.supplCaos) && (!s.caos || S.party.supplCaos) && (e.classe !== 'elfo-fuoco' || s.nome === 'Palla di Fuoco'));
         e.incantesimi.forEach((s, k) => sl.append(h('div', { class: 'row' },
           h('select', { onchange: ev => { s.nome = ev.target.value; modificato('party'); } }, permessi.map(p => h('option', { value: p.nome, selected: p.nome === s.nome }, p.nome))),
           h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!s.usato, onchange: ev => { s.usato = ev.target.checked; modificato('party'); } }), 'usato'))));
@@ -223,6 +231,7 @@ export function scheda(id) {
     };
     ro();
     const nuovo = h('input', { type: 'text', placeholder: 'Nome oggetto (es. Pozione di guarigione)' });
+    if (S.party.supplCaos) b.append(T.sezione(e, () => scheda(e.id)));
     b.append(h('h4', {}, 'Oggetti e bottino'), og, h('div', { class: 'row' }, nuovo, h('button', { onclick: () => { if (!nuovo.value.trim()) return; (e.oggetti = e.oggetti || []).push({ nome: nuovo.value.trim(), qta: 1 }); nuovo.value = ''; ro(); modificato('party'); } }, 'Aggiungi')));
     if ((e.segreti || []).length) b.append(h('h4', {}, 'Segreti scoperti'), h('ul', {}, e.segreti.map(s => h('li', {}, s))));
     b.append(h('label', {}, 'Note', h('textarea', { rows: 3, onchange: ev => { e.note = ev.target.value; modificato('party'); } }, e.note || '')));

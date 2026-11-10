@@ -1,11 +1,12 @@
 // Pannelli di destra: Dungeon, Incontro, Strumenti, Registro.
 import { R, S, log, modificato, eroiVivi, eroiAttivi, eroePerId, ordineMarcia, livelloMax } from './state.js';
-import { h, modal, toast, confirmBox } from './util.js';
+import { h, modal, toast, confirmBox, scelta } from './util.js';
+import * as K from './caos.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
 import * as table from './map2d.js';
-import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella } from './rules.js';
+import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella, SETS, incantesimoACasoLista } from './rules.js';
 import { riposa, scheda } from './party.js';
 
 const adv = () => S.adv;
@@ -23,10 +24,15 @@ export function renderDungeon(box) {
     box.append(h('div', { class: 'hero-cta' },
       h('h3', {}, a.fine ? 'Avventura conclusa' : 'Pronto a scendere?'),
       h('p', {}, a.fine ? `Esito: ${a.fine}.` : 'Il gruppo si prepara all’ingresso del dungeon. Verrà tirato un d6 per la stanza d’ingresso; le ferite guariscono e poteri e incantesimi si ricaricano.'),
+      h('label', { class: 'chk', title: 'Dal 3° livello puoi passare alle tabelle avanzate; «Caverne del Caos» è il dungeon a tema del supplemento «Contro il Caos».' }, 'Tabelle del dungeon ',
+        h('select', { onchange: ev => { S.party.set = ev.target.value; modificato('party'); } }, Object.entries(SETS).map(([v, t]) => h('option', { value: v, selected: (S.party.set || 'base') === v }, t)))),
+      h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplCaos, onchange: ev => { S.party.supplCaos = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro il Caos» (nuovi incantesimi, armi, classi, tratti e traguardi)'),
       btn('Inizia una nuova avventura', async () => { if (await G.iniziaAvventura()) table.setView('fit'); }, 'primary big')));
     return;
   }
   const pend = a.tessere.find(t => t.pending);
+  if (a.set && a.set !== 'base') box.append(h('div', { class: 'tag' }, SETS[a.set]));
+  if (a.missione) box.append(cartaMissione(a.missione));
   box.append(h('div', { class: 'stats' },
     h('div', {}, h('b', {}, a.stanze), h('small', {}, 'stanze')),
     h('div', {}, h('b', {}, a.maggioriSconfitti || 0), h('small', {}, 'maggiori sconfitti')),
@@ -170,8 +176,8 @@ export function renderIncontro(box) {
       break;
     }
     case 'speciale': {
-      box.append(h('div', { class: 'card' }, h('p', {}, `Reazione speciale: ${i.reazione?.azione}. Risolvila a parole oppure combatti.`),
-        i.reazione?.azione === 'missione' ? btn('Accetta la missione (tira)', async () => { const r = await dado('Missione (d6)'); const row = riga(tabella('missioni'), r.totale); C.nota(`Missione: ${row.nome} – ${row.testo}`); i.missione = row.nome; modificato('avventura'); }) : null,
+      box.append(h('div', { class: 'card' }, h('p', {}, i.reazione?.azione === 'pacifico' ? `${i.nome} è pacifico: puoi lasciarlo stare (nessun tesoro) oppure attaccarlo.` : `Reazione speciale: ${i.reazione?.azione}. Risolvila a parole oppure combatti.`),
+        i.reazione?.azione === 'missione' ? btn('Accetta la missione (tira)', async () => { const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); C.nota(`Missione: ${row.nome} – ${row.testo}`); i.missione = row.nome; modificato('avventura'); }) : null,
         btn('Combatti', () => { i.mostriPrima = true; return C.inizioScontro(); }, 'danger'),
         btn('Chiudi (il mostro se ne va)', () => { C.chiudiIncontro(); })));
       break;
@@ -209,6 +215,7 @@ function renderCombattimento(box, i) {
       h('div', { class: 'ahead' }, h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} ${e.livello} · ${e.pv}/${e.pvMax} PV`), h('span', { class: 'mod', title: m.parti.map(p => `${p[0]} ${p[1] > 0 ? '+' : ''}${p[1]}`).join('\n') || 'Nessun modificatore' }, `ATT ${m.tot >= 0 ? '+' : ''}${m.tot}`)),
       h('div', { class: 'arow' },
         fronte ? [armiSel, fur, btn('Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary')] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
+        e.classe === 'assassino' && fronte ? btn('Marchia', () => C.marchia(e), 'accent') : null,
         ...azioniMagiche(e, pronti)));
     eroiBox.append(rowEl);
   });
@@ -265,11 +272,13 @@ function renderBottino(box) {
   if (b.some(x => x.tipo === 'oro')) lista.append(btn('Dividi l’oro tra tutti (almeno 1 a ogni nano)', () => dividiOro(), 'accent'));
   box.append(lista);
 }
-function assegna(x, e) {
+async function assegna(x, e) {
   if (!e) return;
-  if (e.classe === 'barbaro' && ['magico', 'pergamena'].includes(x.tipo)) { toast('I barbari non usano oggetti magici né pergamene.', 'warn'); return; }
+  if (e.classe === 'barbaro' && (['magico', 'pergamena'].includes(x.tipo) || x.noBarbaro)) { toast('I barbari non usano oggetti magici né pergamene.', 'warn'); return; }
   if (x.tipo === 'oro') e.oro = (e.oro || 0) + x.valore;
-  else if (x.bonusArma) { e.bonusMagico = Math.max(e.bonusMagico || 0, 1); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1 }); }
+  else if (x.tipo === 'cristallo') await K.usaCristallo(e);
+  else if (x.bonusDifesa) { e.bonusDifesa = Math.max(e.bonusDifesa || 0, x.bonusDifesa); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1 }); }
+  else if (x.bonusArma) { e.bonusMagico = Math.max(e.bonusMagico || 0, x.bonusArma); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1 }); }
   else (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: 1, valore: x.valore, tipo: x.tipo });
   if (x.tipo === 'pergamena' && e.incantesimi) { /* resta come oggetto: usala da “Lancia” in scheda */ }
   adv().bottino = adv().bottino.filter(y => y.id !== x.id);
@@ -299,9 +308,9 @@ export function renderStrumenti(box) {
       btn('Trappola', () => G.trappola()),
       btn('Tesoro (d6)', async () => { const t = await G.tesoro(); toast(t); }),
       btn('Oggetto magico', async () => { const o = await G.oggettoMagico(); a.bottino = [...(a.bottino || []), { id: Math.random().toString(36).slice(2), ...o }]; log(`Oggetto magico: ${o.testo}`); modificato(); }),
-      btn('Pergamena a caso', async () => { const r = await dado('Incantesimo a caso'); const n = R.tabelle.incantesimoCaso[r.totale - 1]; toast(`Pergamena: ${n}`); a.bottino = [...(a.bottino || []), { id: Math.random().toString(36).slice(2), tipo: 'pergamena', testo: `Pergamena: ${n}`, incantesimo: n }]; log(`Pergamena: ${n}`); modificato(); }),
+      btn('Pergamena a caso', async () => { const r = await dado('Incantesimo a caso'); const lista = incantesimoACasoLista(); const n = lista[(lista.length === 12 ? r.totale + (Math.random() < 0.5 ? 0 : 6) : r.totale) - 1]; toast(`Pergamena: ${n}`); a.bottino = [...(a.bottino || []), { id: Math.random().toString(36).slice(2), tipo: 'pergamena', testo: `Pergamena: ${n}`, incantesimo: n }]; log(`Pergamena: ${n}`); modificato(); }),
       btn('Caratteristica speciale', () => G.caratteristica()),
-      btn('Missione', async () => { const r = await dado('Missione (d6)'); const row = riga(tabella('missioni'), r.totale); modalTesto(row.nome, row.testo); log(`Missione: ${row.nome} – ${row.testo}`); }),
+      btn('Missione', async () => { const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); modalTesto(row.nome, row.testo); log(`Missione: ${row.nome} – ${row.testo}`); }),
       btn('Ricompensa epica', async () => { const r = await dado('Ricompensa epica (d6)'); const row = riga(tabella('ricompense'), r.totale); modalTesto(row.nome, row.testo); a.ricompense = [...(a.ricompense || []), row.nome]; log(`Ricompensa epica: ${row.nome}`); modificato(); }),
       btn('Riposa (stanza sicura)', async () => { riposa(); const m = await G.monstroErrante(); toast('Mentre riposi arrivano mostri erranti: prima tu se hai inchiodato le porte.'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }))));
 
@@ -318,6 +327,15 @@ export function renderStrumenti(box) {
   renderBottino(box);
 }
 
+function cartaMissione(m) {
+  const d = K.differenzaLivello();
+  return h('div', { class: `card ${m.completata ? 'done' : ''}` }, h('h3', {}, `Missione: ${m.nome} (L${m.liv})${m.completata ? ' ✓' : ''}`), h('p', {}, m.testo),
+    h('p', { class: 'hint' }, `Obiettivo: ${m.obiettivo}.${d ? ` Gruppo di ${d} livell${d === 1 ? 'o' : 'i'} sopra il consigliato: +${d} mostri minori e +${d} PV ai maggiori.` : ''} Qui ogni tiro ES è a +1 e gli infestanti contano come seguaci.`),
+    h('div', { class: 'row wrap' },
+      ['cuoco', 'arazzo', 'signore', 'ascia'].includes(m.id) && !m.completata ? btn(m.id === 'cuoco' ? 'Incontra il signore del caos' : m.id === 'arazzo' ? 'Trova l’arazzo (custode)' : 'Genera il boss della missione', () => K.generaBossMissione()) : null,
+      !m.completata ? btn('Missione compiuta', () => K.completaMissione(), 'primary') : null));
+}
+
 function modalTesto(titolo, testo) { modal(titolo, (b, close) => { b.append(h('p', {}, testo), h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Ok'))); }); }
 
 function cartaTrappola(t) {
@@ -332,6 +350,7 @@ function cartaTrappola(t) {
         if (ok) { adv().trappolaAttiva = null; modificato(); } else toast('Fallito: la trappola scatta.', 'warn');
       }) : null,
       btn('Risolvi la trappola', () => risolviTrappola(t), 'primary'),
+      t.caos ? btn('Tira «Toccato dal caos»', async () => { const e = await K.eroeScelto('Chi è toccato dal caos?', x => x.stato === 'ok'); if (e) await K.toccatoDalCaos(e); }) : null,
       btn('Ignora', () => { adv().trappolaAttiva = null; modificato(); })));
 }
 
@@ -356,6 +375,44 @@ async function risolviTrappola(t) {
     case 'Gas velenoso': for (const e of vivi) if (!(await prova(e, { ctx: { ignoraArmatura: true } }))) ferisci(e, 1); break;
     case 'Lance': { for (let k = 0; k < 2; k++) { const e = casuale(); if (!(await prova(e, {}))) ferisci(e, 1); } break; }
     case 'Masso gigante': { const e = vivi[vivi.length - 1]; if (!(await prova(e, { ctx: { ignoraScudo: true } }))) ferisci(e, 2); break; }
+    case 'Lancia dardi avvelenati': {
+      const e = casuale();
+      if (!(await prova(e, { salvezza: true, extra: e.classe === 'mezzuomo' ? 1 : 0 }))) {
+        if (!(await C.salva(e, 4, e.classe === 'barbaro' ? 1 : 0, 'Veleno del dardo'))) { e.infettoCaos = true; log(`${e.nome} è infettato dal caos: al primo 1 tirerà su «Toccato dal caos».`); toast(`${e.nome} è infettato dal caos.`, 'warn'); }
+      }
+      break;
+    }
+    case 'Catene del caos': { const e = casuale(); if (!(await prova(e, { salvezza: true, extra: ['furfante'].includes(e.classe) ? 0 : e.classe === 'mezzuomo' ? e.livello : e.classe === 'elfo' ? 1 : 0 }))) { ferisci(e, 1); K.follia(e, 1); } break; }
+    case 'Fossa del mostro': {
+      const e = casuale(); const extra = (e.classe === 'elfo' ? e.livello : 0) + (e.classe === 'nano' ? -1 : 0);
+      let ok = await prova(e, { salvezza: true, extra }); if (!ok && e.classe === 'mezzuomo') ok = await prova(e, { salvezza: true, extra });
+      if (!ok) {
+        ferisci(e, 1);
+        const m = await G.monstroDa('aberranti'); m.nome += ' (nella fossa)'; m.mostriPrima = true; m.noMorale = true;
+        G.avviaIncontro(m, G.tileById(adv().stanzaCorrente));
+        toast(`${e.nome} cade nella fossa: il mostro attacca per primo. I compagni possono aiutarlo.`, 'warn');
+      }
+      break;
+    }
+    case 'Mannaia gigante': { const e = casuale(); if (!(await prova(e, { salvezza: true, extra: ['elfo', 'mezzuomo'].includes(e.classe) ? 1 : 0 }))) ferisci(e, 2); break; }
+    case 'Gas lacrimogeno': for (const e of vivi) if (!(await C.salva(e, 5, ['barbaro', 'nano'].includes(e.classe) ? e.livello : 0, 'Gas lacrimogeno'))) { ferisci(e, 1); log(`${e.nome} ha la vista sfocata per 2 incontri (niente armi a distanza né pergamene).`); } break;
+    case 'Globo del caos': {
+      const giri = [vivi, [...vivi].reverse()]; let fermo = false;
+      for (const giro of giri) { for (const e of giro) {
+        if (fermo || e.stato !== 'ok') continue;
+        let come = 'schiva';
+        if (e.scudo) come = await scelta('Globo del caos', `${e.nome}: schivi o pari con lo scudo?`, [['schiva', 'Schiva'], ['para', 'Para con lo scudo']]) || 'schiva';
+        if (come === 'schiva') {
+          if (await C.salva(e, 7, (e.classe === 'furfante' ? e.livello : ['elfo', 'mezzuomo'].includes(e.classe) ? Math.floor(e.livello / 2) : 0), 'Schivata del globo')) continue;
+        } else {
+          const r = await d6Esplosivo(`Parata del globo – ${e.nome} (L8)`);
+          const tot = r.totale + modDifesa(e, {}).tot + (['barbaro', 'guerriero', 'nano'].includes(e.classe) ? e.livello : 0);
+          if (r.naturale === 6 || (r.naturale !== 1 && tot > 8)) { e.scudo = false; log(`${e.nome} para il globo: lo scudo è distrutto e il globo si ferma.`); fermo = true; continue; }
+        }
+        ferisci(e, 3);
+      } }
+      break;
+    }
     case 'Tagliola': { const e = vivi[0]; if (!(await prova(e, { salvezza: true }))) { ferisci(e, 1); if (e.stato === 'ok') { e.zoppo = true; log(`${e.nome} zoppica (-1 attacco e difesa).`); } } break; }
   }
   adv().trappolaAttiva = null; modificato();
