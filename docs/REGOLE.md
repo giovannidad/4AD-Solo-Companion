@@ -11,7 +11,7 @@ Tutto può essere corretto a mano (PV, mostri rimasti, oggetti, posizione dei se
 - **Stanza d'ingresso (d6)**, **nuova stanza (d66)**, **contenuto (2d6)**, caratteristiche, eventi, trappole.
 - **Tesori** (con modificatore del mostro, moltiplicatori, tesoro doppio nelle stanze segrete, boss finale ×3 / 2 oggetti magici),
   pergamene, oggetti magici, armi magiche.
-- **Perquisire** (d6, −1 nei corridoi), porta segreta (scorciatoia con 6), tesoro nascosto con complicazioni, indizi (3 = segreto + tiro ES).
+- **Perquisire** (d6, −1 nei corridoi; il mezzuomo può ritirare con un punto fortuna), porta segreta (scorciatoia con 6), tesoro nascosto con complicazioni, indizi (3 = segreto + tiro ES).
 - **Mostri**: tabelle infestanti, seguaci, aberranti, boss; boss finale (`1d6 + maggiori sconfitti ≥ 6`).
 - **Reazioni dei mostri**, corruzione (oro, oro degli stolti; non con 2+ nani), missioni.
 - **Attacco**: modificatori per classe, livello, arma (leggera −1, due mani +1, fionda −1), contundente vs scheletri,

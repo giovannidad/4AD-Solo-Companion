@@ -274,15 +274,18 @@ export async function oggettoMagico(orco) {
 }
 
 // ---------------- perquisire ----------------
-export async function perquisisci(t) {
+/** Tira il d6 della tabella "Perquisire una stanza vuota" (−1 nei corridoi) senza ancora applicarne gli effetti. */
+export async function tiraPerquisizione(t) {
   const r = await dado(`Perquisire la stanza (d6${t.corridoio ? ', -1 corridoio' : ''})`);
-  const v = r.totale + (t.corridoio ? -1 : 0);
+  const v = Math.max(1, r.totale + (t.corridoio ? -1 : 0));
+  return { v, row: riga(tabella('perquisire'), v), naturale: r.totale };
+}
+/** Applica l'esito: la stanza viene segnata con una "P" e, con 1, arrivano i mostri erranti. */
+export async function concludiPerquisizione(t, res) {
   t.perquisita = true;
-  const row = riga(tabella('perquisire'), v);
-  log(`Perquisire stanza ${t.n}: ${v} → ${row.testo}`);
-  if (row.azione === 'errante') { const i = await monstroErrante(); avviaIncontro(i, t); }
+  log(`Perquisire stanza ${t.n}: tiro ${res.v} → ${res.row.testo}`);
+  if (res.row.azione === 'errante') { const i = await monstroErrante(); avviaIncontro(i, t); }
   modificato();
-  return { v, row };
 }
 export async function tesoroNascosto(t) {
   const c = await dado('Complicazione tesoro nascosto (d6)');

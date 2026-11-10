@@ -57,6 +57,7 @@ export function renderDungeon(box) {
       h('h3', {}, 'Esplora'),
       h('p', { class: 'hint' }, 'Scegli una porta o un corridoio non ancora esplorato e tira una nuova stanza.'),
       btn('Tira la nuova stanza (d66)', () => G.nuovaStanza({ finale: fin.checked, segreta: seg.checked }), 'primary big'),
+      (() => { const cur = G.tileById(a.stanzaCorrente); return cur?.contenuto?.vuota && !cur.perquisita ? btn(`Perquisisci la stanza attuale (${cur.nome})`, () => perquisisciUI(cur), 'accent big') : null; })(),
       h('label', { class: 'chk' }, fin, 'Nessuna porta da aprire: ultima stanza = boss finale'),
       h('label', { class: 'chk' }, seg, 'Stanza segreta (mostri sorpresi, -1 LIV al primo turno)')));
   }
@@ -69,7 +70,7 @@ export function renderDungeon(box) {
       h('img', { src: t.src, alt: '' }),
       h('div', { class: 'grow' }, h('b', {}, `${t.nome}${t.corridoio ? ' · corridoio' : ''}`), h('small', {}, c ? c.testo : '—')),
       h('div', { class: 'col' },
-        c?.vuota && !t.perquisita ? btn('Perquisisci', ev => perquisisciUI(t), 'mini') : (t.perquisita ? h('small', {}, 'P') : null),
+        c?.vuota && !t.perquisita ? btn('Perquisisci', () => perquisisciUI(t), 'mini') : (t.perquisita ? h('small', {}, 'P') : null),
         t.sospeso ? btn('Rientra', () => { C.riprendiIncontro(t); }, 'mini') : null)));
   });
   box.append(h('h4', {}, 'Mappa esplorata'), lista);
@@ -81,22 +82,33 @@ export function renderDungeon(box) {
       btn('Ritirata dal dungeon', async () => { if (await confirmBox('Abbandonare il dungeon?')) G.terminaAvventura('Il gruppo ha abbandonato il dungeon'); }))));
 }
 
+/** Perquisire una stanza vuota: tira il d6, mostra l'esito della tabella e applica ciò che indica. */
 async function perquisisciUI(t) {
-  const { v, row } = await G.perquisisci(t);
-  if (v >= 5) {
-    modal('Hai trovato qualcosa!', (b, close) => {
-      b.append(h('p', {}, `Tiro ${v}: scegli cosa trovi.`),
+  if (t.perquisita) { toast('Questa stanza è già stata perquisita (P).', 'warn'); return; }
+  let res = await G.tiraPerquisizione(t);
+  const mostra = () => modal(`Perquisire la stanza ${t.nome}`, (b, close) => {
+    const fort = eroiAttivi().find(e => e.classe === 'mezzuomo' && (e.usi.fortuna || 0) < e.livello + 1);
+    b.append(h('p', {}, h('b', {}, `Tiro: ${res.v}`), t.corridoio ? ' (compreso −1 per il corridoio)' : ''),
+      h('div', { class: 'card' }, res.row.testo));
+    const chiudi = async () => { close(); await G.concludiPerquisizione(t, res); };
+    if (fort) b.append(btn(`Ritira con un punto fortuna (${fort.nome})`, async () => {
+      fort.usi.fortuna = (fort.usi.fortuna || 0) + 1; log(`${fort.nome} spende un punto fortuna per ritirare la perquisizione.`); modificato('party');
+      close(); res = await G.tiraPerquisizione(t); mostra();
+    }));
+    if (res.v >= 5) {
+      b.append(h('p', { class: 'hint' }, 'Scegli cosa trovi:'),
         btn('Porta segreta', async () => {
-          close(); const sc = await G.portaSegreta();
-          toast(sc ? 'Scorciatoia sicura verso l’uscita!' : 'Porta segreta: tira la stanza collegata (la tessera è segreta).');
+          close(); await G.concludiPerquisizione(t, res);
+          const sc = await G.portaSegreta();
+          toast(sc ? 'Scorciatoia sicura verso l’uscita!' : 'Porta segreta: tira la stanza collegata.');
           await G.nuovaStanza({ segreta: true });
         }, 'item-btn'),
-        btn('Tesoro nascosto', async () => { close(); const x = await G.tesoroNascosto(t); toast(`Tesoro nascosto: ${x.oro} p.o. (complicazione ${x.c})`); }, 'item-btn'),
-        btn('Indizio', () => { close(); scegliEroe('Chi trova l’indizio?', e => G.aggiungiIndizio(e)); }, 'item-btn'));
-    });
-  } else toast(row.testo);
+        btn('Tesoro nascosto', async () => { close(); await G.concludiPerquisizione(t, res); const x = await G.tesoroNascosto(t); modalTesto('Tesoro nascosto', `Complicazione (${x.c}): ${x.complicazione.testo} Oro trovato: ${x.oro} p.o. (vedi Bottino).`); }, 'item-btn'),
+        btn('Indizio', () => { close(); G.concludiPerquisizione(t, res); scegliEroe('Chi trova l’indizio?', e => G.aggiungiIndizio(e)); }, 'item-btn'));
+    } else b.append(h('div', { class: 'row end' }, btn(res.v === 1 ? 'Arrivano i mostri erranti!' : 'Ok', chiudi, 'primary')));
+  });
+  mostra();
 }
-
 function scegliEroe(titolo, fn, filtro = e => e.stato !== 'morto') {
   modal(titolo, (b, close) => {
     S.party.eroi.filter(filtro).forEach(e => b.append(h('button', { class: 'item-btn', onclick: () => { close(); fn(e); } }, h('b', {}, e.nome), h('span', {}, `${nomeClasse(e)} liv. ${e.livello}`))));
