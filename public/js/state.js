@@ -36,7 +36,7 @@ export function emit() { listeners.forEach(f => f()); }
 
 /** Salva (con piccolo ritardo) i file modificati. */
 export function salva(...quali) {
-  if (!S.camp) return;
+  if (!S.camp || S.ospite) return;   // l'ospite di una partita cooperativa non salva nulla: lo stato è dell'ospitante
   const files = quali.length ? quali : ['party', 'avventura'];
   for (const f of files) {
     clearTimeout(timers[f]);
@@ -50,7 +50,7 @@ export function log(testo) {
   const riga = `[${t}] ${testo}`;
   S.registro = S.registro || [];
   S.registro.push(riga);
-  if (S.camp) api.riga(S.camp, riga).catch(() => {});
+  if (S.camp && !S.ospite) api.riga(S.camp, riga).catch(() => {});
   emit();
 }
 

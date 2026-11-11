@@ -121,7 +121,7 @@ export function modDifesa(e, ctx = {}) {
   return { tot: parti.reduce((a, p) => a + p[1], 0), parti };
 }
 
-export const gruppoHaLanterna = () => eroiVivi().some(e => e.lanterna && e.stato === 'ok');
+export const gruppoHaLanterna = () => !(S.adv?.incontro?.buio && S.adv.incontro.stato !== 'finito') && eroiVivi().some(e => e.lanterna && e.stato === 'ok');
 export const haNano = () => eroiVivi().some(e => e.classe === 'nano');
 
 /** Tesoro da trasportare: oro massimo 200 ecc. (solo avviso) */

@@ -59,3 +59,16 @@ inghiottimento del cubo, malattia della melma verde, tagliola degli schiavisti, 
 
 I dati in `data/rules/` riportano le tabelle del manuale: in caso di dubbio **fa fede il libro**.
 Segnala le differenze aprendo una issue.
+
+
+## Poteri dei mostri avanzati (automatizzati)
+- **Nani posseduti:** per ogni nano ucciso 1d6, con 3+ attacca ancora al turno dei mostri e poi resta morto.
+- **Doppelganger:** imita un eroe a caso; a ogni turno gli altri salvano (L4) o non attaccano; attacca solo l'imitato e, se questi muore, fugge.
+- **Manto predatore:** 2 su 1d6 (4 con un furfante) di individuarlo; altrimenti tutti schivano a 3+ (−1 armatura pesante, +1 elfi e furfanti): chi fallisce non attacca e perde 1 PV a ogni difesa.
+- **Spettro:** 2 su 1d6 le lanterne si spengono; ogni ferita richiede un salvezza L4 o si perde un livello; ferito solo da armi magiche/d'argento, incantesimi o colpi da 2+ PV.
+- **Troll / grosso troll:** rigenerazione (5-6 su 1d6 per ogni troll ucciso; 1 PV a turno il boss), impedita da Palla di Fuoco o dal cadavere fatto a pezzi; −1 ai colpi contundenti sul grosso troll.
+- **Demone scheletrico:** ogni PV inflitto genera uno scheletro corazzato (LIV 4), da affrontare dopo il demone (semplificazione dell'arrivo immediato).
+- **Gremlin del caos:** a fine turno 1 punto sfortuna a testa: il 6 non esplode e toglie 1 punto; la Benedizione li azzera.
+- **Manticora nera:** 2 attacchi sullo stesso bersaglio (artigli 1 PV, morso 2 PV, pungiglione 1 PV + veleno L6 o morte); si può attaccare la coda (LIV 6).
+- **Mutante tentacolato:** un 1 naturale in attacco o difesa fa afferrare un oggetto, inutilizzabile fino a fine incontro.
+- **Leader dei seguaci del caos:** tirato all'incontro e affrontato come boss dopo il gruppo (semplificazione).

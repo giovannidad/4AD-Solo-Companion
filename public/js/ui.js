@@ -3,6 +3,7 @@ import { R, S, log, modificato, eroiVivi, eroiAttivi, eroePerId, ordineMarcia, l
 import { h, modal, toast, confirmBox, scelta } from './util.js';
 import * as K from './caos.js';
 import * as T from './tratti.js';
+import * as Coop from './coop.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
@@ -45,6 +46,9 @@ export function renderDungeon(box) {
     box.append(h('div', { class: 'card pending' },
       h('h3', {}, `Stanza ${pend.n} da posizionare`),
       h('img', { class: 'thumb', src: pend.src, alt: `Tessera ${pend.n}` }),
+      (() => { const ai = table.assistInfo(pend.id); return ai ? h('div', { class: 'row wrap' },
+        btn('‹', () => table.assistNext(-1), 'mini', { title: 'Posizione precedente' }), h('b', {}, `Posizione assistita ${ai.k + 1}/${ai.n}`), btn('›', () => table.assistNext(1), 'mini', { title: 'Posizione successiva' }),
+        h('small', { class: 'hint' }, 'Porta contro porta. Clicca una freccia sulla mappa per usare un’altra uscita.')) : null; })(),
       h('p', { class: 'hint' }, 'Trascina la tessera sul foglio, fai combaciare una porta con la stanza precedente. Puoi ruotarla, specchiarla e allungare i corridoi.'),
       h('div', { class: 'row wrap' },
         btn('⟲', () => { table.selectTile(pend.id); table.rotateSelected(-1); }, 'mini', { title: 'Ruota a sinistra' }),
@@ -201,7 +205,11 @@ export function renderIncontro(box) {
 const speso = e => !!inc0()?.agito?.[e.id];
 const inc0 = () => S.adv?.incontro;
 const avviso = e => toast(`${e.nome} ha terminato gli attacchi per questo turno.`, 'warn');
-const azione = (e, txt, fn, cls = '', extra = {}) => btn(txt, async ev => { if (speso(e)) return avviso(e); await fn(ev); }, `${cls}${speso(e) ? ' spent' : ''}`.trim(), extra);
+const azione = (e, txt, fn, cls = '', extra = {}, cmd = null) => btn(txt, async ev => {
+  if (speso(e)) return avviso(e);
+  if (Coop.sonoOspite()) { if (cmd) await Coop.comando({ ...cmd(), eroeId: e.id }); return; }   // l'ospite chiede, l'ospitante esegue
+  await fn(ev);
+}, `${cls}${speso(e) ? ' spent' : ''} ok-ospite`.trim(), { ...extra, ...(Coop.sonoOspite() && !Coop.eMio(e.id) ? { disabled: true, title: 'Non è il tuo eroe' } : {}) });
 
 function renderCombattimento(box, i) {
   const gruppo = ordineMarcia().filter(e => e.stato === 'ok');
@@ -221,8 +229,9 @@ function renderCombattimento(box, i) {
     const rowEl = h('div', { class: `actor ${i.agito?.[e.id] ? 'done' : ''}` },
       h('div', { class: 'ahead' }, h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} ${e.livello} · ${e.pv}/${e.pvMax} PV`), h('span', { class: 'mod', title: m.parti.map(p => `${p[0]} ${p[1] > 0 ? '+' : ''}${p[1]}`).join('\n') || 'Nessun modificatore' }, `ATT ${m.tot >= 0 ? '+' : ''}${m.tot}`)),
       h('div', { class: 'arow' },
-        fronte ? [armiSel, fur, azione(e, 'Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary')] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
-        e.classe === 'assassino' && fronte ? azione(e, 'Marchia', () => C.marchia(e), 'accent') : null,
+        fronte ? [armiSel, fur, azione(e, 'Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary', {}, () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; return { tipo: 'attacca', armaId: ui.arma[e.id], furioso }; })] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
+        i.id === 'c-manticora' && !i.codaFerita && fronte ? azione(e, 'Attacca la coda', () => C.attacca(e, { coda: true }), 'accent', {}, () => ({ tipo: 'attacca', coda: true })) : null,
+        e.classe === 'assassino' && fronte ? azione(e, 'Marchia', () => C.marchia(e), 'accent', {}, () => ({ tipo: 'marchia' })) : null,
         ...azioniMagiche(e, pronti)));
     eroiBox.append(rowEl);
   });
@@ -253,17 +262,17 @@ function azioniMagiche(e, pronti) {
   const bersagli = h('select', { onchange: ev => { ui.bersaglio[e.id] = ev.target.value; } }, S.party.eroi.filter(x => x.stato !== 'morto' || true).map(x => h('option', { value: x.id, selected: x.id === ts }, x.nome)));
   if (pronti.length) {
     const sel = h('select', { onchange: ev => { ui.spell[e.id] = ev.target.value; } }, pronti.map(s => h('option', { value: s.idx2, selected: String(ui.spell[e.id]) === String(s.idx2) }, s.nome)));
-    out.push(sel, bersagli, azione(e, 'Lancia', () => C.lancia(e, +(sel.value), { bersaglioId: bersagli.value })));
+    out.push(sel, bersagli, azione(e, 'Lancia', () => C.lancia(e, +(sel.value), { bersaglioId: bersagli.value }), '', {}, () => ({ tipo: 'lancia', idx: +(sel.value), bersaglioId: bersagli.value })));
   }
-  (e.oggetti || []).filter(o => o.incantesimo && o.cariche > 0).forEach(o => {
+  (e.oggetti || []).filter(o => o.incantesimo && o.cariche > 0 && !o.afferrato).forEach(o => {
     if (o.solo && !o.solo.includes(e.classe)) return;
     if (o.tipo === 'pergamena' && e.classe === 'barbaro') return;
-    out.push(azione(e, `${o.incantesimo} da ${o.nome.replace(/^Pergamena: /, 'pergamena')} (${o.cariche})`, () => C.lancia(e, -1, { bersaglioId: bersagli.value, oggetto: o, daPergamena: o.tipo === 'pergamena' }), 'accent'));
+    out.push(azione(e, `${o.incantesimo} da ${o.nome.replace(/^Pergamena: /, 'pergamena')} (${o.cariche})`, () => C.lancia(e, -1, { bersaglioId: bersagli.value, oggetto: o, daPergamena: o.tipo === 'pergamena' }), 'accent', {}, () => ({ tipo: 'lancia', og: e.oggetti.indexOf(o), bersaglioId: bersagli.value })));
   });
   if (e.classe === 'chierico') {
     const bers = h('select', {}, S.party.eroi.filter(x => x.stato !== 'morto').map(x => h('option', { value: x.id }, x.nome)));
-    out.push(bers, azione(e, `Cura (${3 - (e.usi.guarigione || 0)})`, () => C.guarisci(e, eroePerId(bers.value)), '', { disabled: (e.usi.guarigione || 0) >= 3 }),
-      azione(e, `Benedizione (${3 - (e.usi.benedizione || 0)})`, () => C.usaBenedizione(e, eroePerId(bers.value)), '', { disabled: (e.usi.benedizione || 0) >= 3 }));
+    out.push(bers, azione(e, `Cura (${3 - (e.usi.guarigione || 0)})`, () => C.guarisci(e, eroePerId(bers.value)), '', { disabled: (e.usi.guarigione || 0) >= 3 }, () => ({ tipo: 'cura', bersaglioId: bers.value })),
+      azione(e, `Benedizione (${3 - (e.usi.benedizione || 0)})`, () => C.usaBenedizione(e, eroePerId(bers.value)), '', { disabled: (e.usi.benedizione || 0) >= 3 }, () => ({ tipo: 'benedizione', bersaglioId: bers.value })));
   }
   return out;
 }

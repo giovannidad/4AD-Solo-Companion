@@ -10,6 +10,8 @@ let selectedId = null, tileCb = () => {}, selectCb = () => {};
 let drag = null, raf = 0, paperPattern = null;
 let tokens = [], tokenCb = () => {}, dblCb = () => {};
 export const onTokenMove = cb => { tokenCb = cb; };
+/** Permessi dell'ospite di una partita cooperativa: non sposta le stanze e muove solo i propri segnalini. */
+export const permessi = { tessere: true, token: () => true };
 export const onTileDouble = cb => { dblCb = cb; };
 
 export const onTileChange = cb => { tileCb = cb; };
@@ -32,8 +34,9 @@ function align(d) {
   return { ...g, fx, fy };
 }
 /** Opzioni del foglio: snap to grid (le linee della stanza coincidono con i quadretti del foglio). */
-export const opzioni = { snap: true };
-try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; } catch { /* predefinito */ }
+export const opzioni = { snap: true, assist: true };
+try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; const a = localStorage.getItem('fad-assist'); if (a !== null) opzioni.assist = a === '1'; } catch { /* predefinito */ }
+export function setAssist(on) { opzioni.assist = !!on; try { localStorage.setItem('fad-assist', on ? '1' : '0'); } catch { /* ok */ } }
 export function setSnap(on) { opzioni.snap = !!on; try { localStorage.setItem('fad-snap', on ? '1' : '0'); } catch { /* ok */ } }
 let snapTemp = true;   // false mentre si tiene premuto Alt: spostamento libero
 /** Con lo snap attivo il centro viene spostato in modo che la griglia disegnata sulla stanza cada sui quadretti del foglio. */
@@ -205,6 +208,7 @@ function frame(now) {
   const pencils = [];
   const list = [...tiles.values()].sort((a, b) => (a.d.pending ? 1 : 0) - (b.d.pending ? 1 : 0));
   for (const e of list) drawTile(e, now, pencils);
+  drawUscite();
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   const mov = stepTokens(); drawTokens(now);
   pencils.forEach(p => drawPencil(p[0], p[1], now));
@@ -277,6 +281,7 @@ function libera(d, altre) {
 }
 /** Mette la stanza accanto a quella di riferimento (sopra, a sinistra, a destra, sotto) o nel primo spazio libero. */
 export function autoPlace(d, ref, altre) {
+  if (opzioni.assist && !d.pendingManuale && assistStart(d, ref)) return true;
   const { dw, dh } = dims(d);
   const cand = [];
   if (ref) {
@@ -329,9 +334,11 @@ function onDown(ev) {
   if (ev.button > 1) return;
   const [px, py] = pos(ev), [wx, wy] = toWorld(px, py);
   canvas.setPointerCapture(ev.pointerId); canvas.focus();
-  const tk = ev.button === 0 ? tokenAt(px, py) : null;
+  if (ev.button === 0 && assistClick(wx, wy)) return;
+  let tk = ev.button === 0 ? tokenAt(px, py) : null;
+  if (tk && !permessi.token(tk.id)) tk = null;
   if (tk) { drag = { kind: 'token', token: tk }; invalidate(); return; }
-  const e = ev.button === 0 ? hit(wx, wy) : null;
+  const e = ev.button === 0 && permessi.tessere ? hit(wx, wy) : null;
   if (e) { selectTile(e.d.id); drag = { kind: 'tile', e, dx: e.d.x - wx, dy: e.d.z - wy, moved: false }; }
   else { if (ev.button === 0) selectTile(null); drag = { kind: 'pan', px, py, vx: view.x, vy: view.y }; }
 }
@@ -380,4 +387,105 @@ export function initMap(el) {
   canvas.addEventListener('dblclick', ev => { const [px, py] = pos(ev), e = hit(...toWorld(px, py)); if (e && !e.d.pending) dblCb(e.d.id); else setView('fit'); });
   window.addEventListener('keydown', onKey);
   new ResizeObserver(resize).observe(host); resize();
+}
+
+
+// =============================================================
+//  USCITE DELLE STANZE E POSIZIONAMENTO ASSISTITO
+//  Ogni tessera vettoriale conosce le sue porte (data/rules/tiles.json: `celle`, `porte` in quadretti dal pavimento).
+//  Una nuova stanza si appoggia a una porta libera della stanza di partenza: porta contro porta, nel verso opposto.
+// =============================================================
+let TDATA = null;
+export function setTileData(t) { TDATA = t; }
+const metaDi = d => TDATA?.[d.tipo === 'ingresso' ? 'ingressi' : 'tiles']?.[d.n];
+const SENO = [0, 1, 0, -1], COSENO = [1, 0, -1, 0];
+/** Trasformazione locale → foglio di una tessera (rotazione, specchio, centro). */
+function trasf(d) {
+  const s = d.scale || 1, bw = d.w / d.cx, bh = d.h / d.cy, r = ((d.rot || 0) % 4 + 4) % 4, c = COSENO[r], sn = SENO[r];
+  return {
+    pt: (lx, ly) => { let x = (lx - bw / 2) * s; const y = (ly - bh / 2) * s; if (d.flip) x = -x; return [d.x + x * c - y * sn, d.z + x * sn + y * c]; },
+    vec: (nx, ny) => { if (d.flip) nx = -nx; return [nx * c - ny * sn, nx * sn + ny * c]; }
+  };
+}
+/** Le uscite (porte) di una tessera in coordinate del foglio, con la normale che punta fuori dal pavimento. */
+export function exitsOf(d) {
+  const m = metaDi(d); if (!m?.porte?.length) return [];
+  const pad = m.ox / m.cx, celle = new Set(m.celle.map(c => c[0] + ',' + c[1])), T = trasf(d);
+  return m.porte.map(([o, i, j], k) => {
+    let lx, ly, n;
+    if (o === 'h') { lx = pad + i + 0.5; ly = pad + j; n = [0, celle.has(i + ',' + j) ? -1 : 1]; }
+    else { lx = pad + i; ly = pad + j + 0.5; n = [celle.has(i + ',' + j) ? -1 : 1, 0]; }
+    const [x, y] = T.pt(lx, ly), [nx, ny] = T.vec(n[0], n[1]);
+    return { tile: d, k, x, y, nx: Math.round(nx), ny: Math.round(ny) };
+  });
+}
+/** Quadretti occupati dal pavimento, come chiavi "i,j" del reticolo del foglio. */
+function cellsWorld(d) {
+  const m = metaDi(d); if (!m?.celle) return [];
+  const pad = m.ox / m.cx, T = trasf(d);
+  return m.celle.map(([i, j]) => { const [x, y] = T.pt(pad + i + 0.5, pad + j + 0.5); return Math.round(x - 0.5) + ',' + Math.round(y - 0.5); });
+}
+const stesse = (a, b) => Math.abs(a.x - b.x) < 0.25 && Math.abs(a.y - b.y) < 0.25 && a.nx === -b.nx && a.ny === -b.ny;
+/** Uscite non ancora collegate a un'altra stanza. */
+export function freeExits(soloTile) {
+  const piazzate = [...tiles.values()].filter(e => !e.d.pending).map(e => e.d);
+  const tutte = piazzate.flatMap(exitsOf);
+  const lista = soloTile ? tutte.filter(x => x.tile.id === soloTile.id) : tutte;
+  return lista.filter(x => !tutte.some(y => y.tile.id !== x.tile.id && stesse(x, y)));
+}
+
+const assist = { id: null, cand: [], k: 0, refs: [], refSel: -1 };
+function candidati(d, refs) {
+  const m = metaDi(d); if (!m?.porte?.length || !refs.length) return [];
+  const occ = new Set();
+  [...tiles.values()].filter(e => e.d.id !== d.id && !e.d.pending).forEach(e => cellsWorld(e.d).forEach(k => occ.add(k)));
+  const out = [], visti = new Set();
+  for (const flip of [false, true]) for (let rot = 0; rot < 4; rot++) {
+    const t = { ...d, scale: 1, rot, flip, x: 0, z: 0 };
+    for (const er of refs) for (const en of exitsOf(t)) {
+      if (en.nx !== -er.nx || en.ny !== -er.ny) continue;
+      const x = er.x - en.x, z = er.y - en.y, key = `${rot}${flip}${x.toFixed(2)}${z.toFixed(2)}`;
+      if (visti.has(key)) continue; visti.add(key);
+      if (cellsWorld({ ...t, x, z }).some(c => occ.has(c))) continue;
+      out.push({ rot, flip, x, z, er });
+    }
+  }
+  return out;
+}
+function applicaPos(d, c) { Object.assign(d, { rot: c.rot, flip: c.flip, scale: 1, x: c.x, z: c.z }); }
+/** Posiziona d accanto a una porta libera di ref (o di una qualsiasi stanza). Restituisce true se ha trovato un posto. */
+export function assistStart(d, ref) {
+  if (!metaDi(d)?.porte?.length) return false;
+  let refs = ref ? freeExits(tiles.get(ref.id)?.d) : [];
+  let cand = candidati(d, refs);
+  if (!cand.length) { refs = freeExits(); cand = candidati(d, refs); }
+  if (!cand.length) { assist.id = null; return false; }
+  Object.assign(assist, { id: d.id, cand, k: 0, refs, refSel: -1 });
+  applicaPos(d, cand[0]); invalidate(); return true;
+}
+export function assistInfo(id) { return assist.id && assist.id === id ? { k: assist.k, n: assist.cand.length, refSel: assist.refSel } : null; }
+export function assistNext(dir = 1) {
+  const e = tiles.get(assist.id); if (!e || !assist.cand.length) return;
+  assist.k = (assist.k + dir + assist.cand.length) % assist.cand.length;
+  applicaPos(e.d, assist.cand[assist.k]); tileCb(e.d, 'edit'); selectCb(e.d); invalidate();
+}
+function assistClick(wx, wy) {
+  const e = tiles.get(assist.id); if (!e || !e.d.pending) return false;
+  const hitIdx = assist.refs.findIndex(r => Math.hypot(r.x - wx, r.y - wy) < 0.6);
+  if (hitIdx < 0) return false;
+  const r = assist.refs[hitIdx], cand = candidati(e.d, [r]);
+  if (!cand.length) { return true; }
+  assist.cand = cand; assist.k = 0; assist.refSel = hitIdx; applicaPos(e.d, cand[0]); tileCb(e.d, 'edit'); selectCb(e.d); invalidate(); return true;
+}
+function drawUscite() {
+  const e = tiles.get(assist.id); if (!e || !e.d.pending) return;
+  const z = view.zoom, sel = assist.cand[assist.k]?.er;
+  for (const r of assist.refs) {
+    const [sx, sy] = toScreen(r.x, r.y), on = sel && Math.abs(sel.x - r.x) < 0.01 && Math.abs(sel.y - r.y) < 0.01;
+    ctx.save(); ctx.translate(sx, sy); ctx.rotate(Math.atan2(r.ny, r.nx));
+    ctx.fillStyle = on ? '#2fa84f' : '#e08a14'; ctx.strokeStyle = '#1b1208'; ctx.lineWidth = 1.5;
+    const a = z * (on ? 0.5 : 0.4);
+    ctx.beginPath(); ctx.moveTo(a * 0.9, 0); ctx.lineTo(-a * 0.2, -a * 0.6); ctx.lineTo(-a * 0.2, a * 0.6); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
 }

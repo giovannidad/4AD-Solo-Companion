@@ -16,6 +16,9 @@ async function fisici(n, colori) {
   catch (e) { console.error('dadi 3D', e); return Array.from({ length: n }, d6); }
 }
 
+/** Un tiro fatto dall'ospitante, mostrato sul registro dei dadi degli ospiti. */
+export function iniettaTiro(rec) { storico.unshift(rec); if (storico.length > 60) storico.pop(); ascoltatori.forEach(f => f(rec)); }
+
 function registra(rec) {
   storico.unshift(rec); if (storico.length > 60) storico.pop();
   ascoltatori.forEach(f => f(rec));

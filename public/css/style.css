@@ -187,3 +187,18 @@ button.spent { opacity: .45; filter: grayscale(.6); }
 .swatch.on { outline: 2px solid var(--amber); outline-offset: 2px; }
 .swatch.custom { background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red); border-color: #555; font-size: 10px; color: #fff; text-shadow: 0 0 3px #000; cursor: pointer; }
 .swatch.custom input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+
+/* modalità cooperativa */
+.coop-badge { background: #2c4a35; border-color: #4f9a6a; color: #cdeed6; font-size: 12.5px; }
+.codice { font-family: ui-monospace, Menlo, monospace; font-size: 18px; letter-spacing: 2px; color: var(--amber); }
+.chat-dock { position: fixed; right: 12px; bottom: 12px; width: 280px; z-index: 40; background: #1d1812; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 4px 18px #000a; }
+.chat-head { padding: 7px 10px; cursor: pointer; font-family: var(--serif); color: var(--amber); }
+.chat-dock.nuovo .chat-head::after { content: ' ●'; color: #e05a4a; }
+.chat-dock.min .chat-log, .chat-dock.min .chat-in { display: none; }
+.chat-log { max-height: 180px; overflow-y: auto; padding: 4px 10px; font-size: 13px; }
+.chat-row b { color: var(--amber); }
+.chat-in { display: flex; gap: 4px; padding: 6px; } .chat-in input { flex: 1; min-width: 0; }
+/* l'ospite vede la partita ma comanda solo i propri eroi: tutto il resto dei pulsanti resta nascosto */
+body.ospite #panel button:not(.ok-ospite), body.ospite #partyBox button, body.ospite #campSel, body.ospite #campNew, body.ospite #campDel,
+body.ospite label:has(#campSel), body.ospite #tileTools, body.ospite #tabs [data-tab=strumenti], body.ospite #impostazioni + #campNew { display: none !important; }
+body.ospite #panel::before { content: 'Sei ospite: guidi i tuoi eroi, il resto lo gestisce l’ospitante.'; display: block; font-size: 12.5px; color: var(--mute); margin-bottom: 8px; }

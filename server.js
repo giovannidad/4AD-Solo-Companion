@@ -3,6 +3,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const coop = require('./coop');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -104,12 +105,36 @@ async function api(req, res, parts) {
   return send(res, 404, { error: 'endpoint sconosciuto' });
 }
 
+// ---- ascolto sulla rete locale (solo per la modalità cooperativa) ----
+// Il server principale resta su 127.0.0.1. Quando si ospita una partita se ne apre un secondo, su tutte le interfacce,
+// che serve soltanto i file statici del gioco e le richieste /api/coop (mai le campagne salvate).
+let lan = null;
+function apriLan() {
+  if (lan) return Promise.resolve({ porta: lan.address().port });
+  return new Promise((resolve, reject) => {
+    const srv = http.createServer(async (req, res) => {
+      try {
+        const url = new URL(req.url, 'http://localhost');
+        const pathname = decodeURIComponent(url.pathname);
+        const parts = pathname.split('/').filter(Boolean);
+        if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url)) return; return send(res, 404, { error: 'non disponibile' }); }
+        if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'));
+        if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'));
+        return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1));
+      } catch (e) { send(res, 500, { error: String(e.message || e) }); }
+    });
+    let porta = Number(process.env.FAD_COOP_PORT) || 3001;
+    srv.on('error', e => { if (e.code === 'EADDRINUSE' && porta) { porta = 0; srv.listen(porta, '0.0.0.0'); } else reject(e); });
+    srv.listen(porta, '0.0.0.0', () => { lan = srv; resolve({ porta: srv.address().port }); });
+  });
+}
+
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
     const pathname = decodeURIComponent(url.pathname);
     const parts = pathname.split('/').filter(Boolean);
-    if (parts[0] === 'api') return await api(req, res, parts);
+    if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url, { apriLan })) return; return await api(req, res, parts); }
     if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'));
     if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'));
     return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1));

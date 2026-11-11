@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.0
+- **Poteri dei mostri avanzati automatici:** nani posseduti (si rialzano), doppelganger (smarrimento e imitazione), manto predatore (caduta, avvolti),
+  spettro (lanterne, risucchio, solo armi magiche), grosso troll e troll (rigenerazione, fuoco, a pezzi), demone scheletrico (scheletri dal sangue),
+  gremlin del caos (sfortuna), manticora (artigli/morso/pungiglione e coda), mutante tentacolato (oggetti afferrati), leader dei seguaci del caos.
+- **Posizionamento assistito:** le tessere conoscono le loro uscite (porte e bracci aperti); la nuova stanza si appoggia a una porta libera,
+  porta contro porta, con frecce per scegliere l'uscita e pulsanti per le posizioni alternative (opzione in Impostazioni).
+- **Modalità cooperativa online** (vedi `docs/COOPERATIVA.md`): un giocatore ospita, gli altri guidano i propri eroi dal browser; chat inclusa.
+- **Gruppo casuale:** classi estratte a caso e nomi sempre diversi nel gruppo (anche creando o rinominando gli eroi).
+
 ## 1.6.0
 - **Tessere vettoriali** ricavate dal manuale: le 36 stanze e i 6 ingressi sono SVG, si adattano alla dimensione e alla griglia del foglio.
 - **Snap to grid** opzionale (Impostazioni); Alt mentre trascini per spostare liberamente. Le stanze si affiancano a pavimento contro pavimento.

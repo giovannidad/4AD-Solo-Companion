@@ -7,6 +7,7 @@ import * as table from './map2d.js';
 import * as dice from './dice.js';
 import { renderGruppo } from './party.js';
 import { apriImpostazioni } from './impostazioni.js';
+import * as Coop from './coop.js';
 import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro } from './ui.js';
 
 let tab = 'dungeon';
@@ -44,7 +45,7 @@ function aggiornaSegnalini() {
 let pronto = false;
 function programma() { if (pronto) return; pronto = true; requestAnimationFrame(() => { pronto = false; disegna(); }); }
 
-function apriTab(t) { tab = t; disegna(); }
+function apriTab(t) { if (Coop.sonoOspite() && t === 'strumenti') t = 'incontro'; tab = t; disegna(); }
 
 // ---------------- barra strumenti tessera ----------------
 function disegnaStrumentiTessera(t) {
@@ -66,9 +67,10 @@ function inizializzaDadi() {
   $('#diceBar').addEventListener('click', async ev => {
     const b = ev.target.closest('button[data-d]'); if (!b) return;
     const d = b.dataset.d;
+    if (Coop.sonoOspite()) { Coop.comando({ tipo: 'tira', expr: d === 'd66' ? '1d6' : d }); return; }
     if (d === 'd66') await dice.d66('Tiro libero d66'); else await dice.tira(d, `Tiro libero ${d}`);
   });
-  const go = async () => { const v = $('#diceExpr').value.trim(); if (!v) return; try { await dice.tira(v, `Tiro libero ${v}`); } catch (e) { toast(e.message, 'warn'); } };
+  const go = async () => { const v = $('#diceExpr').value.trim(); if (!v) return; if (Coop.sonoOspite()) { Coop.comando({ tipo: 'tira', expr: v }); return; } try { await dice.tira(v, `Tiro libero ${v}`); } catch (e) { toast(e.message, 'warn'); } };
   $('#diceGo').onclick = go; $('#diceExpr').onkeydown = e => { if (e.key === 'Enter') go(); };
   $('#dicePhys').onchange = e => { dice.settings.fisici = e.target.checked; };
   dice.onRoll(r => {
@@ -105,15 +107,17 @@ async function selezionaCampagna(id) {
 async function avvia() {
   try {
     await caricaRegole();
-    table.initMap($('#mapView'));
+    table.initMap($('#mapView')); table.setTileData(R.tiles);
     if (!LEGGERA) { dadi3d.initTable($('#diceLayer')); dice.tableIsReady(); }
     table.onTileChange(() => modificato('avventura'));
     table.onTileSelect(t => disegnaStrumentiTessera(t));
     table.onTokenMove((id, tileId) => {
+      if (Coop.sonoOspite()) { Coop.comando({ tipo: 'sposta', eroeId: id, tileId }); return; }
       const e = eroePerId(id), t = tileById(tileId); if (!e || !t) return;
       e.posizione = tileId; log(`${e.nome} si sposta nella ${t.nome.toLowerCase()}.`); modificato('party');
     });
     table.onTileDouble(tileId => {
+      if (Coop.sonoOspite()) return;
       const a = S.adv; if (!a.attiva || a.stanzaCorrente === tileId) return;
       muoviGruppo(a.stanzaCorrente, tileId); a.stanzaCorrente = tileId;
       log(`Il gruppo si sposta nella ${tileById(tileId)?.nome.toLowerCase()}.`); modificato();
@@ -122,6 +126,7 @@ async function avvia() {
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
   $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });
+  $('#coopBtn').onclick = () => Coop.apriCoop();
   $('#qualita').value = QUALITA;
   $('#qualita').onchange = e => { localStorage.setItem('fad-qualita', e.target.value); location.reload(); };
   if (LEGGERA) { $('#dicePhys').checked = false; $('#dicePhys').disabled = true; $('#diceLayer').remove(); }
@@ -131,6 +136,15 @@ async function avvia() {
   inizializzaDadi();
   onChange(programma);
 
+  // partita cooperativa come ospite: niente campagne locali, lo stato arriva dall'ospitante
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('coop')) {
+    table.permessi.tessere = false; table.permessi.token = id => Coop.eMio(id);
+    S.party = { eroi: [], ordine: [] }; S.adv = { tessere: [], attiva: false }; S.registro = [];
+    try { await Coop.unisciti(qs.get('coop'), qs.get('nome') || localStorage.getItem('fad-nome') || 'Ospite'); }
+    catch (e) { toast(e.message, 'warn'); setTimeout(() => { location.href = location.pathname; }, 2500); }
+    return;
+  }
   let lista = await caricaElencoCampagne();
   if (!lista.length) { const c = await nuovaCampagna() || await api.creaCampagna('Campagna'); lista = await caricaElencoCampagne(c.id); }
   const salvata = localStorage.getItem('4ad-campagna');

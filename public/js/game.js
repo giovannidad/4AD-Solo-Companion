@@ -136,9 +136,23 @@ export async function monstroDa(nomeTab, opzioni = {}) {
   const inc = creaIncontro(nomeTab, { ...voce, nome }, quantita + (inc_minore(nomeTab) ? diff : 0), { ...opzioni, pvExtra: diff });
   if (voce.id === 'ratti-scheletrici') inc.contundentePiu = true;
   Object.assign(inc, extra);
+  if (voce.leader && inc_minore(nomeTab)) inc.leaderInc = await leaderDi(voce, inc);
   return inc;
 }
 
+/** Leader dei seguaci del caos: tira se è presente e lo crea come mostro maggiore che si affronta dopo il gruppo. */
+async function leaderDi(voce, inc) {
+  const x = await dado(`${voce.nome}: c'è un leader? (1-${voce.leaderProb || 1} su 1d6)`);
+  if (x.totale > (voce.leaderProb || 1)) return null;
+  const m = /^(.*?)\s*\((.*)\)\s*$/.exec(voce.leader); if (!m) return null;
+  const val = async (txt, label) => (/d/.test(txt) ? (await tira(txt, label)).totale : +txt);
+  const get = k => { const r = new RegExp(k + '\\s+([0-9d+]+)', 'i').exec(m[2]); return r ? r[1] : null; };
+  const nome = m[1], liv = await val(get('LIV') || '5', `Livello: ${nome}`), pv = await val(get('PV') || '3', `PV: ${nome}`), att = +(get('ATT') || 1);
+  const mor = /MOR \+1/i.test(voce.note || '') ? 1 : 0;
+  const l = creaIncontro('boss', { id: voce.id + '-leader', nome, liv, att, pv, tag: [...(voce.tag || [])], mor, tes: /TES \+1/i.test(voce.leader) ? 1 : 0, xp: true, reazioni: [[1, 6, 'combatte-sempre']] }, 1);
+  log(`${voce.nome}: ${nome} è il leader (LIV ${liv}, ATT ${att}, PV ${pv}); si affronta dopo il gruppo.`);
+  return l;
+}
 const inc_minore = t => ['infestanti', 'seguaci'].includes(t);
 
 /** Mostro fisso del supplemento (signore del caos, carnefice, mostro del vuoto…). */

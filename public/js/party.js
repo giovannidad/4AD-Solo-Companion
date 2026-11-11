@@ -6,6 +6,20 @@ import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaL
 import { tiroES, eroePuoSalire } from './game.js';
 import * as T from './tratti.js';
 
+/** Nome non ancora usato nel gruppo (eventualmente con un numero romano), ignorando l'eroe `escludiId` e i nomi già scelti in `extra`. */
+const ROMANI = ['', ' II', ' III', ' IV', ' V', ' VI', ' VII', ' VIII', ' IX', ' X'];
+function nomeLibero(base, escludiId = null, extra = []) {
+  const usati = new Set([...S.party.eroi.filter(e => e.id !== escludiId).map(e => e.nome.trim().toLowerCase()), ...extra.map(n => n.toLowerCase())]);
+  const b = (base || 'Senza nome').trim();
+  for (let k = 0; k < ROMANI.length; k++) { const n = b + ROMANI[k]; if (!usati.has(n.toLowerCase())) return n; }
+  return b + ' ' + (usati.size + 1);
+}
+/** Nome casuale scelto tra quelli ancora liberi. */
+function nomeCasuale(extra = []) {
+  const usati = new Set([...S.party.eroi.map(e => e.nome.trim().toLowerCase()), ...extra.map(n => n.toLowerCase())]);
+  const liberi = NOMI.filter(n => !usati.has(n.toLowerCase()));
+  return liberi.length ? liberi[Math.floor(Math.random() * liberi.length)] : nomeLibero(NOMI[Math.floor(Math.random() * NOMI.length)], null, extra);
+}
 const NOMI = ['Bruggo', 'Aldric', 'Thora', 'Kenna', 'Marcus', 'Elowen', 'Dollom', 'Grimli', 'Sera', 'Tobin', 'Vesna', 'Rurik', 'Ilya', 'Fenn', 'Mirela', 'Orsolo', 'Brannoc', 'Zadi', 'Nerys', 'Cael'];
 const ICONE = { arlecchino: '\u{1F3AD}', assassino: '\u{1F5E1}', 'elfo-fuoco': '\u{1F525}', tiratore: '\u{1F3AF}', veterano: '\u{1F396}', barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
 export const iconaClasse = c => ICONE[c] || '✦';
@@ -79,6 +93,8 @@ function schedaCompatta(e, idx) {
   if (e.maledetto) stati.push(h('span', { class: 'tag red' }, 'Maledetto'));
   if (e.zoppo) stati.push(h('span', { class: 'tag red' }, 'Zoppo'));
   if (e.stato === 'pietra') stati.push(h('span', { class: 'tag gray' }, 'Pietrificato'));
+  if (e.sfortuna > 0) stati.push(h('span', { class: 'tag gray', title: 'Il 6 non esplode; una Benedizione la toglie' }, `Sfortuna ${e.sfortuna}`));
+  if (e.avvolto) stati.push(h('span', { class: 'tag gray' }, 'Avvolto dal manto'));
   if (e.stato === 'morto') stati.push(h('span', { class: 'tag dead' }, 'Caduto'));
   if (sovraccarico(e)) stati.push(h('span', { class: 'tag red', title: 'Troppo carico: -1 alla difesa' }, 'Sovraccarico'));
   const arma = armaDi(e.armaPrincipale);
@@ -131,7 +147,7 @@ export async function creaEroe() {
   if (S.party.eroi.filter(e => e.stato !== 'morto').length >= 4) { if (!(await confirmBox('Hai già 4 eroi vivi: ne aggiungi uno extra (es. PNG o sostituto)?'))) return; }
   modal('Nuovo eroe', (b, close) => {
     let classe = 'guerriero';
-    const nome = h('input', { type: 'text', value: NOMI[Math.floor(Math.random() * NOMI.length)], maxlength: 24 });
+    const nome = h('input', { type: 'text', value: nomeCasuale(), maxlength: 24 });
     const grid = h('div', { class: 'class-grid' });
     const info = h('p', { class: 'class-info' });
     const aggiorna = () => {
@@ -143,7 +159,7 @@ export async function creaEroe() {
     b.append(h('label', {}, 'Nome', nome), grid, info,
       h('div', { class: 'row end' }, h('button', { onclick: close }, 'Annulla'),
         h('button', { class: 'primary', onclick: async () => {
-          const e = nuovoEroe(classe, nome.value.trim() || 'Senza nome');
+          const e = nuovoEroe(classe, nomeLibero(nome.value.trim() || 'Senza nome'));
           equipaggiamentoIniziale(e);
           close();
           const r = await tira(R.classi[classe].oro, `Ricchezza iniziale di ${e.nome} (${R.classi[classe].oro})`);
@@ -158,15 +174,20 @@ export async function creaEroe() {
 }
 
 async function creaGruppoVeloce() {
-  const classi = ['guerriero', 'chierico', 'mago', 'furfante'];
+  // 4 classi estratte a caso (senza ripetizioni finché le classi disponibili bastano), nomi tutti diversi
+  const disponibili = Object.entries(R.classi).filter(([, c]) => !c.suppl || S.party.supplCaos).map(([id]) => id);
+  const pesca = [...disponibili].sort(() => Math.random() - 0.5);
+  const classi = [];
+  while (classi.length < 4) { if (!pesca.length) pesca.push(...disponibili.sort(() => Math.random() - 0.5)); classi.push(pesca.shift()); }
+  const nuovi = [];
   for (const c of classi) {
-    const e = nuovoEroe(c, NOMI[Math.floor(Math.random() * NOMI.length)]);
+    const e = nuovoEroe(c, nomeCasuale(nuovi.map(x => x.nome)));
     equipaggiamentoIniziale(e);
     e.oro = (await tira(R.classi[c].oro, `Ricchezza di ${e.nome}`)).totale;
-    S.party.eroi.push(e); S.party.ordine.push(e.id);
+    nuovi.push(e); S.party.eroi.push(e); S.party.ordine.push(e.id);
   }
-  S.party.eroi[0].lanterna = true;
-  log('Gruppo casuale creato: guerriero, chierico, mago e furfante. Ricordati di preparare gli incantesimi del mago.');
+  nuovi[0].lanterna = true;
+  log(`Gruppo casuale creato: ${nuovi.map(e => `${e.nome} (${nomeClasse(e)})`).join(', ')}.${nuovi.some(e => e.classe === 'mago') ? ' Ricordati di preparare gli incantesimi del mago.' : ''}`);
   modificato('party');
 }
 
@@ -180,7 +201,7 @@ export function scheda(id) {
     const chk = (label, key) => h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!e[key], onchange: ev => { e[key] = ev.target.checked; modificato('party'); } }), label);
 
     b.append(h('div', { class: 'grid2' },
-      h('label', {}, 'Nome', h('input', { type: 'text', value: e.nome, onchange: ev => { e.nome = ev.target.value; modificato('party'); } })),
+      h('label', {}, 'Nome', h('input', { type: 'text', value: e.nome, onchange: ev => { const n = nomeLibero(ev.target.value, e.id); if (n !== ev.target.value.trim()) toast(`Esiste già un eroe con quel nome: diventa «${n}».`, 'warn'); e.nome = n; ev.target.value = n; modificato('party'); } })),
       sel('Stato', 'stato', [['ok', 'In forma'], ['pietra', 'Pietrificato'], ['pazzo', 'Pazzo'], ['morto', 'Caduto / morto']]),
       num('Livello', 'livello', { min: 0 }), num('PV massimi', 'pvMax', { min: 1 }), num('PV attuali', 'pv'), num('Pezzi d’oro', 'oro'),
       num('Bonus arma magica', 'bonusMagico', { min: 0 }), num('Bonus difesa magico', 'bonusDifesa', { min: 0 }), num('Indizi (0-2)', 'indizi'), num('Punti follia', 'follia', { min: 0 })),
@@ -233,7 +254,7 @@ export function scheda(id) {
           h('button', { class: 'mini', title: 'Una carica in più', onclick: () => { o.cariche = Math.min(o.caricheMax ?? 99, o.cariche + 1); ro(); modificato('party'); } }, '+'),
           o.manuale ? h('button', { class: 'mini', disabled: o.cariche <= 0, title: 'Usa una carica (registra nel diario)', onclick: () => { o.cariche--; log(`${e.nome} usa ${o.nome} (rimaste: ${o.cariche}).`); ro(); modificato('party'); } }, 'Usa') : null
         ] : [];
-        og.append(h('div', { class: 'row', title: o.nota || '' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}${o.valore ? ` (${o.valore} p.o.)` : ''}`), ...car, h('button', { class: 'mini', onclick: () => { e.oggetti.splice(k, 1); ro(); modificato('party'); } }, '×')));
+        og.append(h('div', { class: 'row', title: o.nota || '' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}${o.valore ? ` (${o.valore} p.o.)` : ''}${o.afferrato ? ' — afferrato (non usabile)' : ''}`), ...car, h('button', { class: 'mini', onclick: () => { e.oggetti.splice(k, 1); ro(); modificato('party'); } }, '×')));
       });
       if (!e.oggetti?.length) og.append(h('small', {}, 'Nessun oggetto.'));
     };

@@ -12,6 +12,7 @@ export function apriImpostazioni({ leggera } = {}) {
     if (leggera) b.append(h('p', { class: 'warn-box' }, 'La qualità «Leggera» disattiva i dadi 3D: scegli «Alta» in alto per usare queste opzioni.'));
     b.append(h('h4', {}, 'Mappa'));
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.opzioni.snap, onchange: ev => mappa.setSnap(ev.target.checked) }), 'Snap to grid: le stanze si agganciano ai quadretti del foglio (tieni premuto Alt mentre trascini per muoverle liberamente)'));
+    b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.opzioni.assist, onchange: ev => mappa.setAssist(ev.target.checked) }), 'Posizionamento assistito: la nuova stanza si appoggia a una porta libera della precedente (frecce arancioni; clicca una freccia per scegliere un’altra uscita)'));
     b.append(h('h4', {}, 'Dadi'));
     const sw = h('div', { class: 'swatches' });
     const rSw = () => {
