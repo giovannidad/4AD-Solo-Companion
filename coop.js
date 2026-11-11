@@ -9,6 +9,7 @@
 //   POST /api/coop/<codice>/chiudi?t=<token>   (ospitante) chiude la stanza
 const crypto = require('crypto');
 const os = require('os');
+const https = require('https');
 
 const stanze = new Map();                 // codice -> stanza
 const ALFABETO = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -39,6 +40,20 @@ function indirizziLocali() {
   return out;
 }
 
+/** IP pubblico di questa macchina (richiesta a un servizio esterno, senza inviare alcun dato; in cache per 5 minuti). */
+let ipCache = { ip: null, quando: 0 };
+function ipPubblico() {
+  if (ipCache.ip && Date.now() - ipCache.quando < 300000) return Promise.resolve(ipCache.ip);
+  return new Promise(resolve => {
+    const req = https.get('https://api.ipify.org', { timeout: 5000 }, r => {
+      let t = ''; r.on('data', c => { t += c; if (t.length > 100) r.destroy(); });
+      r.on('end', () => { const ip = t.trim(); if (/^[0-9a-fA-F:.]{3,45}$/.test(ip)) ipCache = { ip, quando: Date.now() }; resolve(ipCache.ip); });
+    });
+    req.on('timeout', () => { req.destroy(); resolve(null); });
+    req.on('error', () => resolve(null));
+  });
+}
+
 function chiudiStanza(s, motivo) {
   for (const o of s.ospiti.values()) { sse(o.res, 'chiusa', { motivo }); try { o.res.end(); } catch { /* già chiusa */ } }
   if (s.host.res) { try { s.host.res.end(); } catch { /* già chiusa */ } }
@@ -61,6 +76,10 @@ async function gestisci(req, res, parts, url, opzioni = {}) {
       }, 15000);
       stanze.set(codice, s);
       return json(res, 201, { codice, token: s.host.token, lan, indirizzi: indirizziLocali() }), true;
+    }
+    if (parts[2] === 'ip-pubblico' && req.method === 'GET') {
+      if (!daLocale(req)) return json(res, 403, { error: 'solo da questo computer' }), true;
+      return json(res, 200, { ip: await ipPubblico() }), true;
     }
     const s = stanze.get(String(parts[2] || '').toUpperCase());
     if (!s) return json(res, 404, { error: 'stanza non trovata' }), true;

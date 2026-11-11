@@ -193,11 +193,18 @@ function vistaHost(b, close) {
         h('div', { class: 'chk-row' }, S.party.eroi.filter(e => e.stato !== 'morto').map(e => h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mio.includes(e.id), onchange: ev => assegna(g.nome, e.id, ev.target.checked) }), e.nome)))));
     });
   };
+  fetch('/api/coop/ip-pubblico').then(r => r.json()).then(({ ip }) => {
+    const box = document.getElementById('ipPubblico'); if (!box) return;
+    if (!ip) { box.replaceChildren(h('small', {}, 'IP pubblico non disponibile (nessuna connessione a Internet?).')); return; }
+    const l = `http://${ip.includes(':') ? `[${ip}]` : ip}:${porta}/?coop=${coop.codice}`;
+    box.replaceChildren(h('span', {}, 'IP pubblico: ', h('b', {}, ip)), h('code', { class: 'grow' }, l), h('button', { class: 'mini', onclick: () => navigator.clipboard?.writeText(l).then(() => toast('Link copiato.')) }, 'Copia'));
+  }).catch(() => { const box = document.getElementById('ipPubblico'); box?.replaceChildren(h('small', {}, 'IP pubblico non disponibile.')); });
   disegna();
   const t = setInterval(() => { if (!document.body.contains(lista)) clearInterval(t); else disegna(); }, 1500);
   b.append(h('p', {}, 'Stanza attiva. Codice: ', h('b', { class: 'codice' }, coop.codice)),
     h('p', { class: 'hint' }, 'Rete locale: chi è collegato alla tua stessa Wi-Fi/LAN apre uno di questi indirizzi nel browser:'),
     ...(coop.indirizzi.length ? coop.indirizzi.map(ip => h('div', { class: 'row' }, h('code', { class: 'grow' }, link(ip)), h('button', { class: 'mini', onclick: () => navigator.clipboard?.writeText(link(ip)).then(() => toast('Link copiato.')) }, 'Copia'))) : [h('small', {}, 'Nessuna rete locale rilevata.')]),
+    h('div', { class: 'row', id: 'ipPubblico' }, h('small', {}, 'IP pubblico: ricerca in corso…')),
     h('p', { class: 'hint' }, `Via Internet: apri la porta ${porta} del router verso questo computer oppure usa un tunnel/VPN (per esempio Tailscale o ngrok) e invia agli amici l’indirizzo risultante seguito da /?coop=${coop.codice}. Chi conosce il codice può entrare: non condividerlo con sconosciuti.`),
     h('h4', {}, 'Giocatori e eroi'), lista,
     h('p', { class: 'hint' }, 'Spunta gli eroi che ogni giocatore guida. Gli altri eroi restano a te. I giocatori non possono tirare per i mostri né generare stanze.'),

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.1
+- **Cooperativa:** la scheda mostra l'IP pubblico della macchina che ospita, con il link da condividere (serve l'inoltro della porta sul router o un tunnel).
+
 ## 1.7.0
 - **Poteri dei mostri avanzati automatici:** nani posseduti (si rialzano), doppelganger (smarrimento e imitazione), manto predatore (caduta, avvolti),
   spettro (lanterne, risucchio, solo armi magiche), grosso troll e troll (rigenerazione, fuoco, a pezzi), demone scheletrico (scheletri dal sangue),
