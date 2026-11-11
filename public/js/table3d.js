@@ -14,13 +14,26 @@ const COLORS = {
   oro: { bg: '#d8a823', edge: '#9b7410', pip: '#2a1c04' }
 };
 
-let renderer, scene, camera, world, container, key, walls = {};
+let renderer, scene, camera, world, container, key, floor, walls = {};
 const dice = [];                   // {mesh, body, value}
 const dieMaterials = {};
 let rollChain = Promise.resolve(), rollToken = 0;
 let running = false, idleFrames = 0;
 export const stats = { frames: 0 };      // fotogrammi disegnati (per misurare il carico)
 export const qualita = { ombre: true, dpr: 2 };
+
+// ---- aspetto dei dadi (scelto dall'utente in Impostazioni, salvato nel browser) ----
+export const aspetto = { colore: 'avorio', custom: '#7a3fb0', smussato: true, ombre: true, distingui: false };
+try { Object.assign(aspetto, JSON.parse(localStorage.getItem('fad-dadi') || '{}')); } catch { /* valori predefiniti */ }
+export function setAspetto(p) {
+  Object.assign(aspetto, p);
+  try { localStorage.setItem('fad-dadi', JSON.stringify(aspetto)); } catch { /* ok */ }
+  for (const k of Object.keys(dieMaterials)) { dieMaterials[k].forEach(m => { m.map?.dispose(); m.dispose(); }); delete dieMaterials[k]; }
+  if (!renderer) return;
+  floor.visible = aspetto.ombre; key.castShadow = aspetto.ombre;
+  for (const d of dice) { d.mesh.material = materialsFor(d.colore); d.mesh.geometry = geometriaDado(); d.mesh.castShadow = aspetto.ombre; }
+  if (!running) draw();
+}
 
 // ---------------- inizializzazione ----------------
 export function initTable(el) {
@@ -35,7 +48,8 @@ export function initTable(el) {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(40, 1, 0.5, 200);
   buildLights(); buildPhysics();
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.ShadowMaterial({ opacity: 0.32 }));
+  floor = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.ShadowMaterial({ opacity: 0.32 }));
+  floor.visible = aspetto.ombre; key.castShadow = aspetto.ombre;
   floor.rotation.x = -Math.PI / 2; floor.position.y = 0.02; floor.receiveShadow = true; scene.add(floor);
   new ResizeObserver(resize).observe(container);
   resize();
@@ -132,16 +146,46 @@ function faceTexture(n, col) {
 // ordine facce BoxGeometry: +x -x +y -y +z -z  (somma delle opposte = 7)
 const FACE_VALUES = [3, 4, 1, 6, 2, 5];
 const FACE_AXES = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]].map(a => new THREE.Vector3(...a));
+/** Colore personalizzato: bordo più scuro e punti a contrasto. */
+function coloreCustom(hex) {
+  const c = new THREE.Color(hex), lum = 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
+  return { bg: '#' + c.getHexString(), edge: '#' + c.clone().multiplyScalar(0.6).getHexString(), pip: lum > 0.55 ? '#1a1410' : '#fff4e0' };
+}
 function materialsFor(colorName) {
-  if (!dieMaterials[colorName]) {
-    const col = COLORS[colorName] || COLORS.avorio;
-    dieMaterials[colorName] = FACE_VALUES.map(v => new THREE.MeshStandardMaterial({ map: faceTexture(v, col), roughness: 0.35, metalness: 0.05 }));
+  // i ruoli «avorio» (dado principale) e «rosso» (dado secondario, es. decine del d66) seguono il colore scelto;
+  // il secondario resta rosso solo se l'utente vuole distinguerlo.
+  if (!aspetto.distingui || !colorName) colorName = aspetto.colore;
+  else if (colorName === 'avorio') colorName = aspetto.colore;
+  else if (colorName === 'rosso' && aspetto.colore === 'rosso') colorName = 'avorio';
+  const chiave = colorName === 'custom' ? 'custom' + aspetto.custom : colorName;
+  if (!dieMaterials[chiave]) {
+    const col = colorName === 'custom' ? coloreCustom(aspetto.custom) : (COLORS[colorName] || COLORS.avorio);
+    dieMaterials[chiave] = FACE_VALUES.map(v => new THREE.MeshStandardMaterial({ map: faceTexture(v, col), roughness: 0.35, metalness: 0.05 }));
   }
-  return dieMaterials[colorName];
+  return dieMaterials[chiave];
+}
+/** Cubo con spigoli e angoli arrotondati: ogni vertice del cubo suddiviso viene spinto sulla «scatola interna» + raggio. */
+function cuboSmussato(lato, raggio, seg) {
+  const g = new THREE.BoxGeometry(lato, lato, lato, seg, seg, seg);
+  const pos = g.attributes.position, nor = g.attributes.normal, h = lato / 2 - raggio;
+  const p = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    p.fromBufferAttribute(pos, i);
+    q.set(Math.max(-h, Math.min(h, p.x)), Math.max(-h, Math.min(h, p.y)), Math.max(-h, Math.min(h, p.z)));
+    n.copy(p).sub(q).normalize();
+    p.copy(q).addScaledVector(n, raggio);
+    pos.setXYZ(i, p.x, p.y, p.z); nor.setXYZ(i, n.x, n.y, n.z);
+  }
+  return g;
+}
+const geometrie = {};
+function geometriaDado() {
+  const k = aspetto.smussato ? 'r' : 's';
+  return geometrie[k] || (geometrie[k] = aspetto.smussato ? cuboSmussato(DIE, 0.26, 16) : new THREE.BoxGeometry(DIE, DIE, DIE));
 }
 
 function clearDice() {
-  for (const d of dice) { scene.remove(d.mesh); d.mesh.geometry.dispose(); world.removeBody(d.body); }
+  for (const d of dice) { scene.remove(d.mesh); world.removeBody(d.body); }
   dice.length = 0;
   if (renderer && !running) draw();
 }
@@ -169,18 +213,17 @@ export function rollDice(specs) {
 function doRoll(specs) {
   clearDice(); const mio = ++rollToken; startLoop();
   if (!specs.length) return Promise.resolve([]);
-  const geo = new THREE.BoxGeometry(DIE, DIE, DIE);
   const shape = new CANNON.Box(new CANNON.Vec3(DIE / 2, DIE / 2, DIE / 2));
   specs.forEach((sp, i) => {
-    const mesh = new THREE.Mesh(geo.clone(), materialsFor(sp.colore || 'avorio'));
-    mesh.castShadow = true; scene.add(mesh);
+    const mesh = new THREE.Mesh(geometriaDado(), materialsFor(sp.colore));
+    mesh.castShadow = aspetto.ombre; scene.add(mesh);
     const body = new CANNON.Body({ mass: 1, shape, material: world.__dieMat, sleepSpeedLimit: 0.6, sleepTimeLimit: 0.45, linearDamping: 0.08, angularDamping: 0.12 });
     body.position.set(-B.halfW + 3, 5 + i * 2, (Math.random() - 0.5) * (B.halfH - 3) + (i - specs.length / 2) * 1.1);
     body.quaternion.setFromEuler(Math.random() * 6, Math.random() * 6, Math.random() * 6);
     body.velocity.set(12 + Math.random() * 9, -3, (Math.random() - 0.5) * 9);
     body.angularVelocity.set((Math.random() - 0.5) * 45, (Math.random() - 0.5) * 45, (Math.random() - 0.5) * 45);
     world.addBody(body);
-    dice.push({ mesh, body });
+    dice.push({ mesh, body, colore: sp.colore });
   });
   return new Promise(resolve => {
     const t0 = performance.now(); let kicks = 0;
@@ -204,3 +247,4 @@ function doRoll(specs) {
 }
 export const clearTable = clearDice;
 export const diceColors = Object.keys(COLORS);
+export const COLORI_DADI = COLORS;

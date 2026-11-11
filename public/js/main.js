@@ -6,6 +6,7 @@ import * as dadi3d from './table3d.js';
 import * as table from './map2d.js';
 import * as dice from './dice.js';
 import { renderGruppo } from './party.js';
+import { apriImpostazioni } from './impostazioni.js';
 import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro } from './ui.js';
 
 let tab = 'dungeon';
@@ -120,6 +121,7 @@ async function avvia() {
     $('#loading').remove();
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
+  $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });
   $('#qualita').value = QUALITA;
   $('#qualita').onchange = e => { localStorage.setItem('fad-qualita', e.target.value); location.reload(); };
   if (LEGGERA) { $('#dicePhys').checked = false; $('#dicePhys').disabled = true; $('#diceLayer').remove(); }

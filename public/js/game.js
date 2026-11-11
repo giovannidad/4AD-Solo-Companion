@@ -398,11 +398,20 @@ export async function oggettoMagico(orco) {
       for (let i = 0; i < n; i++) { const x = await dado(`Contenuto della fiala ${i + 1}`); c.push(x.totale <= 3 ? 'Pozione di Guarigione' : x.totale <= 5 ? 'Acido' : 'Acqua santa'); }
       testo = `${n} fiale: ${c.join(', ')}. (Guarigione: tutti i PV, azione gratuita, max 1 per avventura a testa, non per barbari. Acido: al posto di un attacco, 1d6: con 1 si rompe e ferisce chi lo lancia, con 2+ 1 PV a un maggiore o 1 minore ucciso; non su non-morti e golem. Acqua santa: 1 PV a spettri e demoni scheletrici.)`; break;
     }
-    case 'bacchetta-potere': { const x = await tira('2d3', 'Cariche della bacchetta'); testo = `Bacchetta del potere (${x.totale} cariche): solo maghi, ogni carica aggiunge 1 livello a un incantesimo. Vale 25 p.o. per carica rimasta.`; break; }
-    case 'rosario': { const x = await dado('Grani del rosario'); testo = `Rosario (${x.totale} grani): quando un chierico recita una benedizione o guarigione tira 1d6: con 4+ non consuma il potere; ogni tiro consuma un grano. 10 p.o. per grano.`; break; }
+    case 'bacchetta-potere': { const x = await tira('2d3', 'Cariche della bacchetta'); bonus.cariche = bonus.caricheMax = x.totale; bonus.manuale = true; bonus.solo = ['mago']; testo = `Bacchetta del potere (${x.totale} cariche): solo maghi, ogni carica aggiunge 1 livello a un incantesimo. Vale 25 p.o. per carica rimasta.`; break; }
+    case 'rosario': { const x = await dado('Grani del rosario'); bonus.cariche = bonus.caricheMax = x.totale; bonus.manuale = true; bonus.solo = ['chierico']; testo = `Rosario (${x.totale} grani): quando un chierico recita una benedizione o guarigione tira 1d6: con 4+ non consuma il potere; ogni tiro consuma un grano. 10 p.o. per grano.`; break; }
   }
+  const C0 = CARICHE_MAGICHE[row.nome];
+  if (C0) Object.assign(bonus, { cariche: C0.n, caricheMax: C0.n, incantesimo: C0.inc, solo: C0.solo, manuale: !C0.inc });
   return { tipo, testo, nome: row.nome, ...bonus };
 }
+/** Oggetti magici con un numero limitato di usi: gli incantesimi si lanciano direttamente dal tasto in combattimento. */
+const CARICHE_MAGICHE = {
+  'Bacchetta del Sonno': { n: 3, inc: 'Sonno', solo: ['elfo', 'mago'] },
+  'Bastone della Palla di Fuoco': { n: 2, inc: 'Palla di Fuoco', solo: ['mago'] },
+  'Anello di teletrasporto': { n: 1 },
+  'Oro degli stolti': { n: 1 }
+};
 
 // ---------------- perquisire ----------------
 /** Tira il d6 della tabella "Perquisire una stanza vuota" (−1 nei corridoi) senza ancora applicarne gli effetti. */

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1
+- **Combattimento:** i tasti non vengono più attenuati per errore; chi ha già agito nel turno ha i tasti spenti e, se li preme, riceve l'avviso che ha terminato gli attacchi.
+- **Oggetti con cariche:** bacchette, bastoni e pergamene trovati nel dungeon si equipaggiano con le loro cariche e si lanciano dal combattimento.
+- **Negozio:** vendita di gemme, armi e oggetti; le gemme valgono come moneta negli acquisti.
+- **Dadi:** spigoli smussati; nuova schermata **Impostazioni** (colore dei dadi, smussatura, ombre).
+
 ## 1.5.0
 - **Tabelle avanzate «Nemici diabolici»** e **«Caverne del Caos»** del supplemento «Contro il Caos»; al 3° livello di tutto il
   gruppo l'app chiede quali tabelle usare (selettore nel pannello *Dungeon*).

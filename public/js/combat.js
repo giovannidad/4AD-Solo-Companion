@@ -259,10 +259,17 @@ export function chiudiIncontro() {
 // ---------------- incantesimi e poteri ----------------
 export const incantesimiPronti = e => (e.incantesimi || []).map((s, idx) => ({ ...s, idx })).filter(s => !s.usato);
 
-export async function lancia(e, idx, { bersaglioId, daPergamena } = {}) {
+export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto } = {}) {
   const i = inc();
-  const s = e.incantesimi[idx];
+  const s = oggetto ? { nome: oggetto.incantesimo, usato: false } : e.incantesimi[idx];
   if (!s || s.usato) return;
+  if (oggetto) {
+    if (!(oggetto.cariche > 0)) return toast(`${oggetto.nome}: nessuna carica.`, 'warn');
+    oggetto.cariche--;
+    if (oggetto.cariche <= 0 && oggetto.consuma) e.oggetti = e.oggetti.filter(o => o !== oggetto);
+    nota(`${e.nome} usa ${oggetto.nome} (cariche rimaste: ${oggetto.cariche}).`);
+  }
+  const rimborsa = () => { if (oggetto) { oggetto.cariche++; if (!e.oggetti.includes(oggetto)) e.oggetti.push(oggetto); } };
   s.usato = true; i && (i.agito[e.id] = true);
   const nome = s.nome;
   if (nome === 'Protezione') { const b = eroePerId(bersaglioId) || e; i.protetti[b.id] = true; nota(`${e.nome} lancia Protezione su ${b.nome}: +2 alle difese per questo combattimento.`); return modificato(); }
@@ -279,7 +286,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena } = {}) {
     return modificato();
   }
   if (nome === 'Teletrasporto del Caos') { s.usato = false; const ok = await K.teletrasporto(e); if (ok) s.usato = true; return modificato(); }
-  if (!i || i.stato !== 'combattimento') { toast('Serve un combattimento in corso.', 'warn'); s.usato = false; return; }
+  if (!i || i.stato !== 'combattimento') { toast('Serve un combattimento in corso.', 'warn'); s.usato = false; rimborsa(); return; }
   if (i.immuneIncantesimi?.includes(nome)) { nota(`${e.nome} lancia ${nome}: ${i.nome} è immune.`); return modificato(); }
   const L = livAtt(i);
   if (nome === 'Missile del Caos') {

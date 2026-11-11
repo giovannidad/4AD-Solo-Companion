@@ -12,7 +12,7 @@ export const tableIsReady = () => { tableReady = true; };
 async function fisici(n, colori) {
   if (n <= 0) return [];
   if (!settings.fisici || !tableReady || n > 10 || document.hidden) return Array.from({ length: n }, d6);
-  try { return await table.rollDice(Array.from({ length: n }, (_, i) => ({ colore: colori?.[i] || 'avorio' }))); }
+  try { return await table.rollDice(Array.from({ length: n }, (_, i) => ({ colore: colori?.[i] }))); }
   catch (e) { console.error('dadi 3D', e); return Array.from({ length: n }, d6); }
 }
 
@@ -49,7 +49,7 @@ export async function d66(label = 'd66') {
 }
 
 /** 1d6 semplice. */
-export async function dado(label = '1d6', colore = 'avorio') {
+export async function dado(label = '1d6', colore) {
   const [v] = await fisici(1, [colore]);
   return registra({ label, expr: '1d6', totale: v, dadi: [v], ora: Date.now() });
 }
