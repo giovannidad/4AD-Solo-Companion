@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="844.8" height="716.8" viewBox="-0.3 -0.3 6.6 5.6">
+<defs><filter id="m" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="45" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="0.07"/></filter></defs>
+<path d="M2 5L3 5 M2 4L2 5 M3 4L3 5 M1 2L2 2 M1 3L2 3 M2 1L2 2 M3 1L3 2 M2 0L3 0 M2 0L2 1 M3 0L3 1 M4 2L5 2 M4 3L5 3 M2 3L2 4 M3 3L3 4 M0 2L1 2 M0 3L1 3 M0 2L0 3 M3 2L4 2 M3 3L4 3 M5 2L6 2 M5 3L6 3 M6 2L6 3" fill="none" stroke="#8d8a84" stroke-opacity=".5" stroke-width=".62" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0 2h1v1h-1zM1 2h1v1h-1zM2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM2 3h1v1h-1zM2 4h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1z" fill="#fbf8ee"/>
+<path d="M1 2v1 M2 2v1 M2 1h1 M2 2h1 M3 2v1 M2 3h1 M2 4h1 M4 2v1 M5 2v1" fill="none" stroke="#6f8fb5" stroke-opacity=".45" stroke-width=".03"/>
+<g filter="url(#m)"><path d="M2 5L3 5 M2 4L2 5 M3 4L3 5 M1 2L2 2 M1 3L2 3 M2 1L2 2 M3 1L3 2 M2 0L3 0 M2 0L2 1 M3 0L3 1 M4 2L5 2 M4 3L5 3 M2 3L2 4 M3 3L3 4 M0 2L1 2 M0 3L1 3 M0 2L0 3 M3 2L4 2 M3 3L4 3 M5 2L6 2 M5 3L6 3 M6 2L6 3" fill="none" stroke="#25252d" stroke-width=".2" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#fbf8ee" stroke="#25252d" stroke-width=".07"></g></g>
+</svg>

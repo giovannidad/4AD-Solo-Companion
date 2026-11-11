@@ -1,6 +1,21 @@
 # Asset
 
-## Tessere delle stanze
+## Tessere vettoriali (dal manuale)
+
+- `assets/tiles/NN.svg` e `assets/ingressi/N.svg`: le 36 tessere del d66 e i 6 ingressi **ricostruiti in vettoriale** dalle pagine 40–43 del manuale
+  (ITA). Sono SVG con unità in quadretti (`viewBox` = quadretti + 0,3 di margine), quindi si ridimensionano senza perdere qualità e le loro linee
+  coincidono con quelle del foglio quadrettato.
+- Procedura (script in `tools/tessere-vettoriali/`, richiede PyMuPDF, Pillow, NumPy e SciPy): ogni figura viene estratta a 300 dpi, si rileva il
+  reticolo della griglia disegnata, si classificano i quadretti (pavimento / muro / esterno), si individuano le porte e si genera lo SVG
+  (pavimento, muri a tratto, alone, porte). Il risultato (quadretti `celle` e `porte` di ogni stanza) è anche in `data/rules/tiles.json`.
+- Le stanze curve sono approssimate a quadretti. Gli ingressi 3, 4 e 5 sono stati definiti a mano (`sovrascritture.json`) perché la figura del manuale
+  contiene grandi masse nere. I confronti manuale / vettoriale sono in `docs/confronto-vettoriali-*.png`: controlla soprattutto 13, 25, 34–36, 42, 53,
+  62 e gli ingressi 2–6.
+- **Snap to grid**: opzione in *Impostazioni*; la stanza si aggancia in modo che la sua griglia cada sui quadretti (Alt mentre trascini = movimento libero).
+  Le stanze si affiancano per il solo pavimento, così i muri combaciano.
+- Le vecchie tessere `*.webp` (colorate in pietra, da `tiles-base.pdf`) restano per le campagne già salvate.
+
+## Tessere delle stanze (raster, versioni precedenti)
 
 - `assets/tiles/NN.webp` – le 36 tessere del d66 (11…66); `assets/ingressi/1-6.webp` – le 6 stanze d'ingresso.
 - Sono le tessere **a colori in pietra** del PDF `manuali/tiles-base.pdf` (42 pagine, una immagine per pagina, JPEG2000 con

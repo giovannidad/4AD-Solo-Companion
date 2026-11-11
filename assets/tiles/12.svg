@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460.8" height="204.8" viewBox="-0.3 -0.3 3.6 1.6">
+<defs><filter id="m" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="12" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="0.07"/></filter></defs>
+<path d="M1 0L2 0 M1 1L2 1 M2 0L3 0 M2 1L3 1 M3 0L3 1 M0 0L1 0 M0 1L1 1 M0 0L0 1" fill="none" stroke="#8d8a84" stroke-opacity=".5" stroke-width=".62" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1z" fill="#fbf8ee"/>
+<path d="M1 0v1 M2 0v1" fill="none" stroke="#6f8fb5" stroke-opacity=".45" stroke-width=".03"/>
+<g filter="url(#m)"><path d="M1 0L2 0 M1 1L2 1 M2 0L3 0 M2 1L3 1 M3 0L3 1 M0 0L1 0 M0 1L1 1 M0 0L0 1" fill="none" stroke="#25252d" stroke-width=".2" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#fbf8ee" stroke="#25252d" stroke-width=".07"><rect x="2.83" y="0.14" width="0.34" height="0.72" rx="0.08"/><rect x="-0.17" y="0.14" width="0.34" height="0.72" rx="0.08"/></g></g>
+</svg>

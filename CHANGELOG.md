@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0
+- **Tessere vettoriali** ricavate dal manuale: le 36 stanze e i 6 ingressi sono SVG, si adattano alla dimensione e alla griglia del foglio.
+- **Snap to grid** opzionale (Impostazioni); Alt mentre trascini per spostare liberamente. Le stanze si affiancano a pavimento contro pavimento.
+- **Traguardi** con conteggio automatico (uccisioni, salvezze, bottino, missioni, avventure).
+
 ## 1.5.1
 - **Combattimento:** i tasti non vengono più attenuati per errore; chi ha già agito nel turno ha i tasti spenti e, se li preme, riceve l'avviso che ha terminato gli attacchi.
 - **Oggetti con cariche:** bacchette, bastoni e pergamene trovati nel dungeon si equipaggiano con le loro cariche e si lanciano dal combattimento.

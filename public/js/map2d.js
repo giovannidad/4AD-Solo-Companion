@@ -31,8 +31,17 @@ function align(d) {
   for (let k = 0; k < (d.rot || 0) % 4; k++) { const nfx = ((h - fy) % 1 + 1) % 1; fy = fx; fx = nfx; [w, h] = [h, w]; }
   return { ...g, fx, fy };
 }
-/** Nessun aggancio alla griglia: le stanze si posizionano liberamente (al pixel). */
-function snapCenter(d, cx, cy) { return [cx, cy]; }
+/** Opzioni del foglio: snap to grid (le linee della stanza coincidono con i quadretti del foglio). */
+export const opzioni = { snap: true };
+try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; } catch { /* predefinito */ }
+export function setSnap(on) { opzioni.snap = !!on; try { localStorage.setItem('fad-snap', on ? '1' : '0'); } catch { /* ok */ } }
+let snapTemp = true;   // false mentre si tiene premuto Alt: spostamento libero
+/** Con lo snap attivo il centro viene spostato in modo che la griglia disegnata sulla stanza cada sui quadretti del foglio. */
+function snapCenter(d, cx, cy) {
+  if (!opzioni.snap || !snapTemp) return [cx, cy];
+  const a = align(d);
+  return [Math.round(cx - a.dw / 2 + a.fx) - a.fx + a.dw / 2, Math.round(cy - a.dh / 2 + a.fy) - a.fy + a.dh / 2];
+}
 const toScreen = (x, y) => [(x - view.x) * view.zoom + W / 2, (y - view.y) * view.zoom + H / 2];
 const toWorld = (px, py) => [(px - W / 2) / view.zoom + view.x, (py - H / 2) / view.zoom + view.y];
 
@@ -259,7 +268,8 @@ function tokenAt(px, py) {
 }
 
 // ---------------- posizionamento automatico ----------------
-function rectOf(d) { const { dw, dh } = dims(d); return [d.x - dw / 2, d.z - dh / 2, d.x + dw / 2, d.z + dh / 2]; }
+/** Rettangolo del solo pavimento (senza il margine di muri e alone delle stanze vettoriali): serve ad affiancare le stanze. */
+function rectOf(d) { const { dw, dh } = dims(d), p = d.svg || (d.src || '').endsWith('.svg') ? (d.ox || 0) / d.cx * (d.scale || 1) : 0; return [d.x - dw / 2 + p, d.z - dh / 2 + p, d.x + dw / 2 - p, d.z + dh / 2 - p]; }
 const overlap = (a, b) => a[0] < b[2] - 0.3 && a[2] > b[0] + 0.3 && a[1] < b[3] - 0.3 && a[3] > b[1] + 0.3;
 function libera(d, altre) {
   const r = rectOf(d);
@@ -330,10 +340,11 @@ function onMove(ev) {
   const [px, py] = pos(ev);
   if (drag.kind === 'token') { const [wx, wy] = toWorld(px, py); drag.token.x = wx; drag.token.y = wy; }
   else if (drag.kind === 'pan') { view.x = drag.vx - (px - drag.px) / view.zoom; view.y = drag.vy - (py - drag.py) / view.zoom; }
-  else { const [wx, wy] = toWorld(px, py); [drag.e.d.x, drag.e.d.z] = snapCenter(drag.e.d, wx + drag.dx, wy + drag.dy); drag.moved = true; retarget(); }
+  else { snapTemp = !ev.altKey; const [wx, wy] = toWorld(px, py); [drag.e.d.x, drag.e.d.z] = snapCenter(drag.e.d, wx + drag.dx, wy + drag.dy); drag.moved = true; retarget(); }
   invalidate();
 }
 function onUp(ev) {
+  snapTemp = true;
   if (drag?.kind === 'tile' && drag.moved) tileCb(drag.e.d, 'move');
   if (drag?.kind === 'token') { const t = drag.token, e = hit(t.x, t.y); drag = null; if (e && !e.d.pending && e.d.id !== t.tileId) tokenCb(t.id, e.d.id); retarget(); invalidate(); return; }
   drag = null;

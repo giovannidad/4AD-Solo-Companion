@@ -5,6 +5,7 @@ import { riga } from './rules.js';
 import { h, modal, toast, scelta, sceltaMultipla, uid } from './util.js';
 import * as G from './game.js';
 import * as C from './combat.js';
+import * as T from './tratti.js';
 
 const adv = () => S.adv;
 const CT = () => R.caos.tabelle;
@@ -285,7 +286,7 @@ export async function completaMissione() {
       for (const e of eroiVivi()) { const x = await tira('2d6', 'Gemma dei nani (100+2d6)'); (adv().bottino = adv().bottino || []).push({ id: uid(), tipo: 'gemma', testo: `Gemma da ${100 + x.totale} p.o. (dai nani, per ${e.nome})`, valore: 100 + x.totale }); }
     }
   }
-  m.completata = true;
+  m.completata = true; T.tutti('missioni');
   if (es > 0) G.aggiungiES(`Missione «${m.nome}» compiuta`, false, es);
   log(`Missione «${m.nome}» compiuta.${nota}`);
   modificato();

@@ -2,6 +2,7 @@
 import { h, modal } from './util.js';
 import * as dadi3d from './table3d.js';
 import * as dice from './dice.js';
+import * as mappa from './map2d.js';
 
 const NOMI = { avorio: 'Avorio', rosso: 'Rosso', blu: 'Blu', verde: 'Verde', nero: 'Nero', oro: 'Oro' };
 
@@ -9,6 +10,8 @@ export function apriImpostazioni({ leggera } = {}) {
   modal('Impostazioni', (b, close) => {
     const a = dadi3d.aspetto;
     if (leggera) b.append(h('p', { class: 'warn-box' }, 'La qualità «Leggera» disattiva i dadi 3D: scegli «Alta» in alto per usare queste opzioni.'));
+    b.append(h('h4', {}, 'Mappa'));
+    b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.opzioni.snap, onchange: ev => mappa.setSnap(ev.target.checked) }), 'Snap to grid: le stanze si agganciano ai quadretti del foglio (tieni premuto Alt mentre trascini per muoverle liberamente)'));
     b.append(h('h4', {}, 'Dadi'));
     const sw = h('div', { class: 'swatches' });
     const rSw = () => {

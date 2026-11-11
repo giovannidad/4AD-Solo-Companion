@@ -3,6 +3,7 @@ import { R, S, log, modificato, eroiVivi, livelloMax, eroePerId, emit } from './
 import { tira, d66, dado, d6Esplosivo } from './dice.js';
 import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, incantesimoACasoLista } from './rules.js';
 import * as K from './caos.js';
+import * as T from './tratti.js';
 import * as table from './map2d.js';
 import { toast, uid, modal, h, scelta } from './util.js';
 
@@ -13,7 +14,7 @@ export const tileById = id => adv().tessere.find(t => t.id === id);
 function nuovaTessera(tipo, n) {
   const m = tipo === 'ingresso' ? R.tiles.ingressi[n] : R.tiles.tiles[n];
   return {
-    id: uid(), tipo, n, src: `/assets/${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.webp`,
+    id: uid(), tipo, n, src: `/assets/${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.${m.svg ? 'svg' : 'webp'}`,
     w: m.w, h: m.h, cx: m.cx, cy: m.cy, ox: m.ox, oy: m.oy,
     x: 10, z: 14, rot: 0, flip: false, scale: 1, pending: false, nome: `Stanza ${n}`, corridoio: false, contenuto: null, perquisita: false
   };
@@ -77,6 +78,7 @@ export async function iniziaAvventura() {
 export function terminaAvventura(esito) {
   adv().attiva = false; adv().fine = esito;
   log(`Avventura conclusa: ${esito}.`);
+  if ((adv().tessere || []).filter(t => t.tipo === 'stanza').length >= 10) T.tutti('dungeon');
   modificato();
 }
 
@@ -502,7 +504,7 @@ export async function aggiungiIndizio(eroe) {
       b.append(h('p', {}, 'Scegli un effetto di gioco (annotalo nelle note dell’eroe):'));
       const lista = h('div', { class: 'list' });
       [...R.tabelle.indizi, ...(inCaos() ? R.caos.tabelle.segretiCaos : [])].forEach(s => lista.append(h('button', { class: 'item-btn', onclick: () => {
-        eroe.segreti = [...(eroe.segreti || []), s.nome]; log(`${eroe.nome} sceglie il segreto: ${s.nome}.`); modificato(); close();
+        eroe.segreti = [...(eroe.segreti || []), s.nome]; T.evento(eroe, 'segreti'); log(`${eroe.nome} sceglie il segreto: ${s.nome}.`); modificato(); close();
       } }, h('b', {}, s.nome), h('span', {}, s.testo))));
       b.append(lista);
     }, { wide: true });

@@ -2,6 +2,7 @@
 import { R, S, log, modificato, eroiVivi, eroiAttivi, eroePerId, ordineMarcia, livelloMax } from './state.js';
 import { h, modal, toast, confirmBox, scelta } from './util.js';
 import * as K from './caos.js';
+import * as T from './tratti.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
@@ -293,6 +294,8 @@ async function assegna(x, e) {
   else if (x.cariche != null) (e.oggetti = e.oggetti || []).push({ nome: x.nome || x.testo, qta: 1, tipo: x.tipo, valore: x.valore, nota: x.testo, cariche: x.cariche, caricheMax: x.caricheMax ?? x.cariche, incantesimo: x.incantesimo, solo: x.solo, manuale: !!x.manuale });
   else if (x.tipo === 'pergamena' && x.incantesimo) (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: 1, tipo: 'pergamena', nota: x.testo, cariche: 1, caricheMax: 1, incantesimo: x.incantesimo, consuma: true });
   else (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: 1, valore: x.valore, tipo: x.tipo });
+  if (x.tipo === 'gemma' && x.valore >= 50) T.evento(e, 'gemme');
+  if (x.tipo === 'pergamena') T.evento(e, 'pergamene');
   adv().bottino = adv().bottino.filter(y => y.id !== x.id);
   log(`${e.nome} prende: ${x.testo}`); modificato();
 }

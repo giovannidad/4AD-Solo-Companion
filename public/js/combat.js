@@ -5,6 +5,7 @@ import { modAttacco, modDifesa, trovaReazione, gruppoHaLanterna, haNano, armaDi,
 import { tesoro, vittoria, terminaAvventura, monstroErrante, avviaIncontro } from './game.js';
 import { toast, pick, scelta } from './util.js';
 import * as K from './caos.js';
+import * as T from './tratti.js';
 
 export const inc = () => S.adv.incontro;
 const livAtt = i => (i.livPrimoTurno && i.turno <= 1) ? i.livPrimoTurno : i.liv;
@@ -24,7 +25,7 @@ export async function inizioScontro() {
   i.stato = 'combattimento'; i.turno = 1; i.agito = {}; i.protetti = {}; i.difeso = {}; i.sparati = {};
   S.party.eroi.forEach(e => { if (e.classe === 'elfo-fuoco') (e.incantesimi || []).forEach(sp => { sp.usato = false; }); });   // la vista di fuoco si ricarica a ogni scontro
   if (i.id === 'catoblepa') await salvaTutti('Sguardo del catoblepa', 4, () => 0, e => perdiPV(e, 1, 'sguardo'));
-  if (i.id === 'medusa') await salvaTutti('Sguardo della medusa', 4, e => (e.classe === 'furfante' ? Math.floor(e.livello / 2) : 0), e => { e.stato = 'pietra'; nota(`${e.nome} è trasformato in pietra!`); });
+  if (i.id === 'medusa') await salvaTutti('Sguardo della medusa', 4, e => (e.classe === 'furfante' ? Math.floor(e.livello / 2) : 0), e => { e.stato = 'pietra'; T.evento(e, 'trasformazione'); nota(`${e.nome} è trasformato in pietra!`); });
   if (i.id === 'signore-caos' || i.id === 'd-signore-caos') await poteriCaos();
   if (i.attDadi) {
     const x = await tira(i.attDadi, `Attacchi di ${i.nome}`); i.att = x.totale;
@@ -133,6 +134,8 @@ export async function salva(e, liv, bonus = 0, label = 'Tiro salvezza') {
   const tot = r.totale + bonus;
   const ok = r.naturale !== 1 && tot >= liv;
   nota(`${label}: ${e.nome} tira ${tot} contro L${liv} → ${ok ? 'salvo' : 'FALLITO'}.`);
+  if (!ok && /veleno/i.test(label)) T.evento(e, 'veleno');
+  if (ok && /sguardo/i.test(label)) T.evento(e, 'sguardo');
   return ok;
 }
 export async function salvaTutti(label, liv, bonusFn, onFail) {
@@ -188,7 +191,9 @@ export async function attacca(e, opz = {}) {
   const desc = `${e.nome} attacca: ${r.totale}${m.tot ? (m.tot > 0 ? '+' : '') + m.tot : ''} = ${totale} contro LIV ${L}${auto1 ? ' (1 naturale: fallimento automatico)' : ''}`;
   if (!colpi) { nota(`${desc} → mancato.`); modificato(); return { colpi: 0, totale }; }
   nota(`${desc} → ${i.minore ? `${colpi} uccis${colpi === 1 ? 'o' : 'i'}` : `${colpi} ferit${colpi === 1 ? 'a' : 'e'}`}${furioso ? ' (furioso: danni doppi)' : ''}.`);
+  const pre = { n: i.n, pv: i.pv };
   await applicaDanni(colpi);
+  T.uccisioni(e, i, pre, { mischia: !armaUsata?.lancio });
   return { colpi, totale };
 }
 
@@ -252,7 +257,12 @@ export async function saccheggia() {
 export function chiudiIncontro() {
   const i = inc(); if (!i) return;
   S.adv.incontro = (S.adv.coda || []).shift() || null;
-  S.party.eroi.forEach(e => { e.inghiottito = false; e.mischia = false; e.bonusIncontro = 0; });
+  S.party.eroi.forEach(e => {
+    e.inghiottito = false; e.mischia = false; e.bonusIncontro = 0;
+    if (e.stato === 'ok' && (e.traguardi || []).some(t => t.id === 'passo-morte')) {   // 1 PV e nessuna guarigione per 6 incontri = 1 punto
+      if (e.pv === 1) { e.passoMorte = (e.passoMorte || 0) + 1; if (e.passoMorte >= 6) { e.passoMorte = 0; T.evento(e, 'passo-morte'); } } else e.passoMorte = 0;
+    }
+  });
   modificato();
 }
 
@@ -301,6 +311,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto } = {})
     return modificato();
   }
   if (nome === 'Scarica Oculare') K.follia(e, 1);
+  const preInc = { n: i.n, pv: i.pv };
   const ctx = { ...contestoAttacco(e), incantesimo: true, daPergamena: !!daPergamena };
   const r = await d6Esplosivo(`${nome} di ${e.nome}`);
   const m = modAttacco(e, ctx);
@@ -352,6 +363,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto } = {})
     if (i.minore) { const x = await tira('1d6', 'Mostri addormentati'); const q = x.totale + e.livello; i.sedato += Math.min(q, i.n); nota(`${base} → ${Math.min(q, i.n)} mostri addormentati (contano come uccisi).`); await applicaDanni(q); }
     else { i.sedato = 1; nota(`${base} → ${i.nome} si addormenta (conta come sconfitto; puoi legarlo con una corda).`); await applicaDanni(i.pv); }
   } else { nota(`${base} → effetto: vedi regole.`); }
+  T.uccisioni(e, i, preInc, { incantesimo: nome });
   modificato();
 }
 
@@ -412,7 +424,7 @@ async function effettoFerita(e) {
   if (i.id === 'fungoidi') { if (!(await salva(e, 3, e.classe === 'mezzuomo' ? e.livello : 0, 'Veleno fungoidi'))) perdiPV(e, 1, 'veleno'); }
   if (i.id === 'ragno') { if (!(await salva(e, 3, 0, 'Veleno del ragno'))) perdiPV(e, 1, 'veleno'); }
   if (i.veleno) { if (!(await salva(e, i.veleno, 0, 'Veleno'))) perdiPV(e, 1, 'veleno'); }
-  if (i.petrifica && e.stato === 'ok') { if (!(await salva(e, i.petrifica, 0, 'Pietrificazione'))) { e.stato = 'pietra'; nota(`${e.nome} è trasformato in pietra!`); } }
+  if (i.petrifica && e.stato === 'ok') { if (!(await salva(e, i.petrifica, 0, 'Pietrificazione'))) { e.stato = 'pietra'; T.evento(e, 'trasformazione'); nota(`${e.nome} è trasformato in pietra!`); } }
   if (i.dissangua) { i.dissanguati = i.dissanguati || {}; i.dissanguati[e.id] = true; }
   if (i.follia && e.stato === 'ok') K.follia(e, 1);
   if (i.potere === 'risucchio' && e.livello > 0) { if (!(await salva(e, 4, 0, 'Risucchio di energia'))) { e.livello--; e.pvMax = Math.max(1, e.pvMax - 1); e.pv = Math.min(e.pv, e.pvMax); nota(`${e.nome} perde un livello (ora ${e.livello}).`); } }

@@ -1,5 +1,5 @@
 // Tratti e traguardi del supplemento «Contro il Caos» (regole opzionali).
-import { R, S, log, modificato } from './state.js';
+import { R, S, log, modificato, eroiVivi } from './state.js';
 import { d66, tira } from './dice.js';
 import { h, toast, scelta } from './util.js';
 
@@ -69,6 +69,37 @@ export function conta(e, k, d) {
   modificato('party');
 }
 
+// ---- conteggio automatico dei traguardi ----
+/** Traguardi che l'app aggiorna da sola. */
+export const AUTOMATICI = new Set(['passo-morte', 'gemme', 'pergamene', 'grazia', 'dragonidi', 'dungeon', 'segreti', 'flagello-hobgoblin', 'flagello-orchi',
+  'flagello-coboldi', 'flagello-ghoul', 'flagello-goblin', 'flagello-troll', 'fulmine', 'sonno', 'sguardo', 'missioni', 'infestanti', 'streghe', 'veleno', 'trasformazione']);
+/** Aggiunge n punti al traguardo `id` dell'eroe, se lo sta perseguendo. */
+export function evento(e, id, n = 1) {
+  if (!e || !(n > 0)) return;
+  const k = (e.traguardi || []).findIndex(t => t.id === id);
+  if (k >= 0) conta(e, k, n);
+}
+export function tutti(id, n = 1) { eroiVivi().forEach(e => evento(e, id, n)); }
+
+const FLAGELLI = [['flagello-hobgoblin', /hobgoblin/i], ['flagello-orchi', /\borc/i], ['flagello-coboldi', /cobold/i], ['flagello-ghoul', /ghoul/i],
+  ['flagello-goblin', /(^|\s)goblin/i], ['flagello-troll', /troll(?!.*verd)/i]];
+/** Dopo un attacco o un incantesimo: attribuisce uccisioni e danni all'eroe. pre = {n, pv} del mostro prima dell'effetto. */
+export function uccisioni(e, i, pre, { mischia = false, incantesimo = '' } = {}) {
+  if (!e || !i || !pre || !(e.traguardi || []).length || i.orda) return;
+  const uccisi = i.minore ? Math.max(0, pre.n - i.n) : (pre.pv > 0 && i.pv <= 0 ? 1 : 0);
+  const pvInflitti = i.minore ? uccisi : Math.max(0, pre.pv - i.pv);
+  const liv = i.livBase || i.liv || 0, nome = i.nome || '';
+  if (uccisi) {
+    for (const [id, re] of FLAGELLI) if (re.test(nome)) evento(e, id, uccisi * liv);
+    if (i.tabella === 'infestanti') evento(e, 'infestanti', uccisi);
+    if (/strega|stregon|megera/i.test(nome)) evento(e, 'streghe', uccisi);
+    if (!i.minore && mischia) evento(e, 'grazia', 1);
+  }
+  if (i.drago) evento(e, 'dragonidi', pvInflitti);
+  if (incantesimo === 'Fulmine Magico') evento(e, 'fulmine', pvInflitti);
+  if (incantesimo === 'Sonno') evento(e, 'sonno', uccisi * liv);
+}
+
 /** Sezione della scheda eroe. */
 export function sezione(e, rinfresca) {
   const box = h('div', { class: 'tratti' });
@@ -80,7 +111,7 @@ export function sezione(e, rinfresca) {
     box.append(h('div', { class: 'row' }, h('button', { onclick: async () => { await tiraTratto(e); rinfresca(); } }, 'Tira un tratto (d66)')));
     box.append(h('h4', {}, 'Traguardi'));
     (e.traguardi || []).forEach((t, k) => box.append(h('div', { class: 'card' }, h('b', {}, t.nome), h('p', { class: 'hint' }, t.testo),
-      h('div', { class: 'row' }, h('span', { class: 'grow' }, `${t.conta}/${t.obiettivo} ${t.unita}`),
+      h('div', { class: 'row' }, h('span', { class: 'grow' }, `${t.conta}/${t.obiettivo} ${t.unita}`, AUTOMATICI.has(t.id) ? h('small', { class: 'tag' }, ' conteggio automatico') : null),
         h('button', { class: 'mini', onclick: () => { conta(e, k, -1); rinfresca(); } }, '−'), h('button', { class: 'mini', onclick: () => { conta(e, k, 1); rinfresca(); } }, '+'),
         h('button', { class: 'mini', onclick: () => { conta(e, k, 10); rinfresca(); } }, '+10'),
         h('button', { class: 'mini', onclick: () => { e.traguardi.splice(k, 1); modificato('party'); rinfresca(); } }, '×')))));
