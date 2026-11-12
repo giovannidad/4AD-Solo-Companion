@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.7.2
+- **Prestazioni:** ridisegno a parti (gruppo, pannello, segnalini solo se il loro stato è cambiato); server con cache in memoria, ETag/304,
+  compressione brotli/gzip e cache lunga per immagini e librerie; three.js e cannon-es caricati in differita; cooperativa a differenze
+  (solo i pezzi di stato cambiati) e correzione degli ascoltatori doppi.
+- **Mappa:** foglio quadrettato disegnato con pochi comandi (≈10 volte più veloce), segnalini prerenderizzati, livelli di risoluzione per le tessere.
+- **Tiri veloci** (Impostazioni, attivi di default): i dadi 3D rotolano solo per attacchi, difese, salvezze, incantesimi, nuove stanze e tiri liberi.
+- **Cooperativa:** la porta di rete la sceglie l'utente (errore chiaro se è occupata).
+- **Ritratti degli eroi:** ritratto predefinito per classe (SVG) o immagine caricata dall'utente (ritagliata e ridotta nel browser, salvata in `ritratti.json`); compare su schede, righe di combattimento, segnalini della mappa e in cooperativa.
+- **Impostazioni:** ombra dei dadi spenta di default, bordi smussati di default, nuova opzione «effetto scrittura a matita» (attiva di default).
+
 ## 1.7.1
 - **Cooperativa:** la scheda mostra l'IP pubblico della macchina che ospita, con il link da condividere (serve l'inoltro della porta sul router o un tunnel).
 

@@ -1,10 +1,11 @@
 // Gestione del gruppo: schede eroi, creazione, equipaggiamento, ordine di marcia, negozio.
-import { R, S, modificato, log, nuovoEroe, eroePerId, eroiVivi, livelloMax } from './state.js';
+import { R, S, modificato, salva, log, nuovoEroe, eroePerId, eroiVivi, livelloMax } from './state.js';
 import { h, modal, toast, confirmBox, sign, uid } from './util.js';
 import { tira } from './dice.js';
 import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaLanterna } from './rules.js';
 import { tiroES, eroePuoSalire } from './game.js';
 import * as T from './tratti.js';
+import * as Rit from './ritratti.js';
 
 /** Nome non ancora usato nel gruppo (eventualmente con un numero romano), ignorando l'eroe `escludiId` e i nomi già scelti in `extra`. */
 const ROMANI = ['', ' II', ' III', ' IV', ' V', ' VI', ' VII', ' VIII', ' IX', ' X'];
@@ -102,6 +103,7 @@ function schedaCompatta(e, idx) {
   return h('div', { class: `hero ${e.stato}`, dataset: { id: e.id } },
     h('div', { class: 'hero-top' },
       h('div', { class: 'pos' }, h('b', {}, idx + 1)),
+      h('div', { class: 'hero-pic', title: 'Clicca per cambiare il ritratto', onclick: () => scheda(e.id) }, Rit.immagine(e, 46)),
       h('div', { class: 'hero-name' }, h('span', { class: 'ico' }, iconaClasse(e.classe)), h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} · liv. ${e.livello}`)),
       h('div', { class: 'upd' },
         h('button', { class: 'mini', title: 'Sposta avanti', onclick: () => sposta(idx, -1), disabled: idx === 0 }, '▲'),
@@ -200,6 +202,12 @@ export function scheda(id) {
     const sel = (label, key, opzioni) => h('label', {}, label, h('select', { onchange: ev => { e[key] = ev.target.value; modificato('party'); } }, opzioni.map(([v, t]) => h('option', { value: v, selected: e[key] === v }, t))));
     const chk = (label, key) => h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!e[key], onchange: ev => { e[key] = ev.target.checked; modificato('party'); } }), label);
 
+    const quadro = h('div', { class: 'ritratto-box' }, Rit.immagine(e, 96, 'grande'));
+    const file = h('input', { type: 'file', accept: 'image/*', style: 'display:none', onchange: async ev => { if (await Rit.carica(e, ev.target.files[0])) { quadro.replaceChildren(Rit.immagine(e, 96, 'grande')); } ev.target.value = ''; } });
+    b.append(h('div', { class: 'row', style: 'align-items:center;gap:12px;margin-bottom:8px' }, quadro,
+      h('div', { class: 'col' }, h('button', { onclick: () => file.click() }, 'Carica ritratto…'),
+        h('button', { disabled: !Rit.haRitrattoProprio(e), onclick: () => { Rit.rimuovi(e); quadro.replaceChildren(Rit.immagine(e, 96, 'grande')); } }, 'Ritratto predefinito'),
+        h('small', { class: 'hint' }, 'PNG, JPG o WebP: viene ritagliato in quadrato e ridotto.')), file));
     b.append(h('div', { class: 'grid2' },
       h('label', {}, 'Nome', h('input', { type: 'text', value: e.nome, onchange: ev => { const n = nomeLibero(ev.target.value, e.id); if (n !== ev.target.value.trim()) toast(`Esiste già un eroe con quel nome: diventa «${n}».`, 'warn'); e.nome = n; ev.target.value = n; modificato('party'); } })),
       sel('Stato', 'stato', [['ok', 'In forma'], ['pietra', 'Pietrificato'], ['pazzo', 'Pazzo'], ['morto', 'Caduto / morto']]),
@@ -265,7 +273,7 @@ export function scheda(id) {
     if ((e.segreti || []).length) b.append(h('h4', {}, 'Segreti scoperti'), h('ul', {}, e.segreti.map(s => h('li', {}, s))));
     b.append(h('label', {}, 'Note', h('textarea', { rows: 3, onchange: ev => { e.note = ev.target.value; modificato('party'); } }, e.note || '')));
     b.append(h('div', { class: 'row between' },
-      h('button', { class: 'danger', onclick: async () => { if (await confirmBox(`Eliminare definitivamente ${e.nome}?`)) { S.party.eroi = S.party.eroi.filter(x => x.id !== e.id); S.party.ordine = S.party.ordine.filter(x => x !== e.id); log(`${e.nome} lascia il gruppo.`); modificato('party'); close(); } } }, 'Elimina eroe'),
+      h('button', { class: 'danger', onclick: async () => { if (await confirmBox(`Eliminare definitivamente ${e.nome}?`)) { S.party.eroi = S.party.eroi.filter(x => x.id !== e.id); S.party.ordine = S.party.ordine.filter(x => x !== e.id); if (S.ritratti?.[e.id]) { delete S.ritratti[e.id]; salva('ritratti'); } log(`${e.nome} lascia il gruppo.`); modificato('party'); close(); } } }, 'Elimina eroe'),
       h('button', { class: 'primary', onclick: close }, 'Chiudi')));
   }, { wide: true });
 }

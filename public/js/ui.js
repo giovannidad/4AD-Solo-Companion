@@ -4,6 +4,7 @@ import { h, modal, toast, confirmBox, scelta } from './util.js';
 import * as K from './caos.js';
 import * as T from './tratti.js';
 import * as Coop from './coop.js';
+import * as Rit from './ritratti.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
@@ -12,6 +13,8 @@ import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClas
 import { riposa, scheda } from './party.js';
 
 const adv = () => S.adv;
+/** Firma dello stato locale dell'interfaccia (selezioni non salvate) che influisce sul disegno del pannello. */
+export const firmaUI = () => JSON.stringify([ui.assegn, ui.assegnKey, ui.furioso, ui.arma, ui.bersaglio, ui.spell, ui.mostraReazioni]);
 const ui = { assegn: null, assegnKey: '', furioso: {}, arma: {}, bersaglio: {}, spell: {}, mostraReazioni: false };
 
 const btn = (txt, fn, cls = '', extra = {}) => h('button', { class: cls, onclick: async ev => { const b = ev.currentTarget; b.disabled = true; try { await fn(ev); } catch (e) { console.error(e); toast(String(e.message || e), 'warn'); } finally { b.disabled = false; } }, ...extra }, txt);
@@ -227,7 +230,7 @@ function renderCombattimento(box, i) {
     const fur = e.classe === 'barbaro' ? h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2), disabled: (e.usi.furie || 0) >= Math.ceil(e.livello / 2), onchange: ev => { ui.furioso[e.id] = ev.target.checked; } }), `Furioso (${Math.ceil(e.livello / 2) - (e.usi.furie || 0)})`) : null;
     const pronti = (e.incantesimi || []).map((s, idx2) => ({ ...s, idx2 })).filter(s => !s.usato);
     const rowEl = h('div', { class: `actor ${i.agito?.[e.id] ? 'done' : ''}` },
-      h('div', { class: 'ahead' }, h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} ${e.livello} · ${e.pv}/${e.pvMax} PV`), h('span', { class: 'mod', title: m.parti.map(p => `${p[0]} ${p[1] > 0 ? '+' : ''}${p[1]}`).join('\n') || 'Nessun modificatore' }, `ATT ${m.tot >= 0 ? '+' : ''}${m.tot}`)),
+      h('div', { class: 'ahead' }, Rit.immagine(e, 28, 'mini'), h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} ${e.livello} · ${e.pv}/${e.pvMax} PV`), h('span', { class: 'mod', title: m.parti.map(p => `${p[0]} ${p[1] > 0 ? '+' : ''}${p[1]}`).join('\n') || 'Nessun modificatore' }, `ATT ${m.tot >= 0 ? '+' : ''}${m.tot}`)),
       h('div', { class: 'arow' },
         fronte ? [armiSel, fur, azione(e, 'Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary', {}, () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; return { tipo: 'attacca', armaId: ui.arma[e.id], furioso }; })] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
         i.id === 'c-manticora' && !i.codaFerita && fronte ? azione(e, 'Attacca la coda', () => C.attacca(e, { coda: true }), 'accent', {}, () => ({ tipo: 'attacca', coda: true })) : null,

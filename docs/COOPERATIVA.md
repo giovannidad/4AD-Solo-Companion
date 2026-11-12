@@ -11,7 +11,7 @@ spostamento del segnalino, tiri di dado). Chat inclusa.
 4. Le assegnazioni sono salvate nella campagna (`party.coopEroi`, per nome del giocatore): chi rientra con lo stesso nome ritrova i suoi eroi.
 
 ## Rete
-- Quando si avvia la stanza il programma apre una **seconda porta** (3001, oppure una libera) sulla rete locale. Serve solo i file del gioco e
+- Quando si avvia la stanza il programma apre una **seconda porta**, **scelta dall'utente** nella finestra Cooperativa (da 1024 a 65535, predefinita 3001; se è occupata compare un errore), sulla rete locale. Serve solo i file del gioco e
   `/api/coop`: le campagne salvate non sono mai raggiungibili dalla rete. Il server principale resta su `127.0.0.1`.
 - **LAN**: basta il link con l'indirizzo IP del computer ospitante.
 - **Internet**: inoltra la porta del router verso il computer ospitante o usa un tunnel/VPN (Tailscale, ngrok, cloudflared…) e invia l'indirizzo

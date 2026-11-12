@@ -23,14 +23,19 @@ export const stats = { frames: 0 };      // fotogrammi disegnati (per misurare i
 export const qualita = { ombre: true, dpr: 2 };
 
 // ---- aspetto dei dadi (scelto dall'utente in Impostazioni, salvato nel browser) ----
-export const aspetto = { colore: 'avorio', custom: '#7a3fb0', smussato: true, ombre: true, distingui: false };
-try { Object.assign(aspetto, JSON.parse(localStorage.getItem('fad-dadi') || '{}')); } catch { /* valori predefiniti */ }
+export const aspetto = { colore: 'avorio', custom: '#7a3fb0', smussato: true, ombre: false, distingui: false, v: 2 };
+try {
+  const salvato = JSON.parse(localStorage.getItem('fad-dadi') || '{}');
+  if (salvato.v !== 2) salvato.ombre = false;   // dalla v2 l'ombra parte disattivata anche per chi aveva già salvato le impostazioni
+  Object.assign(aspetto, salvato, { v: 2 });
+} catch { /* valori predefiniti */ }
 export function setAspetto(p) {
   Object.assign(aspetto, p);
   try { localStorage.setItem('fad-dadi', JSON.stringify(aspetto)); } catch { /* ok */ }
   for (const k of Object.keys(dieMaterials)) { dieMaterials[k].forEach(m => { m.map?.dispose(); m.dispose(); }); delete dieMaterials[k]; }
   if (!renderer) return;
   floor.visible = aspetto.ombre; key.castShadow = aspetto.ombre;
+  if (renderer.shadowMap.enabled !== aspetto.ombre) { renderer.shadowMap.enabled = aspetto.ombre; Object.values(dieMaterials).forEach(m => m.forEach(x => { x.needsUpdate = true; })); }
   for (const d of dice) { d.mesh.material = materialsFor(d.colore); d.mesh.geometry = geometriaDado(); d.mesh.castShadow = aspetto.ombre; }
   if (!running) draw();
 }
@@ -41,7 +46,7 @@ export function initTable(el) {
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, qualita.dpr));
   renderer.setClearColor(0x000000, 0);
-  renderer.shadowMap.enabled = qualita.ombre;
+  renderer.shadowMap.enabled = aspetto.ombre;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);

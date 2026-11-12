@@ -67,7 +67,10 @@ async function gestisci(req, res, parts, url, opzioni = {}) {
   try {
     if (parts[2] === 'ospita' && req.method === 'POST') {
       if (!daLocale(req)) return json(res, 403, { error: 'solo da questo computer' }), true;
-      const lan = opzioni.apriLan ? await opzioni.apriLan() : null;
+      const { porta } = JSON.parse((await leggi(req)) || '{}');
+      if (porta !== undefined && !(Number.isInteger(+porta) && +porta >= 1024 && +porta <= 65535)) return json(res, 400, { error: 'La porta deve essere un numero tra 1024 e 65535.' }), true;
+      let lan = null;
+      try { lan = opzioni.apriLan ? await opzioni.apriLan(porta) : null; } catch (e) { return json(res, 409, { error: e.message }), true; }
       let codice; do { codice = codiceCasuale(); } while (stanze.has(codice));
       const s = { codice, host: { token: tok(), res: null }, ospiti: new Map(), stato: null, creata: Date.now() };
       s.timer = setInterval(() => { // battito per tenere aperti i flussi dietro proxy e tunnel
@@ -111,7 +114,7 @@ async function gestisci(req, res, parts, url, opzioni = {}) {
         if (o.res) try { o.res.end(); } catch { /* ok */ }
         o.res = res;
         sse(res, 'benvenuto', { id: o.id, nome: o.nome, codice: s.codice });
-        if (s.stato) sse(res, 'stato', s.stato);
+        if (s.stato) sse(res, 'stato', { pieno: true, delta: s.stato });
         if (s.host.res) sse(s.host.res, 'unito', { id: o.id, nome: o.nome });
         req.on('close', () => { if (o.res === res) { o.res = null; if (s.host.res) sse(s.host.res, 'uscito', { id: o.id, nome: o.nome }); } });
       }
@@ -121,7 +124,16 @@ async function gestisci(req, res, parts, url, opzioni = {}) {
     if (azione === 'invia' && req.method === 'POST') {
       const { tipo, dati } = JSON.parse((await leggi(req)) || '{}');
       if (t === s.host.token) {
-        if (tipo === 'stato') { s.stato = dati; for (const o of s.ospiti.values()) if (o.res) sse(o.res, 'stato', dati); }
+        if (tipo === 'stato') {   // differenze: {pieno, delta:{chiave: valore|null}}; il server tiene lo stato completo per chi arriva dopo
+          if (dati.pieno) s.stato = {};
+          s.stato = s.stato || {};
+          for (const [k, v0] of Object.entries(dati.delta || {})) {
+            let v = v0;
+            if (k === 'r' && v) v = { n: v.n, righe: [...(s.stato.r?.righe || []), ...v.righe].slice(-60) };   // registro accumulato per chi arriva dopo
+            if (v === null) delete s.stato[k]; else s.stato[k] = v;
+          }
+          for (const o of s.ospiti.values()) if (o.res) sse(o.res, 'stato', dati);
+        }
         else if (tipo === 'a') { const o = s.ospiti.get(dati?.id); if (o?.res) sse(o.res, dati.evento || 'messaggio', dati.dati); }
         else for (const o of s.ospiti.values()) if (o.res) sse(o.res, tipo, dati);          // tiro, rosa, chat...
         return json(res, 200, { ok: true }), true;

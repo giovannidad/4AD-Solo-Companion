@@ -2,13 +2,13 @@ import { $, $$, h, modal, toast, confirmBox } from './util.js';
 import { api } from './api.js';
 import { R, S, caricaRegole, apriCampagna, onChange, modificato, emit, ordineMarcia, log, eroePerId } from './state.js';
 import { muoviGruppo, tileById } from './game.js';
-import * as dadi3d from './table3d.js';
 import * as table from './map2d.js';
 import * as dice from './dice.js';
 import { renderGruppo } from './party.js';
 import { apriImpostazioni } from './impostazioni.js';
 import * as Coop from './coop.js';
-import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro } from './ui.js';
+import * as Rit from './ritratti.js';
+import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro, firmaUI } from './ui.js';
 
 let tab = 'dungeon';
 
@@ -21,16 +21,28 @@ if (LEGGERA) dice.settings.fisici = false;
 
 const RENDER = { dungeon: renderDungeon, incontro: renderIncontro, strumenti: renderStrumenti, registro: renderRegistro };
 
-function disegna() {
+// Ridisegno a parti: ogni sezione si ricostruisce solo se la sua «firma» (lo stato da cui dipende) è cambiata.
+export const tempi = { gruppo: 0, pannello: 0 };   // diagnostica: ms dell'ultimo ridisegno
+const firme = { gruppo: '', pannello: '', tessera: '', segnalini: '' };
+const firma = (...v) => JSON.stringify(v);
+function disegna(forza = false) {
   if (!S.camp || !S.party) return;
-  const scrolls = { p: $('#panel')?.scrollTop, l: $('#left')?.scrollTop };
-  renderGruppo($('#partyBox'));
-  RENDER[tab]($('#panel'));
-  $('#panel').scrollTop = scrolls.p || 0; $('#left').scrollTop = scrolls.l || 0;
+  const coop = [Coop.coop.ruolo, Coop.coop.info?.giocatori];
+  const sg = firma(S.party, coop);
+  const sp = tab === 'registro' ? firma(tab, S.registro?.length, S.registro?.[S.registro.length - 1]) : firma(tab, S.adv, S.party, coop, firmaUI(), table.firmaUI());
+  const cambiaG = forza || sg !== firme.gruppo, cambiaP = forza || sp !== firme.pannello;
+  const scrolls = (cambiaG || cambiaP) ? { p: $('#panel').scrollTop, l: $('#left').scrollTop } : null;   // letti prima di toccare il DOM: niente layout forzato
+  const t0 = performance.now();
+  if (cambiaG) { firme.gruppo = sg; renderGruppo($('#partyBox')); }
+  const t1 = performance.now();
+  if (cambiaP) { firme.pannello = sp; RENDER[tab]($('#panel')); }
+  tempi.gruppo = t1 - t0; tempi.pannello = performance.now() - t1;
+  if (scrolls) { $('#panel').scrollTop = scrolls.p || 0; $('#left').scrollTop = scrolls.l || 0; }
   $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
   const inc = S.adv.incontro;
   $('#tabs [data-tab=incontro]').classList.toggle('alert', !!inc && inc.stato !== 'finito');
-  disegnaStrumentiTessera(table.getSelected());
+  const sel = table.getSelected(), st = firma(sel, table.firmaUI());
+  if (forza || st !== firme.tessera) { firme.tessera = st; disegnaStrumentiTessera(sel); }
   aggiornaSegnalini();
 }
 
@@ -38,9 +50,12 @@ function disegna() {
 const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a' };
 function aggiornaSegnalini() {
   const qui = S.adv.stanzaCorrente;
-  table.setTokens(ordineMarcia().map(e => ({
-    id: e.id, label: (e.nome || '?')[0].toUpperCase(), color: COLORI[e.classe] || '#555', stato: e.stato, tileId: e.posizione || qui
-  })));
+  const lista = ordineMarcia().map(e => ({
+    id: e.id, label: (e.nome || '?')[0].toUpperCase(), color: COLORI[e.classe] || '#555', stato: e.stato, tileId: e.posizione || qui,
+    img: Rit.urlRitratto(e), imgId: Rit.haRitrattoProprio(e) ? e.id + ':' + S.ritratti[e.id].length : 'd:' + e.classe + ':' + e.id
+  }));
+  const f = firma(lista.map(({ img, ...r }) => r)); if (f === firme.segnalini) return;   // segnalini invariati: niente ricalcolo
+  firme.segnalini = f; table.setTokens(lista);
 }
 let pronto = false;
 function programma() { if (pronto) return; pronto = true; requestAnimationFrame(() => { pronto = false; disegna(); }); }
@@ -101,14 +116,15 @@ async function selezionaCampagna(id) {
   await apriCampagna(id);
   table.setTiles(S.adv.tessere);
   table.selectTile(null);
-  disegna();
+  disegna(true);
 }
 
 async function avvia() {
   try {
     await caricaRegole();
     table.initMap($('#mapView')); table.setTileData(R.tiles);
-    if (!LEGGERA) { dadi3d.initTable($('#diceLayer')); dice.tableIsReady(); }
+    // three.js e cannon-es (~1 MB) si scaricano in background: l'interfaccia parte subito e i primi tiri sono virtuali
+    if (!LEGGERA) import('./table3d.js').then(m => { m.initTable($('#diceLayer')); dice.collegaTavolo(m); }).catch(e => console.error('dadi 3D', e));
     table.onTileChange(() => modificato('avventura'));
     table.onTileSelect(t => disegnaStrumentiTessera(t));
     table.onTokenMove((id, tileId) => {
@@ -122,7 +138,7 @@ async function avvia() {
       muoviGruppo(a.stanzaCorrente, tileId); a.stanzaCorrente = tileId;
       log(`Il gruppo si sposta nella ${tileById(tileId)?.nome.toLowerCase()}.`); modificato();
     });
-    $('#loading').remove();
+    $('#loading').remove(); window.__avvioMs = Math.round(performance.now());
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
   $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });
@@ -163,4 +179,4 @@ async function avvia() {
   };
 }
 avvia();
-window.__4ad = { S, R, table, dice };
+window.__4ad = { S, R, table, dice, disegna, tempi, get avvioMs() { return window.__avvioMs; } };

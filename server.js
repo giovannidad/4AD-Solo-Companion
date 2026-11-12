@@ -3,6 +3,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 const coop = require('./coop');
 
 const PORT = process.env.PORT || 3000;
@@ -19,7 +20,7 @@ const MIME = {
   '.txt': 'text/plain; charset=utf-8', '.ico': 'image/x-icon', '.woff2': 'font/woff2'
 };
 // file di campagna ammessi (solo questi, niente path arbitrari)
-const FILES = { party: 'party.json', avventura: 'avventura.json', registro: 'registro.txt' };
+const FILES = { party: 'party.json', avventura: 'avventura.json', registro: 'registro.txt', ritratti: 'ritratti.json' };
 
 fs.mkdirSync(CAMPAGNE, { recursive: true });
 
@@ -39,12 +40,36 @@ function readBody(req) {
     req.on('error', reject);
   });
 }
-function serveStatic(res, baseDir, rel) {
+// File statici: contenuto in memoria (riletto se cambia la data di modifica), ETag per le richieste condizionate (304),
+// compressione brotli/gzip per i tipi testuali (calcolata una volta sola) e cache lunga per immagini e librerie.
+const COMPRIMIBILI = new Set(['.html', '.js', '.css', '.json', '.svg', '.txt']);
+const cacheFile = new Map();
+function serveStatic(res, baseDir, rel, req, lunga = false) {
   const file = path.normalize(path.join(baseDir, rel));
   if (!file.startsWith(baseDir)) return send(res, 403, { error: 'vietato' });
-  fs.readFile(file, (err, buf) => {
-    if (err) return send(res, 404, { error: 'non trovato' });
-    send(res, 200, buf, MIME[path.extname(file).toLowerCase()] || 'application/octet-stream');
+  fs.stat(file, (err, st) => {
+    if (err || !st.isFile()) return send(res, 404, { error: 'non trovato' });
+    let c = cacheFile.get(file);
+    const fresco = c && c.mtime === st.mtimeMs;
+    const consegna = () => {
+      const ext = path.extname(file).toLowerCase(), tipo = MIME[ext] || 'application/octet-stream';
+      const h = { 'Content-Type': tipo, ETag: c.etag, 'Cache-Control': lunga ? 'public, max-age=86400' : 'no-cache', Vary: 'Accept-Encoding' };
+      if (req && req.headers['if-none-match'] === c.etag) { res.writeHead(304, h); return res.end(); }
+      let corpo = c.buf;
+      if (COMPRIMIBILI.has(ext) && c.buf.length > 1024) {
+        const ae = String(req?.headers['accept-encoding'] || '');
+        if (/\bbr\b/.test(ae)) { c.br = c.br || zlib.brotliCompressSync(c.buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } }); corpo = c.br; h['Content-Encoding'] = 'br'; }
+        else if (/\bgzip\b/.test(ae)) { c.gz = c.gz || zlib.gzipSync(c.buf, { level: 6 }); corpo = c.gz; h['Content-Encoding'] = 'gzip'; }
+      }
+      h['Content-Length'] = corpo.length;
+      res.writeHead(200, h); res.end(corpo);
+    };
+    if (fresco) return consegna();
+    fs.readFile(file, (e2, buf) => {
+      if (e2) return send(res, 404, { error: 'non trovato' });
+      c = { mtime: st.mtimeMs, buf, etag: `"${buf.length.toString(16)}-${Math.floor(st.mtimeMs).toString(16)}"`, br: null, gz: null };
+      cacheFile.set(file, c); consegna();
+    });
   });
 }
 
@@ -109,23 +134,26 @@ async function api(req, res, parts) {
 // Il server principale resta su 127.0.0.1. Quando si ospita una partita se ne apre un secondo, su tutte le interfacce,
 // che serve soltanto i file statici del gioco e le richieste /api/coop (mai le campagne salvate).
 let lan = null;
-function apriLan() {
-  if (lan) return Promise.resolve({ porta: lan.address().port });
+async function gestoreLan(req, res) {
+  try {
+    const url = new URL(req.url, 'http://localhost');
+    const pathname = decodeURIComponent(url.pathname);
+    const parts = pathname.split('/').filter(Boolean);
+    if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url)) return; return send(res, 404, { error: 'non disponibile' }); }
+    if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'), req, true);
+    if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'), req);
+    return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1), req, pathname.startsWith('/vendor/'));
+  } catch (e) { send(res, 500, { error: String(e.message || e) }); }
+}
+/** Apre (o riapre) l'ascolto di rete sulla porta scelta dall'utente. Se la porta è occupata segnala l'errore, senza ripiegare su un'altra. */
+async function apriLan(porta) {
+  const richiesta = Number(porta) || Number(process.env.FAD_COOP_PORT) || 3001;
+  if (lan && lan.address().port === richiesta) return { porta: richiesta };
+  if (lan) { lan.closeAllConnections?.(); await new Promise(r => lan.close(() => r())); lan = null; }
   return new Promise((resolve, reject) => {
-    const srv = http.createServer(async (req, res) => {
-      try {
-        const url = new URL(req.url, 'http://localhost');
-        const pathname = decodeURIComponent(url.pathname);
-        const parts = pathname.split('/').filter(Boolean);
-        if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url)) return; return send(res, 404, { error: 'non disponibile' }); }
-        if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'));
-        if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'));
-        return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1));
-      } catch (e) { send(res, 500, { error: String(e.message || e) }); }
-    });
-    let porta = Number(process.env.FAD_COOP_PORT) || 3001;
-    srv.on('error', e => { if (e.code === 'EADDRINUSE' && porta) { porta = 0; srv.listen(porta, '0.0.0.0'); } else reject(e); });
-    srv.listen(porta, '0.0.0.0', () => { lan = srv; resolve({ porta: srv.address().port }); });
+    const srv = http.createServer(gestoreLan);
+    srv.once('error', e => reject(new Error(e.code === 'EADDRINUSE' ? `La porta ${richiesta} è già in uso: scegline un’altra.` : e.code === 'EACCES' ? `Non hai il permesso di usare la porta ${richiesta}.` : e.message)));
+    srv.listen(richiesta, '0.0.0.0', () => { lan = srv; resolve({ porta: richiesta }); });
   });
 }
 
@@ -135,9 +163,9 @@ const server = http.createServer(async (req, res) => {
     const pathname = decodeURIComponent(url.pathname);
     const parts = pathname.split('/').filter(Boolean);
     if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url, { apriLan })) return; return await api(req, res, parts); }
-    if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'));
-    if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'));
-    return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1));
+    if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'), req, true);
+    if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'), req);
+    return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1), req, pathname.startsWith('/vendor/'));
   } catch (e) {
     send(res, 500, { error: String(e.message || e) });
   }

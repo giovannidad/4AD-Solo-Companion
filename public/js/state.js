@@ -28,6 +28,7 @@ export async function apriCampagna(id) {
   S.adv = Object.assign(nuovaAvventura(), (await api.leggi(id, 'avventura')) || {});
   S.adv.tessere.forEach(t => { t.src = t.src.replace(/\.png$/, '.webp'); });   // salvataggi vecchi
   S.registro = (await api.leggi(id, 'registro')).split('\n').filter(Boolean);
+  S.ritratti = (await api.leggi(id, 'ritratti').catch(() => null)) || {};
   localStorage.setItem('4ad-campagna', id);
   emit();
 }
@@ -40,7 +41,7 @@ export function salva(...quali) {
   const files = quali.length ? quali : ['party', 'avventura'];
   for (const f of files) {
     clearTimeout(timers[f]);
-    timers[f] = setTimeout(() => api.scrivi(S.camp, f, S[f === 'avventura' ? 'adv' : 'party']).catch(e => console.error('salvataggio', e)), 250);
+    timers[f] = setTimeout(() => api.scrivi(S.camp, f, S[{ avventura: 'adv', party: 'party', ritratti: 'ritratti' }[f] || 'party']).catch(e => console.error('salvataggio', e)), 250);
   }
 }
 export function modificato(...quali) { salva(...quali); emit(); }

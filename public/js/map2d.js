@@ -34,8 +34,9 @@ function align(d) {
   return { ...g, fx, fy };
 }
 /** Opzioni del foglio: snap to grid (le linee della stanza coincidono con i quadretti del foglio). */
-export const opzioni = { snap: true, assist: true };
-try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; const a = localStorage.getItem('fad-assist'); if (a !== null) opzioni.assist = a === '1'; } catch { /* predefinito */ }
+export const opzioni = { snap: true, assist: true, matita: true };
+try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; const a = localStorage.getItem('fad-assist'); if (a !== null) opzioni.assist = a === '1'; const m = localStorage.getItem('fad-matita'); if (m !== null) opzioni.matita = m === '1'; } catch { /* predefinito */ }
+export function setMatita(on) { opzioni.matita = !!on; try { localStorage.setItem('fad-matita', on ? '1' : '0'); } catch { /* ok */ } }
 export function setAssist(on) { opzioni.assist = !!on; try { localStorage.setItem('fad-assist', on ? '1' : '0'); } catch { /* ok */ } }
 export function setSnap(on) { opzioni.snap = !!on; try { localStorage.setItem('fad-snap', on ? '1' : '0'); } catch { /* ok */ } }
 let snapTemp = true;   // false mentre si tiene premuto Alt: spostamento libero
@@ -107,7 +108,7 @@ export const scaleSelected = f => { const d = getSelected(); if (d) updateTile({
 /** Fa "scrivere a matita" la stanza. */
 export function animate(id) {
   const e = tiles.get(id); if (!e) return;
-  if (qualita.leggera) { e.drawn = true; invalidate(); return; }
+  if (qualita.leggera || !opzioni.matita) { e.drawn = true; e.wantAnim = false; e.anim = null; invalidate(); return; }   // senza l'effetto a matita la stanza compare subito
   if (e.proc) startAnim(e); else e.wantAnim = true;
 }
 function startAnim(e) {
@@ -133,25 +134,43 @@ function stepAnim(e, now) {
 }
 
 // ---------------- disegno ----------------
+// Il foglio è disegnato con pochi comandi: la texture della carta una volta sola (contiene già il colore) e le linee della griglia
+// raggruppate in due tratti (normali e ogni 5 quadretti). Un livello in cache è stato provato ma non dava vantaggi misurabili.
 function drawPaper() {
-  ctx.fillStyle = '#1c140d'; ctx.fillRect(0, 0, W, H);
-  const sr = sheetRect();
-  const [x0, y0] = toScreen(sr.x0, sr.y0), [x1, y1] = toScreen(sr.x1, sr.y1), z = view.zoom;
+  const g = ctx, sr = sheetRect(), z = view.zoom;
+  g.fillStyle = '#1c140d'; g.fillRect(0, 0, W, H);
+  const [x0, y0] = toScreen(sr.x0, sr.y0), [x1, y1] = toScreen(sr.x1, sr.y1);
   // ombra del foglio: due rettangoli sfumati a costo quasi nullo (niente shadowBlur, lento sulle GPU vecchie)
-  ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(x0 + 6, y0 + 8, x1 - x0, y1 - y0); ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.fillRect(x0 + 3, y0 + 4, x1 - x0, y1 - y0);
-  ctx.fillStyle = PAPER; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+  g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x0 + 6, y0 + 8, x1 - x0, y1 - y0); g.fillStyle = 'rgba(0,0,0,.2)'; g.fillRect(x0 + 3, y0 + 4, x1 - x0, y1 - y0);
   if (!paperPattern) {
-    const c = mk(128, 128), g = c.getContext('2d'); g.fillStyle = PAPER; g.fillRect(0, 0, 128, 128);
-    for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(120,100,60,${Math.random() * 0.07})`; g.fillRect(Math.random() * 128, Math.random() * 128, 1 + Math.random() * 2, 1); }
-    paperPattern = ctx.createPattern(c, 'repeat');
+    const c = mk(128, 128), gg = c.getContext('2d'); gg.fillStyle = PAPER; gg.fillRect(0, 0, 128, 128);
+    for (let i = 0; i < 900; i++) { gg.fillStyle = `rgba(120,100,60,${Math.random() * 0.07})`; gg.fillRect(Math.random() * 128, Math.random() * 128, 1 + Math.random() * 2, 1); }
+    paperPattern = g.createPattern(c, 'repeat');
   }
-  ctx.fillStyle = paperPattern; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
-  ctx.lineWidth = 1;
-  for (let i = sr.x0; i <= sr.x1; i++) { const [x] = toScreen(i, 0); ctx.strokeStyle = i % 5 === 0 ? 'rgba(70,120,175,.55)' : 'rgba(70,120,175,.28)'; ctx.beginPath(); ctx.moveTo(Math.round(x) + .5, y0); ctx.lineTo(Math.round(x) + .5, y1); ctx.stroke(); }
-  for (let j = sr.y0; j <= sr.y1; j++) { const [, y] = toScreen(0, j); ctx.strokeStyle = j % 5 === 0 ? 'rgba(70,120,175,.55)' : 'rgba(70,120,175,.28)'; ctx.beginPath(); ctx.moveTo(x0, Math.round(y) + .5); ctx.lineTo(x1, Math.round(y) + .5); ctx.stroke(); }
-  ctx.strokeStyle = 'rgba(200,70,60,.35)'; ctx.beginPath(); ctx.moveTo(x0 + z * 1, y0); ctx.lineTo(x0 + z * 1, y1); ctx.stroke(); // margine
+  g.fillStyle = paperPattern; g.fillRect(x0, y0, x1 - x0, y1 - y0);
+  g.lineWidth = 1;
+  const linee = (stile, test) => {
+    g.strokeStyle = stile; g.beginPath();
+    for (let i = sr.x0; i <= sr.x1; i++) if (test(i)) { const x = Math.round(toScreen(i, 0)[0]) + .5; g.moveTo(x, y0); g.lineTo(x, y1); }
+    for (let j = sr.y0; j <= sr.y1; j++) if (test(j)) { const y = Math.round(toScreen(0, j)[1]) + .5; g.moveTo(x0, y); g.lineTo(x1, y); }
+    g.stroke();
+  };
+  linee('rgba(70,120,175,.28)', i => i % 5 !== 0);
+  linee('rgba(70,120,175,.55)', i => i % 5 === 0);
+  g.strokeStyle = 'rgba(200,70,60,.35)'; g.beginPath(); g.moveTo(x0 + z * 1, y0); g.lineTo(x0 + z * 1, y1); g.stroke(); // margine
 }
 
+const LIVELLI = [32, 64];   // pixel per quadretto dei livelli ridotti (oltre al raster nativo, 128)
+/** Sorgente della tessera adatta allo zoom: il raster nativo ridotto a metà/quarto evita di ricampionare ogni volta un'immagine molto più grande dello schermo. */
+function fonteTessera(e, z) {
+  const d = e.d, nat = d.cx, serve = z * dpr;                  // pixel per quadretto richiesti sullo schermo
+  const lv = LIVELLI.find(l => l >= serve * 1.1 && l < nat);
+  if (!lv) return e.proc;
+  if (e.mip?.da === e.proc && e.mip.liv === lv) return e.mip.c;
+  const f = lv / nat, c = mk(Math.max(1, Math.round(e.proc.width * f)), Math.max(1, Math.round(e.proc.height * f))), g = c.getContext('2d');
+  g.imageSmoothingQuality = 'high'; g.drawImage(e.proc, 0, 0, c.width, c.height);
+  e.mip = { da: e.proc, liv: lv, c }; return c;
+}
 function drawTile(e, now, pencils) {
   const d = e.d; if (!e.proc) return;
   const z = view.zoom, { bw, bh, dw, dh } = dims(d);
@@ -161,7 +180,7 @@ function drawTile(e, now, pencils) {
   ctx.translate(sx, sy); ctx.rotate((d.rot || 0) * Math.PI / 2); ctx.scale(d.flip ? -1 : 1, 1);
   const x = -bw * z / 2, y = -bh * z / 2, w = bw * z, h = bh * z;
   if (d.pending) {
-    ctx.globalAlpha = 0.62; ctx.drawImage(e.proc, x, y, w, h);
+    ctx.globalAlpha = 0.62; ctx.drawImage(fonteTessera(e, z), x, y, w, h);
   } else if (e.anim) {
     stepAnim(e, now);
     if (e.anim) {
@@ -171,8 +190,8 @@ function drawTile(e, now, pencils) {
       ctx.drawImage(a.tmp, x, y, w, h);
       const m = ctx.getTransform(), p = m.transformPoint(new DOMPoint(x + a.tip[0] / a.w * w, y + a.tip[1] / a.h * h));
       pencils.push([p.x / dpr, p.y / dpr]);
-    } else ctx.drawImage(e.proc, x, y, w, h);
-  } else ctx.drawImage(e.proc, x, y, w, h);
+    } else ctx.drawImage(fonteTessera(e, z), x, y, w, h);
+  } else ctx.drawImage(fonteTessera(e, z), x, y, w, h);
   ctx.restore();
   // cornice della selezione / ghost
   if (d.pending || d.id === selectedId) {
@@ -200,17 +219,19 @@ function drawPencil(x, y, now) {
   ctx.restore();
 }
 
+/** Diagnostica: permette a misura() di escludere parti del fotogramma. */
+export const _salta = { carta: false, tessere: false, segnalini: false };
 function frame(now) {
   raf = 0;
   if (!ctx) return;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  drawPaper();
+  if (!_salta.carta) drawPaper(); else { ctx.fillStyle = '#1c140d'; ctx.fillRect(0, 0, W, H); }
   const pencils = [];
   const list = [...tiles.values()].sort((a, b) => (a.d.pending ? 1 : 0) - (b.d.pending ? 1 : 0));
-  for (const e of list) drawTile(e, now, pencils);
+  if (!_salta.tessere) for (const e of list) drawTile(e, now, pencils);
   drawUscite();
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const mov = stepTokens(); drawTokens(now);
+  const mov = stepTokens(); if (!_salta.segnalini) drawTokens(now);
   pencils.forEach(p => drawPencil(p[0], p[1], now));
   if (mov || [...tiles.values()].some(e => e.anim || e.wantAnim)) invalidate();
 }
@@ -244,21 +265,46 @@ function stepTokens() {
   }
   return moving;
 }
+const sprites = new Map(), immagini = new Map();
+/** Immagine del ritratto di un segnalino, caricata in modo asincrono (al termine si ridisegnano gli sprite). */
+function immagineSegnalino(url) {
+  let im = immagini.get(url);
+  if (!im) { im = new Image(); im.onload = () => { sprites.clear(); invalidate(); }; im.src = url; if (immagini.size > 40) immagini.clear(); immagini.set(url, im); }
+  return im.complete && im.naturalWidth ? im : null;
+}
+/** Sprite di un segnalino (gradiente, ombra, bordo e lettera) disegnato una volta sola per colore/stato/dimensione. */
+function spriteSegnalino(t, r, lift) {
+  const dead = t.stato === 'morto', stone = t.stato === 'pietra', chiave = `${t.color}|${t.label}|${t.imgId || ''}|${dead ? 'm' : stone ? 'p' : ''}|${t.activo ? 1 : 0}|${Math.round(r * 10)}|${lift}|${dpr}|${qualita.leggera ? 1 : 0}`;
+  let sp = sprites.get(chiave); if (sp) return sp;
+  const foto = t.img ? immagineSegnalino(t.img) : null;
+  const pad = Math.ceil(r * 0.4 + 12 + lift), dim = Math.ceil((r + pad) * 2 * dpr), c = mk(dim, dim), g = c.getContext('2d');
+  g.scale(dpr, dpr); const cx = r + pad, cy = r + pad - lift * 0 - 0;
+  if (!qualita.leggera) { g.shadowColor = '#0008'; g.shadowBlur = 8 + lift; g.shadowOffsetY = 3 + lift; }
+  const gr = g.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.1, cx, cy, r);
+  const col = dead || stone ? '#8a8a8a' : t.color; gr.addColorStop(0, '#ffffff66'); gr.addColorStop(0.25, col); gr.addColorStop(1, shade(col, -0.45));
+  g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fill();
+  g.shadowColor = 'transparent';
+  if (foto) {   // ritratto in un cerchio, con anello del colore della classe (grigio e con croce se caduto/pietrificato)
+    g.save(); g.beginPath(); g.arc(cx, cy, r - 1.5, 0, Math.PI * 2); g.clip(); g.drawImage(foto, cx - r, cy - r, r * 2, r * 2);
+    if (dead || stone) { g.globalCompositeOperation = 'saturation'; g.fillStyle = '#808080'; g.fillRect(cx - r, cy - r, r * 2, r * 2); }
+    g.restore();
+    g.lineWidth = 3; g.strokeStyle = t.activo ? '#ffd45c' : col; g.beginPath(); g.arc(cx, cy, r - 1, 0, Math.PI * 2); g.stroke();
+    g.lineWidth = 1.2; g.strokeStyle = '#1b1b22'; g.beginPath(); g.arc(cx, cy, r + .6, 0, Math.PI * 2); g.stroke();
+    if (dead) { g.fillStyle = '#fff'; g.font = `bold ${Math.round(r * 1.1)}px Georgia, serif`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('\u2020', cx, cy + 1); }
+  } else {
+    g.lineWidth = 2.4; g.strokeStyle = t.activo ? '#ffd45c' : '#1b1b22'; g.stroke();
+    g.fillStyle = '#fff'; g.font = `bold ${Math.round(r * 1.05)}px Palatino, Georgia, serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(dead ? '\u2020' : (t.label || '?'), cx, cy + 1);
+  }
+  sp = { c, off: r + pad }; if (sprites.size > 80) sprites.clear(); sprites.set(chiave, sp); return sp;
+}
 function drawTokens(now) {
   const z = view.zoom, r = Math.max(9, z * 0.42);
   for (const t of tokens) {
     if (t.hidden || t.x == null) continue;
     const [sx, sy0] = toScreen(t.x, t.y), lift = (t === drag?.token ? 8 : 0), sy = sy0 - lift;
-    const dead = t.stato === 'morto', stone = t.stato === 'pietra';
-    ctx.save();
-    if (!qualita.leggera) { ctx.shadowColor = '#0008'; ctx.shadowBlur = 8 + lift; ctx.shadowOffsetY = 3 + lift; }
-    const g = ctx.createRadialGradient(sx - r * 0.35, sy - r * 0.4, r * 0.1, sx, sy, r);
-    const col = dead || stone ? '#8a8a8a' : t.color; g.addColorStop(0, '#ffffff66'); g.addColorStop(0.25, col); g.addColorStop(1, shade(col, -0.45));
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
-    ctx.shadowColor = 'transparent'; ctx.lineWidth = 2.4; ctx.strokeStyle = t.activo ? '#ffd45c' : '#1b1b22'; ctx.stroke();
-    ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.round(r * 1.05)}px Palatino, Georgia, serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(dead ? '\u2020' : (t.label || '?'), sx, sy + 1);
-    ctx.restore();
+    const sp = spriteSegnalino(t, r, lift);
+    ctx.drawImage(sp.c, sx - sp.off, sy - sp.off, sp.c.width / dpr, sp.c.height / dpr);
   }
 }
 function shade(hex, f) {
@@ -463,6 +509,8 @@ export function assistStart(d, ref) {
   Object.assign(assist, { id: d.id, cand, k: 0, refs, refSel: -1 });
   applicaPos(d, cand[0]); invalidate(); return true;
 }
+/** Firma dello stato dell'editor di mappa che influisce sull'interfaccia (selezione, posizionamento assistito). */
+export const firmaUI = () => `${selectedId}|${assist.id}|${assist.k}|${assist.cand.length}|${assist.refSel}`;
 export function assistInfo(id) { return assist.id && assist.id === id ? { k: assist.k, n: assist.cand.length, refSel: assist.refSel } : null; }
 export function assistNext(dir = 1) {
   const e = tiles.get(assist.id); if (!e || !assist.cand.length) return;
@@ -488,4 +536,19 @@ function drawUscite() {
     ctx.beginPath(); ctx.moveTo(a * 0.9, 0); ctx.lineTo(-a * 0.2, -a * 0.6); ctx.lineTo(-a * 0.2, a * 0.6); ctx.closePath(); ctx.fill(); ctx.stroke();
     ctx.restore();
   }
+}
+
+/** Diagnostica: tempo medio (ms) di un fotogramma, con o senza spostamento della vista. Restituisce {js, totale}: `js` è il tempo di
+ *  preparazione dei comandi, `totale` include l'attesa della GPU (sincronizzata a fine ciclo). Si ripete 5 volte e si prende la mediana. */
+export function misura(n = 40, spostamento = false) {
+  const x0 = view.x, y0 = view.y, js = [], tot = [];
+  for (let r = 0; r < 5; r++) {
+    const t0 = performance.now();
+    for (let i = 0; i < n; i++) { if (spostamento) { view.x = x0 + (i % 20) * 0.05; view.y = y0 + (i % 20) * 0.03; } frame(performance.now()); }
+    const t1 = performance.now(); ctx.getImageData(0, 0, 1, 1); const t2 = performance.now();
+    js.push((t1 - t0) / n); tot.push((t2 - t0) / n);
+  }
+  view.x = x0; view.y = y0;
+  const med = a => +a.sort((p, q) => p - q)[2].toFixed(3);
+  return { js: med(js), totale: med(tot) };
 }

@@ -14,42 +14,63 @@ export const mieiEroi = () => coop.info?.giocatori?.find(g => g.id === coop.id)?
 export const eMio = id => !sonoOspite() || mieiEroi().includes(id);
 
 let es = null, invioTimer = null, coda = Promise.resolve();
+const scollega = [];   // funzioni per togliere gli ascoltatori registrati da ospita()
 const chat = [];
 
 const post = (azione, corpo) => fetch(`/api/coop/${coop.codice}/${azione}?t=${coop.token}`, { method: 'POST', body: JSON.stringify(corpo || {}), keepalive: true })
   .then(r => { if (!r.ok) return r.json().then(j => { throw new Error(j.error || r.statusText); }); return r.json(); });
 
 // ---------------- stato pubblicato dall'ospitante ----------------
-function istantanea() {
-  return {
-    camp: S.camp, party: S.party, adv: S.adv, registro: (S.registro || []).slice(-300),
-    coop: { codice: coop.codice, giocatori: coop.ospiti.map(g => ({ id: g.id, nome: g.nome, online: g.online, eroi: S.party?.coopEroi?.[g.nome] || [] })) }
-  };
+// Lo stato è diviso in «pezzi» (gruppo, ogni eroe, avventura, incontro, ogni tessera, registro, giocatori): a ogni modifica
+// si spediscono solo i pezzi cambiati (confrontando una firma), non l'intero stato.
+const firmeInviate = new Map();
+let regInviato = 0;
+function pezzi() {
+  const c = {}, P = S.party || {}, A = S.adv || {};
+  const { eroi = [], ...pm } = P; c.p = { ...pm, eroiIds: eroi.map(e => e.id) }; eroi.forEach(e => { c['e:' + e.id] = e; });
+  const { tessere = [], incontro = null, ...am } = A; c.a = { ...am, tessereIds: tessere.map(t => t.id) }; c.i = { incontro }; tessere.forEach(t => { c['t:' + t.id] = t; });
+  for (const [id, url] of Object.entries(S.ritratti || {})) c['x:' + id] = { url };
+  c.c = { camp: S.camp, codice: coop.codice, giocatori: coop.ospiti.map(g => ({ id: g.id, nome: g.nome, online: g.online, eroi: S.party?.coopEroi?.[g.nome] || [] })) };
+  return c;
 }
-function pubblica(subito = false) {
+/** Differenze rispetto all'ultimo invio (o tutto, con `pieno`). Restituisce null se non è cambiato nulla. */
+function differenze(pieno = false) {
+  if (pieno) { firmeInviate.clear(); regInviato = 0; }
+  const c = pezzi(), delta = {};
+  for (const [k, v] of Object.entries(c)) { const f = JSON.stringify(v); if (firmeInviate.get(k) !== f) { firmeInviate.set(k, f); delta[k] = v; } }
+  for (const k of [...firmeInviate.keys()]) if (!(k in c)) { firmeInviate.delete(k); delta[k] = null; }
+  // registro: solo le righe nuove (all'inizio le ultime 60)
+  const reg = S.registro || [], n = reg.length;
+  if (n !== regInviato) { const nuove = regInviato ? Math.min(n - regInviato, 60) : Math.min(n, 60); delta.r = { n, righe: nuove > 0 ? reg.slice(-nuove) : [] }; regInviato = n; }
+  return Object.keys(delta).length ? delta : null;
+}
+function pubblica(subito = false, pieno = false) {
   if (!sonoHost()) return;
   clearTimeout(invioTimer);
-  invioTimer = setTimeout(() => post('invia', { tipo: 'stato', dati: istantanea() }).catch(e => console.error('coop', e)), subito ? 0 : 140);
+  invioTimer = setTimeout(() => {
+    const d = differenze(pieno); if (!d) return;
+    post('invia', { tipo: 'stato', dati: { pieno, delta: d } }).catch(e => console.error('coop', e));
+  }, subito ? 0 : 140);
 }
 
 // ---------------- ospitante ----------------
-export async function ospita() {
-  const r = await fetch('/api/coop/ospita', { method: 'POST' });
-  if (!r.ok) throw new Error('Impossibile avviare la stanza');
-  const j = await r.json();
+export async function ospita(porta) {
+  const r = await fetch('/api/coop/ospita', { method: 'POST', body: JSON.stringify(porta ? { porta: +porta } : {}) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || 'Impossibile avviare la stanza');
   Object.assign(coop, { ruolo: 'host', codice: j.codice, token: j.token, porta: j.lan?.porta, indirizzi: j.indirizzi || [], ospiti: [] });
   if (S.party) S.party.coopEroi = S.party.coopEroi || {};
   collega();
-  onChange(pubblica);
-  dice.onRoll(r2 => { if (sonoHost()) post('invia', { tipo: 'tiro', dati: r2 }).catch(() => {}); });
+  scollega.forEach(f => f()); scollega.length = 0;   // niente ascoltatori doppi se si riavvia la stanza
+  scollega.push(onChange(() => pubblica()), dice.onRoll(r2 => { if (sonoHost()) post('invia', { tipo: 'tiro', dati: r2 }).catch(() => {}); }));
   document.body.classList.add('coop-host');
-  pubblica(true); aggiornaBadge(); mostraChat();
+  pubblica(true, true); aggiornaBadge(); mostraChat();
   return j;
 }
 export async function chiudiStanza() {
   if (!sonoHost()) return;
   try { await post('chiudi'); } catch { /* già chiusa */ }
-  es?.close(); es = null; coop.ruolo = null; document.body.classList.remove('coop-host'); aggiornaBadge(); nascondiChat();
+  es?.close(); es = null; coop.ruolo = null; scollega.forEach(f => f()); scollega.length = 0; document.body.classList.remove('coop-host'); aggiornaBadge(); nascondiChat();
 }
 export function assegna(nome, eroeId, si) {
   const m = (S.party.coopEroi = S.party.coopEroi || {});
@@ -120,8 +141,24 @@ export async function unisciti(codice, nome) {
   document.body.classList.add('ospite');
   collega(); aggiornaBadge(); mostraChat();
 }
-function applica(stato) {
-  S.camp = stato.camp; S.party = stato.party; S.adv = stato.adv; S.registro = stato.registro; coop.info = stato.coop;
+const pezziOspite = {};
+let regOspite = [], regN = null;
+function applica(msg) {
+  if (msg.pieno) { for (const k of Object.keys(pezziOspite)) delete pezziOspite[k]; regOspite = []; regN = null; }
+  for (const [k, v] of Object.entries(msg.delta || {})) {
+    if (k === 'r') {
+      if (regN === null) regOspite = v.righe.slice();
+      else { const q = Math.min(v.righe.length, Math.max(0, v.n - regN)); regOspite = [...regOspite, ...(q ? v.righe.slice(-q) : [])]; }
+      regN = v.n; regOspite = regOspite.slice(-300); continue;
+    }
+    if (v === null) delete pezziOspite[k]; else pezziOspite[k] = v;
+  }
+  const p = pezziOspite.p, a = pezziOspite.a; if (!p || !a) return;
+  const { eroiIds, ...pm } = p, { tessereIds, ...am } = a;
+  S.party = { ...pm, eroi: eroiIds.map(id => pezziOspite['e:' + id]).filter(Boolean) };
+  S.adv = { ...am, incontro: pezziOspite.i?.incontro || null, tessere: tessereIds.map(id => pezziOspite['t:' + id]).filter(Boolean) };
+  S.registro = regOspite; S.camp = pezziOspite.c?.camp || 'coop'; coop.info = pezziOspite.c;
+  S.ritratti = Object.fromEntries(Object.entries(pezziOspite).filter(([k]) => k.startsWith('x:')).map(([k, v]) => [k.slice(2), v.url]));
   table.setTiles(S.adv.tessere || []);
   emit(); aggiornaBadge();
 }
@@ -168,9 +205,16 @@ export function apriCoop() {
     const codice = h('input', { type: 'text', placeholder: 'Codice (es. K7M2QX)', maxlength: 8, style: 'text-transform:uppercase' });
     const nome = h('input', { type: 'text', placeholder: 'Il tuo nome', maxlength: 24, value: localStorage.getItem('fad-nome') || '' });
     const ind = h('input', { type: 'text', placeholder: 'Indirizzo dell’ospitante (es. 192.168.1.23:3001) – vuoto = questo computer' });
+    const porta = h('input', { type: 'number', min: 1024, max: 65535, value: localStorage.getItem('fad-porta') || 3001, style: 'width:110px' });
     b.append(h('h4', {}, 'Ospita una partita'),
       h('p', { class: 'hint' }, 'Gli altri giocatori si collegano dal browser al tuo computer: ognuno guida i propri eroi mentre tu gestisci dungeon, mostri e dadi.'),
-      h('button', { class: 'primary', disabled: !S.party?.eroi?.length, title: S.party?.eroi?.length ? '' : 'Crea prima il gruppo', onclick: async () => { try { await ospita(); close(); apriCoop(); } catch (e) { toast(e.message, 'warn'); } } }, 'Avvia la stanza'),
+      h('label', {}, 'Porta di rete da usare (1024–65535)', porta),
+      h('p', { class: 'hint' }, 'È la porta su cui gli altri si collegano al tuo computer: se giochi via Internet è quella da aprire sul router. Scegline una libera e ricordala.'),
+      h('button', { class: 'primary', disabled: !S.party?.eroi?.length, title: S.party?.eroi?.length ? '' : 'Crea prima il gruppo', onclick: async () => {
+        const n = Number(porta.value);
+        if (!Number.isInteger(n) || n < 1024 || n > 65535) return toast('La porta deve essere un numero tra 1024 e 65535.', 'warn');
+        try { await ospita(n); localStorage.setItem('fad-porta', String(n)); close(); apriCoop(); } catch (e) { toast(e.message, 'warn'); }
+      } }, 'Avvia la stanza'),
       h('h4', {}, 'Unisciti a una partita'), h('label', {}, 'Codice stanza', codice), h('label', {}, 'Nome', nome), h('label', {}, 'Indirizzo', ind),
       h('div', { class: 'row end' }, h('button', { onclick: close }, 'Annulla'), h('button', { class: 'primary', onclick: () => {
         const c = codice.value.trim().toUpperCase(), n = nome.value.trim(); if (!c || !n) return toast('Inserisci codice e nome.', 'warn');
