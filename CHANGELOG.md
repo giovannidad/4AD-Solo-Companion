@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.3
+- **Banner fisso in basso** che invita ad acquistare i manuali di Four Against Darkness (link Amazon dell'autore).
+
 ## 1.7.2
 - **Prestazioni:** ridisegno a parti (gruppo, pannello, segnalini solo se il loro stato è cambiato); server con cache in memoria, ETag/304,
   compressione brotli/gzip e cache lunga per immagini e librerie; three.js e cannon-es caricati in differita; cooperativa a differenze
