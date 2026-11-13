@@ -6,6 +6,7 @@ import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaL
 import { tiroES, eroePuoSalire } from './game.js';
 import * as T from './tratti.js';
 import * as Rit from './ritratti.js';
+import { equipaggiabile, equipaggia } from './equip.js';
 
 /** Nome non ancora usato nel gruppo (eventualmente con un numero romano), ignorando l'eroe `escludiId` e i nomi già scelti in `extra`. */
 const ROMANI = ['', ' II', ' III', ' IV', ' V', ' VI', ' VII', ' VIII', ' IX', ' X'];
@@ -262,7 +263,7 @@ export function scheda(id) {
           h('button', { class: 'mini', title: 'Una carica in più', onclick: () => { o.cariche = Math.min(o.caricheMax ?? 99, o.cariche + 1); ro(); modificato('party'); } }, '+'),
           o.manuale ? h('button', { class: 'mini', disabled: o.cariche <= 0, title: 'Usa una carica (registra nel diario)', onclick: () => { o.cariche--; log(`${e.nome} usa ${o.nome} (rimaste: ${o.cariche}).`); ro(); modificato('party'); } }, 'Usa') : null
         ] : [];
-        og.append(h('div', { class: 'row', title: o.nota || '' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}${o.valore ? ` (${o.valore} p.o.)` : ''}${o.afferrato ? ' — afferrato (non usabile)' : ''}`), ...car, h('button', { class: 'mini', onclick: () => { e.oggetti.splice(k, 1); ro(); modificato('party'); } }, '×')));
+        og.append(h('div', { class: 'row', title: o.nota || '' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}${o.valore ? ` (${o.valore} p.o.)` : ''}${o.afferrato ? ' — afferrato (non usabile)' : ''}`), ...car, equipaggiabile(o) ? h('button', { class: 'mini', title: 'Impugna come arma o indossa come armatura', onclick: async () => { if (await equipaggia(e, o)) { scheda(e.id); } } }, 'Equipaggia') : null, h('button', { class: 'mini', onclick: () => { e.oggetti.splice(k, 1); ro(); modificato('party'); } }, '×')));
       });
       if (!e.oggetti?.length) og.append(h('small', {}, 'Nessun oggetto.'));
     };

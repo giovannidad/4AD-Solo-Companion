@@ -17,9 +17,10 @@ export const nuovaAvventura = () => ({
 });
 
 export async function caricaRegole() {
-  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'avanzate', 'caos', 'tratti', 'traguardi'];
+  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'tratti', 'traguardi'];
   const dati = await Promise.all(nomi.map(n => api.regola(n)));
   nomi.forEach((n, i) => { R[n] = dati[i]; });
+  R.tilesSet = { classico: R['tiles-classico'], foresta: R['tiles-foresta'] };   // geometria delle tessere dei set tematici
 }
 
 export async function apriCampagna(id) {

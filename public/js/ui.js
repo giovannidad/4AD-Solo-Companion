@@ -6,6 +6,7 @@ import * as T from './tratti.js';
 import * as Coop from './coop.js';
 import * as Rit from './ritratti.js';
 import * as Eff from './effetti.js';
+import { equipaggiabile, equipaggia } from './equip.js';
 import { nomeDungeon } from './nomi.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import * as G from './game.js';
@@ -317,6 +318,11 @@ async function assegna(x, e) {
   if (x.tipo === 'pergamena') T.evento(e, 'pergamene');
   adv().bottino = adv().bottino.filter(y => y.id !== x.id);
   log(`${e.nome} prende: ${x.testo}`); modificato();
+  const preso = (e.oggetti || [])[(e.oggetti || []).length - 1];
+  if (preso && x.tipo !== 'oro' && equipaggiabile(preso)) {
+    const k = await scelta('Equipaggiare?', `${e.nome} ha preso: ${preso.nome}`, [['si', 'Equipaggia subito', 'Diventa l’arma impugnata o l’armatura indossata'], ['no', 'Tieni nello zaino', 'Potrai equipaggiarlo più tardi dalla scheda']]);
+    if (k === 'si') await equipaggia(e, preso);
+  }
 }
 function dividiOro() {
   const monete = adv().bottino.filter(x => x.tipo === 'oro'); const tot = monete.reduce((a, x) => a + x.valore, 0);

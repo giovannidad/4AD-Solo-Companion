@@ -129,7 +129,7 @@ async function selezionaCampagna(id) {
 async function avvia() {
   try {
     await caricaRegole();
-    table.initMap($('#mapView')); table.setTileData(R.tiles); table.setSicuraFn(stanzaSicura);
+    table.initMap($('#mapView')); table.setTileData(R.tiles, R.tilesSet); table.setSicuraFn(stanzaSicura);
     // three.js e cannon-es (~1 MB) si scaricano in background: l'interfaccia parte subito e i primi tiri sono virtuali
     if (!LEGGERA) import('./table3d.js').then(m => { m.initTable($('#diceLayer')); dice.collegaTavolo(m); }).catch(e => console.error('dadi 3D', e));
     table.onTileChange(() => modificato('avventura'));

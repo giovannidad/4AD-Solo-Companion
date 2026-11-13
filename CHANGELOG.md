@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.11.0
+- **Equipaggiamento del bottino:** armi, armature e scudi trovati si possono equipaggiare subito alla consegna o dalla scheda (pulsante «Equipaggia»), nel rispetto delle classi; le armi d'argento valgono contro gli spettri.
+- **Stili della mappa:** i set «Dungeon classico» e «Foresta» hanno ora forme di stanza originali (porte nelle stesse posizioni delle tessere del manuale), più varietà di dettagli.
+- **Fondale** della mappa uguale (carta chiara) per tutti gli stili, anche nell'esportazione. I dungeon avviati con i set della 1.10.0 possono avere le stanze disallineate.
+
 ## 1.10.0
 - **Stili della mappa:** nuovi set di tessere «Dungeon classico» (pietra, torce, botti, ossa) e «Foresta» (prato, siepi, alberi, cancelli), con bordino a mano e dettagli; si scelgono prima di iniziare un dungeon (menu «Stile della mappa»; l'originale è «4 Against Darkness»). Lo sfondo del foglio, la griglia e l'esportazione PNG/PDF si adattano allo stile scelto.
 - **Esporta mappa:** i segnalini dei personaggi non vengono più disegnati.

@@ -229,17 +229,158 @@ def foresta(t, seed):
 
 TEMI = {'classico': classico, 'foresta': foresta}
 
+# ------------------------------------------------------------------ GEOMETRIA ORIGINALE
+# Le porte (e le aperture di corridoio) restano dove sono nelle tessere del manuale; il corpo della stanza viene ridisegnato.
+def lati(o, i, j): return ((i, j - 1), (i, j)) if o == 'h' else ((i - 1, j), (i, j))
+def vicini4(c): return [(c[0] + 1, c[1]), (c[0] - 1, c[1]), (c[0], c[1] + 1), (c[0], c[1] - 1)]
+
+def analizza(kind, n):
+    m = META[kind][n]; _, _, rect = leggi(kind, n)
+    celle = set(map(tuple, m['celle']))
+    porte = [tuple(p) for p in m['porte']]
+    porte_rect = set()
+    for x, y, w, h in rect:
+        porte_rect.add(('h', round(x - .14), round(y + .17)) if w > h else ('v', round(x + .17), round(y - .14)))
+    porte_d = [p for p in porte if p in porte_rect]; punte = [p for p in porte if p not in porte_rect]
+    ob_in, vietate = set(), set()
+    for o, i, j in porte:
+        a, b = lati(o, i, j); dentro, fuori = (a, b) if a in celle else (b, a)
+        ob_in.add(dentro); vietate.add(fuori)
+    for o, i, j in punte:   # il braccio di un corridoio aperto resta largo 1 quadretto per 3 quadretti
+        a, b = lati(o, i, j); dentro, fuori = (a, b) if a in celle else (b, a)
+        d = (dentro[0] - fuori[0], dentro[1] - fuori[1])
+        for k in range(3):
+            c = (dentro[0] + d[0] * k, dentro[1] + d[1] * k); ob_in.add(c)
+            for v in vicini4(c):
+                if v != (c[0] - d[0], c[1] - d[1]) and v != (c[0] + d[0], c[1] + d[1]): vietate.add(v)
+    return celle, porte_d, punte, ob_in, vietate
+
+def ricette(bw, bh, r):
+    """Forme candidate (insiemi di quadretti) per un ingombro bw×bh; ognuna ha un nome."""
+    R_ = [(i, j) for i in range(bw) for j in range(bh)]
+    dist = lambda i, j: min(i, bw - 1 - i) + min(j, bh - 1 - j)
+    out = {}
+    out['rettangolo'] = set(R_)
+    if bw >= 3 and bh >= 3: out['smussata'] = {c for c in R_ if dist(*c) >= 1 or True} - {c for c in R_ if dist(*c) < 1}
+    if bw >= 4 and bh >= 4: out['ottagono'] = {c for c in R_ if dist(*c) >= 2}
+    if bw >= 3 and bh >= 3:
+        cx, cy, rx, ry = (bw - 1) / 2, (bh - 1) / 2, bw / 2 + .15, bh / 2 + .15
+        out['ovale'] = {(i, j) for i, j in R_ if ((i - cx) / rx) ** 2 + ((j - cy) / ry) ** 2 <= 1.0}
+    if bw >= 4 and bh >= 3:
+        a, b = max(1, bw // 3), max(1, bh // 3)
+        out['croce'] = {(i, j) for i, j in R_ if a <= i < bw - a or b <= j < bh - b}
+    if bw >= 4 and bh >= 4:
+        qx, qy = bw // 2, bh // 2; q = r.choice([(0, 0), (bw - qx, 0), (0, bh - qy), (bw - qx, bh - qy)])
+        out['elle'] = {(i, j) for i, j in R_ if not (q[0] <= i < q[0] + qx and q[1] <= j < q[1] + qy)}
+    if bw >= 5 and bh >= 3:
+        t = bh // 2 or 1; out['tau'] = {(i, j) for i, j in R_ if j < t or bw // 3 <= i < bw - bw // 3}
+    if bw >= 5 and bh >= 5:
+        c = {(i, j) for i, j in R_}; c.discard((bw // 2, bh // 2)); out['pilastro'] = c
+    if bw >= 4 and bh >= 4:   # sala con nicchie: nucleo ridotto + nicchie sui lati
+        nuc = {(i, j) for i, j in R_ if 1 <= i < bw - 1 and 1 <= j < bh - 1}
+        nic = {(bw // 2, 0), (bw // 2, bh - 1), (0, bh // 2), (bw - 1, bh // 2)}
+        out['nicchie'] = nuc | nic
+    # macchia irregolare (radura): crescita casuale dal centro, poi lisciatura
+    if bw >= 3 and bh >= 3:
+        mid = (bw // 2, bh // 2); blob = {mid}; fr = [mid]; tot = max(4, int(len(R_) * .75))
+        while len(blob) < tot and fr:
+            c = r.choice(fr); nb = [v for v in vicini4(c) if v in set(R_) and v not in blob]
+            if not nb: fr.remove(c); continue
+            v = r.choice(nb); blob.add(v); fr.append(v)
+        out['radura'] = blob
+    return out
+
+def connessa(S, partenza):
+    vis = {partenza}; st = [partenza]
+    while st:
+        c = st.pop()
+        for v in vicini4(c):
+            if v in S and v not in vis: vis.add(v); st.append(v)
+    return vis
+
+def ancora(S, obblig): return sorted(obblig)[0] if obblig else min(S, key=lambda c: (c[1], c[0]))
+
+def costruisci(kind, n, tema, seed):
+    """Restituisce (celle, porte_d, punte) della tessera ridisegnata, con le porte negli stessi punti dell'originale (coordinate rinormalizzate)."""
+    orig, porte_d, punte, obblig, vietate = analizza(kind, n)
+    bw = max(c[0] for c in orig) + 1; bh = max(c[1] for c in orig) + 1
+    r = random.Random(seed * 104729 + (1 if tema == 'classico' else 2))
+    M = 1
+    regione = {(i, j) for i in range(-M, bw + M) for j in range(-M, bh + M)} - vietate
+    corridoio = bw == 1 or bh == 1 or max(bw, bh) >= 3 * min(bw, bh) and min(bw, bh) <= 1
+    cand = []
+    if corridoio:
+        base = set(orig); liberi = [c for c in sorted(regione - base) if any(v in base for v in vicini4(c))]
+        r.shuffle(liberi)
+        for c in liberi[:12]:
+            cand.append(('nicchia', base | {c}))
+            if len(cand) > 3: break
+        cand.append(('corridoio', base))
+    else:
+        for nome, S in ricette(bw, bh, r).items():
+            # prova le posizioni: l'ingombro può slittare di un quadretto (i vincoli decidono)
+            cand.append((nome, S))
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                if r.random() < .35: cand.append((nome, {(i + dx, j + dy) for i, j in S}))
+        pref = ['ovale', 'radura', 'elle', 'croce'] if tema == 'foresta' else ['ottagono', 'croce', 'nicchie', 'pilastro', 'tau', 'smussata']
+        r.shuffle(cand); cand.sort(key=lambda t: (t[0] not in pref, r.random()))
+    migliore = None
+    for nome, S in cand:
+        S = (set(S) | obblig) & regione | obblig
+        S -= vietate
+        # collegamento di ogni componente a quella che contiene le porte
+        if not obblig <= S: continue
+        comp0 = connessa(S, ancora(S, obblig))
+        for _ in range(8):   # collega i frammenti rimasti con un percorso, se possibile
+            resto = S - comp0
+            if not resto: break
+            c = min(resto, key=lambda x: min(abs(x[0] - a[0]) + abs(x[1] - a[1]) for a in comp0)); a = min(comp0, key=lambda x: abs(x[0] - c[0]) + abs(x[1] - c[1]))
+            x, y = c; passo = []
+            while (x, y) != a and len(passo) < 40:
+                if x != a[0]: x += 1 if a[0] > x else -1
+                else: y += 1 if a[1] > y else -1
+                if (x, y) in vietate: passo = None; break
+                passo.append((x, y))
+            if passo: S |= set(passo)
+            else: S -= {c}
+            comp0 = connessa(S, ancora(S, obblig))
+        S = connessa(S, ancora(S, obblig))
+        if not obblig <= S or S & vietate: continue
+        diff = len(S ^ orig) / max(1, len(orig)); area = len(S) / max(1, len(orig))
+        if .6 <= area <= 1.5 and (migliore is None or diff > migliore[0]) and (corridoio or diff >= .22):
+            migliore = (diff, S)
+            if diff >= .3: break
+    S = migliore[1] if migliore else set(orig)
+    mx, my = min(c[0] for c in S), min(c[1] for c in S)
+    sh = lambda p: (p[0], p[1] - mx if p[0] == 'h' else p[1] - mx, p[2] - my if p[0] == 'h' else p[2] - my)
+    def sp(p): return (p[0], p[1] - mx, p[2] - my)
+    return {(i - mx, j - my) for i, j in S}, [sp(p) for p in porte_d], [sp(p) for p in punte]
+
+def muri_di(celle, punte):
+    tset = set(punte); seg = []
+    for i, j in sorted(celle):
+        for o, ei, ej, a in (('h', i, j, (i, j - 1)), ('h', i, j + 1, (i, j + 1)), ('v', i, j, (i - 1, j)), ('v', i + 1, j, (i + 1, j))):
+            if a not in celle and (o, ei, ej) not in tset:
+                seg.append((ei, ej, ei + 1, ej) if o == 'h' else (ei, ej, ei, ej + 1))
+    return [tuple(float(v) for v in t) for t in seg]
+def rect_porte(porte_d):
+    return [(i + .14, j - .17, .72, .34) if o == 'h' else (i - .17, j + .14, .34, .72) for o, i, j in porte_d]
+
 def genera(tema, out, ids=None):
     os.makedirs(os.path.join(out, 'tiles'), exist_ok=True); os.makedirs(os.path.join(out, 'ingressi'), exist_ok=True)
-    tot = 0
-    for kind, d in (('tiles', META['tiles']), ('ingressi', META['ingressi'])):
-        for n, m in d.items():
-            if ids and (kind[0] + n) not in ids and n not in ids: continue
-            _, muri, porte = leggi(kind, n)
+    tot = 0; meta = {'tiles': {}, 'ingressi': {}}
+    for kind in ('tiles', 'ingressi'):
+        for n in META[kind]:
             seed = int(n) + (0 if kind == 'tiles' else 100)
-            t = Tema(random.Random(seed * 7919 + len(tema)), m['celle'], muri, porte)
+            celle, porte_d, punte = costruisci(kind, n, tema, seed)
+            W = max(i for i, j in celle) + 1; H = max(j for i, j in celle) + 1
+            meta[kind][n] = dict(w=round((W + .5) * 128), h=round((H + .5) * 128), cx=128, cy=128, ox=32, oy=32, svg=True,
+                                 celle=sorted([list(c) for c in celle]), porte=[list(p) for p in porte_d + punte])
+            if ids and (kind[0] + n) not in ids and n not in ids: continue
+            t = Tema(random.Random(seed * 7919 + len(tema)), celle, muri_di(celle, punte), rect_porte(porte_d))
             s = TEMI[tema](t, seed)
             open(os.path.join(out, kind, n + '.svg'), 'w').write(s); tot += len(s)
+    json.dump(meta, open(os.path.join(out, 'tiles-meta.json'), 'w'), separators=(',', ':'))
     return tot
 
 if __name__ == '__main__':

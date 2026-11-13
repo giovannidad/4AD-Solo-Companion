@@ -15,7 +15,7 @@ export const tileById = id => adv().tessere.find(t => t.id === id);
 /** Crea i dati di una tessera; la dimensione in quadretti deriva dalla griglia misurata sull'immagine. */
 const CARTELLA_SET = { classico: 'set-classico', foresta: 'set-foresta' };
 function nuovaTessera(tipo, n) {
-  const m = tipo === 'ingresso' ? R.tiles.ingressi[n] : R.tiles.tiles[n];
+  const m = ((R.tilesSet || {})[adv().tema] || R.tiles)[tipo === 'ingresso' ? 'ingressi' : 'tiles'][n];
   return {
     id: uid(), tipo, n, src: `/assets/${CARTELLA_SET[adv().tema] ? CARTELLA_SET[adv().tema] + '/' : ''}${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.${m.svg ? 'svg' : 'webp'}`,
     w: m.w, h: m.h, cx: m.cx, cy: m.cy, ox: m.ox, oy: m.oy,

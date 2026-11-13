@@ -3,21 +3,11 @@ export const SHEET = { w: 20, h: 28 };     // 20x28 quadretti, come consigliato 
 
 const PAPER = '#f4efe0', GRAPHITE = [46, 46, 54];
 // ---- temi del foglio: sfondo, griglia e testi cambiano con il set di tessere scelto per il dungeon ----
-const rndSeme = () => { let s = 5; return () => (s = (s * 16807) % 2147483647) / 2147483647; };
-function trama(g, S, disegna) {   // disegna ogni elemento anche sul lato opposto, così la texture si ripete senza cuciture
-  for (const dx of [-S, 0, S]) for (const dy of [-S, 0, S]) { g.save(); g.translate(dx, dy); disegna(); g.restore(); }
-}
 const TEMI = {
   carta: { fuori: '#1c140d', base: PAPER, gr: '70,120,175', a1: .28, a2: .55, testo: 'rgba(40,30,20,.92)', testo2: 'rgba(40,30,20,.6)', margine: true, tex: null },
-  classico: { fuori: '#14121a', base: '#3b3744', gr: '205,195,230', a1: .16, a2: .34, testo: 'rgba(240,232,255,.94)', testo2: 'rgba(220,210,240,.65)', margine: false,
-    tex(g, S) { const r = rndSeme(); trama(g, S, () => { for (let i = 0; i < 40; i++) { g.fillStyle = `rgba(${r() < .5 ? '0,0,0' : '255,255,255'},${r() * .05})`; g.beginPath(); g.ellipse(r() * S, r() * S, 6 + r() * 30, 4 + r() * 18, r() * 3, 0, 7); g.fill(); }
-      g.strokeStyle = 'rgba(0,0,0,.28)'; g.lineWidth = 1; for (let i = 0; i < 6; i++) { let x = r() * S, y = r() * S; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 4; k++) { x += (r() - .5) * 30; y += (r() - .3) * 20; g.lineTo(x, y); } g.stroke(); }
-      for (let i = 0; i < 200; i++) { g.fillStyle = `rgba(255,255,255,${r() * .06})`; g.fillRect(r() * S, r() * S, 1 + r() * 2, 1); } }); } },
-  foresta: { fuori: '#0d170a', base: '#34502d', gr: '235,245,200', a1: .16, a2: .34, testo: 'rgba(240,250,215,.94)', testo2: 'rgba(225,240,200,.65)', margine: false,
-    tex(g, S) { const r = rndSeme(); trama(g, S, () => { for (let i = 0; i < 34; i++) { g.fillStyle = `rgba(${r() < .5 ? '20,50,15' : '120,170,70'},${r() * .14})`; g.beginPath(); g.ellipse(r() * S, r() * S, 8 + r() * 34, 6 + r() * 20, r() * 3, 0, 7); g.fill(); }
-      g.strokeStyle = 'rgba(15,40,10,.45)'; g.lineWidth = 1; for (let i = 0; i < 90; i++) { const x = r() * S, y = r() * S; g.beginPath(); g.moveTo(x, y); g.lineTo(x + (r() - .5) * 4, y - 3 - r() * 5); g.stroke(); }
-      for (let i = 0; i < 14; i++) { g.fillStyle = ['#5d7f3a', '#6e8f43', '#7a5a2a', '#8a6b30'][i % 4]; g.globalAlpha = .55; g.beginPath(); g.ellipse(r() * S, r() * S, 5, 2.6, r() * 3, 0, 7); g.fill(); g.globalAlpha = 1; } }); } }
+  classico: null, foresta: null   // il fondale è lo stesso per tutti gli stili: cambiano solo le tessere
 };
+TEMI.classico = TEMI.foresta = TEMI.carta;
 let tema = TEMI.carta;
 /** Sceglie il tema del foglio (carta, classico, foresta) in base al set di tessere del dungeon. */
 export function setTema(nome) { const t = TEMI[nome] || TEMI.carta; if (t === tema) return; tema = t; paperPattern = null; invalidate(); }
@@ -519,9 +509,10 @@ export function posEtichetta(d) {
   return trasf(d).pt(loc[0], loc[1]);
 }
 
-let TDATA = null;
-export function setTileData(t) { TDATA = t; }
-const metaDi = d => TDATA?.[d.tipo === 'ingresso' ? 'ingressi' : 'tiles']?.[d.n];
+let TDATA = null, TSETS = {};
+export function setTileData(t, sets) { TDATA = t; TSETS = sets || {}; }
+/** Geometria (quadretti e porte) della tessera: ogni set tematico ha la propria, riconosciuta dalla cartella dell'immagine. */
+const metaDi = d => ((TSETS[/\/set-(\w+)\//.exec(d.src || '')?.[1]]) || TDATA)?.[d.tipo === 'ingresso' ? 'ingressi' : 'tiles']?.[d.n];
 const SENO = [0, 1, 0, -1], COSENO = [1, 0, -1, 0];
 /** Trasformazione locale → foglio di una tessera (rotazione, specchio, centro). */
 function trasf(d) {

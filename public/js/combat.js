@@ -263,7 +263,7 @@ export async function attacca(e, opz = {}) {
     if (!nonViv || e.specializzato) { colpi *= 3; nota(`${e.nome} colpisce il bersaglio marchiato: danni TRIPLI!`); }
     i.marchio = null;
   }
-  if (colpi && i.id === 'd-spettro' && !((e.bonusMagico || 0) > 0 || armaUsata?.argento) && colpi < 2) { nota(`${e.nome} colpisce, ma lo spettro è ferito solo da armi magiche o d’argento, incantesimi, acqua santa o colpi da 2+ PV: nessun effetto.`); colpi = 0; modificato(); return { colpi: 0, totale }; }
+  if (colpi && i.id === 'd-spettro' && !((e.bonusMagico || 0) > 0 || armaUsata?.argento || (e.armiArgento || []).includes(armaUsata?.id)) && colpi < 2) { nota(`${e.nome} colpisce, ma lo spettro è ferito solo da armi magiche o d’argento, incantesimi, acqua santa o colpi da 2+ PV: nessun effetto.`); colpi = 0; modificato(); return { colpi: 0, totale }; }
   if (colpi && i.immuneContundenti && armaUsata?.tipo === 'contundente') { nota(`${e.nome} colpisce, ma ${i.nome} è immune alle armi contundenti.`); colpi = 0; modificato(); return { colpi: 0, totale }; }
   if (furioso && colpi) colpi *= 2;
   if (furioso) e.usi.furie = (e.usi.furie || 0) + 1;
