@@ -214,3 +214,7 @@ img.ritratto.grande { border-width: 3px; border-color: var(--amber-d); }
 #banner b { color: var(--amber); }
 #banner .bn-btn { background: var(--amber); color: #1b1208; font-weight: 700; padding: 4px 12px; border-radius: 6px; text-decoration: none; white-space: nowrap; }
 #banner .bn-btn:hover { background: #f0b84c; }
+.tag.green { color: #8be3a5; border-color: #2f7a47; background: #123220; margin-left: 6px; }
+.room.sicura { border-left: 3px solid #46c86e; }
+
+.dungeon-nome { display: flex; align-items: center; gap: 8px; margin: 2px 0 8px; } .dungeon-nome h3 { margin: 0; flex: 1; font-family: var(--serif); color: var(--amber); }

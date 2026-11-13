@@ -74,7 +74,7 @@ export function modAttacco(e, ctx = {}) {
       case 'assassino': add('Livello', liv); break;
       case 'elfo-fuoco': if (!dueMani) add('Livello', liv); break;
       case 'tiratore': if (daLancio) add('Livello +1', liv + 1); else add('Mezzo livello', Math.floor(liv / 2)); break;
-      case 'arlecchino': if (!daLancio && (e.armi || []).filter(id => ['leggera', 'una-mano'].includes(armaDi(id)?.categoria)).length < 2) add('Mezzo livello (1 sola arma)', Math.floor(liv / 2)); break;
+      case 'arlecchino': { const ok = a => ['leggera', 'una-mano'].includes(a?.categoria) && !a.lancio; if (!(ok(arma) && (e.armi || []).filter(id => ok(armaDi(id))).length >= 2)) add('Mezzo livello (1 sola arma)', Math.floor(liv / 2)); break; }
     }
     if (!arma) add('Disarmato', -2);
     else {

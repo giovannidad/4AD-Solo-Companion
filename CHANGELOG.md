@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.8.0
+- **Arlecchino:** fino a 3 attacchi in mischia per turno con 2-3 armi leggere o a una mano (prima il turno finiva dopo il primo); mezzo livello solo con una sola arma.
+- **Trappole e fantasmi:** finestra di scelta (disarmare, far scattare, risolvere a mano; il chierico scaccia il fantasma) per trappole, evento Fantasma e complicazioni del tesoro nascosto.
+- **Negozio:** si può pagare con l'oro del gruppo (poi le gemme); gli elfi del fuoco non condividono l'oro.
+- **Riposo:** stanze vuote o ripulite evidenziate in verde sulla mappa e nell'elenco; conferma se si riposa altrove.
+- **Spostamenti:** muovendo gruppo o eroi fra stanze visitate si tira 1d6 per stanza (1 = mostri erranti) e si riprendono gli scontri sospesi.
+- **Esporta mappa** in PNG o PDF; **nomi evocativi** per i dungeon; il pulsante «Boss ucciso e uscita dal dungeon» si attiva solo dopo aver sconfitto il boss finale.
+- **Azioni di classe** negli Strumenti (disattiva trappola, scassina, travestimento, fiuta il tesoro), spente se manca la classe adatta.
+- **Numero della stanza** sempre al centro della stanza (l'ingresso nel primo quadretto bianco).
+
 ## 1.7.3
 - **Banner fisso in basso** che invita ad acquistare i manuali di Four Against Darkness (link Amazon dell'autore).
 

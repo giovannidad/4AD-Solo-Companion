@@ -322,6 +322,10 @@ export function negozio() {
   modal('Negozio e vendite', (b, close) => {
     const vivi = () => S.party.eroi.filter(e => e.stato !== 'morto');
     const eroeSel = h('select', {});
+    // oro del gruppo: l'acquirente paga prima con il proprio, poi con quello dei compagni (gli elfi del fuoco non condividono con le altre razze)
+    const gruppoCk = h('input', { type: 'checkbox', checked: true, onchange: () => rLista() });
+    const donatori = e => gruppoCk.checked ? vivi().filter(x => x.id !== e.id && (x.oro || 0) > 0 && (x.classe === 'elfo-fuoco') === (e.classe === 'elfo-fuoco')) : [];
+    const oroAltri = e => donatori(e).reduce((a, x) => a + (x.oro || 0), 0);
     const rSel = (id) => eroeSel.replaceChildren(...vivi().map(x => h('option', { value: x.id, selected: x.id === id }, `${x.nome} (${x.oro || 0} p.o.${valGemme(x) ? ` + gemme ${valGemme(x)}` : ''})`)));
     const lista = h('div', { class: 'shop' });
     const venditaBox = h('div', { class: 'shop' });
@@ -329,14 +333,14 @@ export function negozio() {
     const rLista = () => {
       lista.replaceChildren(); venditaBox.replaceChildren();
       const e = eroePerId(eroeSel.value); if (!e) return;
-      const fondi = (e.oro || 0) + valGemme(e);
+      const fondi = (e.oro || 0) + oroAltri(e) + valGemme(e);
       const voci = [
         ...R.equipaggiamento.armi.map(a => ({ nome: a.nome, costo: a.costo, arma: a.id })),
         ...R.equipaggiamento.oggetti.map(o => ({ nome: o.nome, costo: o.costo, id: o.id }))
       ];
-      lista.append(h('p', { class: 'hint' }, `Fondi: ${e.oro || 0} p.o.${valGemme(e) ? ` + ${valGemme(e)} p.o. in gemme (usate come moneta se l’oro non basta)` : ''}.`));
+      lista.append(h('p', { class: 'hint' }, `Fondi: ${e.oro || 0} p.o.${oroAltri(e) ? ` + ${oroAltri(e)} p.o. dei compagni` : ''}${valGemme(e) ? ` + ${valGemme(e)} p.o. in gemme (usate come moneta se l’oro non basta)` : ''}.`));
       voci.forEach(v => lista.append(h('div', { class: 'row' }, h('span', { class: 'grow' }, v.nome), h('span', { class: 'price' }, `${v.costo} p.o.`),
-        h('button', { disabled: fondi < v.costo, title: (e.oro || 0) < v.costo ? 'Pagherai con le gemme' : '', onclick: () => compra(e, v) }, (e.oro || 0) < v.costo && fondi >= v.costo ? 'Compra (gemme)' : 'Compra'))));
+        h('button', { disabled: fondi < v.costo, title: (e.oro || 0) + oroAltri(e) < v.costo ? 'Pagherai con le gemme' : (e.oro || 0) < v.costo ? 'Pagherai anche con l’oro dei compagni' : '', onclick: () => compra(e, v) }, (e.oro || 0) + oroAltri(e) < v.costo && fondi >= v.costo ? 'Compra (gemme)' : (e.oro || 0) < v.costo ? 'Compra (oro del gruppo)' : 'Compra'))));
 
       // vendita
       venditaBox.append(h('h4', {}, `Vendi (${e.nome})`));
@@ -363,13 +367,18 @@ export function negozio() {
       let da = v.costo;
       const usaOro = Math.min(e.oro || 0, da); e.oro = (e.oro || 0) - usaOro; da -= usaOro;
       let nota = '';
+      const pagati = [];
+      for (const x of donatori(e).sort((a, b) => (b.oro || 0) - (a.oro || 0))) {   // poi l'oro dei compagni, partendo dal più ricco
+        if (da <= 0) break; const k = Math.min(x.oro || 0, da); x.oro -= k; da -= k; pagati.push(`${k} da ${x.nome}`);
+      }
+      if (pagati.length) nota += ` (oro del gruppo: ${pagati.join(', ')})`;
       if (da > 0) {   // paga il resto con le gemme (prima le più piccole che bastano); l'eventuale resto torna in oro
         const gs = gemme(e).flatMap(o => Array.from({ length: o.qta || 1 }, () => o)).sort((a, b) => a.valore - b.valore);
         const scelte = []; let somma = 0;
         const unica = gs.find(g => g.valore >= da);
         if (unica) { scelte.push(unica); somma = unica.valore; } else for (const g of gs.reverse()) { if (somma >= da) break; scelte.push(g); somma += g.valore; }
         scelte.forEach(g => { if (g.qta > 1) g.qta--; else e.oggetti = e.oggetti.filter(y => y !== g); });
-        e.oro += somma - da; nota = ` (pagando con ${scelte.length} gemm${scelte.length === 1 ? 'a' : 'e'} da ${somma} p.o.${somma > da ? `; resto ${somma - da} p.o.` : ''})`;
+        e.oro += somma - da; nota += ` (pagando con ${scelte.length} gemm${scelte.length === 1 ? 'a' : 'e'} da ${somma} p.o.${somma > da ? `; resto ${somma - da} p.o.` : ''})`;
       }
       if (v.arma) { (e.armi = e.armi || []).push(v.arma); if (!e.armaPrincipale) e.armaPrincipale = v.arma; }
       else if (v.id === 'armatura-leggera') e.armatura = e.armatura === 'pesante' ? 'pesante' : 'leggera';
@@ -382,7 +391,7 @@ export function negozio() {
     };
     eroeSel.onchange = rLista;
     rSel();
-    b.append(h('label', {}, 'Personaggio', eroeSel), lista, venditaBox,
+    b.append(h('label', {}, 'Personaggio', eroeSel), h('label', { class: 'chk' }, gruppoCk, 'Usa anche l’oro del gruppo se quello del personaggio non basta'), lista, venditaBox,
       h('p', { class: 'hint' }, 'Vendita: armi a metà prezzo (arrotondato per difetto); gemme al loro valore; pozioni e anelli magici 50 p.o.; bacchette, bastoni e pergamene 100 p.o. per incantesimo; altri oggetti magici 1d6×1d6 p.o. (o il valore indicato). Le gemme si possono anche usare direttamente come moneta negli acquisti.'),
       h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Chiudi')));
     rLista();

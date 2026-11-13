@@ -198,14 +198,19 @@ function drawTile(e, now, pencils) {
     ctx.save(); ctx.setLineDash(d.pending ? [8, 5] : [3, 4]); ctx.lineWidth = 2; ctx.strokeStyle = d.pending ? '#d08a14' : '#2f7fb8';
     ctx.strokeRect(sx - dw * z / 2, sy - dh * z / 2, dw * z, dh * z); ctx.restore();
   }
+  // stanza dove ci si può riposare senza problemi: alone verde
+  if (!d.pending && sicuraFn?.(d)) {
+    ctx.save(); const [bx, by] = toScreen(d.x, d.z); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(70,200,110,.9)'; ctx.fillStyle = 'rgba(70,200,110,.10)'; ctx.setLineDash([10, 6]);
+    ctx.beginPath(); ctx.roundRect(bx - dw * z / 2 + 2, by - dh * z / 2 + 2, dw * z - 4, dh * z - 4, 6); ctx.fill(); ctx.stroke(); ctx.restore();
+  }
   // numerino scritto a mano
   if (!d.pending && !e.anim && (d.idx || d.tipo === 'ingresso')) {
     ctx.save(); ctx.font = `${Math.max(11, z * 0.62)}px "Bradley Hand","Noteworthy","Segoe Script","Comic Sans MS",cursive`;
     ctx.fillStyle = 'rgba(40,40,60,.9)'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
-    const lx = sx - dw * z / 2 + z * 0.55, ly = sy - dh * z / 2 + z * 0.55;
+    const [lx, ly] = toScreen(...posEtichetta(d));
     ctx.strokeStyle = 'rgba(40,40,60,.7)'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.ellipse(lx, ly, z * 0.42, z * 0.38, -0.2, 0.2, Math.PI * 2 - 0.1); ctx.stroke();
     ctx.fillText(d.tipo === 'ingresso' ? 'E' : String(d.idx), lx, ly + 1);
-    if (d.perquisita) ctx.fillText('P', lx + z * 0.95, ly);
+    if (d.perquisita) ctx.fillText('P', lx + z * 0.9, ly);
     ctx.restore();
   }
 }
@@ -235,6 +240,38 @@ function frame(now) {
   pencils.forEach(p => drawPencil(p[0], p[1], now));
   if (mov || [...tiles.values()].some(e => e.anim || e.wantAnim)) invalidate();
 }
+/** Disegna la mappa esplorata (tutte le stanze, il foglio quadrettato, i segnalini e il titolo) in un canvas fuori schermo per l'esportazione. */
+export function renderEsportazione({ titolo = '', zoom = 48, segnalini = true } = {}) {
+  const lista = [...tiles.values()].filter(e => !e.d.pending && e.proc);
+  if (!lista.length) return null;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const e of lista) { const r = rectOf(e.d); x0 = Math.min(x0, r[0]); y0 = Math.min(y0, r[1]); x1 = Math.max(x1, r[2]); y1 = Math.max(y1, r[3]); }
+  const M = 1.5, T = titolo ? 3.2 : 0;
+  x0 = Math.floor(x0) - M; y0 = Math.floor(y0) - M - T; x1 = Math.ceil(x1) + M; y1 = Math.ceil(y1) + M;
+  const maxPx = 7000; zoom = Math.min(zoom, maxPx / (x1 - x0), maxPx / (y1 - y0));
+  const w = Math.round((x1 - x0) * zoom), h = Math.round((y1 - y0) * zoom), cv = mk(w, h), g = cv.getContext('2d');
+  const salvato = { ctx, W, H, dpr, vx: view.x, vy: view.y, vz: view.zoom, sicuraFn, sel: selectedId, drag };
+  try {
+    ctx = g; W = w; H = h; dpr = 1; view.x = (x0 + x1) / 2; view.y = (y0 + y1) / 2 + T / 2; view.zoom = zoom; sicuraFn = null; selectedId = null; drag = null;
+    g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = PAPER; g.fillRect(0, 0, w, h);
+    g.lineWidth = 1; const tracciati = (stile, test) => { g.strokeStyle = stile; g.beginPath(); for (let i = Math.ceil(x0); i <= x1; i++) if (test(i)) { const x = Math.round((i - x0) * zoom) + .5; g.moveTo(x, 0); g.lineTo(x, h); } for (let j = Math.ceil(y0); j <= y1; j++) if (test(j)) { const y = Math.round((j - y0) * zoom) + .5; g.moveTo(0, y); g.lineTo(w, y); } g.stroke(); };
+    tracciati('rgba(70,120,175,.28)', i => i % 5 !== 0); tracciati('rgba(70,120,175,.55)', i => i % 5 === 0);
+    for (const e of lista) { const anim = e.anim; e.anim = null; try { drawTile(e, performance.now(), []); } finally { e.anim = anim; } }
+    if (segnalini) { const mov = tokens.map(t => [t, t.x, t.y]); try { drawTokens(0); } finally { mov.forEach(([t, x, y]) => { t.x = x; t.y = y; }); } }
+    if (titolo) {
+      g.fillStyle = 'rgba(40,30,20,.92)'; g.textBaseline = 'middle'; g.textAlign = 'left';
+      g.font = `bold ${Math.round(zoom * 0.9)}px Palatino, Georgia, serif`; g.fillText(titolo, M * zoom, (M + 0.7) * zoom);
+      g.font = `${Math.round(zoom * 0.42)}px Palatino, Georgia, serif`; g.fillStyle = 'rgba(40,30,20,.6)'; g.fillText('Four Against Darkness – mappa del dungeon', M * zoom, (M + 1.55) * zoom);
+    }
+  } finally {
+    ctx = salvato.ctx; W = salvato.W; H = salvato.H; dpr = salvato.dpr; view.x = salvato.vx; view.y = salvato.vy; view.zoom = salvato.vz; sicuraFn = salvato.sicuraFn; selectedId = salvato.sel; drag = salvato.drag;
+    invalidate();
+  }
+  return cv;
+}
+let sicuraFn = null;
+export function setSicuraFn(f) { sicuraFn = f; invalidate(); }
+export const ridisegna = () => invalidate();
 function invalidate() { if (!raf) raf = requestAnimationFrame(frame); }
 
 // ---------------- segnalini dei personaggi ----------------
@@ -441,6 +478,26 @@ export function initMap(el) {
 //  Ogni tessera vettoriale conosce le sue porte (data/rules/tiles.json: `celle`, `porte` in quadretti dal pavimento).
 //  Una nuova stanza si appoggia a una porta libera della stanza di partenza: porta contro porta, nel verso opposto.
 // =============================================================
+/** Punto del foglio dove scrivere il numero della stanza: il quadretto di pavimento più vicino al centro della stanza
+ *  (per l'ingresso, il primo quadretto bianco in ordine di lettura). Senza dati vettoriali, il centro della tessera. */
+const centriEtichetta = new Map();
+export function posEtichetta(d) {
+  const m = metaDi(d);
+  if (!m?.celle?.length) return [d.x, d.z];
+  const chiave = (d.tipo === 'ingresso' ? 'i' : 't') + d.n;
+  let loc = centriEtichetta.get(chiave);
+  if (!loc) {
+    const pad = m.ox / m.cx, cs = [...m.celle].sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+    if (d.tipo === 'ingresso') loc = cs[0];
+    else {
+      const mx = cs.reduce((a, c) => a + c[0] + .5, 0) / cs.length, my = cs.reduce((a, c) => a + c[1] + .5, 0) / cs.length;
+      loc = cs.reduce((b, c) => (Math.hypot(c[0] + .5 - mx, c[1] + .5 - my) < Math.hypot(b[0] + .5 - mx, b[1] + .5 - my) ? c : b), cs[0]);
+    }
+    loc = [pad + loc[0] + .5, pad + loc[1] + .5]; centriEtichetta.set(chiave, loc);
+  }
+  return trasf(d).pt(loc[0], loc[1]);
+}
+
 let TDATA = null;
 export function setTileData(t) { TDATA = t; }
 const metaDi = d => TDATA?.[d.tipo === 'ingresso' ? 'ingressi' : 'tiles']?.[d.n];
@@ -470,6 +527,12 @@ function cellsWorld(d) {
   const m = metaDi(d); if (!m?.celle) return [];
   const pad = m.ox / m.cx, T = trasf(d);
   return m.celle.map(([i, j]) => { const [x, y] = T.pt(pad + i + 0.5, pad + j + 0.5); return Math.round(x - 0.5) + ',' + Math.round(y - 0.5); });
+}
+/** Due stanze si toccano (un lato in comune, anche solo in parte): serve a calcolare il percorso fra stanze. */
+export function vicine(a, b) {
+  const r = rectOf(a), q = rectOf(b), g = 0.35;
+  const oX = Math.min(r[2], q[2]) - Math.max(r[0], q[0]), oY = Math.min(r[3], q[3]) - Math.max(r[1], q[1]);
+  return (oX > -g && oY > 0.3) || (oY > -g && oX > 0.3);
 }
 const stesse = (a, b) => Math.abs(a.x - b.x) < 0.25 && Math.abs(a.y - b.y) < 0.25 && a.nx === -b.nx && a.ny === -b.ny;
 /** Uscite non ancora collegate a un'altra stanza. */

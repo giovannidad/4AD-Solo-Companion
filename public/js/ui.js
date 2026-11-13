@@ -5,6 +5,8 @@ import * as K from './caos.js';
 import * as T from './tratti.js';
 import * as Coop from './coop.js';
 import * as Rit from './ritratti.js';
+import * as Eff from './effetti.js';
+import { nomeDungeon } from './nomi.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
@@ -36,6 +38,9 @@ export function renderDungeon(box) {
     return;
   }
   const pend = a.tessere.find(t => t.pending);
+  box.append(h('div', { class: 'dungeon-nome' }, h('h3', {}, a.nomeDungeon || `Dungeon n. ${a.numero}`),
+    h('button', { class: 'mini', title: 'Cambia il nome del dungeon', onclick: async () => { const n = prompt('Nome del dungeon', a.nomeDungeon || ''); if (n && n.trim()) { a.nomeDungeon = n.trim().slice(0, 60); log(`Il dungeon prende il nome «${a.nomeDungeon}».`); modificato(); } } }, '✎'),
+    h('button', { class: 'mini', title: 'Un altro nome a caso', onclick: () => { a.nomeDungeon = nomeDungeon(a.nomeDungeon); modificato(); } }, '🎲')));
   if (a.set && a.set !== 'base') box.append(h('div', { class: 'tag' }, SETS[a.set]));
   if (a.missione) box.append(cartaMissione(a.missione));
   box.append(h('div', { class: 'stats' },
@@ -80,9 +85,9 @@ export function renderDungeon(box) {
   const lista = h('div', { class: 'rooms' });
   [...a.tessere].filter(t => !t.pending).reverse().forEach(t => {
     const c = t.contenuto;
-    lista.append(h('div', { class: `room ${a.stanzaCorrente === t.id ? 'cur' : ''}`, onclick: () => { table.selectTile(t.id); a.stanzaCorrente = t.id; modificato('avventura'); } },
+    lista.append(h('div', { class: `room ${a.stanzaCorrente === t.id ? 'cur' : ''} ${G.stanzaSicura(t) ? 'sicura' : ''}`, onclick: () => { table.selectTile(t.id); a.stanzaCorrente = t.id; modificato('avventura'); } },
       h('img', { src: t.src, alt: '' }),
-      h('div', { class: 'grow' }, h('b', {}, `${t.nome}${t.corridoio ? ' · corridoio' : ''}`), h('small', {}, c ? c.testo : '—')),
+      h('div', { class: 'grow' }, h('b', {}, `${t.nome}${t.corridoio ? ' · corridoio' : ''}`), G.stanzaSicura(t) ? h('span', { class: 'tag green', title: 'Stanza vuota o ripulita: ci si può riposare senza problemi' }, 'Riposo sicuro') : null, h('small', {}, c ? c.testo : '—')),
       h('div', { class: 'col' },
         c?.vuota && !t.perquisita ? btn('Perquisisci', () => perquisisciUI(t), 'mini') : (t.perquisita ? h('small', {}, 'P') : null),
         t.sospeso ? btn('Rientra', () => { C.riprendiIncontro(t); }, 'mini') : null)));
@@ -92,7 +97,7 @@ export function renderDungeon(box) {
   box.append(h('div', { class: 'card' },
     h('h3', {}, 'Fine dell’avventura'),
     h('div', { class: 'row wrap' },
-      btn('Boss ucciso e uscito dal dungeon', async () => { if (await confirmBox('Concludere l’avventura con successo?')) G.terminaAvventura('Missione compiuta: boss finale sconfitto e uscita dal dungeon'); }, 'primary'),
+      btn('Boss ucciso e uscita dal dungeon', async () => { if (await confirmBox('Concludere l’avventura con successo?')) G.terminaAvventura('Missione compiuta: boss finale sconfitto e uscita dal dungeon'); }, 'primary', { disabled: !a.bossFinaleUcciso, title: a.bossFinaleUcciso ? '' : 'Si attiva solo dopo aver sconfitto il boss finale' }),
       btn('Ritirata dal dungeon', async () => { if (await confirmBox('Abbandonare il dungeon?')) G.terminaAvventura('Il gruppo ha abbandonato il dungeon'); }))));
 }
 
@@ -329,6 +334,8 @@ export function renderStrumenti(box) {
   box.replaceChildren();
   const a = adv();
   if (a.trappolaAttiva) box.append(cartaTrappola(a.trappolaAttiva));
+  box.append(h('div', { class: 'card' }, h('h3', {}, 'Azioni di classe'),
+    h('div', { class: 'tools' }, ...Eff.AZIONI_CLASSE.map(az => { const chi = Eff.eroiPerAzione(az); return h('button', { class: chi.length ? '' : 'spent', disabled: !chi.length, title: chi.length ? `${az.info} (${chi.map(e => e.nome).join(', ')})` : `Serve ${az.classi.join(' o ')} nel gruppo`, onclick: () => Eff.eseguiAzioneClasse(az.id) }, az.nome); }))));
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Azioni di gioco'),
     h('div', { class: 'tools' },
       btn('Mostro errante', async () => { const m = await G.monstroErrante(); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }),
@@ -339,7 +346,7 @@ export function renderStrumenti(box) {
       btn('Caratteristica speciale', () => G.caratteristica()),
       btn('Missione', async () => { const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); modalTesto(row.nome, row.testo); log(`Missione: ${row.nome} – ${row.testo}`); }),
       btn('Ricompensa epica', async () => { const r = await dado('Ricompensa epica (d6)'); const row = riga(tabella('ricompense'), r.totale); modalTesto(row.nome, row.testo); a.ricompense = [...(a.ricompense || []), row.nome]; log(`Ricompensa epica: ${row.nome}`); modificato(); }),
-      btn('Riposa (stanza sicura)', async () => { riposa(); const m = await G.monstroErrante(); toast('Mentre riposi arrivano mostri erranti: prima tu se hai inchiodato le porte.'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }))));
+      btn('Riposa (stanza sicura)', async () => { if (!G.stanzaSicura(G.tileById(a.stanzaCorrente)) && !(await confirmBox('La stanza attuale non è vuota né ripulita (le stanze sicure sono evidenziate in verde). Riposare comunque?'))) return; riposa(); const m = await G.monstroErrante(); toast('Mentre riposi arrivano mostri erranti: prima tu se hai inchiodato le porte.'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }))));
 
   const ritorno = h('input', { type: 'number', min: 1, value: 1, style: 'width:64px' });
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Ritorno sui passi / Usciamo da qui!'),
@@ -366,83 +373,11 @@ function cartaMissione(m) {
 function modalTesto(titolo, testo) { modal(titolo, (b, close) => { b.append(h('p', {}, testo), h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Ok'))); }); }
 
 function cartaTrappola(t) {
-  const front = ordineMarcia().filter(e => e.stato === 'ok');
-  const furf = front[0]?.classe === 'furfante' ? front[0] : null;
   return h('div', { class: 'card trap' }, h('h3', {}, `Trappola: ${t.nome} (L${t.liv})`), h('p', {}, t.testo),
     h('div', { class: 'row wrap' },
-      furf ? btn('Il furfante prova a disarmarla', async () => {
-        const r = await d6Esplosivo(`Disarmare la trappola (${furf.nome})`); const tot = r.totale + furf.livello;
-        const ok = r.naturale === 6 || (r.naturale !== 1 && tot > t.liv);
-        log(`${furf.nome} ${ok ? 'disinnesca' : 'non riesce a disinnescare'} la trappola (${tot} contro L${t.liv}).`);
-        if (ok) { adv().trappolaAttiva = null; modificato(); } else toast('Fallito: la trappola scatta.', 'warn');
-      }) : null,
-      btn('Risolvi la trappola', () => risolviTrappola(t), 'primary'),
+      btn('Scegli come affrontarla…', () => Eff.proponiTrappola(t), 'primary'),
       t.caos ? btn('Tira «Toccato dal caos»', async () => { const e = await K.eroeScelto('Chi è toccato dal caos?', x => x.stato === 'ok'); if (e) await K.toccatoDalCaos(e); }) : null,
       btn('Ignora', () => { adv().trappolaAttiva = null; modificato(); })));
-}
-
-async function risolviTrappola(t) {
-  const vivi = ordineMarcia().filter(e => e.stato === 'ok'); if (!vivi.length) return;
-  const casuale = () => vivi[Math.floor(Math.random() * vivi.length)];
-  const n = t.nome;
-  const prova = async (e, { salvezza, extra = 0, ctx = {} }) => {
-    const r = await d6Esplosivo(`${n}: ${salvezza ? 'tiro salvezza' : 'difesa'} di ${e.nome}`);
-    let mod = extra;
-    if (salvezza) { mod += e.armatura === 'leggera' && n === 'Botola' ? -1 : e.armatura === 'pesante' && n === 'Botola' ? -2 : 0; if (['elfo', 'mezzuomo'].includes(e.classe) && ['Botola', 'Tagliola'].includes(n)) mod += 1; if (e.classe === 'furfante') mod += e.livello; if (e.zoppo) mod -= 2; }
-    else mod += modDifesa(e, ctx).tot;
-    const tot = r.totale + mod;
-    const ok = salvezza ? (r.naturale !== 1 && tot >= t.liv) : (r.naturale === 6 || (r.naturale !== 1 && tot > t.liv));
-    log(`${n}: ${e.nome} tira ${tot} contro L${t.liv} → ${ok ? 'evita' : 'colpito'}.`);
-    return ok;
-  };
-  const ferisci = (e, k) => C.perdiPV(e, k, n);
-  switch (n) {
-    case 'Botola': { const e = vivi[0]; if (!(await prova(e, { salvezza: true }))) { ferisci(e, 1); toast(`${e.nome} cade nella botola: serve un compagno per tirarlo fuori.`); } break; }
-    case 'Dardo': { const e = casuale(); if (!(await prova(e, {}))) ferisci(e, 1); break; }
-    case 'Gas velenoso': for (const e of vivi) if (!(await prova(e, { ctx: { ignoraArmatura: true } }))) ferisci(e, 1); break;
-    case 'Lance': { for (let k = 0; k < 2; k++) { const e = casuale(); if (!(await prova(e, {}))) ferisci(e, 1); } break; }
-    case 'Masso gigante': { const e = vivi[vivi.length - 1]; if (!(await prova(e, { ctx: { ignoraScudo: true } }))) ferisci(e, 2); break; }
-    case 'Lancia dardi avvelenati': {
-      const e = casuale();
-      if (!(await prova(e, { salvezza: true, extra: e.classe === 'mezzuomo' ? 1 : 0 }))) {
-        if (!(await C.salva(e, 4, e.classe === 'barbaro' ? 1 : 0, 'Veleno del dardo'))) { e.infettoCaos = true; log(`${e.nome} è infettato dal caos: al primo 1 tirerà su «Toccato dal caos».`); toast(`${e.nome} è infettato dal caos.`, 'warn'); }
-      }
-      break;
-    }
-    case 'Catene del caos': { const e = casuale(); if (!(await prova(e, { salvezza: true, extra: ['furfante'].includes(e.classe) ? 0 : e.classe === 'mezzuomo' ? e.livello : e.classe === 'elfo' ? 1 : 0 }))) { ferisci(e, 1); K.follia(e, 1); } break; }
-    case 'Fossa del mostro': {
-      const e = casuale(); const extra = (e.classe === 'elfo' ? e.livello : 0) + (e.classe === 'nano' ? -1 : 0);
-      let ok = await prova(e, { salvezza: true, extra }); if (!ok && e.classe === 'mezzuomo') ok = await prova(e, { salvezza: true, extra });
-      if (!ok) {
-        ferisci(e, 1);
-        const m = await G.monstroDa('aberranti'); m.nome += ' (nella fossa)'; m.mostriPrima = true; m.noMorale = true;
-        G.avviaIncontro(m, G.tileById(adv().stanzaCorrente));
-        toast(`${e.nome} cade nella fossa: il mostro attacca per primo. I compagni possono aiutarlo.`, 'warn');
-      }
-      break;
-    }
-    case 'Mannaia gigante': { const e = casuale(); if (!(await prova(e, { salvezza: true, extra: ['elfo', 'mezzuomo'].includes(e.classe) ? 1 : 0 }))) ferisci(e, 2); break; }
-    case 'Gas lacrimogeno': for (const e of vivi) if (!(await C.salva(e, 5, ['barbaro', 'nano'].includes(e.classe) ? e.livello : 0, 'Gas lacrimogeno'))) { ferisci(e, 1); log(`${e.nome} ha la vista sfocata per 2 incontri (niente armi a distanza né pergamene).`); } break;
-    case 'Globo del caos': {
-      const giri = [vivi, [...vivi].reverse()]; let fermo = false;
-      for (const giro of giri) { for (const e of giro) {
-        if (fermo || e.stato !== 'ok') continue;
-        let come = 'schiva';
-        if (e.scudo) come = await scelta('Globo del caos', `${e.nome}: schivi o pari con lo scudo?`, [['schiva', 'Schiva'], ['para', 'Para con lo scudo']]) || 'schiva';
-        if (come === 'schiva') {
-          if (await C.salva(e, 7, (e.classe === 'furfante' ? e.livello : ['elfo', 'mezzuomo'].includes(e.classe) ? Math.floor(e.livello / 2) : 0), 'Schivata del globo')) continue;
-        } else {
-          const r = await d6Esplosivo(`Parata del globo – ${e.nome} (L8)`);
-          const tot = r.totale + modDifesa(e, {}).tot + (['barbaro', 'guerriero', 'nano'].includes(e.classe) ? e.livello : 0);
-          if (r.naturale === 6 || (r.naturale !== 1 && tot > 8)) { e.scudo = false; log(`${e.nome} para il globo: lo scudo è distrutto e il globo si ferma.`); fermo = true; continue; }
-        }
-        ferisci(e, 3);
-      } }
-      break;
-    }
-    case 'Tagliola': { const e = vivi[0]; if (!(await prova(e, { salvezza: true }))) { ferisci(e, 1); if (e.stato === 'ok') { e.zoppo = true; log(`${e.nome} zoppica (-1 attacco e difesa).`); } } break; }
-  }
-  adv().trappolaAttiva = null; modificato();
 }
 
 // =============================================================

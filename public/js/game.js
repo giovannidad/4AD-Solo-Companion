@@ -4,6 +4,8 @@ import { tira, d66, dado, d6Esplosivo } from './dice.js';
 import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, incantesimoACasoLista } from './rules.js';
 import * as K from './caos.js';
 import * as T from './tratti.js';
+import * as Eff from './effetti.js';
+import { nomeDungeon } from './nomi.js';
 import * as table from './map2d.js';
 import { toast, uid, modal, h, scelta } from './util.js';
 
@@ -23,6 +25,40 @@ function nuovaTessera(tipo, n) {
 /** Sposta i personaggi che si trovano in `da` nella stanza `a` (il gruppo si muove unito). */
 export function muoviGruppo(da, a) {
   S.party.eroi.forEach(e => { if (e.posizione === da || !e.posizione) e.posizione = a; });
+}
+
+/** Stanza in cui il gruppo può riposare senza problemi: una stanza (non un corridoio) vuota oppure ripulita dai mostri, senza scontri aperti. */
+export function stanzaSicura(t) {
+  if (!t || t.pending || t.corridoio || t.sospeso) return false;
+  const i = adv()?.incontro;
+  if (i && i.stato !== 'finito' && i.tessera === t.id) return false;
+  if ((adv()?.coda || []).some(c => c.tessera === t.id)) return false;
+  return !!(t.contenuto?.vuota || t.ripulita);
+}
+
+/** Percorso (stanze attraversate, destinazione compresa) fra due stanze già esplorate; almeno 1 se le stanze sono diverse. */
+export function percorso(da, a) {
+  const ts = (adv().tessere || []).filter(t => !t.pending); const prev = new Map([[da, null]]); const coda = [da];
+  while (coda.length) {
+    const c = coda.shift(); if (c === a) break;
+    const tc = ts.find(t => t.id === c); if (!tc) continue;
+    for (const t of ts) if (!prev.has(t.id) && table.vicine(tc, t)) { prev.set(t.id, c); coda.push(t.id); }
+  }
+  if (!prev.has(a)) return [a];
+  const p = []; for (let x = a; x && x !== da; x = prev.get(x)) p.unshift(x); return p;
+}
+/** Tiri dovuti quando i personaggi passano da una stanza all'altra: per ogni stanza già visitata che si attraversa 1d6, con 1 arrivano
+ *  i mostri erranti; se nella stanza d'arrivo c'è uno scontro sospeso, si riprende. */
+export async function spostamento(da, a, nomi = 'Il gruppo') {
+  if (!adv()?.attiva || !da || !a || da === a) return;
+  if (adv().incontro && adv().incontro.stato !== 'finito') { toast('C’è uno scontro in corso: nessun tiro di spostamento.', 'warn'); return; }
+  const via = percorso(da, a); const dest = tileById(a);
+  log(`${nomi} si sposta${nomi === 'Il gruppo' ? '' : ''} attraverso ${via.length} stanza/e già visitate.`);
+  for (let k = 0; k < via.length; k++) {
+    const r = await dado(`Ritorno sui passi, stanza ${k + 1} di ${via.length} (1 = mostri erranti)`);
+    if (r.totale === 1) { const m = await monstroErrante(); log('Mostri erranti sorprendono il gruppo durante lo spostamento!'); avviaIncontro(m, tileById(via[k]) || dest); return; }
+  }
+  if (dest?.sospeso) { const C = await import('./combat.js'); C.riprendiIncontro(dest); document.dispatchEvent(new CustomEvent('apri-tab', { detail: 'incontro' })); }
 }
 
 // ---------------- avventura ----------------
@@ -48,7 +84,7 @@ export async function iniziaAvventura() {
   if (set === 'caos') { missione = await K.scegliMissione(); }
   Object.assign(S.adv, { set, missione, eventiUsati: [],
     attiva: true, numero: (S.adv.numero || 0) + 1, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null, coda: [],
-    maggioriSconfitti: 0, incontriSeguaci: 0, esPendenti: [], bottino: [], fine: null,
+    maggioriSconfitti: 0, incontriSeguaci: 0, esPendenti: [], bottino: [], fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false,
     guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: []
   });
   // tra un'avventura e l'altra le ferite guariscono e gli usi si ricaricano
@@ -68,7 +104,7 @@ export async function iniziaAvventura() {
   S.party.eroi.forEach(e => { e.posizione = t.id; });
   table.setTiles(adv().tessere);
   table.selectTile(null); table.animate(t.id);
-  log(`Inizia l’avventura n. ${adv().numero} (${set === 'caos' ? 'Caverne del Caos' : set === 'diabolici' ? 'Nemici diabolici' : 'tabelle base'}). Ingresso ${idx}.`);
+  log(`Inizia l’avventura n. ${adv().numero}: «${adv().nomeDungeon}» (${set === 'caos' ? 'Caverne del Caos' : set === 'diabolici' ? 'Nemici diabolici' : 'tabelle base'}). Ingresso ${idx}.`);
   if (missione) log(`Missione: ${missione.nome} (livello consigliato ${missione.liv}).`);
   toast(`Ingresso ${idx}: la stanza viene disegnata sul foglio.`);
   modificato();
@@ -295,6 +331,7 @@ async function evento(t) {
     const i = await monstroDa(tab, { errante: true }); i.nome += ' (erranti)'; avviaIncontro(i, t); tx += ` → ${i.nome} ×${i.n}`;
   } else if (row.azione === 'trappola') tx += ' ' + await trappola();
   else if (row.azione === 'missione') tx += ' (tira la missione dagli Strumenti se accetti)';
+  else if (row.nome === 'Fantasma') await Eff.proponiFantasma({ liv: 4 });
   else if (row.nome === 'Guaritore errante') { if (adv().guaritoreVisto) { return evento(t); } adv().guaritoreVisto = true; }
   else if (row.nome === 'Alchimista errante') { if (adv().alchimistaVisto) { tx = 'Alchimista già incontrato: ' + await trappola(); } else adv().alchimistaVisto = true; }
   return tx;
@@ -308,6 +345,7 @@ export async function trappola(forzaLiv) {
   const t = `Trappola – ${row.nome} (L${liv}): ${row.testo}`;
   adv().trappolaAttiva = { nome: row.nome, liv, testo: row.testo, caos: !!row.caos };
   log(t); modificato(); document.dispatchEvent(new CustomEvent('apri-tab', { detail: 'strumenti' }));
+  await Eff.proponiTrappola(adv().trappolaAttiva);   // finestra con le azioni possibili (disarmare, subire, risolvere a mano)
   return t;
 }
 
@@ -449,6 +487,8 @@ export async function tesoroNascosto(t) {
   log(`Tesoro nascosto: ${row.testo}`);
   if (inCaos()) await K.complicazioneCaos(row, t);
   else if (row.azione === 'errante') { const i = await monstroErrante(); avviaIncontro(i, t); }
+  else if (c.totale >= 3 && c.totale <= 5) await Eff.proponiTrappolaTesoro(c.totale);
+  else if (c.totale === 6) { const l = await tira('1d3', 'Livello del fantasma (1d3+1)'); await Eff.proponiFantasma({ liv: l.totale + 1, scacciabile: true, motivo: `Un fantasma (LIV ${l.totale + 1}) protegge l'oro` }); }
   const x = await tira('3d6x3d6', 'Oro nascosto (3d6×3d6)');
   adv().bottino = adv().bottino || [];
   adv().bottino.push({ id: uid(), tipo: 'oro', testo: `${x.totale} pezzi d’oro (tesoro nascosto)`, valore: x.totale });
@@ -490,6 +530,7 @@ export async function tiroES(es, e) {
 }
 
 export function vittoria(inc) {
+  if (inc.bossFinale) { adv().bossFinaleUcciso = true; log('Il boss finale è stato sconfitto: si può lasciare il dungeon.'); }
   const mid = adv().missione?.id;
   if (mid === 'cuoco') return;                              // la missione del cuoco non dà ES per i mostri
   if (mid === 'salvataggio' && inc.minore) return;          // niente ES dai minori

@@ -1,12 +1,13 @@
 import { $, $$, h, modal, toast, confirmBox } from './util.js';
 import { api } from './api.js';
 import { R, S, caricaRegole, apriCampagna, onChange, modificato, emit, ordineMarcia, log, eroePerId } from './state.js';
-import { muoviGruppo, tileById } from './game.js';
+import { muoviGruppo, tileById, spostamento, stanzaSicura } from './game.js';
 import * as table from './map2d.js';
 import * as dice from './dice.js';
 import { renderGruppo } from './party.js';
 import { apriImpostazioni } from './impostazioni.js';
 import * as Coop from './coop.js';
+import { esportaMappa } from './esporta.js';
 import * as Rit from './ritratti.js';
 import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro, firmaUI } from './ui.js';
 
@@ -48,7 +49,13 @@ function disegna(forza = false) {
 
 // ---------------- segnalini dei personaggi ----------------
 const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a' };
+let firmaSicure = '';
+function aggiornaSicure() {
+  const f = (S.adv.tessere || []).filter(t => stanzaSicura(t)).map(t => t.id).join(',');
+  if (f !== firmaSicure) { firmaSicure = f; table.ridisegna(); }
+}
 function aggiornaSegnalini() {
+  aggiornaSicure();
   const qui = S.adv.stanzaCorrente;
   const lista = ordineMarcia().map(e => ({
     id: e.id, label: (e.nome || '?')[0].toUpperCase(), color: COLORI[e.classe] || '#555', stato: e.stato, tileId: e.posizione || qui,
@@ -122,7 +129,7 @@ async function selezionaCampagna(id) {
 async function avvia() {
   try {
     await caricaRegole();
-    table.initMap($('#mapView')); table.setTileData(R.tiles);
+    table.initMap($('#mapView')); table.setTileData(R.tiles); table.setSicuraFn(stanzaSicura);
     // three.js e cannon-es (~1 MB) si scaricano in background: l'interfaccia parte subito e i primi tiri sono virtuali
     if (!LEGGERA) import('./table3d.js').then(m => { m.initTable($('#diceLayer')); dice.collegaTavolo(m); }).catch(e => console.error('dadi 3D', e));
     table.onTileChange(() => modificato('avventura'));
@@ -130,17 +137,20 @@ async function avvia() {
     table.onTokenMove((id, tileId) => {
       if (Coop.sonoOspite()) { Coop.comando({ tipo: 'sposta', eroeId: id, tileId }); return; }
       const e = eroePerId(id), t = tileById(tileId); if (!e || !t) return;
-      e.posizione = tileId; log(`${e.nome} si sposta nella ${t.nome.toLowerCase()}.`); modificato('party');
+      const da = e.posizione; e.posizione = tileId; log(`${e.nome} si sposta nella ${t.nome.toLowerCase()}.`); modificato('party');
+      if (da && da !== tileId && tileId !== S.adv?.stanzaCorrente) spostamento(da, tileId, e.nome);   // chi si riunisce al gruppo non tira
     });
     table.onTileDouble(tileId => {
       if (Coop.sonoOspite()) return;
       const a = S.adv; if (!a.attiva || a.stanzaCorrente === tileId) return;
-      muoviGruppo(a.stanzaCorrente, tileId); a.stanzaCorrente = tileId;
+      const da = a.stanzaCorrente; muoviGruppo(da, tileId); a.stanzaCorrente = tileId;
       log(`Il gruppo si sposta nella ${tileById(tileId)?.nome.toLowerCase()}.`); modificato();
+      spostamento(da, tileId);
     });
     $('#loading').remove(); window.__avvioMs = Math.round(performance.now());
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
+  $('#esporta').onclick = () => esportaMappa();
   $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });
   $('#coopBtn').onclick = () => Coop.apriCoop();
   $('#qualita').value = QUALITA;

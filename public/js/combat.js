@@ -90,7 +90,7 @@ async function dopoMorti(i, morti, fonte) {
 // ---------------- avvio e reazioni ----------------
 export async function inizioScontro() {
   const i = inc(); if (i.inizioFatto) return; i.inizioFatto = true;
-  i.stato = 'combattimento'; i.turno = 1; i.agito = {}; i.protetti = {}; i.difeso = {}; i.sparati = {};
+  i.stato = 'combattimento'; i.turno = 1; i.agito = {}; i.nAtt = {}; i.protetti = {}; i.difeso = {}; i.sparati = {};
   S.party.eroi.forEach(e => { if (e.classe === 'elfo-fuoco') (e.incantesimi || []).forEach(sp => { sp.usato = false; }); });   // la vista di fuoco si ricarica a ogni scontro
   if (i.id === 'catoblepa') await salvaTutti('Sguardo del catoblepa', 4, () => 0, e => perdiPV(e, 1, 'sguardo'));
   if (i.id === 'medusa') await salvaTutti('Sguardo della medusa', 4, e => (e.classe === 'furfante' ? Math.floor(e.livello / 2) : 0), e => { e.stato = 'pietra'; T.evento(e, 'trasformazione'); nota(`${e.nome} è trasformato in pietra!`); });
@@ -244,7 +244,7 @@ export async function attacca(e, opz = {}) {
   const auto1 = r.naturale === 1;
   if (r.naturale === 1 && i.id === 'c-tentacolato') await afferra(e);
   if (opz.coda) {
-    i.agito[e.id] = true;
+    segnaAttacco(e, arma0);
     if (!auto1 && totale >= 6) { i.codaFerita = true; nota(`${e.nome} ferisce la coda della manticora (${totale} contro LIV 6): il pungiglione è inutilizzabile.`); }
     else nota(`${e.nome} manca la coda della manticora (${totale} contro LIV 6).`);
     return modificato();
@@ -267,7 +267,7 @@ export async function attacca(e, opz = {}) {
   if (colpi && i.immuneContundenti && armaUsata?.tipo === 'contundente') { nota(`${e.nome} colpisce, ma ${i.nome} è immune alle armi contundenti.`); colpi = 0; modificato(); return { colpi: 0, totale }; }
   if (furioso && colpi) colpi *= 2;
   if (furioso) e.usi.furie = (e.usi.furie || 0) + 1;
-  i.agito[e.id] = true;
+  segnaAttacco(e, armaUsata);
   const desc = `${e.nome} attacca: ${r.totale}${m.tot ? (m.tot > 0 ? '+' : '') + m.tot : ''} = ${totale} contro LIV ${L}${auto1 ? ' (1 naturale: fallimento automatico)' : ''}`;
   if (!colpi) { nota(`${desc} → mancato.`); modificato(); return { colpi: 0, totale }; }
   nota(`${desc} → ${i.minore ? `${colpi} uccis${colpi === 1 ? 'o' : 'i'}` : `${colpi} ferit${colpi === 1 ? 'a' : 'e'}`}${furioso ? ' (furioso: danni doppi)' : ''}.`);
@@ -276,6 +276,20 @@ export async function attacca(e, opz = {}) {
   await applicaDanni(colpi);
   T.uccisioni(e, i, pre, { mischia: !armaUsata?.lancio });
   return { colpi, totale };
+}
+
+/** Numero di attacchi in mischia che un eroe può fare in un turno (l'arlecchino giocoliere ne fa fino a 3). */
+export function maxAttacchi(e, arma) {
+  if (e.classe !== 'arlecchino') return 1;
+  const ok = a => ['leggera', 'una-mano'].includes(a?.categoria) && !a.lancio;
+  const n = (e.armi || []).filter(id => ok(armaDi(id))).length;
+  return n >= 2 && ok(arma) ? Math.min(3, n) : 1;
+}
+function segnaAttacco(e, arma) {
+  const i = inc(); i.nAtt = i.nAtt || {};
+  i.nAtt[e.id] = (i.nAtt[e.id] || 0) + 1;
+  const max = maxAttacchi(e, arma);
+  if (i.nAtt[e.id] >= max) i.agito[e.id] = true; else nota(`${e.nome} può ancora fare ${max - i.nAtt[e.id]} attacco/i in questo turno.`);
 }
 
 /** Assassino: rinuncia a un attacco per nascondersi e marchiare il bersaglio. */
@@ -338,6 +352,7 @@ function vittoriaScontro(esito = 'sconfitti') {
     const sc = creaIncontro('seguaci', { id: 'scheletri-corazzati', nome: 'Scheletri corazzati', liv: 4, att: 1, pv: 1, tag: ['non-morto'], mor: 'NO', tes: 0, xp: false, contundentePiu: true }, i.scheletriGen);
     sc.contundentePiu = true; sc.tessera = i.tessera; coda.push(sc); nota(`Gli scheletri generati dal sangue (${i.scheletriGen}) si rialzano: vanno affrontati.`); i.scheletriGen = 0;
   }
+  { const t = (S.adv.tessere || []).find(x => x.id === i.tessera); if (t && !coda.some(c => c.tessera === t.id)) t.ripulita = true; }   // stanza ripulita: ci si può riposare
   modificato();
 }
 
@@ -622,7 +637,7 @@ async function fineTurnoMostri() {
   } else if (i.id === 'd-troll' && i.rigenera) { nota('Colpito dal fuoco, il grosso troll non si rigenera: muore.'); i.noRig = false; return vittoriaScontro(); }
   i.noRig = false;
   if (i.sfortuna) { eroiAttivi().forEach(e => { e.sfortuna = (e.sfortuna || 0) + 1; }); nota('I gremlin si nutrono di fortuna: ogni personaggio riceve 1 punto sfortuna.'); }
-  i.turno++; i.sorpresa = false; i.mostriPrima = false; i.agito = {}; i.protetti = i.protetti || {};
+  i.turno++; i.sorpresa = false; i.mostriPrima = false; i.agito = {}; i.nAtt = {}; i.protetti = i.protetti || {};
   await blocchiDiTurno();
   if (i.id === 'troll' && i.n === 0) nota('Ricorda: i troll uccisi possono rigenerarsi (5-6 su 1d6 ciascuno) se non usi incantesimi o non li fai a pezzi.');
   modificato();
