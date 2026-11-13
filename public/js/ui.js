@@ -33,6 +33,8 @@ export function renderDungeon(box) {
       h('p', {}, a.fine ? `Esito: ${a.fine}.` : 'Il gruppo si prepara all’ingresso del dungeon. Verrà tirato un d6 per la stanza d’ingresso; le ferite guariscono e poteri e incantesimi si ricaricano.'),
       h('label', { class: 'chk', title: 'Dal 3° livello puoi passare alle tabelle avanzate; «Caverne del Caos» è il dungeon a tema del supplemento «Contro il Caos».' }, 'Tabelle del dungeon ',
         h('select', { onchange: ev => { S.party.set = ev.target.value; modificato('party'); } }, Object.entries(SETS).map(([v, t]) => h('option', { value: v, selected: (S.party.set || 'base') === v }, t)))),
+      h('label', { class: 'chk', title: 'Aspetto delle stanze e dello sfondo della mappa per il prossimo dungeon.' }, 'Stile della mappa ',
+        h('select', { onchange: ev => { S.party.tema = ev.target.value; modificato('party'); } }, [['carta', '4 Against Darkness (originale)'], ['classico', 'Dungeon classico'], ['foresta', 'Foresta']].map(([v, t]) => h('option', { value: v, selected: (S.party.tema || 'carta') === v }, t)))),
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplCaos, onchange: ev => { S.party.supplCaos = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro il Caos» (nuovi incantesimi, armi, classi, tratti e traguardi)'),
       btn('Inizia una nuova avventura', async () => { if (await G.iniziaAvventura()) table.setView('fit'); }, 'primary big')));
     return;

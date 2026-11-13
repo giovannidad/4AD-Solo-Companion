@@ -121,7 +121,7 @@ async function nuovaCampagna() {
 }
 async function selezionaCampagna(id) {
   await apriCampagna(id);
-  table.setTiles(S.adv.tessere);
+  table.setTema(S.adv.tema); table.setTiles(S.adv.tessere);
   table.selectTile(null);
   disegna(true);
 }
@@ -150,6 +150,7 @@ async function avvia() {
     $('#loading').remove(); window.__avvioMs = Math.round(performance.now());
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
+  fetch('/versione.json').then(r => r.json()).then(v => { if (v.versione) $('#ver').textContent = '· v' + v.versione; }).catch(() => {});
   $('#esporta').onclick = () => esportaMappa();
   $('#esportaSchede').onclick = () => esportaSchede();
   $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });

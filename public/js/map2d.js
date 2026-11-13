@@ -2,6 +2,31 @@
 export const SHEET = { w: 20, h: 28 };     // 20x28 quadretti, come consigliato dal manuale
 
 const PAPER = '#f4efe0', GRAPHITE = [46, 46, 54];
+// ---- temi del foglio: sfondo, griglia e testi cambiano con il set di tessere scelto per il dungeon ----
+const rndSeme = () => { let s = 5; return () => (s = (s * 16807) % 2147483647) / 2147483647; };
+function trama(g, S, disegna) {   // disegna ogni elemento anche sul lato opposto, così la texture si ripete senza cuciture
+  for (const dx of [-S, 0, S]) for (const dy of [-S, 0, S]) { g.save(); g.translate(dx, dy); disegna(); g.restore(); }
+}
+const TEMI = {
+  carta: { fuori: '#1c140d', base: PAPER, gr: '70,120,175', a1: .28, a2: .55, testo: 'rgba(40,30,20,.92)', testo2: 'rgba(40,30,20,.6)', margine: true, tex: null },
+  classico: { fuori: '#14121a', base: '#3b3744', gr: '205,195,230', a1: .16, a2: .34, testo: 'rgba(240,232,255,.94)', testo2: 'rgba(220,210,240,.65)', margine: false,
+    tex(g, S) { const r = rndSeme(); trama(g, S, () => { for (let i = 0; i < 40; i++) { g.fillStyle = `rgba(${r() < .5 ? '0,0,0' : '255,255,255'},${r() * .05})`; g.beginPath(); g.ellipse(r() * S, r() * S, 6 + r() * 30, 4 + r() * 18, r() * 3, 0, 7); g.fill(); }
+      g.strokeStyle = 'rgba(0,0,0,.28)'; g.lineWidth = 1; for (let i = 0; i < 6; i++) { let x = r() * S, y = r() * S; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 4; k++) { x += (r() - .5) * 30; y += (r() - .3) * 20; g.lineTo(x, y); } g.stroke(); }
+      for (let i = 0; i < 200; i++) { g.fillStyle = `rgba(255,255,255,${r() * .06})`; g.fillRect(r() * S, r() * S, 1 + r() * 2, 1); } }); } },
+  foresta: { fuori: '#0d170a', base: '#34502d', gr: '235,245,200', a1: .16, a2: .34, testo: 'rgba(240,250,215,.94)', testo2: 'rgba(225,240,200,.65)', margine: false,
+    tex(g, S) { const r = rndSeme(); trama(g, S, () => { for (let i = 0; i < 34; i++) { g.fillStyle = `rgba(${r() < .5 ? '20,50,15' : '120,170,70'},${r() * .14})`; g.beginPath(); g.ellipse(r() * S, r() * S, 8 + r() * 34, 6 + r() * 20, r() * 3, 0, 7); g.fill(); }
+      g.strokeStyle = 'rgba(15,40,10,.45)'; g.lineWidth = 1; for (let i = 0; i < 90; i++) { const x = r() * S, y = r() * S; g.beginPath(); g.moveTo(x, y); g.lineTo(x + (r() - .5) * 4, y - 3 - r() * 5); g.stroke(); }
+      for (let i = 0; i < 14; i++) { g.fillStyle = ['#5d7f3a', '#6e8f43', '#7a5a2a', '#8a6b30'][i % 4]; g.globalAlpha = .55; g.beginPath(); g.ellipse(r() * S, r() * S, 5, 2.6, r() * 3, 0, 7); g.fill(); g.globalAlpha = 1; } }); } }
+};
+let tema = TEMI.carta;
+/** Sceglie il tema del foglio (carta, classico, foresta) in base al set di tessere del dungeon. */
+export function setTema(nome) { const t = TEMI[nome] || TEMI.carta; if (t === tema) return; tema = t; paperPattern = null; invalidate(); }
+function texturaCarta(g) {
+  const S = 256, c = mk(S, S), gg = c.getContext('2d'); gg.fillStyle = tema.base; gg.fillRect(0, 0, S, S);
+  if (tema.tex) tema.tex(gg, S);
+  else { c.width = c.height = 128; gg.fillStyle = tema.base; gg.fillRect(0, 0, 128, 128); for (let i = 0; i < 900; i++) { gg.fillStyle = `rgba(120,100,60,${Math.random() * 0.07})`; gg.fillRect(Math.random() * 128, Math.random() * 128, 1 + Math.random() * 2, 1); } }
+  return g.createPattern(c, 'repeat');
+}
 export const qualita = { leggera: false };   // true: niente ombre sfocate né animazione a matita
 let host, canvas, ctx, W = 0, H = 0, dpr = 1;
 const view = { x: SHEET.w / 2, y: SHEET.h / 2, zoom: 24 };
@@ -138,15 +163,11 @@ function stepAnim(e, now) {
 // raggruppate in due tratti (normali e ogni 5 quadretti). Un livello in cache è stato provato ma non dava vantaggi misurabili.
 function drawPaper() {
   const g = ctx, sr = sheetRect(), z = view.zoom;
-  g.fillStyle = '#1c140d'; g.fillRect(0, 0, W, H);
+  g.fillStyle = tema.fuori; g.fillRect(0, 0, W, H);
   const [x0, y0] = toScreen(sr.x0, sr.y0), [x1, y1] = toScreen(sr.x1, sr.y1);
   // ombra del foglio: due rettangoli sfumati a costo quasi nullo (niente shadowBlur, lento sulle GPU vecchie)
   g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x0 + 6, y0 + 8, x1 - x0, y1 - y0); g.fillStyle = 'rgba(0,0,0,.2)'; g.fillRect(x0 + 3, y0 + 4, x1 - x0, y1 - y0);
-  if (!paperPattern) {
-    const c = mk(128, 128), gg = c.getContext('2d'); gg.fillStyle = PAPER; gg.fillRect(0, 0, 128, 128);
-    for (let i = 0; i < 900; i++) { gg.fillStyle = `rgba(120,100,60,${Math.random() * 0.07})`; gg.fillRect(Math.random() * 128, Math.random() * 128, 1 + Math.random() * 2, 1); }
-    paperPattern = g.createPattern(c, 'repeat');
-  }
+  if (!paperPattern) paperPattern = texturaCarta(g);
   g.fillStyle = paperPattern; g.fillRect(x0, y0, x1 - x0, y1 - y0);
   g.lineWidth = 1;
   const linee = (stile, test) => {
@@ -155,9 +176,9 @@ function drawPaper() {
     for (let j = sr.y0; j <= sr.y1; j++) if (test(j)) { const y = Math.round(toScreen(0, j)[1]) + .5; g.moveTo(x0, y); g.lineTo(x1, y); }
     g.stroke();
   };
-  linee('rgba(70,120,175,.28)', i => i % 5 !== 0);
-  linee('rgba(70,120,175,.55)', i => i % 5 === 0);
-  g.strokeStyle = 'rgba(200,70,60,.35)'; g.beginPath(); g.moveTo(x0 + z * 1, y0); g.lineTo(x0 + z * 1, y1); g.stroke(); // margine
+  linee(`rgba(${tema.gr},${tema.a1})`, i => i % 5 !== 0);
+  linee(`rgba(${tema.gr},${tema.a2})`, i => i % 5 === 0);
+  if (tema.margine) { g.strokeStyle = 'rgba(200,70,60,.35)'; g.beginPath(); g.moveTo(x0 + z * 1, y0); g.lineTo(x0 + z * 1, y1); g.stroke(); } // margine
 }
 
 const LIVELLI = [32, 64];   // pixel per quadretto dei livelli ridotti (oltre al raster nativo, 128)
@@ -230,7 +251,7 @@ function frame(now) {
   raf = 0;
   if (!ctx) return;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  if (!_salta.carta) drawPaper(); else { ctx.fillStyle = '#1c140d'; ctx.fillRect(0, 0, W, H); }
+  if (!_salta.carta) drawPaper(); else { ctx.fillStyle = tema.fuori; ctx.fillRect(0, 0, W, H); }
   const pencils = [];
   const list = [...tiles.values()].sort((a, b) => (a.d.pending ? 1 : 0) - (b.d.pending ? 1 : 0));
   if (!_salta.tessere) for (const e of list) drawTile(e, now, pencils);
@@ -240,8 +261,8 @@ function frame(now) {
   pencils.forEach(p => drawPencil(p[0], p[1], now));
   if (mov || [...tiles.values()].some(e => e.anim || e.wantAnim)) invalidate();
 }
-/** Disegna la mappa esplorata (tutte le stanze, il foglio quadrettato, i segnalini e il titolo) in un canvas fuori schermo per l'esportazione. */
-export function renderEsportazione({ titolo = '', zoom = 48, segnalini = true } = {}) {
+/** Disegna la mappa esplorata (tutte le stanze, il foglio quadrettato e il titolo; i segnalini dei personaggi non vengono disegnati) in un canvas fuori schermo per l'esportazione. */
+export function renderEsportazione({ titolo = '', zoom = 48, segnalini = false } = {}) {
   const lista = [...tiles.values()].filter(e => !e.d.pending && e.proc);
   if (!lista.length) return null;
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
@@ -253,15 +274,15 @@ export function renderEsportazione({ titolo = '', zoom = 48, segnalini = true } 
   const salvato = { ctx, W, H, dpr, vx: view.x, vy: view.y, vz: view.zoom, sicuraFn, sel: selectedId, drag };
   try {
     ctx = g; W = w; H = h; dpr = 1; view.x = (x0 + x1) / 2; view.y = (y0 + y1) / 2 + T / 2; view.zoom = zoom; sicuraFn = null; selectedId = null; drag = null;
-    g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = PAPER; g.fillRect(0, 0, w, h);
+    g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = tema.tex ? texturaCarta(g) : tema.base; g.fillRect(0, 0, w, h);
     g.lineWidth = 1; const tracciati = (stile, test) => { g.strokeStyle = stile; g.beginPath(); for (let i = Math.ceil(x0); i <= x1; i++) if (test(i)) { const x = Math.round((i - x0) * zoom) + .5; g.moveTo(x, 0); g.lineTo(x, h); } for (let j = Math.ceil(y0); j <= y1; j++) if (test(j)) { const y = Math.round((j - y0) * zoom) + .5; g.moveTo(0, y); g.lineTo(w, y); } g.stroke(); };
-    tracciati('rgba(70,120,175,.28)', i => i % 5 !== 0); tracciati('rgba(70,120,175,.55)', i => i % 5 === 0);
+    tracciati(`rgba(${tema.gr},${tema.a1})`, i => i % 5 !== 0); tracciati(`rgba(${tema.gr},${tema.a2})`, i => i % 5 === 0);
     for (const e of lista) { const anim = e.anim; e.anim = null; try { drawTile(e, performance.now(), []); } finally { e.anim = anim; } }
-    if (segnalini) { const mov = tokens.map(t => [t, t.x, t.y, t.img, t.imgId]); tokens.forEach(t => { t.img = null; t.imgId = null; }); try { drawTokens(0); } finally { mov.forEach(([t, x, y, im, id]) => { t.x = x; t.y = y; t.img = im; t.imgId = id; }); } }   // senza ritratti: solo la lettera della classe
+    if (segnalini) { const mov = tokens.map(t => [t, t.x, t.y]); try { drawTokens(0); } finally { mov.forEach(([t, x, y]) => { t.x = x; t.y = y; }); } }
     if (titolo) {
-      g.fillStyle = 'rgba(40,30,20,.92)'; g.textBaseline = 'middle'; g.textAlign = 'left';
+      g.fillStyle = tema.testo; g.textBaseline = 'middle'; g.textAlign = 'left';
       g.font = `bold ${Math.round(zoom * 0.9)}px Palatino, Georgia, serif`; g.fillText(titolo, M * zoom, (M + 0.7) * zoom);
-      g.font = `${Math.round(zoom * 0.42)}px Palatino, Georgia, serif`; g.fillStyle = 'rgba(40,30,20,.6)'; g.fillText('Four Against Darkness – mappa del dungeon', M * zoom, (M + 1.55) * zoom);
+      g.font = `${Math.round(zoom * 0.42)}px Palatino, Georgia, serif`; g.fillStyle = tema.testo2; g.fillText('Four Against Darkness – mappa del dungeon', M * zoom, (M + 1.55) * zoom);
     }
   } finally {
     ctx = salvato.ctx; W = salvato.W; H = salvato.H; dpr = salvato.dpr; view.x = salvato.vx; view.y = salvato.vy; view.zoom = salvato.vz; sicuraFn = salvato.sicuraFn; selectedId = salvato.sel; drag = salvato.drag;

@@ -9,6 +9,8 @@ const coop = require('./coop');
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
+let VERSIONE = '';
+try { VERSIONE = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version || ''; } catch { /* ok */ }
 const ASSETS = path.join(ROOT, 'assets');
 const DATA = path.join(ROOT, 'data');
 // FAD_DATA permette all'app desktop di salvare le campagne in una cartella scrivibile dell'utente
@@ -142,6 +144,7 @@ async function gestoreLan(req, res) {
     if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url)) return; return send(res, 404, { error: 'non disponibile' }); }
     if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'), req, true);
     if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'), req);
+    if (pathname === '/versione.json') return send(res, 200, { versione: VERSIONE });
     return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1), req, pathname.startsWith('/vendor/'));
   } catch (e) { send(res, 500, { error: String(e.message || e) }); }
 }
@@ -165,6 +168,7 @@ const server = http.createServer(async (req, res) => {
     if (parts[0] === 'api') { if (await coop.gestisci(req, res, parts, url, { apriLan })) return; return await api(req, res, parts); }
     if (parts[0] === 'assets') return serveStatic(res, ASSETS, parts.slice(1).join('/'), req, true);
     if (parts[0] === 'rules') return serveStatic(res, path.join(DATA, 'rules'), parts.slice(1).join('/'), req);
+    if (pathname === '/versione.json') return send(res, 200, { versione: VERSIONE });
     return serveStatic(res, PUBLIC, pathname === '/' ? 'index.html' : pathname.slice(1), req, pathname.startsWith('/vendor/'));
   } catch (e) {
     send(res, 500, { error: String(e.message || e) });

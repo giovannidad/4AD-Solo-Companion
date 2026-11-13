@@ -35,7 +35,7 @@ function creaPdf(pagine) {
 }
 
 export async function esportaMappa(formato) {
-  const f = formato || await scelta('Esporta la mappa', 'Salva la mappa esplorata (stanze e griglia; i ritratti dei personaggi non vengono esportati).', [['png', 'Immagine PNG', 'Alta risoluzione, sfondo carta quadrettata'], ['pdf', 'Documento PDF', 'Una pagina A4 pronta da stampare']]);
+  const f = formato || await scelta('Esporta la mappa', 'Salva la mappa esplorata (stanze e griglia, senza i segnalini dei personaggi).', [['png', 'Immagine PNG', 'Alta risoluzione, sfondo carta quadrettata'], ['pdf', 'Documento PDF', 'Una pagina A4 pronta da stampare']]);
   if (!f) return;
   const titolo = S.adv?.nomeDungeon || '';
   const cv = table.renderEsportazione({ titolo });

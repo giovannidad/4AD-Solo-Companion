@@ -159,7 +159,7 @@ function applica(msg) {
   S.adv = { ...am, incontro: pezziOspite.i?.incontro || null, tessere: tessereIds.map(id => pezziOspite['t:' + id]).filter(Boolean) };
   S.registro = regOspite; S.camp = pezziOspite.c?.camp || 'coop'; coop.info = pezziOspite.c;
   S.ritratti = Object.fromEntries(Object.entries(pezziOspite).filter(([k]) => k.startsWith('x:')).map(([k, v]) => [k.slice(2), v.url]));
-  table.setTiles(S.adv.tessere || []);
+  table.setTema(S.adv.tema); table.setTiles(S.adv.tessere || []);
   emit(); aggiornaBadge();
 }
 /** Invia un comando per un proprio eroe (usato dall'interfaccia dell'ospite). */

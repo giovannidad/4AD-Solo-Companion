@@ -13,10 +13,11 @@ const adv = () => S.adv;
 export const tileById = id => adv().tessere.find(t => t.id === id);
 
 /** Crea i dati di una tessera; la dimensione in quadretti deriva dalla griglia misurata sull'immagine. */
+const CARTELLA_SET = { classico: 'set-classico', foresta: 'set-foresta' };
 function nuovaTessera(tipo, n) {
   const m = tipo === 'ingresso' ? R.tiles.ingressi[n] : R.tiles.tiles[n];
   return {
-    id: uid(), tipo, n, src: `/assets/${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.${m.svg ? 'svg' : 'webp'}`,
+    id: uid(), tipo, n, src: `/assets/${CARTELLA_SET[adv().tema] ? CARTELLA_SET[adv().tema] + '/' : ''}${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.${m.svg ? 'svg' : 'webp'}`,
     w: m.w, h: m.h, cx: m.cx, cy: m.cy, ox: m.ox, oy: m.oy,
     x: 10, z: 14, rot: 0, flip: false, scale: 1, pending: false, nome: `Stanza ${n}`, corridoio: false, contenuto: null, perquisita: false
   };
@@ -82,7 +83,7 @@ export async function iniziaAvventura() {
   const set = await risolviSet();
   let missione = null;
   if (set === 'caos') { missione = await K.scegliMissione(); }
-  Object.assign(S.adv, { set, missione, eventiUsati: [],
+  Object.assign(S.adv, { set, missione, tema: S.party.tema || 'carta', eventiUsati: [],
     attiva: true, numero: (S.adv.numero || 0) + 1, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null, coda: [],
     maggioriSconfitti: 0, incontriSeguaci: 0, esPendenti: [], bottino: [], fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false,
     guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: []
@@ -94,7 +95,7 @@ export async function iniziaAvventura() {
     e.usi = { benedizione: 0, guarigione: 0, furie: 0, fortuna: 0, bende: 0, pozione: 0 };
     (e.incantesimi || []).forEach(s => { s.usato = false; });
   }
-  table.setTiles([]);
+  table.setTema(S.adv.tema); table.setTiles([]);
   const r = await dado('Stanza d’ingresso (d6)');
   const idx = r.totale;
   const t = nuovaTessera('ingresso', String(idx));

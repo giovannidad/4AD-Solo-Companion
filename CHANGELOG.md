@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.0
+- **Stili della mappa:** nuovi set di tessere «Dungeon classico» (pietra, torce, botti, ossa) e «Foresta» (prato, siepi, alberi, cancelli), con bordino a mano e dettagli; si scelgono prima di iniziare un dungeon (menu «Stile della mappa»; l'originale è «4 Against Darkness»). Lo sfondo del foglio, la griglia e l'esportazione PNG/PDF si adattano allo stile scelto.
+- **Esporta mappa:** i segnalini dei personaggi non vengono più disegnati.
+- **Versione del programma** visibile in alto a sinistra, sotto il titolo.
+
 ## 1.9.0
 - **Esporta schede:** nuovo pulsante accanto a «Esporta mappa». Le schede dei personaggi escono in PDF (una pagina A4 per eroe) o PNG, in stile fantasy a tratto di matita, pronte da stampare per giocare senza computer. Il ritratto non viene esportato: resta una cornice vuota. **Stampa eco:** solo bianco e nero, senza sfondo, per risparmiare inchiostro.
 - **Esporta mappa:** i segnalini dei personaggi non mostrano più il ritratto, solo la lettera della classe.
