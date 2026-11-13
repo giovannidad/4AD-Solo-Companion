@@ -23,7 +23,7 @@ export const stats = { frames: 0 };      // fotogrammi disegnati (per misurare i
 export const qualita = { ombre: true, dpr: 2 };
 
 // ---- aspetto dei dadi (scelto dall'utente in Impostazioni, salvato nel browser) ----
-export const aspetto = { colore: 'avorio', custom: '#7a3fb0', smussato: true, ombre: false, distingui: false, v: 2 };
+export const aspetto = { colore: 'avorio', custom: '#7a3fb0', smussato: true, ombre: false, distingui: true, v: 2 };
 try {
   const salvato = JSON.parse(localStorage.getItem('fad-dadi') || '{}');
   if (salvato.v !== 2) salvato.ombre = false;   // dalla v2 l'ombra parte disattivata anche per chi aveva già salvato le impostazioni

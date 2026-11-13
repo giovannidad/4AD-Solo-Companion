@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0
+- **Esporta schede:** nuovo pulsante accanto a «Esporta mappa». Le schede dei personaggi escono in PDF (una pagina A4 per eroe) o PNG, in stile fantasy a tratto di matita, pronte da stampare per giocare senza computer. Il ritratto non viene esportato: resta una cornice vuota. **Stampa eco:** solo bianco e nero, senza sfondo, per risparmiare inchiostro.
+- **Esporta mappa:** i segnalini dei personaggi non mostrano più il ritratto, solo la lettera della classe.
+- **Dadi 3D:** «Distingui i dadi secondari» è attivo di default (per chi non ha già salvato le impostazioni).
+
 ## 1.8.0
 - **Arlecchino:** fino a 3 attacchi in mischia per turno con 2-3 armi leggere o a una mano (prima il turno finiva dopo il primo); mezzo livello solo con una sola arma.
 - **Trappole e fantasmi:** finestra di scelta (disarmare, far scattare, risolvere a mano; il chierico scaccia il fantasma) per trappole, evento Fantasma e complicazioni del tesoro nascosto.

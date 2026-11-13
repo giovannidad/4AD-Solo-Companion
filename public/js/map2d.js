@@ -257,7 +257,7 @@ export function renderEsportazione({ titolo = '', zoom = 48, segnalini = true } 
     g.lineWidth = 1; const tracciati = (stile, test) => { g.strokeStyle = stile; g.beginPath(); for (let i = Math.ceil(x0); i <= x1; i++) if (test(i)) { const x = Math.round((i - x0) * zoom) + .5; g.moveTo(x, 0); g.lineTo(x, h); } for (let j = Math.ceil(y0); j <= y1; j++) if (test(j)) { const y = Math.round((j - y0) * zoom) + .5; g.moveTo(0, y); g.lineTo(w, y); } g.stroke(); };
     tracciati('rgba(70,120,175,.28)', i => i % 5 !== 0); tracciati('rgba(70,120,175,.55)', i => i % 5 === 0);
     for (const e of lista) { const anim = e.anim; e.anim = null; try { drawTile(e, performance.now(), []); } finally { e.anim = anim; } }
-    if (segnalini) { const mov = tokens.map(t => [t, t.x, t.y]); try { drawTokens(0); } finally { mov.forEach(([t, x, y]) => { t.x = x; t.y = y; }); } }
+    if (segnalini) { const mov = tokens.map(t => [t, t.x, t.y, t.img, t.imgId]); tokens.forEach(t => { t.img = null; t.imgId = null; }); try { drawTokens(0); } finally { mov.forEach(([t, x, y, im, id]) => { t.x = x; t.y = y; t.img = im; t.imgId = id; }); } }   // senza ritratti: solo la lettera della classe
     if (titolo) {
       g.fillStyle = 'rgba(40,30,20,.92)'; g.textBaseline = 'middle'; g.textAlign = 'left';
       g.font = `bold ${Math.round(zoom * 0.9)}px Palatino, Georgia, serif`; g.fillText(titolo, M * zoom, (M + 0.7) * zoom);

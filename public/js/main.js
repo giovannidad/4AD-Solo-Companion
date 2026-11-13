@@ -7,7 +7,7 @@ import * as dice from './dice.js';
 import { renderGruppo } from './party.js';
 import { apriImpostazioni } from './impostazioni.js';
 import * as Coop from './coop.js';
-import { esportaMappa } from './esporta.js';
+import { esportaMappa, esportaSchede } from './esporta.js';
 import * as Rit from './ritratti.js';
 import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro, firmaUI } from './ui.js';
 
@@ -151,6 +151,7 @@ async function avvia() {
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
   $('#esporta').onclick = () => esportaMappa();
+  $('#esportaSchede').onclick = () => esportaSchede();
   $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });
   $('#coopBtn').onclick = () => Coop.apriCoop();
   $('#qualita').value = QUALITA;
