@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.11.2
+- **App desktop:** correttore ortografico disattivato e cache del codice JavaScript attiva fin dal primo avvio (piccola ottimizzazione dell'avvio; nessun cambiamento alle regole o alla grafica).
+
 ## 1.11.1
 - **Mac con chip Apple (M1, M2, M3…):** il pacchetto `arm64` non si apriva («l'app è danneggiata») perché la firma originale di Electron non era più valida. Ora l'app è firmata in locale (ad-hoc) e la firma viene verificata. Al primo avvio: tasto destro → Apri (istruzioni nel README).
 - **Documentazione:** istruzioni per scegliere il pacchetto Intel o Apple Silicon e per il primo avvio.

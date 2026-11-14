@@ -17,7 +17,7 @@ async function avvia() {
   const port = server.address().port;
   win = new BrowserWindow({
     width: 1500, height: 920, minWidth: 1000, minHeight: 640, backgroundColor: '#120d09', title: 'Four Against Darkness', icon: path.join(__dirname, '..', 'build', 'icon.png'),
-    webPreferences: { contextIsolation: true, sandbox: true }
+    webPreferences: { contextIsolation: true, sandbox: true, spellcheck: false, v8CacheOptions: 'bypassHeatCheck' }   // niente correttore ortografico; il codice JavaScript compilato viene messo in cache fin dal primo avvio
   });
   win.webContents.setWindowOpenHandler(({ url }) => { shell.openExternal(url); return { action: 'deny' }; });
   win.loadURL(`http://127.0.0.1:${port}/`);
