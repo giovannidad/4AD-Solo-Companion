@@ -67,3 +67,10 @@ alla punta del tratto.
 - `map2d.js` ridisegna solo su richiesta (`invalidate`), salta le tessere fuori schermo e, con `qualita.leggera`, evita ombre sfocate e animazione.
 - Modalità **Leggera** (`localStorage` → `fad-qualita`): non crea il livello WebGL e usa tiri virtuali. Si attiva da sola se
   `navigator.hardwareConcurrency <= 2` o `deviceMemory <= 2`.
+
+## Pacchetti per Mac (firma)
+
+`package.json → build.mac`: `identity: "-"` firma l'app in modo *ad-hoc* (senza certificato). Con `identity: null` la firma non viene rifatta e, su
+Apple Silicon, resta quella originale di Electron, ormai non valida per il pacchetto modificato: macOS risponde «l'app è danneggiata». Verifica:
+`codesign --verify --deep --strict "dist/mac-arm64/Four Against Darkness.app"` (deve terminare senza errori). I due `.dmg` (x64 e arm64)
+sono separati; la notarizzazione Apple richiederebbe un account sviluppatore a pagamento.

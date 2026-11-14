@@ -37,13 +37,22 @@ npm run desktop      # stessa cosa in una finestra Electron
 ## App per Mac e Windows
 
 ```bash
-npm run dist:mac     # dist/*.dmg (Intel e Apple Silicon)
+npm run dist:mac     # dist/*.dmg: uno per Intel (x64) e uno per Apple Silicon (arm64: M1, M2, M3…)
 npm run dist:win     # dist/*-win.zip
 ```
 
-I pacchetti non sono firmati: al primo avvio macOS chiede tasto destro → "Apri", Windows mostra SmartScreen
-("Ulteriori informazioni" → "Esegui comunque"). I salvataggi dell'app installata stanno nella cartella dati
-dell'utente (menu *File → Apri cartella dei salvataggi*).
+**Quale pacchetto scaricare.** Mac con processore Intel: `Four.Against.Darkness-X.Y.Z.dmg`. Mac con chip Apple (M1, M2, M3…):
+`Four.Against.Darkness-X.Y.Z-arm64.dmg` (menu  → *Informazioni su questo Mac*: «Chip» = Apple, «Processore» = Intel).
+
+I pacchetti non sono notarizzati da Apple (nessun certificato a pagamento). Le app per Mac hanno però una **firma locale
+("ad-hoc")**: serve a macOS su Apple Silicon, che rifiuta i programmi senza una firma valida (messaggio «l'app è danneggiata»).
+Al primo avvio:
+
+- **macOS:** copia l'app in *Applicazioni*, poi tasto destro → "Apri" → "Apri". Se compare ancora «danneggiata», rimuovi la
+  quarantena con `xattr -cr "/Applications/Four Against Darkness.app"` e riprova.
+- **Windows:** SmartScreen mostra un avviso: "Ulteriori informazioni" → "Esegui comunque".
+
+I salvataggi dell'app installata stanno nella cartella dati dell'utente (menu *File → Apri cartella dei salvataggi*).
 
 ## Documentazione
 

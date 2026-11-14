@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1
+- **Mac con chip Apple (M1, M2, M3…):** il pacchetto `arm64` non si apriva («l'app è danneggiata») perché la firma originale di Electron non era più valida. Ora l'app è firmata in locale (ad-hoc) e la firma viene verificata. Al primo avvio: tasto destro → Apri (istruzioni nel README).
+- **Documentazione:** istruzioni per scegliere il pacchetto Intel o Apple Silicon e per il primo avvio.
+
 ## 1.11.0
 - **Equipaggiamento del bottino:** armi, armature e scudi trovati si possono equipaggiare subito alla consegna o dalla scheda (pulsante «Equipaggia»), nel rispetto delle classi; le armi d'argento valgono contro gli spettri.
 - **Stili della mappa:** i set «Dungeon classico» e «Foresta» hanno ora forme di stanza originali (porte nelle stesse posizioni delle tessere del manuale), più varietà di dettagli.
