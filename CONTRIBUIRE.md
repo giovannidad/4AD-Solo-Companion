@@ -12,3 +12,7 @@ Idee utili: automatizzare i poteri dei mostri avanzati ancora solo descritti, us
 modalità cooperativa online, test automatici delle regole, traduzioni.
 
 **Non caricare il manuale in PDF** né altro materiale protetto da copyright.
+
+## Pacchetti di compilazione (`dist/`)
+
+Dopo ogni nuova compilazione o pubblicazione la cartella `dist/` deve contenere **solo l'ultima versione**: elimina i file delle versioni precedenti (`Four Against Darkness-<versione>*`). Le vecchie versioni restano scaricabili dalle release su GitHub. La cartella è esclusa da git.
