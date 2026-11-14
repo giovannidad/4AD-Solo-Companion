@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.11.3
+- **Set «Dungeon classico» e «Foresta»:** rigenerati, ora ogni tessera con uscite ha almeno una porta disegnata (le tessere 42, 45, 54 e gli ingressi 3 e 5 avevano solo estremità aperte di corridoio). Le posizioni delle uscite non cambiano; le tessere 35 e 62 restano senza uscite, come nel manuale.
+
 ## 1.11.2
 - **App desktop:** correttore ortografico disattivato e cache del codice JavaScript attiva fin dal primo avvio (piccola ottimizzazione dell'avvio; nessun cambiamento alle regole o alla grafica).
 

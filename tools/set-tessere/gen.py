@@ -373,6 +373,8 @@ def genera(tema, out, ids=None):
         for n in META[kind]:
             seed = int(n) + (0 if kind == 'tiles' else 100)
             celle, porte_d, punte = costruisci(kind, n, tema, seed)
+            if not porte_d and punte:   # un corridoio senza porte non va bene: la prima apertura diventa una porta (le altre restano aperte)
+                porte_d, punte = [punte[0]], punte[1:]
             W = max(i for i, j in celle) + 1; H = max(j for i, j in celle) + 1
             meta[kind][n] = dict(w=round((W + .5) * 128), h=round((H + .5) * 128), cx=128, cy=128, ox=32, oy=32, svg=True,
                                  celle=sorted([list(c) for c in celle]), porte=[list(p) for p in porte_d + punte])
