@@ -1,7 +1,7 @@
 // Equipaggiare come armi e armature gli oggetti trovati (bottino) o tenuti nello zaino.
 import { R, S, log, modificato } from './state.js';
 import { toast, scelta } from './util.js';
-import { armaDi } from './rules.js';
+import { armaDi, armaConsentita, limiteArma, suppl } from './rules.js';
 
 const ARMATURE = { leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
 
@@ -19,6 +19,7 @@ export function tipoEquip(o) {
     const mat = /contundente/.test(t) ? 'contundente' : /taglio/.test(t) ? 'taglio' : null;
     return { tipo: 'arma', cat, mat, argento: /argent/.test(t) };
   }
+  if (/stell[ae] da lancio/.test(t)) return { tipo: 'arma', id: 'stella' };
   const a = R.equipaggiamento.armi.find(x => x.nome.toLowerCase() === (o.nome || '').toLowerCase());
   if (a) return { tipo: 'arma', id: a.id };
   return null;
@@ -27,7 +28,7 @@ export const equipaggiabile = o => !!tipoEquip(o);
 
 function armiAmmesse(e) {
   const c = R.classi[e.classe]?.armi;
-  return R.equipaggiamento.armi.filter(a => (!a.suppl || S.party.supplCaos) && (c === 'tutte' || (c || []).some(k => k === a.categoria || k === a.id || (k === 'mischia' && !a.lancio) || (k === 'distanza' && a.lancio))));
+  return R.equipaggiamento.armi.filter(a => (!a.suppl || S.party.supplCaos) && armaConsentita(e, a).ok && (c === 'tutte' || (c || []).some(k => k === a.categoria || k === a.id || (k === 'mischia' && !a.lancio) || (k === 'distanza' && a.lancio))));
 }
 const togli = (e, o) => { if ((o.qta || 1) > 1) o.qta--; else e.oggetti = (e.oggetti || []).filter(x => x !== o); };
 const rimetti = (e, nome) => { const ex = (e.oggetti = e.oggetti || []).find(o => o.nome === nome); if (ex) ex.qta = (ex.qta || 1) + 1; else e.oggetti.push({ nome, qta: 1 }); };
@@ -60,7 +61,16 @@ export async function equipaggia(e, o) {
       id = cand.length === 1 ? cand[0].id : await scelta('Che arma è?', `${o.nome}`, cand.map(a => [a.id, a.nome, `${a.mod >= 0 ? '+' : ''}${a.mod} all’attacco`]));
       if (!id) return false;
     }
+    const arma = armaDi(id);
+    if (arma && suppl()) {   // armi da fuoco riservate a certe classi, limiti di bolas e boomerang
+      const c = armaConsentita(e, arma); if (!c.ok) { toast(c.motivo, 'warn'); return false; }
+      if (!limiteArma(e, id)) { toast(`${arma.nome}: ne puoi portare al massimo ${id === 'bolas' ? 2 : 1}.`, 'warn'); return false; }
+    }
     (e.armi = e.armi || []).push(id); e.armaPrincipale = id;
+    if (!q.id && suppl()) {   // armi magiche del caos: l'effetto resta legato all'eroe che le impugna
+      if (/mazza della giustizia/i.test(o.nome)) e.mazzaGiustizia = true;
+      if (/arma dorata/i.test(o.nome)) e.armaDorata = true;
+    }
     if (q.argento) (e.armiArgento = e.armiArgento || []).push(id);
     togli(e, o); log(`${e.nome} impugna ${armaDi(id)?.nome || o.nome}${q.argento ? ' (d’argento)' : ''}.`);
   }

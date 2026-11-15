@@ -1384,7 +1384,8 @@
     "liv": 4,
     "es": 3,
     "testo": "Serve un elfo (del manuale base) con una pergamena di Fulmine Magico o Sonno. Raccogli 4 indizi: spendendoli trovi l'arazzo nella stanza successiva, sorvegliato da un aberrante (1-3) o un boss (4-6) del caos. 3 tiri ES (almeno uno sull'elfo) e 200 p.o. alla consegna. Chi porta l'arazzo non usa armi a due mani o archi e difende a -1.",
-    "obiettivo": "Arazzo recuperato"
+    "obiettivo": "Arazzo recuperato",
+    "indiziNecessari": 4
    },
    {
     "da": 5,
@@ -1455,5 +1456,301 @@
   "56",
   "61",
   "66"
+ ],
+ "abilita": [
+  {
+   "id": "alchimia-delle-spore",
+   "nome": "Alchimia delle spore",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "attacco-penetrante",
+   "nome": "Attacco penetrante",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "combattente-acrobatico",
+   "nome": "Combattente acrobatico",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "doppio-attacco",
+   "nome": "Doppio attacco",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "elfo-fuoco"
+   ],
+   "testo": "Arlecchino con una sola arma: 2 attacchi invece di 1.",
+   "auto": true
+  },
+  {
+   "id": "intuizione",
+   "nome": "Intuizione",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "investigatore",
+   "nome": "Investigatore",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "lanciatore-di-coltelli",
+   "nome": "Lanciatore di coltelli",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "tiratore"
+   ],
+   "testo": "Specializzandosi nella stella da lancio se ne lanciano 2 con una sola azione.",
+   "auto": true
+  },
+  {
+   "id": "lesto-di-piedi",
+   "nome": "Lesto di piedi",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "negoziatore",
+   "nome": "Negoziatore",
+   "classi": [
+    "arlecchino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "nemico-giurato",
+   "nome": "Nemico giurato",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "preparare-veleno",
+   "nome": "Preparare veleno",
+   "classi": [
+    "arlecchino",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "scova-i-punti-deboli",
+   "nome": "Scova i punti deboli",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "sesto-senso",
+   "nome": "Sesto senso",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "sputafuoco",
+   "nome": "Sputafuoco",
+   "classi": [
+    "arlecchino",
+    "furfante",
+    "mezzuomo"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "udito-formidabile",
+   "nome": "Udito formidabile",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "usare-bombe",
+   "nome": "Usare bombe",
+   "classi": [
+    "arlecchino",
+    "assassino",
+    "nano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "attacco-specializzato",
+   "nome": "Attacco specializzato",
+   "classi": [
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "cacciatore-di-vampiri",
+   "nome": "Cacciatore di vampiri",
+   "classi": [
+    "assassino",
+    "veterano",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "colpo-mortale",
+   "nome": "Colpo mortale",
+   "classi": [
+    "assassino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "sopportare-il-dolore",
+   "nome": "Sopportare il dolore",
+   "classi": [
+    "assassino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "vortice-di-lame",
+   "nome": "Vortice di lame",
+   "classi": [
+    "assassino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "ammazzaorchi",
+   "nome": "Ammazzaorchi",
+   "classi": [
+    "tiratore",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "leader-carismatico",
+   "nome": "Leader carismatico",
+   "classi": [
+    "tiratore",
+    "veterano"
+   ],
+   "testo": "I compagni hanno +1 ai salvezza contro paura e terrore (automatico).",
+   "auto": true
+  },
+  {
+   "id": "recuperare-munizioni",
+   "nome": "Recuperare munizioni",
+   "classi": [
+    "mezzuomo",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "tiro-preciso",
+   "nome": "Tiro preciso",
+   "classi": [
+    "tiratore",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "assistenza",
+   "nome": "Assistenza",
+   "classi": [
+    "veterano"
+   ],
+   "testo": "Una volta per incontro presta a un compagno (nella stessa stanza) una capacità di classe di un terzo personaggio, che per quell’incontro non può usarla. Pulsante «Assistenza» nell’incontro.",
+   "auto": true
+  },
+  {
+   "id": "concentrazione-mentale",
+   "nome": "Concentrazione mentale",
+   "classi": [
+    "veterano"
+   ],
+   "testo": "Aggiunge il livello ai tiri salvezza relativi a magia e volontà (automatico).",
+   "auto": true
+  }
  ]
 }

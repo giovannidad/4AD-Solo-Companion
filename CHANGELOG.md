@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.12.0
+- **Tabelle del dungeon con nome del manuale e livello:** «Four Against Darkness (lvl 1-2)», «Four Against Darkness – Nemici diabolici (lvl 3-5)», «Contro il Caos (lvl 3-6)».
+- **«Contro il Caos» completato:**
+  - traguardi con bonus permanenti applicati al completamento e contatori automatici dove possibile;
+  - circa 35 tratti con effetto automatico;
+  - sezione «Abilità avanzate» nella scheda (7 nuove abilità funzionanti, attacco specializzato);
+  - bolas, boomerang, ricarica della balestra, restrizioni delle armi da fuoco, stella da lancio doppia;
+  - veterano (assistenza, protezione, fuga, limite di oro);
+  - missioni delle Caverne (cuoco compagno, prigionieri, arazzo, soglie di indizi, ascia di Nydann);
+  - oggetti del caos e incantesimi Muro di Ghiaccio, Ondata di Forza, Comunicazione a Distanza, Ponte Illusorio con effetto meccanico.
+- Restano manuali: veleno preparato, munizioni, tiro per imparare le abilità avanzate (arriverà con «Contro l'Abisso»).
+
 ## 1.11.3
 - **Set «Dungeon classico» e «Foresta»:** rigenerati, ora ogni tessera con uscite ha almeno una porta disegnata (le tessere 42, 45, 54 e gli ingressi 3 e 5 avevano solo estremità aperte di corridoio). Le posizioni delle uscite non cambiano; le tessere 35 e 62 restano senza uscite, come nel manuale.
 

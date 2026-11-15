@@ -83,7 +83,14 @@
    "lancio": true,
    "fuoco": true,
    "suppl": true,
-   "note": "Solo guerrieri, nani, tiratori scelti. 1 colpo a inizio incontro. Con 1 naturale esplode (1d3 PV a chi lo imbraccia) e va riparato in città (15 p.o.). Ogni sparo: 1d6, con 1-2 arrivano i mostri erranti dopo lo scontro."
+   "note": "Solo guerrieri, nani, tiratori scelti. 1 colpo a inizio incontro. Con 1 naturale esplode (1d3 PV a chi lo imbraccia) e va riparato in città (15 p.o.). Ogni sparo: 1d6, con 1-2 arrivano i mostri erranti dopo lo scontro.",
+   "soloClassi": [
+    "guerriero",
+    "nano",
+    "tiratore",
+    "assassino"
+   ],
+   "riparazione": 15
   },
   {
    "id": "balestra",
@@ -105,7 +112,8 @@
    "mod": 0,
    "lancio": true,
    "suppl": true,
-   "note": "Max 2. Non infliggono danni: se colpiscono, tiro salvezza contro il LIV (+½L) per intrappolare il bersaglio, che si libera con la prossima azione. Inefficaci su fluidi, orde e mostri maggiori dal 5° livello."
+   "note": "Max 2. Non infliggono danni: se colpiscono, tiro salvezza contro il LIV (+½L) per intrappolare il bersaglio, che si libera con la prossima azione. Inefficaci su fluidi, orde e mostri maggiori dal 5° livello.",
+   "categoria": "leggera"
   },
   {
    "id": "boomerang",
@@ -116,7 +124,8 @@
    "mod": -1,
    "lancio": true,
    "suppl": true,
-   "note": "Max 1. Se manca ritorna nelle mani del lanciatore. Non nei corridoi, stanze sotto i 6 quadretti, foreste e giungle."
+   "note": "Max 1. Se manca ritorna nelle mani del lanciatore. Non nei corridoi, stanze sotto i 6 quadretti, foreste e giungle.",
+   "categoria": "leggera"
   },
   {
    "id": "pistola",
@@ -128,7 +137,14 @@
    "lancio": true,
    "fuoco": true,
    "suppl": true,
-   "note": "Solo guerrieri, nani, spadaccini, tiratori scelti. 1 volta per incontro. Con 1 naturale esplode (1d3 PV) e va riparata (10 p.o.)."
+   "note": "Solo guerrieri, nani, spadaccini, tiratori scelti. 1 volta per incontro. Con 1 naturale esplode (1d3 PV) e va riparata (10 p.o.).",
+   "soloClassi": [
+    "guerriero",
+    "nano",
+    "tiratore",
+    "assassino"
+   ],
+   "riparazione": 10
   },
   {
    "id": "stella",
@@ -203,6 +219,21 @@
    "id": "rituale",
    "nome": "Rituale di resurrezione",
    "costo": 1000
+  },
+  {
+   "id": "torcia",
+   "nome": "Torcia",
+   "costo": 1
+  },
+  {
+   "id": "olio",
+   "nome": "Fiaschetta d’olio",
+   "costo": 1
+  },
+  {
+   "id": "occhiali",
+   "nome": "Occhiali (per i miopi)",
+   "costo": 200
   }
  ],
  "incantesimi": [

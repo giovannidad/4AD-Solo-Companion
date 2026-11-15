@@ -52,6 +52,15 @@ export async function tira(expr, label = '') {
   return registra({ label, expr, totale, dadi, ora: Date.now() });
 }
 
+/** Valore massimo (o minimo) possibile di un'espressione come quelle di tira(): "3d6x30" → 540. */
+export function estremo(expr, massimo = true) {
+  return String(expr).replace(/\s/g, '').toLowerCase().split('x').reduce((tot, f) => {
+    const m = f.match(/^(\d+)(?:d(\d+))?([+-]\d+)?$/); if (!m) return tot;
+    const v = m[2] ? +m[1] * (massimo ? +m[2] : 1) + +(m[3] || 0) : +m[1];
+    return tot === null ? v : tot * v;
+  }, null) ?? 0;
+}
+
 /** d66: primo dado = decine (rosso), secondo = unità (avorio). */
 export async function d66(label = 'd66') {
   const [a, b] = await fisici(2, ['rosso', 'avorio'], label);

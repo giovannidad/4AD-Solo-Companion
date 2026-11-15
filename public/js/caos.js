@@ -1,8 +1,9 @@
 // Supplemento «Contro il Caos»: Caverne del Caos, «Toccato dal caos», follia, missioni e incantesimi del caos.
-import { R, S, log, modificato, eroiVivi, eroiAttivi } from './state.js';
+import { R, S, log, modificato, eroiVivi, eroiAttivi, eroePerId, nuovoEroe } from './state.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
 import { riga } from './rules.js';
-import { h, modal, toast, scelta, sceltaMultipla, uid } from './util.js';
+import { h, modal, toast, scelta, sceltaMultipla, confirmBox, uid } from './util.js';
+import { equipaggiamentoIniziale } from './party.js';
 import * as G from './game.js';
 import * as C from './combat.js';
 import * as T from './tratti.js';
@@ -21,7 +22,8 @@ export const eroeCasuale = () => casuale(eroiAttivi());
 
 // ---------------- follia e contaminazione ----------------
 export function follia(e, n = 1) {
-  e.follia = Math.max(0, (e.follia || 0) + n);
+  const minimo = (e.tratti || []).some(t => t.id === 'folle') ? 1 : 0;   // il tratto Folle non scende mai sotto 1 punto
+  e.follia = Math.max(minimo, (e.follia || 0) + n);
   log(`${e.nome} ${n > 0 ? 'riceve' : 'perde'} ${Math.abs(n)} punt${Math.abs(n) === 1 ? 'o' : 'i'} follia (totale ${e.follia}).`);
   modificato('party');
 }
@@ -244,7 +246,7 @@ export async function scegliMissione() {
   let m;
   if (id === 'dado' || id === null) { const r = await dado('Missione contro il caos (d6)'); m = riga(tab, r.totale); }
   else m = tab.find(x => x.id === id);
-  return { id: m.id, nome: m.nome, liv: m.liv, es: m.es, testo: m.testo, obiettivo: m.obiettivo, bossFinale: m.bossFinale || null, completata: false, salvati: 0 };
+  return { id: m.id, nome: m.nome, liv: m.liv, es: m.es, testo: m.testo, obiettivo: m.obiettivo, bossFinale: m.bossFinale || null, completata: false, salvati: 0, indiziNecessari: m.indiziNecessari || 0, indiziMissione: 0, sbloccata: false };
 }
 
 /** Quanti livelli sopra quello consigliato è il gruppo (modifica mostri minori e PV dei maggiori). */
@@ -267,27 +269,180 @@ export async function generaBossMissione() {
     inc = await G.monstroDa(r.totale <= 3 ? 'aberranti' : 'boss'); inc.nome += ' (custode dell’arazzo)';
   } else return;
   if (m.id === 'cuoco') { inc.mostriPrima = false; }
+  inc.missioneBoss = m.id;
   G.avviaIncontro(inc, t);
   log(`Missione «${m.nome}»: ${inc.nome} appare.`);
 }
 
+/** La missione sostituisce il contenuto della stanza appena posizionata (boss del cuoco alla 10ª stanza, custodi di arazzo e ascia). */
+export async function contenutoMissione(t) {
+  const m = adv().missione; if (!m || m.completata || m.bossGenerato) return false;
+  let boss = false;
+  if (m.id === 'cuoco' && adv().stanze === 10) {
+    const cuoco = S.party.eroi.find(e => e.png === 'cuoco');
+    if (cuoco && cuoco.stato !== 'morto') boss = true; else log('Il mezzuomo cuoco è caduto: il cibo avvelenato non può essere consegnato e la missione è fallita.');
+  }
+  if (['arazzo', 'ascia'].includes(m.id) && m.sbloccata) boss = true;
+  if (!boss) return false;
+  m.bossGenerato = true;
+  await generaBossMissione();
+  t.contenuto = { testo: `Missione «${m.nome}»: ${adv().incontro?.nome || 'il boss della missione'}.`, vuota: false }; modificato();
+  return true;
+}
+/** Il boss di una missione è stato sconfitto (arazzo e ascia si possono ora raccogliere). */
+export function bossMissioneSconfitto(id) {
+  const m = adv().missione; if (!m || m.id !== id) return;
+  m.bossSconfitto = true;
+  if (id === 'arazzo') { m.arazzoTrovato = true; log('Il custode è caduto: l’arazzo è tuo (assegnalo a chi lo porta).'); }
+  if (id === 'ascia') { m.asciaTrovata = true; log('Il carnefice è caduto: l’ascia di Nydann è tua (assegnala a un eroe).'); }
+  modificato();
+}
+/** Indizi trovati durante la missione (arazzo: 4, ascia: 3). */
+export function indizioMissione(n = 1) {
+  const m = adv().missione; if (!m || !m.indiziNecessari || m.sbloccata || m.completata) return;
+  m.indiziMissione = (m.indiziMissione || 0) + n;
+  if (m.indiziMissione >= m.indiziNecessari) toast(`Hai ${m.indiziMissione} indizi di missione: puoi spenderli per localizzare l’obiettivo (scheda della missione).`);
+}
+export function spendiIndiziMissione() {
+  const m = adv().missione; if (!m?.indiziNecessari || m.sbloccata) return;
+  if ((m.indiziMissione || 0) < m.indiziNecessari) { toast(`Servono ${m.indiziNecessari} indizi (ne hai ${m.indiziMissione || 0}).`, 'warn'); return; }
+  m.indiziMissione -= m.indiziNecessari; m.sbloccata = true;
+  log(`Spesi ${m.indiziNecessari} indizi: ${m.id === 'arazzo' ? 'l’arazzo' : 'l’ascia di Nydann'} è nella prossima stanza che esplorerai, custodito da un boss.`); modificato();
+}
+
+// ---- compagni e oggetti di missione ----
+/** Compagni, pergamene e oggetti forniti all'inizio della missione (chiamata dopo la preparazione dell'avventura). */
+export async function dotazioniMissione() {
+  const m = adv().missione; if (!m) return;
+  if (m.id === 'cuoco') await creaCuoco();
+  if (m.id === 'salvataggio') { m.giovani = (await tira('1d3+3', 'Giovani rapiti (1d3+3)')).totale; m.apparsi = 0; m.prigionieri = []; log(`Giovani rapiti da salvare: ${m.giovani}.`); }
+  if (m.id === 'arazzo') await preparaArazzo();
+  if (m.id === 'signore') dotazioneSignore();
+  modificato();
+}
+async function creaCuoco() {
+  if (S.party.eroi.some(e => e.png === 'cuoco' && e.stato !== 'morto')) return;
+  const e = nuovoEroe('mezzuomo', 'Mezzuomo cuoco');
+  Object.assign(e, { livello: 2, pvMax: 5, pv: 5, png: 'cuoco', armi: ['leggera-taglio'], armaPrincipale: 'leggera-taglio', armatura: 'nessuna', posizione: adv().stanzaCorrente,
+    note: 'Compagno della missione «Il cuoco» (membro aggiuntivo). Ha l’effetto di Negoziatore: ±1 al tiro di reazione dei mostri, senza ottenere Combatte.' });
+  e.oro = (await tira('4d6', 'Equipaggiamento del cuoco (4d6 p.o.)')).totale;
+  S.party.eroi.push(e); S.party.ordine.push(e.id);
+  log(`Il mezzuomo cuoco (L2) si unisce al gruppo con ${e.oro} p.o. di equipaggiamento.`);
+}
+/** Alla fine della missione il cuoco torna a casa. */
+export function congedaCuoco() {
+  const c = S.party.eroi.filter(e => e.png === 'cuoco'); if (!c.length) return;
+  S.party.eroi = S.party.eroi.filter(e => e.png !== 'cuoco'); S.party.ordine = S.party.ordine.filter(id => !c.some(e => e.id === id));
+  log('Il mezzuomo cuoco lascia il gruppo.'); modificato('party');
+}
+async function preparaArazzo() {
+  let elfo = eroiVivi().find(e => e.classe === 'elfo' && !e.png);
+  if (!elfo) {
+    const k = await scelta('L’arazzo rubato', 'Nel gruppo non c’è un elfo (del manuale base). Crei un elfo di 3° livello con 150 p.o. di equipaggiamento (al massimo 40 p.o. in contanti)? Resta come membro aggiuntivo.', [[true, 'Crea l’elfo'], [false, 'No, ci penso io']]);
+    if (k) {
+      elfo = nuovoEroe('elfo', 'Elfo dell’arazzo'); Object.assign(elfo, { livello: 3, pvMax: 7, pv: 7, posizione: adv().stanzaCorrente });
+      equipaggiamentoIniziale(elfo); elfo.oro = 40;
+      S.party.eroi.push(elfo); S.party.ordine.push(elfo.id); log('Creato un elfo di 3° livello per la missione (equipaggiamento base, 40 p.o. in contanti).');
+    }
+  }
+  if (!elfo) return;
+  const sp = await scelta('L’arazzo rubato', `${elfo.nome} riceve una pergamena: quale incantesimo?`, [['Fulmine Magico', 'Fulmine Magico'], ['Sonno', 'Sonno']]) || 'Sonno';
+  (elfo.oggetti = elfo.oggetti || []).push({ nome: `Pergamena: ${sp}`, qta: 1, tipo: 'pergamena', nota: `Pergamena: ${sp}`, cariche: 1, caricheMax: 1, incantesimo: sp, consuma: true });
+  log(`${elfo.nome} riceve una pergamena di ${sp}.`);
+}
+function dotazioneSignore() {
+  const v = eroiVivi();
+  if (v.filter(e => e.livello <= 4).length * 2 <= v.length) { log('Gruppo forte: nessun aiuto dalle autorità.'); return; }
+  const b = (adv().bottino = adv().bottino || []);
+  for (let i = 0; i < 2; i++) b.push({ id: uid(), tipo: 'pergamena', testo: 'Pergamena: Fulmine Magico', incantesimo: 'Fulmine Magico' });
+  b.push({ id: uid(), tipo: 'oggetto', testo: 'Amuleto curativo (guarisce 4 PV in totale)', nome: 'Amuleto curativo', cariche: 4, caricheMax: 4, curativo: true, manuale: true });
+  log('Le autorità forniscono 2 pergamene di Fulmine Magico e un amuleto curativo (nel Bottino).');
+}
+
+// ---- arazzo e ascia ----
+export function prendiArazzo(e) { const m = adv().missione; m.portatoreArazzo = e.id; m.arazzoPreso = true; m.arazzoLasciato = false; log(`${e.nome} porta l’arazzo: niente armi a due mani né archi, difesa a -1.`); modificato(); }
+export function lasciaArazzo() { const m = adv().missione; if (!m?.portatoreArazzo) return; const e = eroePerId(m.portatoreArazzo); m.arazzoLasciato = true; m.portatoreArazzo = null; log(`${e?.nome || 'Il portatore'} lascia cadere l’arazzo (riprenderlo costa 1 azione).`); modificato(); }
+export function riprendiArazzo(e) { const m = adv().missione; m.portatoreArazzo = e.id; m.arazzoLasciato = false; log(`${e.nome} riprende l’arazzo (1 azione).`); modificato(); }
+export function prendiAscia(e) {
+  const m = adv().missione; m.asciaPresa = e.id; e.asciaNydann = true; (e.oggetti = e.oggetti || []).push({ nome: 'Ascia di Nydann', qta: 1, nota: 'Ascia magica: +1 agli attacchi se brandita da un nano.' });
+  log(`${e.nome} prende l’ascia di Nydann${e.classe === 'nano' ? ': +1 agli attacchi (nano)' : ' (solo un nano ne ricava il +1)'}.`); modificato();
+}
+
+// ---- prigionieri (Salvataggio) ----
+export async function dopoStanza(t) {
+  const m = adv().missione; if (!m || m.completata) return;
+  if (m.id === 'salvataggio' && [3, 6, 9].includes(adv().stanze) && (m.apparsi || 0) < Math.min(3, m.giovani || 0)) {
+    t.prigionieri = (t.prigionieri || 0) + 1; m.apparsi++;
+    log(`Un giovane rapito, legato e imbavagliato, è nella ${t.nome}.`); toast('Hai trovato un prigioniero da salvare!');
+  }
+  if (m.id === 'esplorazione' && adv().stanze === 10) { log('Dieci stanze mappate: la missione si compie quando il gruppo esce dal dungeon con la mappa.'); toast('10 stanze mappate: esci dal dungeon per consegnare la mappa.'); }
+  modificato();
+}
+/** Nell'ultima stanza compaiono tutti i giovani rimasti. */
+export function ultimaStanzaPrigionieri() {
+  const m = adv().missione; if (m?.id !== 'salvataggio') return;
+  const t = G.tileById(adv().stanzaCorrente), resto = (m.giovani || 0) - (m.apparsi || 0) - (m.salvati || 0) - (m.prigionieri || []).length;
+  if (resto <= 0) { toast('Non restano altri giovani da trovare.', 'warn'); return; }
+  t.prigionieri = (t.prigionieri || 0) + resto; m.apparsi += resto; log(`Nell’ultima stanza ci sono altri ${resto} giovani prigionieri.`); modificato();
+}
+const capienzaScorta = () => { const n = eroiVivi().filter(e => e.stato !== 'pietra').length; return n >= 3 ? 2 : n === 2 ? 3 : 4; };
+export function liberaPrigioniero() {
+  const m = adv().missione; if (m?.id !== 'salvataggio') return;
+  const t = G.tileById(adv().stanzaCorrente); if (!t?.prigionieri) { toast('Nessun prigioniero in questa stanza.', 'warn'); return; }
+  const i = adv().incontro;
+  const nemici = (i && i.tessera === t.id && i.stato !== 'finito' ? [i] : []).concat((adv().coda || []).filter(c => c.tessera === t.id));
+  if (nemici.length && !(nemici.length === 1 && eroiAttivi().length > (nemici[0].minore ? nemici[0].n : 1))) { toast('Con i mostri nella stanza puoi liberare il prigioniero solo se i personaggi sono più numerosi dei mostri (o se sono stati corrotti).', 'warn'); return; }
+  m.prigionieri = m.prigionieri || [];
+  if (m.prigionieri.length >= capienzaScorta()) { toast(`Puoi scortare al massimo ${capienzaScorta()} prigionieri alla volta.`, 'warn'); return; }
+  t.prigionieri--; m.prigionieri.push({ id: uid(), pv: 2 });
+  log('Un giovane viene liberato (1 azione): ha 2 PV, attacca a -2 se disarmato e va scortato all’ingresso.'); modificato();
+}
+export function portaFuoriPrigionieri() {
+  const m = adv().missione; if (m?.id !== 'salvataggio' || !(m.prigionieri || []).length) return;
+  const t = G.tileById(adv().stanzaCorrente); if (t?.tipo !== 'ingresso') { toast('I giovani si salvano solo portandoli alla stanza d’ingresso.', 'warn'); return; }
+  m.salvati = (m.salvati || 0) + m.prigionieri.length; log(`${m.prigionieri.length} giovani sono in salvo (in tutto ${m.salvati}).`); m.prigionieri = []; modificato();
+}
+export function feritaPrigioniero(k, d) {
+  const m = adv().missione, p = m?.prigionieri?.[k]; if (!p) return;
+  p.pv = Math.min(2, p.pv + d);
+  if (p.pv <= 0) { m.prigionieri.splice(k, 1); log('Un giovane scortato è morto.'); }
+  modificato();
+}
+
 export async function completaMissione() {
   const m = adv().missione; if (!m || m.completata) return;
-  let es = m.es, nota = '';
+  const mancante = {
+    cuoco: !m.bossSconfitto && 'il signore del caos non risulta ucciso',
+    esplorazione: adv().stanze < 10 && 'non hai ancora mappato 10 stanze',
+    arazzo: !m.arazzoPreso && 'l’arazzo non è stato recuperato',
+    signore: !adv().bossFinaleUcciso && 'il signore del caos non risulta ucciso',
+    ascia: !m.bossSconfitto && 'il carnefice non risulta ucciso'
+  }[m.id];
+  if (mancante && !(await confirmBox(`Obiettivo non rilevato: ${mancante}. Segni comunque la missione come compiuta?`))) return;
+  let es = m.es, nota = '', extra = {};
   if (m.id === 'salvataggio') {
-    const n = await scelta('Salvataggio', 'Quanti giovani hai portato fuori vivi?', [0, 1, 2, 3, 4, 5, 6].map(k => [k, String(k)]));
-    es = n || 0;
+    if (m.giovani == null) { const n = await scelta('Salvataggio', 'Quanti giovani hai portato fuori vivi?', [0, 1, 2, 3, 4, 5, 6].map(k => [k, String(k)])); m.salvati = n || 0; }
+    es = m.salvati || 0;
   }
-  if (m.id === 'arazzo') { (adv().bottino = adv().bottino || []).push({ id: uid(), tipo: 'oro', testo: '200 pezzi d’oro (consegna dell’arazzo)', valore: 200 }); nota = ' +200 p.o.'; }
+  if (m.id === 'arazzo') {
+    (adv().bottino = adv().bottino || []).push({ id: uid(), tipo: 'oro', testo: '200 pezzi d’oro (consegna dell’arazzo)', valore: 200 }); nota = ' +200 p.o.';
+    if (eroiVivi().some(e => e.classe === 'elfo')) extra = { soloClasse: 'elfo' };   // almeno uno dei 3 tiri ES va all'elfo
+    m.portatoreArazzo = null;
+  }
   if (m.id === 'ascia') {
     const r = await scelta('L’ascia di Nydann', 'Restituisci l’ascia ai nani?', [[true, 'Sì (gemme + 1 tiro ES in più)'], [false, 'No, la tengo']]);
     if (!r) es = 0;
     else {
       for (const e of eroiVivi()) { const x = await tira('2d6', 'Gemma dei nani (100+2d6)'); (adv().bottino = adv().bottino || []).push({ id: uid(), tipo: 'gemma', testo: `Gemma da ${100 + x.totale} p.o. (dai nani, per ${e.nome})`, valore: 100 + x.totale }); }
+      for (const e of S.party.eroi) if (e.asciaNydann) { e.asciaNydann = false; e.oggetti = (e.oggetti || []).filter(o => o.nome !== 'Ascia di Nydann'); }
     }
   }
   m.completata = true; T.tutti('missioni');
-  if (es > 0) G.aggiungiES(`Missione «${m.nome}» compiuta`, false, es);
+  if (es > 0) {
+    const motivo = `Missione «${m.nome}» compiuta`;
+    if (extra.soloClasse) { if (es > 1) G.aggiungiES(motivo, false, es - 1); G.aggiungiES(`${motivo} (da usare sull’elfo)`, false, 1, extra); }
+    else G.aggiungiES(motivo, false, es);
+  }
   log(`Missione «${m.nome}» compiuta.${nota}`);
   modificato();
 }

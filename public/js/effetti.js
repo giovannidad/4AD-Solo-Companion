@@ -1,7 +1,8 @@
 // Effetti con scelta del giocatore: trappole, fantasmi e simili. Ogni effetto apre una finestra con le azioni possibili.
 import { S, log, modificato, ordineMarcia, eroiVivi } from './state.js';
 import { d6Esplosivo, dado } from './dice.js';
-import { modDifesa } from './rules.js';
+import { modDifesa, suppl, tratto, bonusSalvezza } from './rules.js';
+import * as T from './tratti.js';
 import { toast, scelta } from './util.js';
 import * as C from './combat.js';
 import * as K from './caos.js';
@@ -10,6 +11,8 @@ import * as G from './game.js';
 const adv = () => S.adv;
 const viviOra = () => ordineMarcia().filter(e => e.stato === 'ok');
 const nomeCl = e => (e.classe || '').replace('-', ' ');
+/** Tratto «Abilità meccanica»: +1 per disattivare o evitare trappole. */
+const meccanica = e => (suppl() && tratto(e, 'abilita-meccanica') ? 1 : 0);
 
 /** Eroi in grado di disarmare/scassinare: furfante (con livello) e arlecchino (senza livello). */
 export const scassinatori = () => viviOra().filter(e => ['furfante', 'arlecchino'].includes(e.classe));
@@ -17,7 +20,7 @@ export const scassinatori = () => viviOra().filter(e => ['furfante', 'arlecchino
 /** Tenta di disarmare una trappola con un eroe. Restituisce true se riesce. */
 export async function disarma(t, e) {
   const r = await d6Esplosivo(`Disarmare la trappola (${e.nome})`);
-  const tot = r.totale + (e.classe === 'furfante' ? e.livello : 0);
+  const tot = r.totale + (e.classe === 'furfante' ? e.livello : 0) + meccanica(e);
   const ok = r.naturale === 6 || (r.naturale !== 1 && tot > t.liv);
   log(`${e.nome} ${ok ? 'disinnesca' : 'non riesce a disinnescare'} la trappola (${tot} contro L${t.liv}).`);
   return ok;
@@ -71,8 +74,9 @@ export async function eseguiAzioneClasse(id) {
   const L = await scelta(az.nome, 'Difficoltà (L) della prova:', [2, 3, 4, 5, 6, 7, 8].map(n => [n, `L${n}`]));
   if (L === null) return;
   const r = await d6Esplosivo(`${az.nome} – ${e.nome} (L${L})`);
-  const tot = r.totale + ((id === 'scassina' && e.classe === 'furfante') || id === 'travestimento' ? e.livello : 0);
+  const tot = r.totale + ((id === 'scassina' && e.classe === 'furfante') || id === 'travestimento' ? e.livello : 0) + (id === 'scassina' && suppl() && e.perm?.serrature ? 1 : 0);   // padronanza delle serrature: +1
   const ok = r.naturale === 6 || (r.naturale !== 1 && tot >= L);
+  if (ok && id === 'scassina') T.evento(e, 'serrature');
   log(`${az.nome}: ${e.nome} tira ${tot} contro L${L} → ${ok ? 'riesce' : 'fallisce'}.`); toast(`${e.nome} ${ok ? 'riesce' : 'fallisce'} (${tot} contro L${L}).`, ok ? '' : 'warn'); modificato();
 }
 
@@ -116,8 +120,9 @@ export async function risolviTrappola(t) {
   const prova = async (e, { salvezza, extra = 0, ctx = {} }) => {
     const r = await d6Esplosivo(`${n}: ${salvezza ? 'tiro salvezza' : 'difesa'} di ${e.nome}`);
     let mod = extra;
-    if (salvezza) { mod += e.armatura === 'leggera' && n === 'Botola' ? -1 : e.armatura === 'pesante' && n === 'Botola' ? -2 : 0; if (['elfo', 'mezzuomo'].includes(e.classe) && ['Botola', 'Tagliola'].includes(n)) mod += 1; if (e.classe === 'furfante') mod += e.livello; if (e.zoppo) mod -= 2; }
+    if (salvezza) { mod += e.armatura === 'leggera' && n === 'Botola' ? -1 : e.armatura === 'pesante' && n === 'Botola' ? -2 : 0; if (['elfo', 'mezzuomo'].includes(e.classe) && ['Botola', 'Tagliola'].includes(n)) mod += 1; if (e.classe === 'furfante') mod += e.livello; if (e.zoppo) mod -= 2; mod += bonusSalvezza(e, n).tot; }
     else mod += modDifesa(e, ctx).tot;
+    mod += meccanica(e);
     const tot = r.totale + mod;
     const ok = salvezza ? (r.naturale !== 1 && tot >= t.liv) : (r.naturale === 6 || (r.naturale !== 1 && tot > t.liv));
     log(`${n}: ${e.nome} tira ${tot} contro L${t.liv} → ${ok ? 'evita' : 'colpito'}.`);
@@ -150,7 +155,7 @@ export async function risolviTrappola(t) {
       break;
     }
     case 'Mannaia gigante': { const e = casuale(); if (!(await prova(e, { salvezza: true, extra: ['elfo', 'mezzuomo'].includes(e.classe) ? 1 : 0 }))) ferisci(e, 2); break; }
-    case 'Gas lacrimogeno': for (const e of vivi) if (!(await C.salva(e, 5, ['barbaro', 'nano'].includes(e.classe) ? e.livello : 0, 'Gas lacrimogeno'))) { ferisci(e, 1); log(`${e.nome} ha la vista sfocata per 2 incontri (niente armi a distanza né pergamene).`); } break;
+    case 'Gas lacrimogeno': for (const e of vivi) if (!(await C.salva(e, 5, (['barbaro', 'nano'].includes(e.classe) ? e.livello : 0) + meccanica(e), 'Gas lacrimogeno'))) { ferisci(e, 1); log(`${e.nome} ha la vista sfocata per 2 incontri (niente armi a distanza né pergamene).`); } break;
     case 'Globo del caos': {
       const giri = [vivi, [...vivi].reverse()]; let fermo = false;
       for (const giro of giri) { for (const e of giro) {
@@ -158,7 +163,7 @@ export async function risolviTrappola(t) {
         let come = 'schiva';
         if (e.scudo) come = await scelta('Globo del caos', `${e.nome}: schivi o pari con lo scudo?`, [['schiva', 'Schiva'], ['para', 'Para con lo scudo']]) || 'schiva';
         if (come === 'schiva') {
-          if (await C.salva(e, 7, (e.classe === 'furfante' ? e.livello : ['elfo', 'mezzuomo'].includes(e.classe) ? Math.floor(e.livello / 2) : 0), 'Schivata del globo')) continue;
+          if (await C.salva(e, 7, (e.classe === 'furfante' ? e.livello : ['elfo', 'mezzuomo'].includes(e.classe) ? Math.floor(e.livello / 2) : 0) + meccanica(e), 'Schivata del globo')) continue;
         } else {
           const r = await d6Esplosivo(`Parata del globo – ${e.nome} (L8)`);
           const tot = r.totale + modDifesa(e, {}).tot + (['barbaro', 'guerriero', 'nano'].includes(e.classe) ? e.livello : 0);

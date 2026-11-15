@@ -58,7 +58,9 @@ export function log(testo) {
 
 // ---- helper sul gruppo ----
 export const eroiVivi = () => S.party.eroi.filter(e => e.stato !== 'morto');
-export const eroiAttivi = () => S.party.eroi.filter(e => e.stato === 'ok');
+/** Eroe che partecipa all'incontro in corso: negli scontri «da solo» (imboscate, «Molti nemici») combatte uno solo. */
+export const inCampo = e => { const i = S.adv?.incontro; return !(i && i.solo && i.stato !== 'finito' && (!i.soloTurni || i.turno <= i.soloTurni)) || i.solo === e.id; };
+export const eroiAttivi = () => S.party.eroi.filter(e => e.stato === 'ok' && inCampo(e));
 export const livelloMax = () => Math.max(1, ...S.party.eroi.filter(e => e.stato !== 'morto').map(e => e.livello));
 export const eroePerId = id => S.party.eroi.find(e => e.id === id);
 export const ordineMarcia = () => S.party.ordine.map(eroePerId).filter(Boolean);

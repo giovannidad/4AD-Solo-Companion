@@ -46,6 +46,23 @@ Sono automatici: i modificatori delle nuove classi, il «Marchia» dell'assassin
 incantesimi nuovi e del caos, i poteri dei mostri più comuni (livello al primo turno, immunità, veleni, pietrificazione,
 inghiottimento del cubo, malattia della melma verde, tagliola degli schiavisti, sciame di vespe, ecc.).
 
+### Automazioni del supplemento (tratti, traguardi, abilità, armi, oggetti)
+
+- **Traguardi**: completandoli si applicano i benefici permanenti (flagelli, colpo di grazia, dragonidi, infestanti, tolleranze, padronanze, santuari,
+  Generoso, Tomo, grimorio di pergamene, gioiello delle gemme, ecc., elencati in «Benefici permanenti» della scheda). Si contano da soli uccisioni
+  per tipo di mostro, salvezze, dungeon, riposi (Cuoco), tesori al minimo (Cercatore), incontri (Abitanti), oggetti magici (Panoplia), oro (Risparmiatore);
+  per santuari, Ritratto e Generoso c'è il pulsante «Paga p.o.»; gli altri hanno i pulsanti −/+.
+- **Tratti** con meccanica: alcolizzato, allergie, braccati (imboscata a fine avventura, da soli), changeling, cimelio, diario, intuizione, fortuna,
+  maestri di bastoni/lame, miope, molti nemici, nobile, piaga, presenza, protetto dagli dèi, sangue orchesco, prima linea/retroguardia, sovrappeso,
+  talento, ben piazzato, distruttore, guaritore, mente geniale, esca per draghi, abilità meccanica (la scheda li segna «effetto automatico»).
+- **Abilità avanzate** (sezione della scheda): le 7 nuove (Assistenza, Attacco specializzato, Concentrazione mentale, Preparare veleno, Recuperare munizioni,
+  Sputafuoco, Usare bombe) più Doppio attacco, Leader carismatico e Lanciatore di coltelli (stella); le altre sono solo elencate («Contro l'Abisso»).
+- **Armi**: bolas (cattura e «Lega il bersaglio»), boomerang, balestra (ricarica), archibugio e pistola (classi ammesse, riparazione e vendita nel negozio),
+  stella da lancio doppia.
+- **Missioni**: mezzuomo cuoco (Negoziatore), prigionieri con scorta, elfo e pergamena dell'arazzo, soglia degli indizi, pergamene e amuleto del signore del caos,
+  ascia di Nydann.
+- **Oggetti**: bomba, triboli, polvere melmicida, segno di Xichtul, invocazione dell'ordine, cappuccio, filtro, amuleto, mazza e arma dorata.
+
 ## Manuale (non automatizzato)
 
 - Missioni di soccorso, rituale di resurrezione, vendita di oggetti (solo promemoria).

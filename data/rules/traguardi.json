@@ -57,7 +57,8 @@
    "nome": "Conoscenza degli abitanti dei sotterranei",
    "obiettivo": 5,
    "unita": "incontri",
-   "testo": "Spendi 1 indizio e scegli un tipo di mostro minore: dopo 5 incontri puoi ritirare il loro numero (accettando il secondo tiro)."
+   "testo": "Spendi 1 indizio e scegli un tipo di mostro minore: dopo 5 incontri puoi ritirare il loro numero (accettando il secondo tiro).",
+   "bersaglio": true
   },
   {
    "d66": 22,
@@ -153,7 +154,8 @@
    "nome": "Generoso",
    "obiettivo": 500,
    "unita": "p.o. donate",
-   "testo": "Dona 500 p.o. a enti benefici: nella prossima avventura puoi lanciare 2 volte Benedizione come azione gratuita (divina, anche se barbaro)."
+   "testo": "Dona 500 p.o. a enti benefici: nella prossima avventura puoi lanciare 2 volte Benedizione come azione gratuita (divina, anche se barbaro).",
+   "spesa": true
   },
   {
    "d66": 42,
@@ -209,7 +211,8 @@
    "nome": "Ritratto eroico",
    "obiettivo": 500,
    "unita": "p.o. spese",
-   "testo": "Paga 100 p.o. per sessione di posa: a 500 p.o. l'opera è completa e ottieni +1 al tuo prossimo tiro ES."
+   "testo": "Paga 100 p.o. per sessione di posa: a 500 p.o. l'opera è completa e ottieni +1 al tuo prossimo tiro ES.",
+   "spesa": true
   },
   {
    "d66": 53,
@@ -225,7 +228,8 @@
    "nome": "Santuario di Saali",
    "obiettivo": 300,
    "unita": "p.o. spese",
-   "testo": "Costruisci il santuario (100 p.o. a volta): recuperi 1 punto follia a fine avventura, 5 razioni gratis per il gruppo e immunità alle api. Mai cacciare cervi."
+   "testo": "Costruisci il santuario (100 p.o. a volta): recuperi 1 punto follia a fine avventura, 5 razioni gratis per il gruppo e immunità alle api. Mai cacciare cervi.",
+   "spesa": true
   },
   {
    "d66": 55,
@@ -233,7 +237,8 @@
    "nome": "Santuario di Tamas Zeya",
    "obiettivo": 500,
    "unita": "p.o. spese",
-   "testo": "Costruisci il santuario (100 p.o. a volta): prima di un'avventura presta un giuramento; se rispettato trovi una pergamena di Benedizione."
+   "testo": "Costruisci il santuario (100 p.o. a volta): prima di un'avventura presta un giuramento; se rispettato trovi una pergamena di Benedizione.",
+   "spesa": true
   },
   {
    "d66": 56,
@@ -241,7 +246,8 @@
    "nome": "Santuario di Thuugas Min",
    "obiettivo": 500,
    "unita": "p.o. spese",
-   "testo": "Costruisci il santuario (100 p.o. a volta, 5 p.o. al guardiano): il gruppo ha +2 contro gelo e freddo e +1 contro creature di ghiaccio/gelo/neve/inverno."
+   "testo": "Costruisci il santuario (100 p.o. a volta, 5 p.o. al guardiano): il gruppo ha +2 contro gelo e freddo e +1 contro creature di ghiaccio/gelo/neve/inverno.",
+   "spesa": true
   },
   {
    "d66": 61,
