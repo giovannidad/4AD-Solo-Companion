@@ -83,10 +83,28 @@ export async function d6Esplosivo(label = '1d6') {
   return { totale: tiri.reduce((a, b) => a + b, 0), naturale: tiri[0], tiri };
 }
 
-/** Tira N dadi e tieni il migliore (attacco furioso). */
-export async function migliorDi(n, label) {
-  const raw = await fisici(n, ['rosso', 'rosso', 'rosso'], label);
+/** Tira N dadi e tieni il migliore (attacco furioso); con `facce` = 8 usa il d8 (virtuale, non 3D). */
+export async function migliorDi(n, label, facce = 6) {
+  const raw = facce === 8 ? Array.from({ length: n }, d8) : await fisici(n, ['rosso', 'rosso', 'rosso'], label);
   const best = Math.max(...raw);
-  registra({ label: `${label} (migliore di ${n})`, expr: `${n}d6 max`, totale: best, dadi: raw, ora: Date.now() });
+  registra({ label: `${label} (migliore di ${n}${facce === 8 ? ', d8' : ''})`, expr: `${n}d${facce} max`, totale: best, dadi: raw, ora: Date.now() });
   return { totale: best, naturale: best, tiri: raw };
+}
+
+// ---------------- d8 (supplemento «Contro l'Abisso») ----------------
+// Il d8 non ha una versione tridimensionale: si tira in modo virtuale e il registro/il riquadro dei risultati lo segnalano con «d8».
+export const d8 = () => Math.floor(Math.random() * 8) + 1;
+/** 1d8 semplice (mostrato come d8 nel registro dei dadi). */
+export async function dado8(label = '1d8') {
+  const v = d8();
+  return registra({ label: `${label} [d8]`, expr: '1d8', totale: v, dadi: [v], ora: Date.now() });
+}
+/** d8 con regola dell'esplosione: con 7 o 8 si tira ancora e si somma. Restituisce {totale, naturale, tiri}. */
+export async function d8Esplosivo(label = '1d8') {
+  const tiri = [];
+  let v;
+  do { v = d8(); tiri.push(v); } while (v >= 7 && tiri.length < 8);
+  const totale = tiri.reduce((a, b) => a + b, 0);
+  registra({ label: `${label} [d8${tiri.length > 1 ? ', esplosivo!' : ''}]`, expr: '1d8!', totale, dadi: tiri, ora: Date.now() });
+  return { totale, naturale: tiri[0], tiri };
 }

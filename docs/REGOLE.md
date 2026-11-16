@@ -63,12 +63,25 @@ inghiottimento del cubo, malattia della melma verde, tagliola degli schiavisti, 
   ascia di Nydann.
 - **Oggetti**: bomba, triboli, polvere melmicida, segno di Xichtul, invocazione dell'ordine, cappuccio, filtro, amuleto, mazza e arma dorata.
 
+## Supplemento «Contro l'Abisso» (livelli 5-9)
+
+- **Set di tabelle** «Contro l'Abisso (lvl 5-9)»: contenuti delle stanze, trappole, caratteristiche speciali, eventi unici, tesori (d8), tesori magici,
+  banchetto incantato, complicazioni dei tesori nascosti, mostri (infestanti, seguaci, aberranti, boss, draghi), erranti, boss finale e tana del drago.
+  Sotto il 5° livello compare un avviso con conferma.
+- **Livelli 6-9** con la casella «Usa il supplemento Contro l'Abisso» o in un dungeon dell'Abisso: tiro ES 1d8+2 (7-8 naturale sempre un successo),
+  da spendere per salire di livello o imparare un'abilità o un incantesimo avanzato. Senza il supplemento il tetto resta il 5° livello.
+- **d8 esplosivo** per gli eroi dal 5° livello: è un dado virtuale (non 3D), indicato con `[d8]` nel riquadro dei tiri e nel registro.
+- **Mostri**: poteri nuovi automatizzati dove hanno un effetto numerico (gli altri nel riquadro «Poteri»), reazioni «amichevole» e «immobile»,
+  singolar tenzone, leader e campione.
+- **Scheda**: stati persistenti (follia, licantropia, peste oscura, vampirismo, livelli persi) e le 41 abilità avanzate filtrate per classe.
+- **Negozio e Strumenti**: 10 mercenari, 11 artigiani (con le pozioni dell'alchimista), segreti e oggetti dell'Abisso.
+
 ## Manuale (non automatizzato)
 
 - Missioni di soccorso, rituale di resurrezione, vendita di oggetti (solo promemoria).
 - Rigenerazione dei troll, sedare/legare i mostri, trasporto di compagni caduti o pietrificati.
 - Più di un tipo di nemico nella stessa stanza (si gestisce un incontro alla volta con la coda).
-- Modalità cooperativa/competitiva e le abilità avanzate del volume «Contro l'Abisso» (non fornito).
+- Di «Contro l'Abisso»: trame di campagna, partenza diretta al 5° livello, resurrezione a 1000 p.o., più mostri maggiori nella stessa stanza; gli effetti di Guida, Guardia del corpo, Accolito e Portatore sono solo descritti.
 - Alcuni poteri dei mostri avanzati sono solo descritti nella nota del mostro: rospi giganti, nani posseduti, doppelganger, manto predatore, golem (2 PV con un 1), maestri di spada hobgoblin, demone scheletrico, capo hobgoblin, spettro, troll, gremlin del caos (punti sfortuna), leader dei seguaci del caos, manticora e mutante tentacolato.
 - Le uscite delle tessere non sono codificate: il giocatore le fa combaciare a mano.
 

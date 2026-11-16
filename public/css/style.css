@@ -74,7 +74,8 @@ label.chk { display: flex; gap: 7px; align-items: center; color: var(--ink); fon
 .tag.amber { color: var(--amber); border-color: var(--amber-d); } .tag.red { color: #ff9b90; border-color: #7a2c22; } .tag.gray { color: #bbb; } .tag.dead { color: #fff; background: #5b1d17; border-color: #7a2c22; }
 
 /* ---- header gruppo ---- */
-.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.panel-head .btns { display: flex; flex-wrap: wrap; gap: 6px; }
 .panel-head h2 { font-size: 20px; }
 .btns { display: flex; gap: 6px; }
 .party-stats { display: flex; justify-content: space-between; color: var(--mute); font-size: 12.5px; margin-bottom: 8px; }
@@ -108,6 +109,9 @@ label.chk { display: flex; gap: 7px; align-items: center; color: var(--ink); fon
 .stats div { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 2px; }
 .stats b { display: block; font-size: 18px; color: var(--amber); font-family: var(--serif); } .stats small { font-size: 10.5px; }
 .hero-cta { text-align: center; padding: 24px 8px; } .hero-cta h3 { font-size: 22px; margin-bottom: 8px; }
+/* menu a tendina del pannello «Pronto a scendere?»: etichetta sopra e menu a tutta larghezza (le etichette lunghe non vengono più tagliate) */
+.hero-cta label.chk.sel { flex-direction: column; align-items: stretch; gap: 3px; text-align: left; max-width: 520px; margin: 10px auto; }
+.hero-cta label.chk.sel select { width: 100%; margin-top: 0; text-overflow: ellipsis; }
 .thumb { display: block; max-width: 100%; max-height: 150px; margin: 8px auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
 .rooms { display: flex; flex-direction: column; gap: 6px; }
 .room { display: flex; gap: 8px; align-items: center; padding: 6px; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
@@ -218,3 +222,6 @@ img.ritratto.grande { border-width: 3px; border-color: var(--amber-d); }
 .room.sicura { border-left: 3px solid #46c86e; }
 
 .dungeon-nome { display: flex; align-items: center; gap: 8px; margin: 2px 0 8px; } .dungeon-nome h3 { margin: 0; flex: 1; font-family: var(--serif); color: var(--amber); }
+
+/* poteri speciali dei mostri dell'Abisso: ben visibili nella scheda dell'incontro */
+.poteri { border-left: 3px solid var(--amber); background: rgba(212, 160, 60, .12); padding: 6px 8px; border-radius: 4px; font-size: 13px; margin: 6px 0; }

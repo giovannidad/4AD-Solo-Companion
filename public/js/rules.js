@@ -5,7 +5,7 @@ export const NOME_ARMATURA = { nessuna: 'Nessuna', leggera: 'Armatura leggera', 
 
 export const armaDi = id => R.equipaggiamento.armi.find(a => a.id === id);
 export const armaPrincipale = e => armaDi(e.armaPrincipale);
-export const nomeClasse = e => R.classi[e.classe].nome;
+export const nomeClasse = e => (e.merc ? 'Mercenario' : R.classi[e.classe].nome);
 export const incantatore = e => ['mago', 'elfo', 'elfo-fuoco'].includes(e.classe);
 export const puoUsareMagia = e => e.classe !== 'barbaro';
 
@@ -14,15 +14,26 @@ export function riga(tab, v) {
   return tab.find(r => v >= r.da && v <= r.a) || tab[tab.length - 1];
 }
 // Set di tabelle attivo per l'avventura: base, «Nemici diabolici» (avanzate) o «Caverne del Caos» (supplemento).
-export const SETS = { base: 'Four Against Darkness (lvl 1-2)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)' };
+export const SETS = { base: 'Four Against Darkness (lvl 1-2)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', abisso: 'Contro l\'Abisso (lvl 5-9)' };
 export const setAttivo = () => (S.adv && S.adv.set) || 'base';
-const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos })[setAttivo()];
+const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso })[setAttivo()];
 export const inCaos = () => setAttivo() === 'caos';
+// ---- supplemento «Contro l'Abisso» (livelli 5-9) ----
+export const inAbisso = () => setAttivo() === 'abisso';
+/** Le regole per i personaggi (livelli oltre il 5°, abilità, oggetti, mercenari) valgono con la casella attiva o nel dungeon dell'Abisso. */
+export const abissoAttivo = () => !!(S.party?.supplAbisso || inAbisso());
+/** Un eroe di livello avanzato (5° o più) tira il d8 esplosivo; i mercenari e i livelli base restano sul d6. */
+export const usaD8 = e => !!e && !e.merc && (e.livello || 0) >= 5 && abissoAttivo();
+/** Livello massimo raggiungibile: 5° nel manuale base, 9° con il supplemento. */
+export const livelloTetto = () => (abissoAttivo() ? 9 : 5);
+/** Attacchi furiosi del barbaro per avventura: ceil(L/2) come in precedenza; con l'Abisso floor(L/2)+1 (come nel manuale) e +1 con Furia del berserker. */
+export const maxFurie = e => (abissoAttivo() ? Math.floor(e.livello / 2) + 1 + (haAbilita(e, 'furia-del-berserker') ? 1 : 0) : Math.ceil(e.livello / 2));
+export const haAggeggio = (e, re) => !!oggettoEffetto(e, re);
 export const tabella = nome => datiSet()?.tabelle?.[nome] || R.tabelle[nome];
 export const mostriTabella = nome => datiSet()?.mostri?.[nome] || R.mostri[nome];
 export const incantesimoACasoLista = () => {
   const l = tabella('incantesimoCaso');
-  if (setAttivo() === 'caos') return l;                     // incantesimi del caos (d6)
+  if (setAttivo() === 'caos' || setAttivo() === 'abisso') return l;   // incantesimi del caos o avanzati dell'Abisso (d6)
   return S.party?.supplCaos ? R.caos.incantesimiBase : l;   // con il supplemento: tabella d12
 };
 
@@ -60,14 +71,30 @@ export function armaConsentita(e, a) {
 const LIMITE_ARMI = { bolas: 2, boomerang: 1 };
 export const limiteArma = (e, id) => !LIMITE_ARMI[id] || (e.armi || []).filter(x => x === id).length < LIMITE_ARMI[id];
 
+/** Bonus ai tiri salvezza del supplemento «Contro l'Abisso»: artigiani, pozioni, segreti, oggetti e abilità. */
+function bonusSalvezzaAbisso(e, L, inc, add) {
+  const sr = e.srv || {}, poz = e.pozioni || {}, ad = S.adv || {}, attivo = inc && inc.stato !== 'finito';
+  const paura = /paura|terrore|orrore|fantasma|illusion/i.test(L), veleno = /veleno|gas/i.test(L), malattia = /malattia|peste|veleno/i.test(L);
+  if (haAbilita(e, 'volonta-ferrea') && paura) add('Volontà ferrea', 1);
+  if (paura && eroiVivi().some(x => x.stato === 'ok' && haAbilita(x, 'leader-carismatico') && (S.party.ordine || []).slice(0, 2).includes(x.id)) && !suppl()) add('Leader carismatico', 1);
+  if (sr.erborista && malattia) add('Erborista', 1);
+  if (poz.vigore && veleno) add('Pozione del vigore', 1);
+  if (poz.mentesalda && attivo && /cervello/i.test(inc.nome || '')) add('Estratto di mentesalda', 2);
+  if (ad.divinita && !ad.divinita.fallito) add('Le divinità ci proteggono', 1);
+  if (ad.cucinato && /malattia|peste|paura|follia|orrore|fantasma/i.test(L)) add('Cibo del mezzuomo', 1);
+  if (attivo && (inc.tag || []).includes('non-morto') && haAggeggio(e, /amuleto di protezione dai non-morti/i)) add('Amuleto anti non-morti', 1);
+  if (/soffio/i.test(L) && haAggeggio(e, /pelle di drago/i)) add('Pelle di drago', 1);
+}
+
 /** Modificatore ai tiri salvezza in base a tratti, abilità, traguardi e condizioni (etichetta = descrizione del tiro). */
 const MAGIA = /magi|mana|volont|paura|terrore|orrore|malocchio|raggio|verbo|incant|illusion|fantasma|smarrimento|follia|caos/i;
 const FISICO = /soffio|veleno|malattia|schiv|botola|tagliola|mannaia|catene|fossa|masso|globo|gas|inghiott|correre|forza|scal|salt|nuot|tentacol|manto|dard[oi]|lacrimogeno|lance|pietrific/i;
 export function bonusSalvezza(e, label = '') {
   const parti = [];
-  if (!suppl()) return { tot: 0, parti };
   const add = (t, v) => { if (v) parti.push([t, v]); };
   const L = String(label), p = e.perm || {}, inc = S.adv?.incontro, nomeInc = inc && inc.stato !== 'finito' ? (inc.nome || '') : '';
+  if (abissoAttivo()) bonusSalvezzaAbisso(e, L, inc, add);
+  if (!suppl()) return { tot: parti.reduce((a, q) => a + q[1], 0), parti };
   const paura = /paura|terrore|orrore|fantasma/i.test(L);
   if (haAbilita(e, 'concentrazione-mentale') && MAGIA.test(L)) add('Concentrazione mentale', e.livello);
   if (e.classe === 'veterano' && FISICO.test(L)) add('Veterano: tiro fisico', -e.livello);
@@ -86,11 +113,17 @@ export function bonusSalvezza(e, label = '') {
 }
 
 const EXTRA = ['livPrimoTurno', 'livDifesaFerito', 'immuneIncantesimi', 'immuneContundenti', 'veleno', 'petrifica', 'dissangua', 'sofLiv', 'sofDanno',
-  'attDadi', 'richiamo', 'scissione', 'orda', 'sfortuna', 'ratti', 'follia', 'attPerBersaglio', 'leader', 'leaderProb', 'maiErrante', 'contundentePiu', 'dannoSu1', 'rompeScudo', 'psionico'];
+  'attDadi', 'richiamo', 'scissione', 'orda', 'sfortuna', 'ratti', 'follia', 'attPerBersaglio', 'leader', 'leaderProb', 'maiErrante', 'contundentePiu', 'dannoSu1', 'rompeScudo', 'psionico',
+  // Contro l'Abisso
+  'paralisi', 'vampirismo', 'licantropia', 'marchiatura', 'lameInfette', 'rubaOro', 'stritola', 'scorta', 'elettricita', 'illusione', 'auraOgniTurno', 'paura', 'folliaIncontro',
+  'incantesimiAnnullati', 'disarmaSu1', 'leaderDati', 'immuneSonnoProb', 'incantesimiMod', 'modPallaDiFuoco', 'attiraErranti', 'nonAttacca', 'malusDifesa', 'frecceMod', 'attaccaPerPrimo',
+  'evitaFerita', 'sorpresaProb', 'ignoraArmatura', 'bonusDifesaClassi', 'rompeScudoSu1', 'sofBonus', 'sofSoloPrimoTurno', 'livControDistanza', 'vulnerabileSolo', 'dannoDaIncantesimo',
+  'tesoroFossa', 'premioMorte', 'benedizioneModReazione', 'nonAttaccaInFuga', 'corruzioneAlternativa', 'tesoroSoloGemmeMagici', 'senzaSoffio', 'argentoMod', 'immobile', 'allarmeFurfante',
+  'unicoPerDungeon', 'bersagliPrioritari', 'follia', 'oroFisso'];
 
 /** Descrive il mostro in base ad una voce della tabella. */
 export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
-  const maggiore = ['aberranti', 'boss'].includes(tabellaNome);
+  const maggiore = ['aberranti', 'boss', 'draghi'].includes(tabellaNome);
   const finale = !!opzioni.bossFinale;
   const pv = voce.pv + (finale && maggiore ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
   const livBase = voce.liv === 'LMP' ? livelloMax() : voce.liv;
@@ -146,6 +179,57 @@ function bonusPrestiti(e, tipo, add) {
   }
 }
 
+/** Bonus e malus d'attacco del supplemento «Contro l'Abisso»: abilità avanzate, artigiani, oggetti e poteri dei mostri. */
+function bonusAttaccoAbisso(e, ctx, bers, arma, add) {
+  const tags = bers.tag || [], nome = bers.nome || '', sr = e.srv || {}, mischia = !arma?.lancio && !ctx.incantesimo;
+  const ab = id => (e.abilita || []).find(a => a.id === id);
+  if (ctx.incantesimo) {
+    add('Potere del mostro (incantesimi)', bers.incantesimiMod || 0);
+    if (ctx.nomeIncantesimo === 'Palla di Fuoco') add('Potere del mostro (Palla di Fuoco)', bers.modPallaDiFuoco || 0);
+  }
+  if (ab('ammazzaorchi') && (tags.includes('orco') || /\borc/i.test(nome))) add('Ammazzaorchi', 1);
+  if (ab('cacciatore-di-vampiri') && tags.includes('vampiro')) add('Cacciatore di vampiri', 1);
+  if (e.settaVampiri && tags.includes('vampiro')) add('Setta ammazzavampiri', 0);
+  if (ctx.tenzone && ab('gladiatore')) add('Gladiatore', 1);
+  if (ab('mira-infallibile') && ((e.classe === 'elfo' && arma?.id === 'arco') || (e.classe === 'mezzuomo' && arma?.id === 'fionda'))) add('Mira infallibile', 1);
+  const ng = ab('nemico-giurato'); if (ng && ng.bersaglio === bers.id) add('Nemico giurato', 1);
+  if (ab('sterminatore-di-draghi') && bers.drago && !(bers.sterminati || {})[e.id]) add('Sterminatore di draghi', 1);
+  if (!arma && ab('rissaiolo')) add('Rissaiolo', 1);
+  if (arma && (e.armiArgento || []).includes(arma.id) && bers.argentoMod) add('Arma d’argento', bers.argentoMod);
+  if (arma && (e.armiArgento || []).includes(arma.id) && tags.includes('licantropo') && !bers.argentoMod) add('Arma d’argento', 1);
+  if (['arco', 'balestra'].includes(arma?.id) && bers.frecceMod) add('Frecce contro teschi volanti', bers.frecceMod);
+  if (sr.armaiolo && mischia && arma?.tipo === 'taglio') add('Lama affilata (armaiolo)', 1);
+  if (sr.veleno && !sr.veleno.usato && mischia && bers.minore && !tags.includes('non-morto') && !bers.drago) add('Arma avvelenata', 1);
+  if (bers.pauraEroi?.[e.id] && bers.pvMax - bers.pv < 2) add('Terrore del lich', -1);
+  if (e.orrore) add('Stanza degli orrori', -1);
+  if (e.avvelenatoAtt > 0) add('Agnello guasto', -1);
+}
+/** Bonus e malus di difesa del supplemento «Contro l'Abisso». */
+function bonusDifesaAbisso(e, ctx, add) {
+  const tags = ctx.tag || [], nome = ctx.nome || '', sr = e.srv || {}, poz = e.pozioni || {};
+  const ab = id => (e.abilita || []).find(a => a.id === id);
+  if (haAggeggio(e, /anello della difesa/i)) add('Anello della difesa', 1);
+  if (tags.includes('vampiro') && haAggeggio(e, /croce contro i vampiri/i)) add('Croce contro i vampiri', 2);
+  if (tags.includes('non-morto') && haAggeggio(e, /amuleto di protezione dai non-morti/i)) add('Amuleto anti non-morti', 1);
+  if (!ctx.ignoraArmatura) {
+    if (e.scudoMagico && e.scudo && !ctx.ignoraScudo && !ctx.sorpreso && !ctx.fuga) add('Scudo magico (+2 invece di +1)', 1);
+    if (e.cottaElfica && e.armatura === 'leggera') add('Cotta di maglia elfica (+2)', 1);
+    if (e.armaturaIncantata && e.armatura === 'pesante' && !ctx.ignoraPesante) add('Armatura incantata (+3)', 1);
+  }
+  if (tags.includes('drago') && haAggeggio(e, /pelle di drago/i)) add('Pelle di drago', 1);
+  if (poz.argento && /lupo mannaro/i.test(nome)) add('Argento polverizzato', 1);
+  if (poz.mentesalda && /urlatore/i.test(nome)) add('Estratto di mentesalda', 2);
+  if (ctx.tenzone && ab('gladiatore')) add('Gladiatore', 1);
+  if ((e.abilita || []).some(a => a.id === 'resistente' && a.bersaglio && a.bersaglio === ctx.id)) add('Resistente', 1);
+  if ((ctx.ritirata || ctx.fuga) && ab('lesto-di-piedi')) add('Lesto di piedi', 1);
+  if (e.merc === 'm-sterminatore-ratti' && /ratt|topo/i.test(nome)) add('Sterminatore di ratti', 2);
+  if (e.marchiato && /formica/i.test(nome)) add('Marchiato dagli uomini formica', -1);
+  if (e.illuso) add('Illuso dal drago', -1);
+  if (e.vendetta && !ctx.minore) add('Sete di vendetta', -1);
+  if (e.cestoIngombrante) add('Tesoro ingombrante', -1);
+  if (ctx.malusDifesa) add('Potere del mostro', ctx.malusDifesa);
+}
+
 /** Modificatore al tiro di attacco. Restituisce {tot, parti:[[testo, valore]]}. */
 export function modAttacco(e, ctx = {}) {
   const parti = [];
@@ -186,8 +270,9 @@ export function modAttacco(e, ctx = {}) {
   if (e.bonusIncontro) add('Dono del caos', e.bonusIncontro);
   if ((e.tratti || []).some(t => t.id === 'tamas') && tags.includes('caos')) add('Benedizione di Tamas Zeya', 1);
   if (suppl()) { bonusSupplAttacco(e, ctx, bers, arma, add); if (!ctx.incantesimo) bonusPrestiti(e, 'att', add); }
+  if (abissoAttivo()) { bonusAttaccoAbisso(e, ctx, bers, arma, add); if (e.mercAtt && !ctx.incantesimo) add('Armigero', e.mercAtt); }
   if (e.zoppo) add('Zoppicante', -1);
-  if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco') add('Gruppo senza lanterna', -2);   // l'elfo del fuoco vede anche al buio
+  if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);   // l'elfo del fuoco vede anche al buio
   if (ctx.bonusGruppo) add(ctx.bonusGruppoTxt || 'Bonus', ctx.bonusGruppo);
   if (ctx.extra) add('Altro', ctx.extra);
   return { tot: parti.reduce((a, p) => a + p[1], 0), parti };
@@ -210,6 +295,7 @@ export function modDifesa(e, ctx = {}) {
   if (e.classe === 'mezzuomo' && gigante) add('Mezzuomo vs giganti/troll', e.livello);
   if (e.bonusDifesa) add('Armatura magica', e.bonusDifesa);
   if (ctx.ritirata) add('Ritirata', 1);
+  if (abissoAttivo() && e.incenso && (tags.includes('non-morto') || /demon/i.test(ctx.nome || ''))) add('Incenso protettivo', 1);
   if (ctx.protezione) add('Protezione', 2);
   if (e.maledetto) add('Maledizione', -1);
   if (suppl()) {
@@ -220,14 +306,15 @@ export function modDifesa(e, ctx = {}) {
     bonusPrestiti(e, 'dif', add);
     for (const [id, re] of FLAGELLI) if (id !== 'flagello-ghoul' && e.perm?.[id] && re.test(ctx.nome || '')) add('Flagello', 1);
   }
+  if (abissoAttivo()) bonusDifesaAbisso(e, ctx, add);
   if (e.zoppo) add('Zoppicante', -1);
-  if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco') add('Gruppo senza lanterna', -2);
+  if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);
   if (ctx.primoMinotauro) add('Carica del minotauro', -1);
   if (ctx.extra) add('Altro', ctx.extra);
   return { tot: parti.reduce((a, p) => a + p[1], 0), parti };
 }
 
-export const gruppoHaLanterna = () => !(S.adv?.incontro?.buio && S.adv.incontro.stato !== 'finito') && eroiVivi().some(e => e.lanterna && e.stato === 'ok');
+export const gruppoHaLanterna = () => !(S.adv?.incontro?.buio && S.adv.incontro.stato !== 'finito') && eroiVivi().some(e => e.stato === 'ok' && (e.lanterna || (abissoAttivo() && haAbilita(e, 'luce-perenne'))));
 export const haNano = () => eroiVivi().some(e => e.classe === 'nano');
 
 /** Tesoro da trasportare: oro massimo 200 ecc. (solo avviso) */
@@ -249,7 +336,8 @@ export function descriviMostro(m) {
 export const ETICHETTE_REAZIONE = {
   pacifico: 'Pacifico', tenzone: 'Singolar tenzone', banchetto: 'Banchetto',
   fugge: 'Fugge', 'fugge-inf': 'Fugge se in inferiorità numerica', corruzione: 'Corruzione', combatte: 'Combatte',
-  morte: 'Combatte fino alla morte', 'combatte-sempre': 'Combatte sempre', dorme: 'Dorme (+2 al primo attacco)', missione: 'Missione', enigma: 'Enigma', sfida: 'Sfida magica'
+  morte: 'Combatte fino alla morte', 'combatte-sempre': 'Combatte sempre', dorme: 'Dorme (+2 al primo attacco)', missione: 'Missione', enigma: 'Enigma', sfida: 'Sfida magica',
+  amichevole: 'Amichevole (ti lascia passare, nessun tesoro)', immobile: 'Immobile (non attacca, urla)'
 };
 export function reazioneTesto(r, m) {
   const eti = ETICHETTE_REAZIONE[r[2]] || r[2];

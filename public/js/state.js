@@ -17,7 +17,7 @@ export const nuovaAvventura = () => ({
 });
 
 export async function caricaRegole() {
-  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'tratti', 'traguardi'];
+  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'tratti', 'traguardi'];
   const dati = await Promise.all(nomi.map(n => api.regola(n)));
   nomi.forEach((n, i) => { R[n] = dati[i]; });
   R.tilesSet = { classico: R['tiles-classico'], foresta: R['tiles-foresta'] };   // geometria delle tessere dei set tematici
@@ -57,7 +57,7 @@ export function log(testo) {
 }
 
 // ---- helper sul gruppo ----
-export const eroiVivi = () => S.party.eroi.filter(e => e.stato !== 'morto');
+export const eroiVivi = () => S.party.eroi.filter(e => e.stato !== 'morto' && e.stato !== 'pazzo');
 /** Eroe che partecipa all'incontro in corso: negli scontri «da solo» (imboscate, «Molti nemici») combatte uno solo. */
 export const inCampo = e => { const i = S.adv?.incontro; return !(i && i.solo && i.stato !== 'finito' && (!i.soloTurni || i.turno <= i.soloTurni)) || i.solo === e.id; };
 export const eroiAttivi = () => S.party.eroi.filter(e => e.stato === 'ok' && inCampo(e));

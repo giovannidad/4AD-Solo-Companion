@@ -1,12 +1,13 @@
 // Supplemento «Contro il Caos»: Caverne del Caos, «Toccato dal caos», follia, missioni e incantesimi del caos.
 import { R, S, log, modificato, eroiVivi, eroiAttivi, eroePerId, nuovoEroe } from './state.js';
 import { dado, tira, d6Esplosivo } from './dice.js';
-import { riga } from './rules.js';
+import { riga, abissoAttivo, haAbilita } from './rules.js';
 import { h, modal, toast, scelta, sceltaMultipla, confirmBox, uid } from './util.js';
 import { equipaggiamentoIniziale } from './party.js';
 import * as G from './game.js';
 import * as C from './combat.js';
 import * as T from './tratti.js';
+import * as A from './abisso.js';
 
 const adv = () => S.adv;
 const CT = () => R.caos.tabelle;
@@ -23,9 +24,11 @@ export const eroeCasuale = () => casuale(eroiAttivi());
 // ---------------- follia e contaminazione ----------------
 export function follia(e, n = 1) {
   const minimo = (e.tratti || []).some(t => t.id === 'folle') ? 1 : 0;   // il tratto Folle non scende mai sotto 1 punto
+  if (n > 0 && abissoAttivo() && haAbilita(e, 'volonta-ferrea') && !(e.usi || {}).volonta) { e.usi = e.usi || {}; e.usi.volonta = 1; n--; log(`${e.nome} (Volontà ferrea) ignora il primo punto follia dell’avventura.`); }
   e.follia = Math.max(minimo, (e.follia || 0) + n);
   log(`${e.nome} ${n > 0 ? 'riceve' : 'perde'} ${Math.abs(n)} punt${Math.abs(n) === 1 ? 'o' : 'i'} follia (totale ${e.follia}).`);
   modificato('party');
+  if (n > 0) A.controllaPazzia(e);
 }
 
 /** Il personaggio rinasce come mostro aberrante del caos e attacca il gruppo. */

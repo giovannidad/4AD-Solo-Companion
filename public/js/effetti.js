@@ -1,12 +1,13 @@
 // Effetti con scelta del giocatore: trappole, fantasmi e simili. Ogni effetto apre una finestra con le azioni possibili.
 import { S, log, modificato, ordineMarcia, eroiVivi } from './state.js';
-import { d6Esplosivo, dado } from './dice.js';
+import { dado } from './dice.js';
 import { modDifesa, suppl, tratto, bonusSalvezza } from './rules.js';
 import * as T from './tratti.js';
 import { toast, scelta } from './util.js';
 import * as C from './combat.js';
 import * as K from './caos.js';
 import * as G from './game.js';
+import * as A from './abisso.js';
 
 const adv = () => S.adv;
 const viviOra = () => ordineMarcia().filter(e => e.stato === 'ok');
@@ -19,9 +20,9 @@ export const scassinatori = () => viviOra().filter(e => ['furfante', 'arlecchino
 
 /** Tenta di disarmare una trappola con un eroe. Restituisce true se riesce. */
 export async function disarma(t, e) {
-  const r = await d6Esplosivo(`Disarmare la trappola (${e.nome})`);
+  const r = await C.dE(e, `Disarmare la trappola (${e.nome})`);
   const tot = r.totale + (e.classe === 'furfante' ? e.livello : 0) + meccanica(e);
-  const ok = r.naturale === 6 || (r.naturale !== 1 && tot > t.liv);
+  const ok = C.esplode(e, r) || (r.naturale !== 1 && tot > t.liv);
   log(`${e.nome} ${ok ? 'disinnesca' : 'non riesce a disinnescare'} la trappola (${tot} contro L${t.liv}).`);
   return ok;
 }
@@ -73,9 +74,9 @@ export async function eseguiAzioneClasse(id) {
   }
   const L = await scelta(az.nome, 'Difficoltà (L) della prova:', [2, 3, 4, 5, 6, 7, 8].map(n => [n, `L${n}`]));
   if (L === null) return;
-  const r = await d6Esplosivo(`${az.nome} – ${e.nome} (L${L})`);
+  const r = await C.dE(e, `${az.nome} – ${e.nome} (L${L})`);
   const tot = r.totale + ((id === 'scassina' && e.classe === 'furfante') || id === 'travestimento' ? e.livello : 0) + (id === 'scassina' && suppl() && e.perm?.serrature ? 1 : 0);   // padronanza delle serrature: +1
-  const ok = r.naturale === 6 || (r.naturale !== 1 && tot >= L);
+  const ok = C.esplode(e, r) || (r.naturale !== 1 && tot >= L);
   if (ok && id === 'scassina') T.evento(e, 'serrature');
   log(`${az.nome}: ${e.nome} tira ${tot} contro L${L} → ${ok ? 'riesce' : 'fallisce'}.`); toast(`${e.nome} ${ok ? 'riesce' : 'fallisce'} (${tot} contro L${L}).`, ok ? '' : 'warn'); modificato();
 }
@@ -91,7 +92,7 @@ export async function proponiFantasma({ liv = 4, scacciabile = false, motivo = '
   if (k === null || k === 'ignora') return;
   if (k.startsWith('s:')) {
     const e = viviOra().find(x => x.id === k.slice(2)); if (!e) return;
-    const r = await d6Esplosivo(`Scacciare il fantasma (${e.nome})`);
+    const r = await C.dE(e, `Scacciare il fantasma (${e.nome})`);
     if (r.totale + e.livello >= liv) { log(`${e.nome} scaccia il fantasma (${r.totale + e.livello} contro LIV ${liv}).`); toast('Il fantasma è scacciato.'); modificato(); return; }
     log(`${e.nome} non riesce a scacciare il fantasma.`);
   }
@@ -108,23 +109,24 @@ export async function proponiTrappolaTesoro(liv) {
   if (k === null || k === 'ignora') return;
   if (k.startsWith('d:')) { const e = viviOra().find(x => x.id === k.slice(2)); if (e && await disarma(t, e)) { toast('Trappola disattivata.'); return; } }
   const e = viviOra()[Math.floor(Math.random() * viviOra().length)]; if (!e) return;
-  const r = await d6Esplosivo(`Trappola del tesoro: tiro salvezza di ${e.nome} (L${liv})`);
+  const r = await C.dE(e, `Trappola del tesoro: tiro salvezza di ${e.nome} (L${liv})`);
   if (r.naturale === 1) C.perdiPV(e, 2, 'trappola del tesoro'); else if (r.totale < liv) C.perdiPV(e, 1, 'trappola del tesoro'); else log(`${e.nome} evita la trappola.`);
   modificato();
 }
 
 export async function risolviTrappola(t) {
+  if (t.abisso) return A.risolviTrappola(t);   // trappole di «Contro l'Abisso»
   const vivi = viviOra(); if (!vivi.length) return;
   const casuale = () => vivi[Math.floor(Math.random() * vivi.length)];
   const n = t.nome;
   const prova = async (e, { salvezza, extra = 0, ctx = {} }) => {
-    const r = await d6Esplosivo(`${n}: ${salvezza ? 'tiro salvezza' : 'difesa'} di ${e.nome}`);
+    const r = await C.dE(e, `${n}: ${salvezza ? 'tiro salvezza' : 'difesa'} di ${e.nome}`);
     let mod = extra;
     if (salvezza) { mod += e.armatura === 'leggera' && n === 'Botola' ? -1 : e.armatura === 'pesante' && n === 'Botola' ? -2 : 0; if (['elfo', 'mezzuomo'].includes(e.classe) && ['Botola', 'Tagliola'].includes(n)) mod += 1; if (e.classe === 'furfante') mod += e.livello; if (e.zoppo) mod -= 2; mod += bonusSalvezza(e, n).tot; }
     else mod += modDifesa(e, ctx).tot;
     mod += meccanica(e);
     const tot = r.totale + mod;
-    const ok = salvezza ? (r.naturale !== 1 && tot >= t.liv) : (r.naturale === 6 || (r.naturale !== 1 && tot > t.liv));
+    const ok = salvezza ? (r.naturale !== 1 && tot >= t.liv) : (C.esplode(e, r) || (r.naturale !== 1 && tot > t.liv));
     log(`${n}: ${e.nome} tira ${tot} contro L${t.liv} → ${ok ? 'evita' : 'colpito'}.`);
     return ok;
   };
@@ -165,9 +167,9 @@ export async function risolviTrappola(t) {
         if (come === 'schiva') {
           if (await C.salva(e, 7, (e.classe === 'furfante' ? e.livello : ['elfo', 'mezzuomo'].includes(e.classe) ? Math.floor(e.livello / 2) : 0) + meccanica(e), 'Schivata del globo')) continue;
         } else {
-          const r = await d6Esplosivo(`Parata del globo – ${e.nome} (L8)`);
+          const r = await C.dE(e, `Parata del globo – ${e.nome} (L8)`);
           const tot = r.totale + modDifesa(e, {}).tot + (['barbaro', 'guerriero', 'nano'].includes(e.classe) ? e.livello : 0);
-          if (r.naturale === 6 || (r.naturale !== 1 && tot > 8)) { e.scudo = false; log(`${e.nome} para il globo: lo scudo è distrutto e il globo si ferma.`); fermo = true; continue; }
+          if (C.esplode(e, r) || (r.naturale !== 1 && tot > 8)) { e.scudo = false; log(`${e.nome} para il globo: lo scudo è distrutto e il globo si ferma.`); fermo = true; continue; }
         }
         ferisci(e, 3);
       } }

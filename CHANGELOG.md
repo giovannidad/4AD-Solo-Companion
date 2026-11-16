@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.13.0
+- **Supplemento «Contro l'Abisso (lvl 5-9)»:** nuovo set di tabelle del dungeon (stanze, trappole, eventi, tesori, mostri, draghi, boss finale), livelli dal 6° al 9°, d8 esplosivo (dado virtuale, non 3D), 41 abilità avanzate da imparare con i tiri esperienza, 6 incantesimi avanzati, stati persistenti (follia, licantropia, peste oscura, vampirismo), mercenari, artigiani, segreti e oggetti. Si attiva dal menu «Tabelle del dungeon» o con la casella del supplemento.
+- **Menu «Tabelle del dungeon» e «Stile della mappa»:** l'etichetta sta sopra e il menu occupa tutta la larghezza, così i nomi lunghi non vengono tagliati.
+- **Tiri esperienza:** un incontro già concluso non può più generare un secondo tiro per lo stesso mostro; quando un mostro dà davvero più tiri (per esempio il drago come boss finale) i pulsanti sono numerati («1 di 2»).
+- Senza il supplemento «Contro l'Abisso» il livello massimo è il 5°, come nel manuale base.
+- Non ancora presenti di «Contro l'Abisso»: trame di campagna, partenza diretta al 5° livello, resurrezione a 1000 p.o.
+
 ## 1.12.0
 - **Tabelle del dungeon con nome del manuale e livello:** «Four Against Darkness (lvl 1-2)», «Four Against Darkness – Nemici diabolici (lvl 3-5)», «Contro il Caos (lvl 3-6)».
 - **«Contro il Caos» completato:**

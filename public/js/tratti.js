@@ -2,9 +2,10 @@
 import { R, S, log, modificato, eroiVivi } from './state.js';
 import { d66, tira, dado } from './dice.js';
 import { h, toast, scelta, confirmBox, uid } from './util.js';
-import { FLAGELLI, tratto, incantatore, haAbilita, suppl, creaIncontro } from './rules.js';
+import { FLAGELLI, tratto, incantatore, haAbilita, suppl, creaIncontro, abissoAttivo } from './rules.js';
 import * as G from './game.js';
 import * as K from './caos.js';
+import * as A from './abisso.js';
 
 const ha = (e, id) => (e.tratti || []).some(t => t.id === id);
 export const haTratto = ha;
@@ -354,7 +355,9 @@ const iniziali = e => (e.classe === 'veterano' ? ['assistenza', 'leader-carismat
 /** Sezione «Abilità avanzate» della scheda eroe. */
 export function sezioneAbilita(e, rinfresca) {
   const box = h('div', { class: 'tratti' });
-  const cat = R.caos.abilita || [];
+  const cat = [];   // catalogo: abilità del Caos (se attivo) e dell'Abisso (se attivo, con il testo del manuale che le descrive)
+  if (S.party.supplCaos) cat.push(...(R.caos.abilita || []));
+  if (abissoAttivo()) for (const a of R.abisso.abilita) { const k = cat.findIndex(x => x.id === a.id); if (k >= 0) cat[k] = { ...cat[k], testo: a.effetto, classi: [...new Set([...cat[k].classi, ...a.classi])] }; else cat.push({ id: a.id, nome: a.nome, classi: a.classi, testo: a.effetto }); }
   const sincronizza = () => {
     const sp = (e.abilita || []).filter(a => a.id === 'attacco-specializzato');
     e.specializzato = sp.length > 0; e.specializzati = sp.map(a => a.bersaglio).filter(Boolean);
@@ -365,10 +368,10 @@ export function sezioneAbilita(e, rinfresca) {
     const implicite = iniziali(e).filter(id => !mie.some(a => a.id === id));
     implicite.forEach(id => { const c = cat.find(x => x.id === id); box.append(h('div', { class: 'row' }, h('span', { class: 'grow', title: c?.testo }, h('b', {}, c?.nome || id), ' (iniziale) – ', c?.testo || ''))); });
     mie.forEach((a, k) => { const c = cat.find(x => x.id === a.id);
-      box.append(h('div', { class: 'row' }, h('span', { class: 'grow', title: c?.testo }, h('b', {}, c?.nome || a.id), a.bersaglio ? ` (${TIPI_BERSAGLIO.find(t => t[0] === a.bersaglio)?.[1] || a.bersaglio})` : a.arma ? ` (${a.arma})` : '', ' – ', c?.testo || ''),
+      box.append(h('div', { class: 'row' }, h('span', { class: 'grow', title: c?.testo }, h('b', {}, c?.nome || a.id), a.bersaglio ? ` (${TIPI_BERSAGLIO.find(t => t[0] === a.bersaglio)?.[1] || A.nomeMostro(a.bersaglio)})` : a.arma ? ` (${a.arma})` : '', ' – ', c?.testo || ''),
         h('button', { class: 'mini', onclick: () => { e.abilita.splice(k, 1); sincronizza(); modificato('party'); rinfresca(); } }, '×'))); });
     if (!mie.length && !implicite.length) box.append(h('small', {}, 'Nessuna abilità avanzata.'));
-    const disp = cat.filter(c => c.classi.includes(e.classe) && !implicite.includes(c.id) && (c.id === 'attacco-specializzato' || !mie.some(a => a.id === c.id)));
+    const disp = cat.filter(c => c.classi.includes(e.classe) && !implicite.includes(c.id) && (c.id === 'attacco-specializzato' || c.id === 'resistente' || !mie.some(a => a.id === c.id)));
     if (disp.length) {
       const sel = h('select', {}, disp.map(c => h('option', { value: c.id, title: c.testo }, c.nome)));
       const consentite = abilitaConsentite(e), possedute = mie.length;
@@ -376,11 +379,12 @@ export function sezioneAbilita(e, rinfresca) {
         const c = cat.find(x => x.id === sel.value);
         if ((consentite === 0 || (consentite !== null && possedute >= consentite)) && !(await confirmBox(`${e.nome} non può ancora imparare un’altra abilità avanzata (dal ${e.classe === 'veterano' ? '3°' : '5°'} livello; con Ingegno precoce prima). Aggiungerla comunque?`))) return;
         const voce = { id: c.id };
+        if (['nemico-giurato', 'resistente'].includes(c.id) && abissoAttivo()) { const v = await A.sceltaAbilita(c); if (!v) return; voce.bersaglio = v.bersaglio; }
         if (c.id === 'attacco-specializzato') { voce.bersaglio = await scelta('Attacco specializzato', 'Quale classe di nemici può marchiare?', TIPI_BERSAGLIO); if (!voce.bersaglio) return; }
         if (c.id === 'lanciatore-di-coltelli') voce.arma = (await scelta('Lanciatore di coltelli', 'In quale arma si specializza?', [['stella', 'Stella da lancio (ne lancia 2 con una sola azione)'], ['altra', 'Un’altra arma da lancio (da gestire a mano)']])) || 'altra';
         (e.abilita = e.abilita || []).push(voce); sincronizza(); log(`${e.nome} impara l’abilità avanzata «${c.nome}».`); modificato('party'); rinfresca();
-      } }, 'Aggiungi abilità')));
-      box.append(h('small', { class: 'hint' }, e.classe === 'veterano' ? 'Il veterano impara 1 abilità al 3°, 4° e 5° livello (esclusa la magia); dal 5° in poi con le regole normali.' : 'Le abilità avanzate si imparano dal 5° livello (dal 3° con Ingegno precoce); il tiro per impararle è descritto in «Contro l’Abisso».'));
+      } }, abissoAttivo() ? 'Aggiungi senza tiro (correzione)' : 'Aggiungi abilità')));
+      box.append(h('small', { class: 'hint' }, e.classe === 'veterano' ? 'Il veterano impara 1 abilità al 3°, 4° e 5° livello (esclusa la magia); dal 5° in poi con le regole normali.' : abissoAttivo() ? 'Le abilità si imparano dal 5° livello spendendo un tiro ES (1d8+2 nell’Abisso, 7-8 naturale sempre un successo): dal pannello Gruppo scegli «Imparare un’abilità avanzata». Ogni abilità si impara una sola volta (Resistente per tipi diversi).' : 'Le abilità avanzate si imparano dal 5° livello (dal 3° con Ingegno precoce); le abilità del manuale «Contro l’Abisso» si imparano con un tiro ES attivando quel supplemento.'));
     }
   };
   draw();

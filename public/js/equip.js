@@ -40,7 +40,8 @@ export async function equipaggia(e, o) {
   if (q.tipo === 'scudo') {
     if (!cl.scudo) { toast(`${R.classi[e.classe].nome}: non può usare lo scudo.`, 'warn'); return false; }
     if (e.scudo) { toast(`${e.nome} ha già uno scudo.`, 'warn'); return false; }
-    e.scudo = true; togli(e, o); log(`${e.nome} imbraccia ${o.nome}.`);
+    if (/scudo magico/i.test(o.nome) && e.classe === 'barbaro') { toast('I barbari non usano oggetti magici.', 'warn'); return false; }
+    e.scudo = true; e.scudoMagico = /scudo magico/i.test(o.nome); togli(e, o); log(`${e.nome} imbraccia ${o.nome}.`);
   } else if (q.tipo === 'armatura') {
     const permesse = cl.armature || [];
     let v = q.valore;
@@ -48,7 +49,7 @@ export async function equipaggia(e, o) {
     if (!permesse.includes(v)) { toast(`${R.classi[e.classe].nome}: non può indossare l’${ARMATURE[v].toLowerCase()}.`, 'warn'); return false; }
     if (o.noBarbaro && e.classe === 'barbaro') { toast('I barbari non possono usare questo oggetto.', 'warn'); return false; }
     if (e.armatura === v) { toast(`${e.nome} indossa già un’${ARMATURE[v].toLowerCase()}.`, 'warn'); return false; }
-    const vecchia = e.armatura; e.armatura = v; togli(e, o);
+    const vecchia = e.armatura; e.armatura = v; e.cottaElfica = /cotta di maglia elfica/i.test(o.nome); e.armaturaIncantata = /armatura incantata/i.test(o.nome); togli(e, o);
     if (vecchia && vecchia !== 'nessuna') rimetti(e, ARMATURE[vecchia]);
     log(`${e.nome} indossa ${o.nome}${vecchia && vecchia !== 'nessuna' ? ` (l’${ARMATURE[vecchia].toLowerCase()} torna nello zaino)` : ''}.`);
   } else {
@@ -71,6 +72,7 @@ export async function equipaggia(e, o) {
       if (/mazza della giustizia/i.test(o.nome)) e.mazzaGiustizia = true;
       if (/arma dorata/i.test(o.nome)) e.armaDorata = true;
     }
+    if (!q.id && /bastone della rettitudine/i.test(o.nome)) e.bastoneRettitudine = true;
     if (q.argento) (e.armiArgento = e.armiArgento || []).push(id);
     togli(e, o); log(`${e.nome} impugna ${armaDi(id)?.nome || o.nome}${q.argento ? ' (d’argento)' : ''}.`);
   }

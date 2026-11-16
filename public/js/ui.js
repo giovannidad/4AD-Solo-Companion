@@ -7,13 +7,14 @@ import * as Coop from './coop.js';
 import * as Rit from './ritratti.js';
 import * as Eff from './effetti.js';
 import * as O from './oggetti.js';
+import * as A from './abisso.js';
 import { equipaggiabile, equipaggia } from './equip.js';
 import { nomeDungeon } from './nomi.js';
 import { dado, tira, d6Esplosivo, estremo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
 import * as table from './map2d.js';
-import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella, SETS, incantesimoACasoLista, suppl, tratto, haAbilita } from './rules.js';
+import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella, SETS, incantesimoACasoLista, suppl, tratto, haAbilita, abissoAttivo, inAbisso, maxFurie } from './rules.js';
 import { riposa, scheda } from './party.js';
 
 const adv = () => S.adv;
@@ -33,11 +34,12 @@ export function renderDungeon(box) {
     box.append(h('div', { class: 'hero-cta' },
       h('h3', {}, a.fine ? 'Avventura conclusa' : 'Pronto a scendere?'),
       h('p', {}, a.fine ? `Esito: ${a.fine}.` : 'Il gruppo si prepara all’ingresso del dungeon. Verrà tirato un d6 per la stanza d’ingresso; le ferite guariscono e poteri e incantesimi si ricaricano.'),
-      h('label', { class: 'chk', title: 'Scegli il manuale da cui prendere le tabelle del dungeon; tra parentesi il livello dei personaggi a cui è destinato.' }, 'Tabelle del dungeon ',
+      h('label', { class: 'chk sel', title: 'Scegli il manuale da cui prendere le tabelle del dungeon; tra parentesi il livello dei personaggi a cui è destinato.' }, 'Tabelle del dungeon ',
         h('select', { onchange: ev => { S.party.set = ev.target.value; modificato('party'); } }, Object.entries(SETS).map(([v, t]) => h('option', { value: v, selected: (S.party.set || 'base') === v }, t)))),
-      h('label', { class: 'chk', title: 'Aspetto delle stanze e dello sfondo della mappa per il prossimo dungeon.' }, 'Stile della mappa ',
+      h('label', { class: 'chk sel', title: 'Aspetto delle stanze e dello sfondo della mappa per il prossimo dungeon.' }, 'Stile della mappa ',
         h('select', { onchange: ev => { S.party.tema = ev.target.value; modificato('party'); } }, [['carta', '4 Against Darkness (originale)'], ['classico', 'Dungeon classico'], ['foresta', 'Foresta']].map(([v, t]) => h('option', { value: v, selected: (S.party.tema || 'carta') === v }, t)))),
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplCaos, onchange: ev => { S.party.supplCaos = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro il Caos» (nuovi incantesimi, armi, classi, tratti e traguardi)'),
+      h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplAbisso, onchange: ev => { S.party.supplAbisso = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro l\'Abisso» (livelli 6-9, abilità avanzate, mercenari, artigiani)'),
       btn('Inizia una nuova avventura', async () => { if (await G.iniziaAvventura()) table.setView('fit'); }, 'primary big')));
     return;
   }
@@ -51,7 +53,7 @@ export function renderDungeon(box) {
   box.append(h('div', { class: 'stats' },
     h('div', {}, h('b', {}, a.stanze), h('small', {}, 'stanze')),
     h('div', {}, h('b', {}, a.maggioriSconfitti || 0), h('small', {}, 'maggiori sconfitti')),
-    h('div', {}, h('b', {}, `${a.incontriSeguaci || 0}/10`), h('small', {}, 'incontri seguaci')),
+    h('div', {}, h('b', {}, `${a.incontriSeguaci || 0}/${inAbisso() ? 5 : 10}`), h('small', {}, 'incontri seguaci')),
     h('div', {}, h('b', {}, a.numero), h('small', {}, 'avventura'))));
 
   if (pend) {
@@ -127,15 +129,15 @@ async function perquisisciUI(t) {
       close(); res = await G.tiraPerquisizione(t); mostra();
     }));
     if (res.v >= 5) {
-      b.append(h('p', { class: 'hint' }, 'Scegli cosa trovi:'),
-        btn('Porta segreta', async () => {
+      b.append(...[h('p', { class: 'hint' }, res.solo ? `Scegli cosa trovi (solo ${res.solo === 'indizio' ? 'un indizio' : 'una porta segreta'}, per l’abilità usata):` : 'Scegli cosa trovi:'),
+        res.solo === 'indizio' ? null : btn('Porta segreta', async () => {
           close(); await G.concludiPerquisizione(t, res);
           const sc = await G.portaSegreta();
           toast(sc ? 'Scorciatoia sicura verso l’uscita!' : 'Porta segreta: tira la stanza collegata.');
           await G.nuovaStanza({ segreta: true });
         }, 'item-btn'),
-        btn('Tesoro nascosto', async () => { close(); await G.concludiPerquisizione(t, res); const x = await G.tesoroNascosto(t); modalTesto('Tesoro nascosto', `Complicazione (${x.c}): ${x.complicazione.testo} Oro trovato: ${x.oro} p.o. (vedi Bottino).`); }, 'item-btn'),
-        btn('Indizio', () => { close(); G.concludiPerquisizione(t, res); scegliEroe('Chi trova l’indizio?', e => G.aggiungiIndizio(e)); }, 'item-btn'));
+        res.solo ? null : btn('Tesoro nascosto', async () => { close(); await G.concludiPerquisizione(t, res); const x = await G.tesoroNascosto(t); modalTesto('Tesoro nascosto', `Complicazione (${x.c}): ${x.complicazione.testo} Oro trovato: ${x.oro} p.o. (vedi Bottino).`); }, 'item-btn'),
+        res.solo === 'porta' ? null : btn('Indizio', () => { close(); G.concludiPerquisizione(t, res); scegliEroe('Chi trova l’indizio?', e => G.aggiungiIndizio(e)); }, 'item-btn')].filter(Boolean));
     } else b.append(h('div', { class: 'row end' }, btn(res.v === 1 ? 'Arrivano i mostri erranti!' : 'Ok', chiudi, 'primary')));
   });
   mostra();
@@ -161,7 +163,7 @@ export function renderIncontro(box) {
   box.append(h('div', { class: `monster ${i.stato}` },
     h('div', { class: 'mhead' }, h('h3', {}, i.nome), i.bossFinale ? h('span', { class: 'tag red' }, 'BOSS FINALE') : null, i.errante ? h('span', { class: 'tag amber' }, 'Errante') : null),
     h('div', { class: 'mstats' }, descriviMostro(i)),
-    i.note ? h('p', { class: 'hint' }, i.note) : null,
+    i.note ? h('p', { class: /^a-/.test(i.id || '') ? 'poteri' : 'hint' }, /^a-/.test(i.id || '') ? [h('b', {}, 'Poteri: '), i.note] : i.note) : null,
     h('div', { class: 'counter' },
       maggiore
         ? [h('span', {}, 'Punti vita'), btn('−', () => { i.pv = Math.max(0, i.pv - 1); modificato('avventura'); }, 'mini'), h('b', {}, `${i.pv}/${i.pvMax}`), btn('+', () => { i.pv = Math.min(i.pvMax, i.pv + 1); modificato('avventura'); }, 'mini')]
@@ -179,10 +181,10 @@ export function renderIncontro(box) {
     case 'nuovo': {
       box.append(h('div', { class: 'card' },
         h('h4', {}, 'Come affronti l’incontro?'),
-        i.errante || i.sorpresa
+        (i.errante && !i.sestoSenso) || i.sorpresa
           ? [h('p', { class: 'hint' }, 'I mostri erranti ti sorprendono: combattono sempre e colpiscono per primi.'), btn('Combatti (i mostri attaccano per primo)', async () => { i.mostriPrima = true; i.noMorale = i.noMorale; await C.inizioScontro(); }, 'primary')]
           : [btn('Attacca per primo', () => C.attaccaSubito(), 'primary'), btn('Aspetta e tira la reazione', () => C.tiraReazione())],
-        ...(suppl() ? preIncontro(i) : []),
+        ...(suppl() ? preIncontro(i) : []), ...(abissoAttivo() ? A.preIncontro(i, btn) : []),
         haNano() && !i.errante ? btn('Fiuta il tesoro del nano (1d6 + livello ≥ 6)', async () => {
           const n = eroiVivi().find(e => e.classe === 'nano'); const r = await dado('Fiuto del nano'); const tot = r.totale + n.livello;
           toast(tot >= 6 ? 'Il nano fiuta il tesoro: puoi conoscerlo prima di attaccare.' : `Fiuto fallito (${tot}).`);
@@ -198,11 +200,17 @@ export function renderIncontro(box) {
         h('div', { class: 'row wrap' },
           btn(`Paga ${costo ?? ''} p.o.`, () => C.paga(costo), 'primary', { disabled: nani >= 2 || costo == null || costo > C.oroTotale() }),
           C.haOroStolti() ? btn('Usa l’oro degli stolti', () => C.paga(0, true)) : null,
+          ...(abissoAttivo() ? A.corruzioneAlternativa(i, btn) : []),
           btn('Rifiuta e combatti', () => C.rifiutaCorruzione(), 'danger'))));
       break;
     }
     case 'speciale': {
-      box.append(h('div', { class: 'card' }, h('p', {}, i.reazione?.azione === 'pacifico' ? `${i.nome} è pacifico: puoi lasciarlo stare (nessun tesoro) oppure attaccarlo.` : `Reazione speciale: ${i.reazione?.azione}. Risolvila a parole oppure combatti.`),
+      if (i.reazione?.azione === 'tenzone-persa') {
+        box.append(h('div', { class: 'card' }, h('p', {}, `${i.nome} ha vinto la singolar tenzone e pretende che il gruppo lasci la stanza.`),
+          btn('Lascia la stanza (i mostri restano)', () => C.sottrarsiIndenne('tenzone persa')), btn('Attacca comunque (+1 al loro LIV)', () => A.attaccaDopoTenzone(i), 'danger')));
+        break;
+      }
+      box.append(h('div', { class: 'card' }, h('p', {}, i.reazione?.azione === 'pacifico' ? `${i.nome} è pacifico: puoi lasciarlo stare (nessun tesoro) oppure attaccarlo.` : i.reazione?.azione === 'amichevole' ? `${i.nome} è amichevole: ti lascia passare (nessun tesoro) oppure puoi attaccarlo.` : `Reazione speciale: ${i.reazione?.azione}. Risolvila a parole oppure combatti.`),
         i.reazione?.azione === 'missione' ? btn('Accetta la missione (tira)', async () => { const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); C.nota(`Missione: ${row.nome} – ${row.testo}`); i.missione = row.nome; modificato('avventura'); }) : null,
         btn('Combatti', () => { i.mostriPrima = true; return C.inizioScontro(); }, 'danger'),
         btn('Chiudi (il mostro se ne va)', () => { C.chiudiIncontro(); })));
@@ -211,7 +219,7 @@ export function renderIncontro(box) {
     case 'combattimento': renderCombattimento(box, i); break;
     case 'finito': {
       const bottino = ['sconfitti', 'fuga'].includes(i.esito) && !i.tesoroPreso && i.reazione?.azione !== 'fugge';
-      box.append(h('div', { class: 'card done' }, h('h4', {}, i.esito === 'sconfitta' ? 'Il gruppo è stato sconfitto' : i.esito === 'soloCaduto' ? 'Il personaggio è caduto nell’imboscata' : i.esito === 'corrotto' ? 'Mostri corrotti' : i.esito === 'fuga' ? 'Mostri fuggiti' : 'Incontro vinto!'),
+      box.append(h('div', { class: 'card done' }, h('h4', {}, i.esito === 'sconfitta' ? 'Il gruppo è stato sconfitto' : i.esito === 'soloCaduto' ? 'Il personaggio è caduto nell’imboscata' : i.esito === 'corrotto' ? 'Mostri corrotti' : i.esito === 'tenzone' ? 'Singolar tenzone vinta: i mostri ti lasciano passare' : i.esito === 'fuga' ? 'Mostri fuggiti' : 'Incontro vinto!'),
         h('div', { class: 'row wrap' },
           bottino && (i.tes !== 'NO' || i.oroFisso) && !i.errante ? btn('Saccheggia (tira il tesoro)', () => C.saccheggia(), 'primary') : null,
           btn('Chiudi incontro', () => C.chiudiIncontro(), i.tesoroPreso || !bottino ? 'primary' : ''))));
@@ -263,18 +271,18 @@ function renderCombattimento(box, i) {
     const fronte = !i.corridoio || idx < 2;
     const m = modAttacco(e, C.contestoAttacco(e, { armaId: ui.arma[e.id] }));
     const armiSel = (e.armi || []).length > 1 ? h('select', { onchange: ev => { ui.arma[e.id] = ev.target.value; modificato('avventura'); } }, e.armi.map(id => h('option', { value: id, selected: (ui.arma[e.id] || e.armaPrincipale) === id }, armaDi(id)?.nome))) : null;
-    const fur = e.classe === 'barbaro' ? h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2), disabled: (e.usi.furie || 0) >= Math.ceil(e.livello / 2), onchange: ev => { ui.furioso[e.id] = ev.target.checked; } }), `Furioso (${Math.ceil(e.livello / 2) - (e.usi.furie || 0)})`) : null;
+    const fur = e.classe === 'barbaro' ? h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!ui.furioso[e.id] && (e.usi.furie || 0) < maxFurie(e), disabled: (e.usi.furie || 0) >= maxFurie(e), onchange: ev => { ui.furioso[e.id] = ev.target.checked; } }), `Furioso (${maxFurie(e) - (e.usi.furie || 0)})`) : null;
     const pronti = (e.incantesimi || []).map((s, idx2) => ({ ...s, idx2 })).filter(s => !s.usato);
     const rowEl = h('div', { class: `actor ${i.agito?.[e.id] ? 'done' : ''}` },
       h('div', { class: 'ahead' }, Rit.immagine(e, 28, 'mini'), h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} ${e.livello} · ${e.pv}/${e.pvMax} PV`), h('span', { class: 'mod', title: m.parti.map(p => `${p[0]} ${p[1] > 0 ? '+' : ''}${p[1]}`).join('\n') || 'Nessun modificatore' }, `ATT ${m.tot >= 0 ? '+' : ''}${m.tot}`)),
       h('div', { class: 'arow' },
-        fronte ? [armiSel, fur, azione(e, 'Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary', {}, () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < Math.ceil(e.livello / 2); ui.furioso[e.id] = false; return { tipo: 'attacca', armaId: ui.arma[e.id], furioso }; })] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
+        fronte ? [armiSel, fur, azione(e, 'Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < maxFurie(e); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary', {}, () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < maxFurie(e); ui.furioso[e.id] = false; return { tipo: 'attacca', armaId: ui.arma[e.id], furioso }; })] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
         i.id === 'c-manticora' && !i.codaFerita && fronte ? azione(e, 'Attacca la coda', () => C.attacca(e, { coda: true }), 'accent', {}, () => ({ tipo: 'attacca', coda: true })) : null,
         e.classe === 'assassino' && fronte ? azione(e, 'Marchia', () => C.marchia(e), 'accent', {}, () => ({ tipo: 'marchia' })) : null,
-        ...azioniMagiche(e, pronti), ...(suppl() ? azioniSupplemento(e, i) : [])));
+        ...azioniMagiche(e, pronti), ...(suppl() ? azioniSupplemento(e, i) : []), ...(abissoAttivo() ? A.azioniCombattimento(e, i, azione) : [])));
     eroiBox.append(rowEl);
   });
-  const sezGruppo = [h('h4', {}, 'Turno del gruppo'), eroiBox];
+  const sezGruppo = [h('h4', {}, 'Turno del gruppo'), A.cartaLeader(i, btn), eroiBox];
 
   // mostri
   const key = `${i.id}-${i.turno}-${i.n}-${i.pv}-${gruppo.map(g => g.id).join('')}-${i.sorpresa}`;
@@ -373,7 +381,7 @@ async function assegna(x, e) {
   else if (x.bonusArma) { e.bonusMagico = Math.max(e.bonusMagico || 0, x.bonusArma); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1 }); }
   else if (x.cariche != null) (e.oggetti = e.oggetti || []).push({ nome: x.nome || x.testo, qta: 1, tipo: x.tipo, valore: x.valore, nota: x.testo, cariche: x.cariche, caricheMax: x.caricheMax ?? x.cariche, incantesimo: x.incantesimo, solo: x.solo, manuale: !!x.manuale, curativo: x.curativo });
   else if (x.tipo === 'pergamena' && x.incantesimo) (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: 1, tipo: 'pergamena', nota: x.testo, cariche: 1, caricheMax: 1, incantesimo: x.incantesimo, consuma: true });
-  else (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: 1, valore: x.valore, tipo: x.tipo });
+  else (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: x.qta || 1, valore: x.valore, tipo: x.tipo, abi: x.abi, cariche: x.cariche, caricheMax: x.caricheMax, solo: x.solo });
   if (x.tipo === 'gemma' && x.valore >= 50) T.evento(e, 'gemme');
   if (x.tipo === 'pergamena') T.evento(e, 'pergamene');
   T.oggettoMagicoRicevuto(e, x); T.controllaOro();
@@ -387,7 +395,7 @@ async function assegna(x, e) {
 }
 function dividiOro() {
   const monete = adv().bottino.filter(x => x.tipo === 'oro'); const tot = monete.reduce((a, x) => a + x.valore, 0);
-  let vivi = S.party.eroi.filter(e => e.stato !== 'morto'); if (!vivi.length) return;
+  let vivi = S.party.eroi.filter(e => e.stato !== 'morto' && e.stato !== 'pazzo' && !e.merc); if (!vivi.length) return;
   const sup = suppl();
   if (sup && vivi.some(e => e.classe === 'elfo-fuoco') && vivi.some(e => e.classe !== 'elfo-fuoco')) { vivi = vivi.filter(e => e.classe !== 'elfo-fuoco'); toast('Gli elfi del fuoco non condividono l’oro con le altre razze: assegna a mano la loro parte.', 'warn'); }
   const dai = (e, q) => { const posto = sup && e.classe === 'veterano' ? Math.max(0, 200 - (e.oro || 0)) : Infinity, g = Math.min(q, posto); e.oro = (e.oro || 0) + g; return g; };   // il veterano non porta più di 200 p.o.
@@ -410,6 +418,7 @@ export function renderStrumenti(box) {
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Azioni di classe'),
     h('div', { class: 'tools' }, ...Eff.AZIONI_CLASSE.map(az => { const chi = Eff.eroiPerAzione(az); return h('button', { class: chi.length ? '' : 'spent', disabled: !chi.length, title: chi.length ? `${az.info} (${chi.map(e => e.nome).join(', ')})` : `Serve ${az.classi.join(' o ')} nel gruppo`, onclick: () => Eff.eseguiAzioneClasse(az.id) }, az.nome); }))));
   if (suppl()) box.append(cartaSupplemento());
+  if (abissoAttivo()) box.append(h('div', { class: 'card' }, h('h3', {}, 'Alleati, segreti e abilità dell’Abisso'), A.cartaAbisso()));
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Azioni di gioco'),
     h('div', { class: 'tools' },
       btn('Mostro errante', async () => { const m = await G.monstroErrante(); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }),
@@ -427,7 +436,7 @@ export function renderStrumenti(box) {
     h('p', { class: 'hint' }, 'Per ogni stanza già visitata che attraversi tira 1d6: con 1 attaccano i mostri erranti (alle spalle). Con un personaggio di pietra trascinato: 1-2.'),
     h('div', { class: 'row' }, h('span', {}, 'Stanze attraversate'), ritorno,
       btn('Tira', async () => {
-        for (let k = 0; k < +ritorno.value; k++) { const r = await dado(`Ritorno sui passi, stanza ${k + 1}`); if (r.totale === 1) { const m = await G.monstroErrante(); log('Mostri erranti sorprendono il gruppo durante il ritorno!'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); break; } }
+        for (let k = 0; k < +ritorno.value; k++) { const r = await dado(`Ritorno sui passi, stanza ${k + 1}`); if (r.totale <= A.sogliaErranti()) { const m = await G.monstroErrante(); log('Mostri erranti sorprendono il gruppo durante il ritorno!'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); break; } }
       }))));
 
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Indizi'),
