@@ -8,6 +8,7 @@ import * as C from './combat.js';
 import * as K from './caos.js';
 import * as G from './game.js';
 import * as A from './abisso.js';
+import * as P from './profondita.js';
 
 const adv = () => S.adv;
 const viviOra = () => ordineMarcia().filter(e => e.stato === 'ok');
@@ -116,6 +117,7 @@ export async function proponiTrappolaTesoro(liv) {
 
 export async function risolviTrappola(t) {
   if (t.abisso) return A.risolviTrappola(t);   // trappole di «Contro l'Abisso»
+  if (t.prof) return P.risolviTrappola(t);       // trappole delle Profondità Dimenticate (LMP+GR+2)
   const vivi = viviOra(); if (!vivi.length) return;
   const casuale = () => vivi[Math.floor(Math.random() * vivi.length)];
   const n = t.nome;

@@ -1,9 +1,10 @@
 // Flusso di gioco: avventura, generazione stanze, contenuti, tesori, ricerche, esperienza.
 import { R, S, log, modificato, eroiVivi, livelloMax, eroePerId, emit } from './state.js';
-import { tira, d66, dado, d6Esplosivo, d8Esplosivo, estremo } from './dice.js';
-import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, inAbisso, abissoAttivo, livelloTetto, incantesimoACasoLista, SETS, suppl } from './rules.js';
+import { tira, d66, dado, d6Esplosivo, d8Esplosivo, dEsplosivoN, estremo } from './dice.js';
+import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, inAbisso, inProfondita, abissoAttivo, profonditaAttiva, gradoDi, livelloTetto, incantesimoACasoLista, SETS, suppl } from './rules.js';
 import * as K from './caos.js';
 import * as A from './abisso.js';
+import * as P from './profondita.js';
 import * as T from './tratti.js';
 import * as Eff from './effetti.js';
 import { nomeDungeon } from './nomi.js';
@@ -72,8 +73,15 @@ async function risolviSet() {
   const vivi = eroiVivi().filter(e => !e.merc);
   const pronti = vivi.length > 0 && vivi.every(e => e.livello >= 3);
   const pronti5 = vivi.length > 0 && vivi.every(e => e.livello >= 5);
+  const pronti10 = P.prontiProfondita(vivi);
+  if (pronti10 && !S.party.propostaProfondita && S.party.set !== 'profondita') {   // tutti hanno il livello adatto alle Profondità Dimenticate: si propone una volta sola
+    S.party.propostaProfondita = true;
+    const v = await scelta('Contro le Profondità Dimenticate', 'Tutti i personaggi hanno raggiunto il livello 10 (o il 9° da eroi). Vuoi usare le tabelle delle Profondità Dimenticate (livelli 10-19) per il prossimo dungeon? Potrai cambiare scelta prima di ogni avventura.', [['profondita', SETS.profondita, 'Tabelle, mostri, tesori, fiumi e Cittadelle del supplemento; gradi eroico e leggendario.'], [null, 'Resta con le tabelle attuali']]);
+    if (v) { S.party.set = v; S.party.supplProfondita = true; } modificato('party');
+  }
   if (S.party.set === undefined && pronti) {
     const v = await scelta('Tabelle avanzate', `Tutti i personaggi hanno raggiunto il ${pronti5 ? '5' : '3'}° livello. Quali tabelle vuoi usare per il prossimo dungeon? (Potrai cambiare scelta prima di ogni avventura.)`, [
+      ...(pronti10 ? [['profondita', SETS.profondita, 'Supplemento «Contro le Profondità Dimenticate»: livelli 10-19, d10 e d12, gradi eroico e leggendario.']] : []),
       ...(pronti5 ? [['abisso', SETS.abisso, 'Supplemento «Contro l’Abisso»: livelli 6-9, d8 esplosivo, abilità avanzate, mercenari e artigiani.']] : []),
       ['diabolici', SETS.diabolici, 'Tabelle avanzate del manuale base: tesori e mostri più letali.'],
       ['caos', SETS.caos, 'Supplemento «Contro il Caos»: dungeon a tema con missione, trappole, eventi e incantesimi del caos.'],
@@ -88,12 +96,14 @@ export async function iniziaAvventura() {
   if (!eroiVivi().length) { toast('Crea prima almeno un eroe nel gruppo.', 'warn'); return false; }
   const set = await risolviSet();
   if ((set === 'abisso' || S.party.supplAbisso) && !(await A.controlloIngresso())) return false;
+  if ((set === 'profondita' || S.party.supplProfondita) && !(await P.controlloIngresso())) return false;
   let missione = null;
   if (set === 'caos') { missione = await K.scegliMissione(); }
   Object.assign(S.adv, { set, missione, tema: S.party.tema || 'carta', eventiUsati: [],
     attiva: true, numero: (S.adv.numero || 0) + 1, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null, coda: [],
-    maggioriSconfitti: 0, incontriSeguaci: 0, esPendenti: [], esTirati: false, bottino: [], fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false,
-    guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: []
+    maggioriSconfitti: 0, incontriSeguaci: 0, esPendenti: S.party.supplProfondita ? (S.adv.esPendenti || []) : [], esTirati: false, bottino: [],   // con le Profondità i tiri ES non tirati restano: servono per passare di grado fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false,
+    guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: [],
+    fiume: null, sezione: null, cittadella: null, iscrizioni: [], allucinazioni: 0, stregheUccise: 0, agitazione: null, alluvione: null, missioneP: null, idoloFuggito: false, artefatto: null, setaTrovata: false
   });
   // tra un'avventura e l'altra le ferite guariscono e gli usi si ricaricano
   for (const e of S.party.eroi) {
@@ -105,6 +115,7 @@ export async function iniziaAvventura() {
   S.party.eroi.filter(e => e.stato === 'prigioniero').forEach(e => log(`${e.nome} è ancora prigioniero: non partecipa all’avventura (riscatto ${100 * e.livello} p.o.; cambia lo stato dalla scheda quando è libero).`));
   await T.inizioAvventura();      // tratti, traguardi e abilità che si rinnovano a ogni avventura
   await A.inizioAvventura();      // «Contro l'Abisso»: oggetti creati dalle abilità, stati da ripristinare
+  await P.inizioAvventura();      // «Profondità Dimenticate»: stati temporanei da azzerare
   await K.dotazioniMissione();    // compagni e oggetti forniti dalla missione
   table.setTema(S.adv.tema); table.setTiles([]);
   const r = await dado('Stanza d’ingresso (d6)');
@@ -128,7 +139,8 @@ export function terminaAvventura(esito) {
   log(`Avventura conclusa: ${esito}.`);
   if (adv().missione?.id === 'cuoco') K.congedaCuoco();
   T.fineAvventura().catch(err => console.error(err));
-  A.fineAvventura(esito).catch(err => console.error(err));   // «Contro l'Abisso»: follia, alchimista, mercenari   // conteggi dei dungeon, santuari, giuramenti e imboscate dei tratti
+  A.fineAvventura(esito).catch(err => console.error(err));
+  P.fineAvventura(esito).catch(err => console.error(err));   // «Profondità Dimenticate»: Mente stabile, fiume e sezioni chiuse   // «Contro l'Abisso»: follia, alchimista, mercenari   // conteggi dei dungeon, santuari, giuramenti e imboscate dei tratti
   modificato();
 }
 
@@ -161,6 +173,7 @@ export async function confermaStanza(t, corridoio) {
   await generaContenuto(t);
   await K.dopoStanza(t);
   await A.dopoStanza();   // peste oscura: tiri degli infetti e contagio
+  await P.dopoStanza(t);  // Profondità: eventi a più stanze, artefatti dei segreti, missioni
   await indizioGratis(t);
 }
 /** «Mente geniale» (indizio gratis): la prima volta che si entra in una stanza vuota in un'avventura. */
@@ -214,6 +227,7 @@ export async function monstroDa(nomeTab, opzioni = {}) {
   if (voce.leaderDati && inc_minore(nomeTab)) inc.leaderInc = await A.leaderAbisso(voce, inc);
   else if (voce.leader && inc_minore(nomeTab)) inc.leaderInc = await leaderDi(voce, inc);
   if (inAbisso()) await A.postCrea(inc, voce);
+  if (inProfondita()) await P.postCrea(inc, voce);
   return inc;
 }
 
@@ -266,7 +280,7 @@ export function avviaIncontro(inc, tessera) {
   document.dispatchEvent(new CustomEvent('apri-tab', { detail: 'incontro' }));
 }
 
-async function bossCheck(inc) {
+export async function bossCheck(inc) {
   if (inc.errante) return inc;
   if (adv().missione?.id === 'esplorazione') return inc;   // non si tira il boss finale
   const r = await dado('Boss finale? (1d6 + maggiori sconfitti)');
@@ -279,7 +293,7 @@ async function bossCheck(inc) {
   }
   return inc;
 }
-async function boss(tessera, forzaFinale = false) {
+export async function boss(tessera, forzaFinale = false) {
   let inc = await monstroDa('boss');
   if (forzaFinale) inc = adv().missione?.bossFinale ? creaSpeciale(adv().missione.bossFinale, true) : creaIncontro('boss', mostriTabella('boss').find(m => m.id === inc.id), 1, { bossFinale: true });
   else inc = await bossCheck(inc);
@@ -295,6 +309,10 @@ export async function generaContenuto(t) {
   if (await K.contenutoMissione(t)) return;   // la missione può sostituire il contenuto (boss, prigionieri…)
   if (t.finale) { t.contenuto = { testo: await boss(t, true), vuota: false }; modificato(); return; }
   if (inAbisso() && adv().vampiroDaRincontrare) { t.contenuto = { testo: await A.rincontroVampiro(t), vuota: false }; modificato(); return; }
+  if (profonditaAttiva() && adv().sezione) {   // rovine, tumulo, Cittadella…: le stanze seguono le tabelle della sezione in corso
+    const x = await P.stanzaSezione(t);
+    if (x) { t.contenuto = { testo: x.testo, vuota: x.vuota }; log(`Stanza ${t.n}: ${x.testo}`); modificato(); return; }
+  }
   let ritocco = 0;
   const ex = espertoPrimaFila();
   if (ex) ritocco = (await scelta('Esperto dei dungeon', `${ex.nome} può spostare di 1 il tiro 2d6 del contenuto (decidilo prima di tirare).`, [[0, 'Nessun ritocco'], [1, '+1'], [-1, '-1']])) || 0;
@@ -305,7 +323,8 @@ export async function generaContenuto(t) {
   const corr = t.corridoio;
   let testo = `${r.totale}${ritocco ? (ritocco > 0 ? '+1' : '-1') + ' = ' + v2 : ''}: ${row.testo}`, vuota = false;
   const vuotaCorr = () => { vuota = true; testo += ' → vuoto (perquisire a -1 nei corridoi).'; };
-  switch (row.azione) {
+  if (inProfondita()) { const x = await P.risolviContenuto(row, t, { corridoio: corr, bossFinaleOk: true }); testo += ' → ' + x.testo; vuota = x.vuota; }
+  else switch (row.azione) {
     case 'tesoro': testo += ' ' + await tesoro(); break;
     case 'tesoro-trappola': testo += ' ' + await trappola() + ' ' + await tesoro(); break;
     case 'evento-o-vuoto': if (corr) vuotaCorr(); else testo += ' ' + await evento(t); break;
@@ -389,6 +408,7 @@ export async function caratteristica() {
 async function evento(t) {
   if (inCaos()) { const x = await K.eventoCaos(t); log(x); modificato(); return x; }
   if (inAbisso()) { const x = await A.evento(t); log(x); modificato(); return x; }
+  if (inProfondita()) { const x = await P.evento(t); log(x); modificato(); return x; }
   const r = await dado('Evento speciale (d6)');
   const row = riga(tabella('eventi'), r.totale);
   let tx = `${row.nome}: ${row.testo}`;
@@ -407,11 +427,11 @@ async function evento(t) {
 export async function trappola(forzaLiv) {
   const r = await dado('Trappola (d6)');
   const row = riga(tabella('trappole'), r.totale);
-  let liv = forzaLiv || row.liv;
+  let liv = forzaLiv || (row.livFormula ? P.livTrappola(row) : row.liv);
   if (!forzaLiv && row.livExpr) liv = (await tira(row.livExpr, `Livello della trappola (${row.livExpr})`)).totale;
   if (inAbisso() && row.livCorridoio && tileById(adv().stanzaCorrente)?.corridoio) liv = row.livCorridoio;   // la sfera di metallo è L9 in corridoio
   const t = `Trappola – ${row.nome} (L${liv}): ${row.testo}`;
-  adv().trappolaAttiva = { nome: row.nome, liv, testo: row.testo, caos: !!row.caos, abisso: inAbisso(), riga: row.da };
+  adv().trappolaAttiva = { nome: row.nome, liv, testo: row.testo, caos: !!row.caos, abisso: inAbisso(), prof: inProfondita(), riga: row.da };
   log(t); modificato(); document.dispatchEvent(new CustomEvent('apri-tab', { detail: 'strumenti' }));
   await Eff.proponiTrappola(adv().trappolaAttiva);   // finestra con le azioni possibili (disarmare, subire, risolvere a mano)
   return t;
@@ -419,6 +439,7 @@ export async function trappola(forzaLiv) {
 
 // ---------------- tesori ----------------
 export async function tesoro(mod = 0, ctx = {}) {
+  if (inProfondita()) return P.tesoro(mod, ctx);   // tabella Tesori d10 delle Profondità
   const r = inAbisso() ? await tira('1d8', `Tabella Tesori (d8${mod ? (mod > 0 ? '+' : '') + mod : ''})`) : await dado(`Tabella Tesori (d6${mod ? (mod > 0 ? '+' : '') + mod : ''})`);
   const v = r.totale + mod;
   const tab = tabella('tesori');
@@ -484,6 +505,7 @@ async function tiroTesoro(expr, label) {
 }
 
 export async function generaPergamena(orco) {
+  if (inProfondita() && !orco) { const lista = P.incantesimiACaso(), nome = lista[(await dado('Incantesimo a caso (d6)')).totale - 1]; return { tipo: 'pergamena', testo: `Pergamena: ${nome}`, incantesimo: nome }; }
   if (orco) { const x = await tira('1d6x1d6', 'Pergamena degli orchi = monete'); return { tipo: 'oro', testo: `${x.totale} p.o. (pergamena degli orchi)`, valore: x.totale }; }
   const lista = incantesimoACasoLista();
   const s = lista.length === 12 ? await d12('Incantesimo a caso (d12)') : (await dado('Incantesimo a caso (d6)')).totale;
@@ -513,6 +535,7 @@ export async function oggettoUtile() {
 export async function oggettoMagico(orco) {
   if (orco) { const x = await tira('2d6x1d6', 'Oggetto magico degli orchi = monete'); return { tipo: 'oro', testo: `${x.totale} p.o. (oggetto magico degli orchi)`, valore: x.totale }; }
   if (inAbisso()) return A.oggettoMagico();
+  if (inProfondita()) return P.tesoroMagico();
   const r = await dado('Tesori magici (d6)');
   const row = riga(tabella('tesoriMagici'), r.totale);
   let testo = `${row.nome}: ${row.testo}`;
@@ -560,7 +583,7 @@ const CARICHE_MAGICHE = {
 export async function tiraPerquisizione(t) {
   const opz = await A.preparaPerquisizione();
   const r = await dado(`Perquisire la stanza (d6${t.corridoio ? ', -1 corridoio' : ''})`);
-  let v = Math.max(1, r.totale + (t.corridoio ? -1 : 0)), solo = null;
+  let v = Math.max(1, r.totale + (t.corridoio ? -1 : 0) - (profonditaAttiva() && eroiVivi().some(e => e.malusPerquisire) ? 1 : 0)), solo = null;   // piovre terricole: -1 a perquisire
   if (opz.investigatore) { v++; solo = 'indizio'; }
   if (opz.intuizione && v === 4) v = 5;
   if (opz.mastro && v === 4) { v = 5; solo = 'porta'; }
@@ -606,19 +629,22 @@ export function aggiungiES(motivo, meno1 = false, quanti = 1, extra = {}) {
   modificato();
 }
 export function eroePuoSalire(e) {
-  if (e.livello >= livelloTetto()) return false;   // 5° livello nel manuale base, 9° con «Contro l'Abisso»
+  if (e.livello >= livelloTetto()) return false;   // 5° livello nel manuale base, 9° con «Contro l'Abisso», 19° con le Profondità
+  if (P.bloccoGrado(e)) return false;              // al 9° livello serve il grado eroico, al 14° il leggendario
   const altri = eroiVivi().filter(x => x.id !== e.id && !x.merc);
   if (e.livello >= 5 && altri.some(x => x.livello < 5)) return false;
   if (S.adv.ultimoLivello === e.id && altri.length && !altri.every(x => x.livello >= 5)) return false;
   return true;
 }
 export async function tiroES(es, e, posta = { tipo: 'livello' }) {
-  const pr = A.profiloES(e, setAttivo());   // Abisso: 1d8+2 per gli esperti; in un dungeon base 1d6 (o 1d6+1)
+  const alto = profonditaAttiva() && P.gradoAlto(e);   // grado eroico o leggendario: 1d10+4 o 1d12+8, con la colonna delle abilità o degli incantesimi
+  const pr = alto ? P.profiloES(e, posta) : A.profiloES(e, setAttivo());   // Abisso: 1d8+2 per gli esperti; in un dungeon base 1d6 (o 1d6+1)
   const etichetta = `Tiro ES di ${e.nome} (deve superare il livello ${e.livello})`;
-  const r = pr.d8 ? await d8Esplosivo(etichetta) : await d6Esplosivo(etichetta);
-  const tot = r.totale + pr.bonus + (es.meno1 ? -1 : 0) + (inCaos() ? 1 : 0) + (e.bonusES || 0) + ((e.tratti || []).some(t => t.id === 'lesto-esperienza') ? 1 : 0) + (e.perm?.prossimoES || 0);
+  const r = alto ? await dEsplosivoN(pr.facce, pr.soglia, etichetta) : pr.d8 ? await d8Esplosivo(etichetta) : await d6Esplosivo(etichetta);
+  const tot = r.totale + pr.bonus + (profonditaAttiva() ? P.bonusES(e, posta) : 0) + (es.meno1 ? -1 : 0) + (inCaos() ? 1 : 0) + (e.bonusES || 0) + ((e.tratti || []).some(t => t.id === 'lesto-esperienza') ? 1 : 0) + (e.perm?.prossimoES || 0);
   const ok = r.naturale !== 1 && (tot > e.livello || (pr.d8 && r.naturale >= 7));   // 7-8 naturale = sempre un successo (d8)
   if (e.perm?.prossimoES) e.perm.prossimoES = 0;   // «Ritratto eroico»: vale per un solo tiro
+  if (posta.tipo === 'incantesimo-p') P.fineStudio(e, posta, ok);   // pergamena o iscrizione: l'incantesimo entra nel grimorio o la fonte è perduta
   adv().esTirati = true;
   adv().esPendenti = adv().esPendenti.filter(x => x.id !== es.id);
   if (ok && posta.tipo !== 'livello') { A.applicaPosta(e, posta); log(`${e.nome} supera il tiro ES (${tot}) e non sale di livello.`); }
@@ -674,7 +700,8 @@ export async function aggiungiIndizio(eroe, { semplice = false } = {}) {
 }
 async function unIndizio(eroe) {
   eroe.indizi = (eroe.indizi || 0) + 1;
-  log(`${eroe.nome} trova un indizio (${eroe.indizi}/${inAbisso() && eroe.attesa4 ? 4 : 3}).`);
+  log(`${eroe.nome} trova un indizio (${eroe.indizi}/${P.sogliaIndizi(eroe) || (inAbisso() && eroe.attesa4 ? 4 : 3)}).`);
+  if (P.sogliaIndizi(eroe)) { await P.indizio(eroe); modificato(); return; }   // eroi di grado eroico e leggendario: 5 o 6 indizi, nessun tiro ES
   if (inAbisso()) { await A.indizio(eroe); modificato(); return; }
   if (eroe.indizi >= 3) {
     eroe.indizi = 0;

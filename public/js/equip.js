@@ -2,6 +2,7 @@
 import { R, S, log, modificato } from './state.js';
 import { toast, scelta } from './util.js';
 import { armaDi, armaConsentita, limiteArma, suppl } from './rules.js';
+import * as P from './profondita.js';
 
 const ARMATURE = { leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
 
@@ -19,6 +20,7 @@ export function tipoEquip(o) {
     const mat = /contundente/.test(t) ? 'contundente' : /taglio/.test(t) ? 'taglio' : null;
     return { tipo: 'arma', cat, mat, argento: /argent/.test(t) };
   }
+  if (/\barco perfetto\b/.test(t)) return { tipo: 'arma', id: 'arco', argento: /argent/.test(t) };
   if (/stell[ae] da lancio/.test(t)) return { tipo: 'arma', id: 'stella' };
   const a = R.equipaggiamento.armi.find(x => x.nome.toLowerCase() === (o.nome || '').toLowerCase());
   if (a) return { tipo: 'arma', id: a.id };
@@ -41,7 +43,7 @@ export async function equipaggia(e, o) {
     if (!cl.scudo) { toast(`${R.classi[e.classe].nome}: non può usare lo scudo.`, 'warn'); return false; }
     if (e.scudo) { toast(`${e.nome} ha già uno scudo.`, 'warn'); return false; }
     if (/scudo magico/i.test(o.nome) && e.classe === 'barbaro') { toast('I barbari non usano oggetti magici.', 'warn'); return false; }
-    e.scudo = true; e.scudoMagico = /scudo magico/i.test(o.nome); togli(e, o); log(`${e.nome} imbraccia ${o.nome}.`);
+    e.scudo = true; e.scudoMagico = /scudo magico/i.test(o.nome); P.marcaEquip(e, o, null, 'scudo'); togli(e, o); log(`${e.nome} imbraccia ${o.nome}.`);
   } else if (q.tipo === 'armatura') {
     const permesse = cl.armature || [];
     let v = q.valore;
@@ -49,7 +51,7 @@ export async function equipaggia(e, o) {
     if (!permesse.includes(v)) { toast(`${R.classi[e.classe].nome}: non può indossare l’${ARMATURE[v].toLowerCase()}.`, 'warn'); return false; }
     if (o.noBarbaro && e.classe === 'barbaro') { toast('I barbari non possono usare questo oggetto.', 'warn'); return false; }
     if (e.armatura === v) { toast(`${e.nome} indossa già un’${ARMATURE[v].toLowerCase()}.`, 'warn'); return false; }
-    const vecchia = e.armatura; e.armatura = v; e.cottaElfica = /cotta di maglia elfica/i.test(o.nome); e.armaturaIncantata = /armatura incantata/i.test(o.nome); togli(e, o);
+    const vecchia = e.armatura; e.armatura = v; e.cottaElfica = /cotta di maglia elfica/i.test(o.nome); e.armaturaIncantata = /armatura incantata/i.test(o.nome); P.marcaEquip(e, o, null, 'armatura'); togli(e, o);
     if (vecchia && vecchia !== 'nessuna') rimetti(e, ARMATURE[vecchia]);
     log(`${e.nome} indossa ${o.nome}${vecchia && vecchia !== 'nessuna' ? ` (l’${ARMATURE[vecchia].toLowerCase()} torna nello zaino)` : ''}.`);
   } else {
@@ -67,7 +69,7 @@ export async function equipaggia(e, o) {
       const c = armaConsentita(e, arma); if (!c.ok) { toast(c.motivo, 'warn'); return false; }
       if (!limiteArma(e, id)) { toast(`${arma.nome}: ne puoi portare al massimo ${id === 'bolas' ? 2 : 1}.`, 'warn'); return false; }
     }
-    (e.armi = e.armi || []).push(id); e.armaPrincipale = id;
+    (e.armi = e.armi || []).push(id); e.armaPrincipale = id; P.marcaEquip(e, o, id, 'arma');
     if (!q.id && suppl()) {   // armi magiche del caos: l'effetto resta legato all'eroe che le impugna
       if (/mazza della giustizia/i.test(o.nome)) e.mazzaGiustizia = true;
       if (/arma dorata/i.test(o.nome)) e.armaDorata = true;

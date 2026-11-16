@@ -1,5 +1,6 @@
 // Regole di Four Against Darkness: calcolo modificatori, tabelle, mostri.
 import { R, S, eroiVivi, livelloMax } from './state.js';
+import * as P from './profondita.js';
 
 export const NOME_ARMATURA = { nessuna: 'Nessuna', leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
 
@@ -14,26 +15,42 @@ export function riga(tab, v) {
   return tab.find(r => v >= r.da && v <= r.a) || tab[tab.length - 1];
 }
 // Set di tabelle attivo per l'avventura: base, «Nemici diabolici» (avanzate) o «Caverne del Caos» (supplemento).
-export const SETS = { base: 'Four Against Darkness (lvl 1-2)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', abisso: 'Contro l\'Abisso (lvl 5-9)' };
+export const SETS = { base: 'Four Against Darkness (lvl 1-2)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', abisso: 'Contro l\'Abisso (lvl 5-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
 export const setAttivo = () => (S.adv && S.adv.set) || 'base';
-const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso })[setAttivo()];
+const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, profondita: R.profondita })[setAttivo()];
 export const inCaos = () => setAttivo() === 'caos';
 // ---- supplemento «Contro l'Abisso» (livelli 5-9) ----
 export const inAbisso = () => setAttivo() === 'abisso';
-/** Le regole per i personaggi (livelli oltre il 5°, abilità, oggetti, mercenari) valgono con la casella attiva o nel dungeon dell'Abisso. */
-export const abissoAttivo = () => !!(S.party?.supplAbisso || inAbisso());
-/** Un eroe di livello avanzato (5° o più) tira il d8 esplosivo; i mercenari e i livelli base restano sul d6. */
-export const usaD8 = e => !!e && !e.merc && (e.livello || 0) >= 5 && abissoAttivo();
-/** Livello massimo raggiungibile: 5° nel manuale base, 9° con il supplemento. */
-export const livelloTetto = () => (abissoAttivo() ? 9 : 5);
+// ---- supplemento «Contro le Profondità Dimenticate» (livelli 10-19) ----
+export const inProfondita = () => setAttivo() === 'profondita';
+/** Gradi eroico e leggendario: casella attiva o dungeon delle Profondità. */
+export const profonditaAttiva = () => !!(S.party?.supplProfondita || inProfondita());
+/** Le regole per i personaggi (livelli oltre il 5°, abilità, oggetti, mercenari) valgono con la casella attiva o nel dungeon dell'Abisso; restano valide per i personaggi di grado superiore (Profondità). */
+export const abissoAttivo = () => !!(S.party?.supplAbisso || inAbisso() || profonditaAttiva());
+/** Grado dell'eroe, tracciato separatamente dal livello: base (1-4), esperto (5-9, d8), eroico (d10) o leggendario (d12). Eroico e leggendario si ottengono solo con il passaggio di grado. */
+export function gradoDi(e) {
+  if (!e || e.merc) return 'base';
+  if (profonditaAttiva() && (e.grado === 'eroico' || e.grado === 'leggendario')) return e.grado;
+  return abissoAttivo() && (e.livello || 0) >= 5 ? 'esperto' : 'base';
+}
+const PROFILI_DADO = { base: { facce: 6, soglia: 6, gr: 1 }, esperto: { facce: 8, soglia: 7, gr: 2 }, eroico: { facce: 10, soglia: 8, gr: 3 }, leggendario: { facce: 12, soglia: 9, gr: 4 } };
+/** Dado del grado: facce e soglia di esplosione (tabella dei gradi, p. 9 del supplemento). */
+export const profiloDado = e => PROFILI_DADO[gradoDi(e)];
+/** Numero del grado (GR) del gruppo: quello del personaggio di grado più alto (base 1, esperto 2, eroico 3, leggendario 4). */
+export const grNumero = () => Math.max(1, ...eroiVivi().filter(e => !e.merc).map(e => profiloDado(e).gr));
+/** Un eroe di grado esperto tira il d8 esplosivo; i mercenari e i livelli base restano sul d6. */
+export const usaD8 = e => gradoDi(e) === 'esperto';
+/** Livello massimo raggiungibile: 5° nel manuale base, 9° con «Contro l'Abisso», 19° con le Profondità. */
+export const livelloTetto = () => (profonditaAttiva() ? 19 : abissoAttivo() ? 9 : 5);
 /** Attacchi furiosi del barbaro per avventura: ceil(L/2) come in precedenza; con l'Abisso floor(L/2)+1 (come nel manuale) e +1 con Furia del berserker. */
-export const maxFurie = e => (abissoAttivo() ? Math.floor(e.livello / 2) + 1 + (haAbilita(e, 'furia-del-berserker') ? 1 : 0) : Math.ceil(e.livello / 2));
+export const maxFurie = e => (abissoAttivo() ? Math.floor(e.livello / 2) + 1 + (haAbilita(e, 'furia-del-berserker') ? 1 : 0) + (profonditaAttiva() ? P.furieExtra(e) : 0) : Math.ceil(e.livello / 2));
 export const haAggeggio = (e, re) => !!oggettoEffetto(e, re);
 export const tabella = nome => datiSet()?.tabelle?.[nome] || R.tabelle[nome];
 export const mostriTabella = nome => datiSet()?.mostri?.[nome] || R.mostri[nome];
 export const incantesimoACasoLista = () => {
   const l = tabella('incantesimoCaso');
   if (setAttivo() === 'caos' || setAttivo() === 'abisso') return l;   // incantesimi del caos o avanzati dell'Abisso (d6)
+  if (inProfondita()) return P.incantesimiACaso();   // incantesimi eroici o leggendari secondo il grado
   return S.party?.supplCaos ? R.caos.incantesimiBase : l;   // con il supplemento: tabella d12
 };
 
@@ -94,6 +111,7 @@ export function bonusSalvezza(e, label = '') {
   const add = (t, v) => { if (v) parti.push([t, v]); };
   const L = String(label), p = e.perm || {}, inc = S.adv?.incontro, nomeInc = inc && inc.stato !== 'finito' ? (inc.nome || '') : '';
   if (abissoAttivo()) bonusSalvezzaAbisso(e, L, inc, add);
+  if (profonditaAttiva()) P.salvezza(e, L, inc, add);
   if (!suppl()) return { tot: parti.reduce((a, q) => a + q[1], 0), parti };
   const paura = /paura|terrore|orrore|fantasma/i.test(L);
   if (haAbilita(e, 'concentrazione-mentale') && MAGIA.test(L)) add('Concentrazione mentale', e.livello);
@@ -123,11 +141,12 @@ const EXTRA = ['livPrimoTurno', 'livDifesaFerito', 'immuneIncantesimi', 'immuneC
 
 /** Descrive il mostro in base ad una voce della tabella. */
 export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
-  const maggiore = ['aberranti', 'boss', 'draghi'].includes(tabellaNome);
+  const prof = typeof voce.id === 'string' && voce.id.startsWith('p-');   // voci di «Contro le Profondità Dimenticate»: formule su LMP e GR
+  const maggiore = ['aberranti', 'boss', 'draghi'].includes(tabellaNome) || (prof && voce.conta === '1');
   const finale = !!opzioni.bossFinale;
-  const pv = voce.pv + (finale && maggiore ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
-  const livBase = voce.liv === 'LMP' ? livelloMax() : voce.liv;
-  return {
+  const pv = (prof ? P.pvMostro(voce) : voce.pv) + (finale && maggiore ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
+  const livBase = prof ? P.livMostro(voce) : voce.liv === 'LMP' ? livelloMax() : voce.liv;
+  const inc = {
     tabella: tabellaNome, id: voce.id, nome: voce.nome, minore: !maggiore,
     tag: [...(voce.tag || [])], livBase, liv: livBase,
     att: voce.att + (finale && maggiore ? 1 : 0), danno: voce.danno || 1,
@@ -138,8 +157,10 @@ export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
     bossFinale: finale, errante: !!opzioni.errante, sorpresa: !!opzioni.errante,
     stato: 'nuovo', moraleFatto: false, reazione: null, turno: 0, sottoAttacco: false,
     sedato: 0, segreta: !!opzioni.segreta,
-    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined).map(k => [k, voce[k]]))
+    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k))).map(k => [k, voce[k]]))
   };
+  if (prof) P.adattaMostro(inc, voce, maggiore);
+  return inc;
 }
 
 
@@ -271,6 +292,7 @@ export function modAttacco(e, ctx = {}) {
   if ((e.tratti || []).some(t => t.id === 'tamas') && tags.includes('caos')) add('Benedizione di Tamas Zeya', 1);
   if (suppl()) { bonusSupplAttacco(e, ctx, bers, arma, add); if (!ctx.incantesimo) bonusPrestiti(e, 'att', add); }
   if (abissoAttivo()) { bonusAttaccoAbisso(e, ctx, bers, arma, add); if (e.mercAtt && !ctx.incantesimo) add('Armigero', e.mercAtt); }
+  if (profonditaAttiva()) P.attacco(e, ctx, bers, arma, add, parti);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);   // l'elfo del fuoco vede anche al buio
   if (ctx.bonusGruppo) add(ctx.bonusGruppoTxt || 'Bonus', ctx.bonusGruppo);
@@ -307,6 +329,7 @@ export function modDifesa(e, ctx = {}) {
     for (const [id, re] of FLAGELLI) if (id !== 'flagello-ghoul' && e.perm?.[id] && re.test(ctx.nome || '')) add('Flagello', 1);
   }
   if (abissoAttivo()) bonusDifesaAbisso(e, ctx, add);
+  if (profonditaAttiva()) P.difesa(e, ctx, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);
   if (ctx.primoMinotauro) add('Carica del minotauro', -1);

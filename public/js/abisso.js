@@ -7,6 +7,7 @@ import { h, modal, toast, scelta, sceltaMultipla, confirmBox, uid } from './util
 import * as G from './game.js';
 import * as C from './combat.js';
 import * as K from './caos.js';
+import * as P from './profondita.js';
 
 const adv = () => S.adv;
 const casuale = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -400,7 +401,7 @@ export function impazzisce(e) { e.stato = 'pazzo'; log(`${e.nome} impazzisce: fu
 /** Dopo ogni cambiamento della follia: oltre il livello (il mago conta uno in più) il PG impazzisce o, se licantropo, si trasforma. */
 export function controllaPazzia(e) {
   if (!abissoAttivo() || ['morto', 'pazzo', 'lupo'].includes(e.stato) || e.merc) return;
-  if ((e.follia || 0) > e.livello + (e.classe === 'mago' ? 1 : 0)) { if (e.licantropia) trasformaLupo(e); else impazzisce(e); }
+  if ((e.follia || 0) > e.livello + (e.classe === 'mago' ? 1 : 0) + P.livelloFollia(e)) { if (e.licantropia) trasformaLupo(e); else impazzisce(e); }
 }
 
 /** Singolar tenzone: duello fra un PG scelto e il campione dei mostri (1d6 turni). */
@@ -556,7 +557,7 @@ export async function sceltaAbilita(a) {
 const incantesimiAvanzatiHero = e => e.avanzati = e.avanzati || [];
 /** Aggiunge l'abilità all'eroe (rispettando le abilità non ripetibili). */
 export function impara(e, voce) {
-  const a = R.abisso.abilita.find(x => x.id === voce.id);
+  const a = R.abisso.abilita.find(x => x.id === voce.id) || R.profondita?.abilita.find(x => x.id === voce.id);
   (e.abilita = e.abilita || []).push(voce);
   log(`${e.nome} impara l’abilità avanzata «${a?.nome || voce.id}».`);
   if (voce.id === 'furia-del-berserker') log('Un attacco furioso in più per avventura.');
@@ -679,7 +680,7 @@ export async function controlloIngresso() {
 export function profiloES(e, set) {
   const esperto = abissoAttivo() && e.livello >= 5;
   if (!esperto) return { d8: false, bonus: 0, esperto };
-  if (set === 'abisso') return { d8: true, bonus: 2, esperto };
+  if (set === 'abisso' || set === 'profondita') return { d8: true, bonus: 2, esperto };
   return { d8: false, bonus: set === 'base' ? 0 : 1, esperto };
 }
 /** Tiri ES e incontri con seguaci/infestanti nell'Abisso. */
@@ -889,7 +890,7 @@ export async function indizio(eroe) {
     await applicaSegreto(eroe, s);
   }
 }
-async function applicaSegreto(e, s) {
+export async function applicaSegreto(e, s) {
   eroeSegreto(e, s.nome); log(`${e.nome} sceglie il segreto dell’Abisso «${s.nome}».`);
   switch (s.id) {
     case 'a-setta-ammazzavampiri': e.settaVampiri = true; break;
@@ -983,7 +984,7 @@ export function cartaLeader(i, btn) {
 export function sezioneStati(e, rinfresca) {
   const box = h('div', { class: 'tratti' });
   const chk = (testo, k, titolo) => h('label', { class: 'chk', title: titolo }, h('input', { type: 'checkbox', checked: !!e[k], onchange: ev => { e[k] = ev.target.checked; modificato('party'); rinfresca(); } }), testo);
-  const soglia = e.livello + (e.classe === 'mago' ? 1 : 0);
+  const soglia = e.livello + (e.classe === 'mago' ? 1 : 0) + P.livelloFollia(e);
   box.append(h('h4', {}, 'Stati dell’Abisso (persistenti tra le avventure)'),
     h('p', { class: 'hint' }, `Follia ${e.follia || 0}: oltre ${soglia} punti (il mago conta un livello in più) il personaggio impazzisce${e.licantropia ? ' e, essendo licantropo, si trasforma in lupo mannaro' : ' e scompare per sempre'}. Con almeno 1 punto non può scambiare oggetti o tesoro.`),
     h('div', { class: 'chk-row' }, chk('Licantropia', 'licantropia', 'Rifiuta la lanterna e l’argento'), chk('Immune alla licantropia', 'licantropiaImmune'), chk('Peste oscura', 'peste', 'A ogni stanza 1d8: con 1 perde 1 PV'), chk('Vampirizzato (niente resurrezione)', 'vampirizzato', 'Si spegne bruciando il corpo o uccidendo il vampiro'),

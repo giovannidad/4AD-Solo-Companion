@@ -97,7 +97,7 @@ function inizializzaDadi() {
   $('#dicePhys').onchange = e => { dice.settings.fisici = e.target.checked; };
   dice.onRoll(r => {
     const box = $('#rollLog');
-    const el = h('div', { class: 'roll' }, h('b', {}, r.totale), h('span', {}, `${r.label || r.expr}`), h('small', {}, r.dadi.length > 1 || r.expr.includes('+') || r.expr.includes('d8') ? `[${r.dadi.join(' ')}]` : ''));
+    const el = h('div', { class: 'roll' }, h('b', {}, r.totale), h('span', {}, `${r.label || r.expr}`), h('small', {}, r.dadi.length > 1 || r.expr.includes('+') || /d(8|10|12)/.test(r.expr) ? `[${r.dadi.join(' ')}]` : ''));
     box.prepend(el); while (box.children.length > 3) box.lastChild.remove();
     setTimeout(() => el.classList.add('old'), 9000);
   });

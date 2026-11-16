@@ -74,20 +74,20 @@ export async function dado(label = '1d6', colore) {
 }
 export async function dadi2(label = '2d6') { return tira('2d6', label); }
 
-/** d6 con regola del 6 esplosivo. Restituisce {totale, naturale, tiri}. */
-export async function d6Esplosivo(label = '1d6') {
+/** d6 con regola del 6 esplosivo (con `soglia` più bassa, per le armi perfette, esplode anche con 5). Restituisce {totale, naturale, tiri, soglia}. */
+export async function d6Esplosivo(label = '1d6', soglia = 6) {
   const tiri = [];
   let v;
-  do { [v] = await fisici(1, ['avorio'], label); tiri.push(v); } while (v === 6 && tiri.length < 8);
-  registra({ label: tiri.length > 1 ? `${label} (6 esplosivo!)` : label, expr: '1d6!', totale: tiri.reduce((a, b) => a + b, 0), dadi: tiri, ora: Date.now() });
-  return { totale: tiri.reduce((a, b) => a + b, 0), naturale: tiri[0], tiri };
+  do { [v] = await fisici(1, ['avorio'], label); tiri.push(v); } while (soglia > 0 && v >= soglia && tiri.length < 8);
+  registra({ label: tiri.length > 1 ? `${label} (${soglia < 6 ? soglia + '+' : '6'} esplosivo!)` : label, expr: '1d6!', totale: tiri.reduce((a, b) => a + b, 0), dadi: tiri, ora: Date.now() });
+  return { totale: tiri.reduce((a, b) => a + b, 0), naturale: tiri[0], tiri, soglia };
 }
 
-/** Tira N dadi e tieni il migliore (attacco furioso); con `facce` = 8 usa il d8 (virtuale, non 3D). */
+/** Tira N dadi e tieni il migliore (attacco furioso); con `facce` diverso da 6 (d8, d10, d12) i dadi sono virtuali, non 3D. */
 export async function migliorDi(n, label, facce = 6) {
-  const raw = facce === 8 ? Array.from({ length: n }, d8) : await fisici(n, ['rosso', 'rosso', 'rosso'], label);
+  const raw = facce !== 6 ? Array.from({ length: n }, () => dN(facce)) : await fisici(n, ['rosso', 'rosso', 'rosso'], label);
   const best = Math.max(...raw);
-  registra({ label: `${label} (migliore di ${n}${facce === 8 ? ', d8' : ''})`, expr: `${n}d${facce} max`, totale: best, dadi: raw, ora: Date.now() });
+  registra({ label: `${label} (migliore di ${n}${facce !== 6 ? ', d' + facce : ''})`, expr: `${n}d${facce} max`, totale: best, dadi: raw, ora: Date.now() });
   return { totale: best, naturale: best, tiri: raw };
 }
 
@@ -100,11 +100,33 @@ export async function dado8(label = '1d8') {
   return registra({ label: `${label} [d8]`, expr: '1d8', totale: v, dadi: [v], ora: Date.now() });
 }
 /** d8 con regola dell'esplosione: con 7 o 8 si tira ancora e si somma. Restituisce {totale, naturale, tiri}. */
-export async function d8Esplosivo(label = '1d8') {
+export async function d8Esplosivo(label = '1d8', soglia = 7) {
   const tiri = [];
   let v;
-  do { v = d8(); tiri.push(v); } while (v >= 7 && tiri.length < 8);
+  do { v = d8(); tiri.push(v); } while (soglia > 0 && v >= soglia && tiri.length < 8);
   const totale = tiri.reduce((a, b) => a + b, 0);
   registra({ label: `${label} [d8${tiri.length > 1 ? ', esplosivo!' : ''}]`, expr: '1d8!', totale, dadi: tiri, ora: Date.now() });
-  return { totale, naturale: tiri[0], tiri };
+  return { totale, naturale: tiri[0], tiri, soglia };
 }
+
+// ---------------- d10 e d12 (supplemento «Contro le Profondità Dimenticate») ----------------
+// Come il d8, anche d10 e d12 non hanno una versione 3D: si tirano in modo virtuale e il registro li segnala con «d10» / «d12».
+export const dN = facce => Math.floor(Math.random() * facce) + 1;
+/** 1dN semplice (mostrato come dN nel registro dei dadi). */
+export async function dadoN(facce, label = `1d${facce}`) {
+  const v = dN(facce);
+  return registra({ label: `${label} [d${facce}]`, expr: `1d${facce}`, totale: v, dadi: [v], ora: Date.now() });
+}
+/** dN con regola dell'esplosione: con `soglia` o più si tira ancora e si somma (soglia 0 = non esplode). Restituisce {totale, naturale, tiri, soglia}. */
+export async function dEsplosivoN(facce, soglia, label = `1d${facce}`) {
+  const tiri = [];
+  let v;
+  do { v = dN(facce); tiri.push(v); } while (soglia > 0 && v >= soglia && tiri.length < 8);
+  const totale = tiri.reduce((a, b) => a + b, 0);
+  registra({ label: `${label} [d${facce}${tiri.length > 1 ? ', esplosivo!' : ''}]`, expr: `1d${facce}!`, totale, dadi: tiri, ora: Date.now() });
+  return { totale, naturale: tiri[0], tiri, soglia };
+}
+export const dado10 = label => dadoN(10, label);
+export const dado12 = label => dadoN(12, label);
+export const d10Esplosivo = (label, soglia = 8) => dEsplosivoN(10, soglia, label);
+export const d12Esplosivo = (label, soglia = 9) => dEsplosivoN(12, soglia, label);

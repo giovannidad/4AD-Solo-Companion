@@ -2,10 +2,12 @@
 import { R, S, modificato, salva, log, nuovoEroe, eroePerId, eroiVivi, livelloMax } from './state.js';
 import { h, modal, toast, confirmBox, sign, uid, scelta } from './util.js';
 import { tira, dado } from './dice.js';
-import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaLanterna, suppl, tratto, armaConsentita, limiteArma, abissoAttivo, maxFurie } from './rules.js';
+import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaLanterna, suppl, tratto, armaConsentita, limiteArma, abissoAttivo, maxFurie, profonditaAttiva, grNumero } from './rules.js';
 import { tiroES, eroePuoSalire } from './game.js';
 import * as T from './tratti.js';
 import * as A from './abisso.js';
+import * as P from './profondita.js';
+const Prof = P;   // alias: renderGruppo ha una variabile locale P (il gruppo)
 import * as C from './combat.js';
 import * as Rit from './ritratti.js';
 import { equipaggiabile, equipaggia } from './equip.js';
@@ -31,14 +33,19 @@ export const iconaClasse = c => ICONE[c] || '✦';
 export function slotIncantesimi(e) {
   let n = e.classe === 'mago' ? 2 + e.livello : e.classe === 'elfo' ? e.livello : e.classe === 'elfo-fuoco' ? 1 : 0;
   if (n && suppl()) { if (e.perm?.pergamene) n++; if (tratto(e, 'mente')?.scelta === 'incantesimo') n++; }   // grimorio di pergamene e Mente geniale
+  if (n && e.classe !== 'elfo-fuoco') n += P.livelloMemoria(e);   // Memoria prodigiosa: conta come 2 (o 4) livelli in più
   return n;
 }
 export function sistemaSlot(e) {
   const n = slotIncantesimi(e);
   e.incantesimi = e.incantesimi || [];
-  while (e.incantesimi.length < n) e.incantesimi.push({ nome: e.classe === 'elfo-fuoco' ? 'Palla di Fuoco' : 'Sonno', usato: false });
+  const aCosto = profonditaAttiva() && n && e.classe !== 'elfo-fuoco';
+  if (aCosto) {   // incantesimi eroici (x2) e leggendari (x3): occupano più spazio in memoria, i posti in eccesso saltano dalla coda
+    let usato = 0; e.incantesimi = e.incantesimi.filter(s => { const c = P.costoMemoria(s.nome); if (usato + c > n) return false; usato += c; return true; });
+    for (; usato < n; usato++) e.incantesimi.push({ nome: 'Sonno', usato: false });
+  } else while (e.incantesimi.length < n) e.incantesimi.push({ nome: e.classe === 'elfo-fuoco' ? 'Palla di Fuoco' : 'Sonno', usato: false });
   if (e.classe === 'elfo-fuoco') e.incantesimi.forEach(s => { s.nome = 'Palla di Fuoco'; });
-  if (e.incantesimi.length > n) e.incantesimi.length = n;
+  if (!aCosto && e.incantesimi.length > n) e.incantesimi.length = n;
   const fisso = suppl() && n && e.perm?.pergamene;   // l'incantesimo del grimorio non si cambia a ogni avventura
   e.incantesimi.forEach((sp, k) => { if (fisso && k === n - 1) { sp.nome = e.perm.pergamene; sp.fisso = true; } else delete sp.fisso; });
 }
@@ -72,12 +79,14 @@ export function renderGruppo(box) {
     h('h2', {}, 'Il gruppo'),
     h('div', { class: 'btns' },
       h('button', { class: 'primary', onclick: creaEroe, disabled: P.eroi.filter(e => e.stato !== 'morto').length >= 4 && false }, '+ Eroe'),
+      profonditaAttiva() && !S.adv.attiva && !S.ospite ? h('button', { onclick: () => Prof.passaDiGrado(), title: 'Tra due avventure: passa al grado eroico (livello 9) o leggendario (livello 14) spendendo tiri ES messi da parte e oro' }, 'Passa di grado') : null,
       abissoAttivo() && !S.adv.attiva ? h('button', { onclick: () => A.addestramento(), title: 'Tra due avventure: 100 p.o. per livello in cambio di 1 tiro ES (regola opzionale di «Contro l’Abisso»)' }, 'Addestramento') : null,
       h('button', { onclick: negozio, title: 'Compra e vendi equipaggiamento' }, 'Negozio'))));
   if (P.eroi.length && !lant) box.append(h('div', { class: 'warn-box' }, 'Nessuna lanterna in mano al gruppo: -2 a tutti gli attacchi e alle difese (regola della lanterna).'));
   const stat = h('div', { class: 'party-stats' },
     h('span', {}, `Oro del gruppo: `, h('b', {}, eroiVivi().reduce((a, e) => a + (e.oro || 0), 0))),
-    h('span', {}, `Livello max: `, h('b', {}, livelloMax())));
+    h('span', {}, `Livello max: `, h('b', {}, livelloMax())),
+    profonditaAttiva() ? h('span', { title: 'Numero del grado (GR): usato dai mostri per danni e PV. Livello massimo (LMP) e GR dei mostri delle Profondità' }, ['GR ', h('b', {}, grNumero())]) : null);
   box.append(stat);
   if (!P.eroi.length) box.append(h('div', { class: 'empty' }, h('p', {}, 'Nessun eroe. Crea il tuo gruppo di quattro avventurieri.'), h('button', { class: 'primary', onclick: creaGruppoVeloce }, 'Crea gruppo casuale')));
   P.ordine.forEach((id, idx) => {
@@ -115,7 +124,7 @@ function schedaCompatta(e, idx) {
     if (tratto(e, 'miope') && e.occhiali !== true) stati.push(h('span', { class: 'tag gray', title: '-1 agli attacchi a distanza' }, 'Senza occhiali'));
   }
   if (abissoAttivo() || A.statiAbisso(e).length) {
-    if ((e.follia || 0) > 0) stati.push(h('span', { class: 'tag red', title: `Follia: impazzisce oltre ${e.livello + (e.classe === 'mago' ? 1 : 0)} punti; non può scambiare oggetti o tesoro` }, `Follia ${e.follia}`));
+    if ((e.follia || 0) > 0) stati.push(h('span', { class: 'tag red', title: `Follia: impazzisce oltre ${e.livello + (e.classe === 'mago' ? 1 : 0) + P.livelloFollia(e)} punti; non può scambiare oggetti o tesoro` }, `Follia ${e.follia}`));
     if (e.licantropia) stati.push(h('span', { class: 'tag red', title: 'Licantropia: rifiuta la lanterna e l’argento; con follia oltre il livello si trasforma' }, 'Licantropo'));
     if (e.peste) stati.push(h('span', { class: 'tag red', title: 'Peste oscura: a ogni stanza 1d8, con 1 perde 1 PV; contagia i compagni' }, 'Peste oscura'));
     if (e.vampirizzato) stati.push(h('span', { class: 'tag dead', title: 'Morto per vampirismo: niente resurrezione finché il corpo non è bruciato o il vampiro ucciso' }, 'Vampirizzato'));
@@ -125,13 +134,23 @@ function schedaCompatta(e, idx) {
     if ((e.fortunaExtra || 0) > 0) stati.push(h('span', { class: 'tag green', title: 'Punti fortuna del fortundrago: ripeti un tiro' }, `Fortuna ${e.fortunaExtra}`));
     if (e.merc) stati.push(h('span', { class: 'tag amber', title: e.note }, 'Mercenario'));
   }
+  if (profonditaAttiva()) {
+    if (e.nonLancia > 0) stati.push(h('span', { class: 'tag red', title: 'Liquido resistente alla magia: niente incantesimi né preghiere' }, `Niente magia (${e.nonLancia})`));
+    if (e.legato) stati.push(h('span', { class: 'tag red', title: 'Legato alla stanza dalla trappola dell’anima (serve una Benedizione)' }, 'Legato'));
+    if (e.bloccato || e.allucinato) stati.push(h('span', { class: 'tag red', title: 'Allucinazione in corso (Benedizione per interromperla)' }, 'Allucinato'));
+    if (e.malusAtt || e.malusAttGR) stati.push(h('span', { class: 'tag red', title: 'Veleno: malus agli attacchi (Benedizione)' }, 'Avvelenato'));
+    if (e.muco) stati.push(h('span', { class: 'tag red', title: 'Muco corrosivo: -2 in difesa, 1 PV a turno' }, 'Muco'));
+    if (e.malusIncantesimi) stati.push(h('span', { class: 'tag red', title: 'Veleno delle piovre: -1 a perquisire e agli incantesimi fino a fine avventura' }, 'Piovre'));
+    if (e.ruggito) stati.push(h('span', { class: 'tag red', title: 'Non può attaccare l’uomo leone (Benedizione)' }, 'Ruggito'));
+    if (e.nonResuscitabile) stati.push(h('span', { class: 'tag dead', title: 'Non resuscitabile' }, 'Non resuscitabile'));
+  }
   const arma = armaDi(e.armaPrincipale);
   const eq = [arma?.nome, e.armatura !== 'nessuna' ? NOME_ARMATURA[e.armatura] : null, e.scudo ? 'Scudo' : null].filter(Boolean).join(' · ') || 'Disarmato';
   return h('div', { class: `hero ${e.stato}`, dataset: { id: e.id } },
     h('div', { class: 'hero-top' },
       h('div', { class: 'pos' }, h('b', {}, idx + 1)),
       h('div', { class: 'hero-pic', title: 'Clicca per cambiare il ritratto', onclick: () => scheda(e.id) }, Rit.immagine(e, 46)),
-      h('div', { class: 'hero-name' }, h('span', { class: 'ico' }, iconaClasse(e.classe)), h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} · liv. ${e.livello}`)),
+      h('div', { class: 'hero-name' }, h('span', { class: 'ico' }, iconaClasse(e.classe)), h('b', {}, e.nome), h('small', {}, `${nomeClasse(e)} · liv. ${e.livello}${profonditaAttiva() && P.etichettaGrado(e) ? ' · ' + P.etichettaGrado(e) : ''}`)),
       h('div', { class: 'upd' },
         h('button', { class: 'mini', title: 'Sposta avanti', onclick: () => sposta(idx, -1), disabled: idx === 0 }, '▲'),
         h('button', { class: 'mini', title: 'Sposta indietro', onclick: () => sposta(idx, 1) }, '▼'))),
@@ -161,13 +180,13 @@ function cambiaPV(e, d) {
 
 async function scegliPerES(x) {
   modal(`Tiro esperienza: ${x.motivo}`, (b, close) => {
-    b.append(h('p', {}, abissoAttivo() ? `Scegli l’eroe che tenta il tiro ES: deve superare il livello attuale${x.meno1 ? ' (questo tiro è a -1)' : ''}; 1d8+2 per i livelli avanzati nell’Abisso, con 7-8 naturale sempre un successo. Con il tiro si può salire di livello, imparare un’abilità avanzata o (maghi ed elfi) un incantesimo avanzato.` : `Scegli l’eroe che tenta di salire di livello (tira 1d6 e deve superare il livello attuale${x.meno1 ? '; questo tiro è a -1' : ''}). Lo stesso eroe non può salire due volte di fila.`));
+    b.append(h('p', {}, profonditaAttiva() ? `Scegli l’eroe che tenta il tiro ES: deve superare il livello attuale${x.meno1 ? ' (questo tiro è a -1)' : ''}. Eroici: 1d10+4 (esplode con 8+), leggendari: 1d12+8 (esplode con 9+); le abilità, gli incantesimi e le abilità esperte hanno i bonus della tabella dei gradi. Un eroe di livello 9 non sale al 10° senza il grado eroico, né uno di livello 14 al 15° senza il leggendario (passa di grado dal pannello Gruppo: serve mettere da parte i tiri ES).` : abissoAttivo() ? `Scegli l’eroe che tenta il tiro ES: deve superare il livello attuale${x.meno1 ? ' (questo tiro è a -1)' : ''}; 1d8+2 per i livelli avanzati nell’Abisso, con 7-8 naturale sempre un successo. Con il tiro si può salire di livello, imparare un’abilità avanzata o (maghi ed elfi) un incantesimo avanzato.` : `Scegli l’eroe che tenta di salire di livello (tira 1d6 e deve superare il livello attuale${x.meno1 ? '; questo tiro è a -1' : ''}). Lo stesso eroe non può salire due volte di fila.`));
     for (const e of eroiVivi().filter(x => !x.png)) {
       const vincolo = (x.soloClasse && e.classe !== x.soloClasse) || (x.soloEroe && e.id !== x.soloEroe), puo = eroePuoSalire(e), ok = (puo || (abissoAttivo() && e.livello >= 5)) && !vincolo;
       b.append(h('button', { class: 'item-btn', disabled: !ok, onclick: async () => {
-        close(); const posta = abissoAttivo() ? await A.sceltaPostaES(e, puo) : { tipo: 'livello' }; if (!posta) return;
+        close(); const posta = profonditaAttiva() ? await P.sceltaPostaES(e, puo) : abissoAttivo() ? await A.sceltaPostaES(e, puo) : { tipo: 'livello' }; if (!posta) return;
         const r = await tiroES(x, e, posta); toast(r.ok ? (posta.tipo === 'livello' ? `${e.nome} sale di livello!` : `${e.nome} supera il tiro ES e impara qualcosa di nuovo!`) : `${e.nome} non sale (tiro ${r.tot}).`); } },
-        h('b', {}, `${e.nome} – ${nomeClasse(e)} liv. ${e.livello}`), h('span', {}, vincolo ? (x.soloEroe ? 'Questo tiro è di un altro eroe' : 'Questo tiro va usato sull’elfo') : ok ? 'Può tentare' : (S.adv.ultimoLivello === e.id ? 'Ha già guadagnato l’ultimo livello' : 'Livello massimo raggiunto'))));
+        h('b', {}, `${e.nome} – ${nomeClasse(e)} liv. ${e.livello}`), h('span', {}, vincolo ? (x.soloEroe ? 'Questo tiro è di un altro eroe' : 'Questo tiro va usato sull’elfo') : ok ? 'Può tentare' : (P.bloccoGrado(e) ? 'Serve prima il passaggio di grado' : S.adv.ultimoLivello === e.id ? 'Ha già guadagnato l’ultimo livello' : 'Livello massimo raggiunto'))));
     }
     b.append(h('div', { class: 'row end' }, h('button', { onclick: close }, 'Più tardi')));
   });
@@ -275,11 +294,11 @@ export function scheda(id) {
         const permessi = [...R.equipaggiamento.incantesimi.filter(s => (e.classe === 'mago' || s.id !== 'benedizione') && (!s.suppl || S.party.supplCaos) && (!s.caos || S.party.supplCaos) && (e.classe !== 'elfo-fuoco' || s.nome === 'Palla di Fuoco')),
           ...(abissoAttivo() && ['mago', 'elfo'].includes(e.classe) ? (e.avanzati || []).map(n => ({ nome: n })) : [])];
         e.incantesimi.forEach((s, k) => sl.append(h('div', { class: 'row' },
-          h('select', { disabled: !!s.fisso, title: s.fisso ? 'Incantesimo fisso del grimorio di pergamene' : '', onchange: ev => { s.nome = ev.target.value; modificato('party'); } }, permessi.map(p => h('option', { value: p.nome, selected: p.nome === s.nome }, p.nome))),
+          h('select', { disabled: !!s.fisso, title: s.fisso ? 'Incantesimo fisso del grimorio di pergamene' : '', onchange: ev => { s.nome = ev.target.value; if (profonditaAttiva()) sistemaSlot(e); modificato('party'); if (profonditaAttiva()) rs(); } }, permessi.map(p => h('option', { value: p.nome, selected: p.nome === s.nome }, `${p.nome}${P.costoMemoria(p.nome) > 1 ? ` (occupa ${P.costoMemoria(p.nome)} posti)` : ''}`))),
           h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!s.usato, onchange: ev => { s.usato = ev.target.checked; modificato('party'); } }), 'usato'))));
       };
       rs();
-      b.append(h('h4', {}, `Incantesimi preparati (${slotIncantesimi(e)})`), sl, h('p', { class: 'hint' }, 'Prima di ogni avventura scegli liberamente gli incantesimi (anche copie dello stesso).'));
+      b.append(h('h4', {}, `Incantesimi preparati (${slotIncantesimi(e)} posti di memoria)`), sl, h('p', { class: 'hint' }, profonditaAttiva() ? 'Prima di ogni avventura scegli liberamente gli incantesimi (anche copie dello stesso). Un incantesimo eroico occupa 2 posti di memoria, uno leggendario 3: scegliendolo i posti in eccesso saltano dalla coda dell’elenco.' : 'Prima di ogni avventura scegli liberamente gli incantesimi (anche copie dello stesso).'));
     }
     if (e.classe === 'chierico') b.append(h('div', { class: 'grid2' }, num2(e, 'Benedizioni usate (max 3)', 'benedizione'), num2(e, 'Guarigioni usate (max 3)', 'guarigione')));
     if (e.classe === 'mezzuomo') b.append(h('div', { class: 'grid2' }, num2(e, `Punti fortuna usati (max ${e.livello + 1})`, 'fortuna')));
@@ -303,6 +322,7 @@ export function scheda(id) {
     ro();
     const nuovo = h('input', { type: 'text', placeholder: 'Nome oggetto (es. Pozione di guarigione)' });
     if (abissoAttivo() || A.statiAbisso(e).length) b.append(A.sezioneStati(e, () => scheda(e.id)));
+    if (profonditaAttiva() && !e.merc) b.append(P.sezioneGrado(e, () => scheda(e.id)));
     if (S.party.supplCaos || abissoAttivo()) b.append(T.sezioneAbilita(e, () => scheda(e.id)));
     if (S.party.supplCaos) b.append(T.sezione(e, () => scheda(e.id)));
     b.append(h('h4', {}, 'Oggetti e bottino'), og, h('div', { class: 'row' }, nuovo, h('button', { onclick: () => { if (!nuovo.value.trim()) return; (e.oggetti = e.oggetti || []).push({ nome: nuovo.value.trim(), qta: 1 }); nuovo.value = ''; ro(); modificato('party'); } }, 'Aggiungi')));
@@ -340,7 +360,10 @@ function usaOggetto(e) {
     } }, 'Applica bende (+1 PV, fuori dal combattimento) a:'), paz));
     azioni.push(h('button', { onclick: async () => {
       const k = (e.oggetti || []).findIndex(o => /pozione/i.test(o.nome)); if (k < 0) return toast('Nessuna pozione di guarigione.', 'warn'); if (e.classe === 'barbaro') return toast('I barbari non usano pozioni.', 'warn');
-      e.oggetti.splice(k, 1); e.pv = e.pvMax; log(`${e.nome} beve una pozione di guarigione: PV al massimo.`);
+      if (profonditaAttiva() && P.curaVietata()) return toast('Nella Cittadella delle cose morte non è possibile alcuna cura tranne le bende.', 'warn');
+      e.oggetti.splice(k, 1);
+      if (profonditaAttiva() && P.curaRivoMorte()) { e.pv = Math.min(e.pvMax, e.pv + Math.floor(e.pvMax / 2)); log(`${e.nome} beve una pozione di guarigione: sul Rivo della Morte cura solo metà dei PV massimi.`); }
+      else { e.pv = e.pvMax; log(`${e.nome} beve una pozione di guarigione: PV al massimo.`); }
       if (suppl() && tratto(e, 'allergico-pozioni')) await allergiaPozione(e);
       modificato('party'); close();
     } }, 'Bevi pozione di guarigione'));
@@ -459,8 +482,8 @@ export function negozio() {
         e.oro += somma - da; nota += ` (pagando con ${scelte.length} gemm${scelte.length === 1 ? 'a' : 'e'} da ${somma} p.o.${somma > da ? `; resto ${somma - da} p.o.` : ''})`;
       }
       if (v.arma) { (e.armi = e.armi || []).push(v.arma); if (!e.armaPrincipale) e.armaPrincipale = v.arma; }
-      else if (v.id === 'armatura-leggera') { e.armatura = e.armatura === 'pesante' ? 'pesante' : 'leggera'; if (e.armatura === 'leggera') e.cottaElfica = false; }
-      else if (v.id === 'armatura-pesante') { e.armatura = 'pesante'; e.armaturaIncantata = false; }
+      else if (v.id === 'armatura-leggera') { e.armatura = e.armatura === 'pesante' ? 'pesante' : 'leggera'; if (e.armatura === 'leggera') { e.cottaElfica = false; e.armaturaPerfetta = false; e.armaturaLeggendaria = false; } }
+      else if (v.id === 'armatura-pesante') { e.armatura = 'pesante'; e.armaturaIncantata = false; e.armaturaPerfetta = false; e.armaturaLeggendaria = false; }
       else if (v.id === 'scudo') e.scudo = true;
       else if (v.id === 'lanterna') e.lanterna = true;
       else if (v.id === 'occhiali') e.occhiali = true;
@@ -480,6 +503,7 @@ export function negozio() {
 
 // ---------------- riposo ----------------
 export function riposa() {
+  if (profonditaAttiva()) { const v = P.riposoVietato(); if (v) { toast(v, 'warn'); return; } }
   const cuochi = eroiVivi().filter(e => e.stato === 'ok' && suppl() && ((e.traguardi || []).some(t => t.id === 'cuoco') || e.perm?.cuoco));
   const conEffetto = cuochi.some(e => e.perm?.cuoco);   // chi ha già completato il traguardo: la sua cucina migliora il gruppo a ogni riposo
   eroiVivi().forEach(e => {

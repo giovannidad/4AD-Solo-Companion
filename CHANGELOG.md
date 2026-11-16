@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.14.0
+- **Supplemento «Contro le Profondità Dimenticate (lvl 10-19)»:** nuovo set di tabelle del dungeon (stanze, trappole, allucinazioni, eventi, tesori, mostri e orde, idoli, missioni, boss finale), gradi eroico e leggendario con il pulsante «Passa di grado», dadi d10 e d12 esplosivi (virtuali, non 3D), 66 abilità eroiche e leggendarie, 12 incantesimi, armi e armature perfette, oggetti leggendari.
+- **Fiumi, rovine, tumuli e Cittadelle** come strumenti guidati nel pannello Strumenti: tirano le tabelle e creano gli incontri; le mappe restano da disegnare a mano.
+- I supplementi «Contro il Caos», «Contro l'Abisso» e «Contro le Profondità Dimenticate» possono essere attivi insieme.
+
 ## 1.13.0
 - **Supplemento «Contro l'Abisso (lvl 5-9)»:** nuovo set di tabelle del dungeon (stanze, trappole, eventi, tesori, mostri, draghi, boss finale), livelli dal 6° al 9°, d8 esplosivo (dado virtuale, non 3D), 41 abilità avanzate da imparare con i tiri esperienza, 6 incantesimi avanzati, stati persistenti (follia, licantropia, peste oscura, vampirismo), mercenari, artigiani, segreti e oggetti. Si attiva dal menu «Tabelle del dungeon» o con la casella del supplemento.
 - **Menu «Tabelle del dungeon» e «Stile della mappa»:** l'etichetta sta sopra e il menu occupa tutta la larghezza, così i nomi lunghi non vengono tagliati.

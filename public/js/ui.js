@@ -8,13 +8,14 @@ import * as Rit from './ritratti.js';
 import * as Eff from './effetti.js';
 import * as O from './oggetti.js';
 import * as A from './abisso.js';
+import * as P from './profondita.js';
 import { equipaggiabile, equipaggia } from './equip.js';
 import { nomeDungeon } from './nomi.js';
 import { dado, tira, d6Esplosivo, estremo } from './dice.js';
 import * as G from './game.js';
 import * as C from './combat.js';
 import * as table from './map2d.js';
-import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella, SETS, incantesimoACasoLista, suppl, tratto, haAbilita, abissoAttivo, inAbisso, maxFurie } from './rules.js';
+import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella, SETS, incantesimoACasoLista, suppl, tratto, haAbilita, abissoAttivo, inAbisso, maxFurie, profonditaAttiva } from './rules.js';
 import { riposa, scheda } from './party.js';
 
 const adv = () => S.adv;
@@ -40,6 +41,7 @@ export function renderDungeon(box) {
         h('select', { onchange: ev => { S.party.tema = ev.target.value; modificato('party'); } }, [['carta', '4 Against Darkness (originale)'], ['classico', 'Dungeon classico'], ['foresta', 'Foresta']].map(([v, t]) => h('option', { value: v, selected: (S.party.tema || 'carta') === v }, t)))),
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplCaos, onchange: ev => { S.party.supplCaos = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro il Caos» (nuovi incantesimi, armi, classi, tratti e traguardi)'),
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplAbisso, onchange: ev => { S.party.supplAbisso = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro l\'Abisso» (livelli 6-9, abilità avanzate, mercenari, artigiani)'),
+      h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplProfondita, onchange: ev => { S.party.supplProfondita = ev.target.checked; modificato('party'); } }), 'Usa il supplemento «Contro le Profondità Dimenticate» (livelli 10-19, gradi eroico e leggendario)'),
       btn('Inizia una nuova avventura', async () => { if (await G.iniziaAvventura()) table.setView('fit'); }, 'primary big')));
     return;
   }
@@ -162,8 +164,8 @@ export function renderIncontro(box) {
   const maggiore = !i.minore;
   box.append(h('div', { class: `monster ${i.stato}` },
     h('div', { class: 'mhead' }, h('h3', {}, i.nome), i.bossFinale ? h('span', { class: 'tag red' }, 'BOSS FINALE') : null, i.errante ? h('span', { class: 'tag amber' }, 'Errante') : null),
-    h('div', { class: 'mstats' }, descriviMostro(i)),
-    i.note ? h('p', { class: /^a-/.test(i.id || '') ? 'poteri' : 'hint' }, /^a-/.test(i.id || '') ? [h('b', {}, 'Poteri: '), i.note] : i.note) : null,
+    h('div', { class: 'mstats' }, descriviMostro(i) + (i.rm ? ` · RM ${i.rm}` : '')),
+    i.note ? h('p', { class: /^[ap]-/.test(i.id || '') ? 'poteri' : 'hint' }, /^[ap]-/.test(i.id || '') ? [h('b', {}, 'Poteri: '), i.note] : i.note) : null,
     h('div', { class: 'counter' },
       maggiore
         ? [h('span', {}, 'Punti vita'), btn('−', () => { i.pv = Math.max(0, i.pv - 1); modificato('avventura'); }, 'mini'), h('b', {}, `${i.pv}/${i.pvMax}`), btn('+', () => { i.pv = Math.min(i.pvMax, i.pv + 1); modificato('avventura'); }, 'mini')]
@@ -201,6 +203,7 @@ export function renderIncontro(box) {
           btn(`Paga ${costo ?? ''} p.o.`, () => C.paga(costo), 'primary', { disabled: nani >= 2 || costo == null || costo > C.oroTotale() }),
           C.haOroStolti() ? btn('Usa l’oro degli stolti', () => C.paga(0, true)) : null,
           ...(abissoAttivo() ? A.corruzioneAlternativa(i, btn) : []),
+          ...(profonditaAttiva() && typeof i.reazione.param === 'string' ? P.corruzioneTesto(i, btn) : []),
           btn('Rifiuta e combatti', () => C.rifiutaCorruzione(), 'danger'))));
       break;
     }
@@ -208,6 +211,15 @@ export function renderIncontro(box) {
       if (i.reazione?.azione === 'tenzone-persa') {
         box.append(h('div', { class: 'card' }, h('p', {}, `${i.nome} ha vinto la singolar tenzone e pretende che il gruppo lasci la stanza.`),
           btn('Lascia la stanza (i mostri restano)', () => C.sottrarsiIndenne('tenzone persa')), btn('Attacca comunque (+1 al loro LIV)', () => A.attaccaDopoTenzone(i), 'danger')));
+        break;
+      }
+      if (i.reazione?.azione === 'offre-riposo') {
+        box.append(h('div', { class: 'card' }, h('p', {}, `${i.nome} offre cibo e riposo: il gruppo può riposare in sicurezza (come un riposo: +1 PV e un incantesimo recuperato a testa) oppure combattere.`),
+          btn('Accetta il riposo', () => { riposa(); C.chiudiIncontro(); }, 'primary'), btn('Combatti', () => { i.mostriPrima = true; return C.inizioScontro(); }, 'danger'), btn('Chiudi (se ne va)', () => C.chiudiIncontro())));
+        break;
+      }
+      if (i.reazione?.azione === 'invisibili') {
+        box.append(h('div', { class: 'card' }, h('p', {}, `Il gruppo è invisibile a ${i.nome}: l’incantesimo finisce se il gruppo attacca.`), btn('Attacca (l’invisibilità finisce)', () => { i.mostriPrima = false; return C.attaccaSubito(); }, 'danger'), btn('Passa oltre (il mostro resta)', () => C.chiudiIncontro())));
         break;
       }
       box.append(h('div', { class: 'card' }, h('p', {}, i.reazione?.azione === 'pacifico' ? `${i.nome} è pacifico: puoi lasciarlo stare (nessun tesoro) oppure attaccarlo.` : i.reazione?.azione === 'amichevole' ? `${i.nome} è amichevole: ti lascia passare (nessun tesoro) oppure puoi attaccarlo.` : `Reazione speciale: ${i.reazione?.azione}. Risolvila a parole oppure combatti.`),
@@ -279,7 +291,7 @@ function renderCombattimento(box, i) {
         fronte ? [armiSel, fur, azione(e, 'Attacca', async () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < maxFurie(e); ui.furioso[e.id] = false; await C.attacca(e, { armaId: ui.arma[e.id], furioso }); }, 'primary', {}, () => { const furioso = !!ui.furioso[e.id] && (e.usi.furie || 0) < maxFurie(e); ui.furioso[e.id] = false; return { tipo: 'attacca', armaId: ui.arma[e.id], furioso }; })] : h('small', {}, 'In seconda fila: solo incantesimi e armi da lancio.'),
         i.id === 'c-manticora' && !i.codaFerita && fronte ? azione(e, 'Attacca la coda', () => C.attacca(e, { coda: true }), 'accent', {}, () => ({ tipo: 'attacca', coda: true })) : null,
         e.classe === 'assassino' && fronte ? azione(e, 'Marchia', () => C.marchia(e), 'accent', {}, () => ({ tipo: 'marchia' })) : null,
-        ...azioniMagiche(e, pronti), ...(suppl() ? azioniSupplemento(e, i) : []), ...(abissoAttivo() ? A.azioniCombattimento(e, i, azione) : [])));
+        ...azioniMagiche(e, pronti), ...(suppl() ? azioniSupplemento(e, i) : []), ...(abissoAttivo() ? A.azioniCombattimento(e, i, azione) : []), ...(profonditaAttiva() ? P.azioniCombattimento(e, i, azione) : [])));
     eroiBox.append(rowEl);
   });
   const sezGruppo = [h('h4', {}, 'Turno del gruppo'), A.cartaLeader(i, btn), eroiBox];
@@ -419,6 +431,7 @@ export function renderStrumenti(box) {
     h('div', { class: 'tools' }, ...Eff.AZIONI_CLASSE.map(az => { const chi = Eff.eroiPerAzione(az); return h('button', { class: chi.length ? '' : 'spent', disabled: !chi.length, title: chi.length ? `${az.info} (${chi.map(e => e.nome).join(', ')})` : `Serve ${az.classi.join(' o ')} nel gruppo`, onclick: () => Eff.eseguiAzioneClasse(az.id) }, az.nome); }))));
   if (suppl()) box.append(cartaSupplemento());
   if (abissoAttivo()) box.append(h('div', { class: 'card' }, h('h3', {}, 'Alleati, segreti e abilità dell’Abisso'), A.cartaAbisso()));
+  if (profonditaAttiva()) box.append(P.carta(btn));
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Azioni di gioco'),
     h('div', { class: 'tools' },
       btn('Mostro errante', async () => { const m = await G.monstroErrante(); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }),
@@ -429,7 +442,7 @@ export function renderStrumenti(box) {
       btn('Caratteristica speciale', () => G.caratteristica()),
       btn('Missione', async () => { const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); modalTesto(row.nome, row.testo); log(`Missione: ${row.nome} – ${row.testo}`); }),
       btn('Ricompensa epica', async () => { const r = await dado('Ricompensa epica (d6)'); const row = riga(tabella('ricompense'), r.totale); modalTesto(row.nome, row.testo); a.ricompense = [...(a.ricompense || []), row.nome]; log(`Ricompensa epica: ${row.nome}`); modificato(); }),
-      btn('Riposa (stanza sicura)', async () => { if (!G.stanzaSicura(G.tileById(a.stanzaCorrente)) && !(await confirmBox('La stanza attuale non è vuota né ripulita (le stanze sicure sono evidenziate in verde). Riposare comunque?'))) return; riposa(); const m = await G.monstroErrante(); toast('Mentre riposi arrivano mostri erranti: prima tu se hai inchiodato le porte.'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }))));
+      btn('Riposa (stanza sicura)', async () => { if (profonditaAttiva() && P.riposoVietato()) return toast(P.riposoVietato(), 'warn'); if (!G.stanzaSicura(G.tileById(a.stanzaCorrente)) && !(await confirmBox('La stanza attuale non è vuota né ripulita (le stanze sicure sono evidenziate in verde). Riposare comunque?'))) return; riposa(); const m = await G.monstroErrante(); toast('Mentre riposi arrivano mostri erranti: prima tu se hai inchiodato le porte.'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }))));
 
   const ritorno = h('input', { type: 'number', min: 1, value: 1, style: 'width:64px' });
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Ritorno sui passi / Usciamo da qui!'),

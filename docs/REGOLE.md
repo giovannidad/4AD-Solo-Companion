@@ -76,6 +76,18 @@ inghiottimento del cubo, malattia della melma verde, tagliola degli schiavisti, 
 - **Scheda**: stati persistenti (follia, licantropia, peste oscura, vampirismo, livelli persi) e le 41 abilità avanzate filtrate per classe.
 - **Negozio e Strumenti**: 10 mercenari, 11 artigiani (con le pozioni dell'alchimista), segreti e oggetti dell'Abisso.
 
+## Supplemento «Contro le Profondità Dimenticate» (livelli 10-19)
+
+- **Set di tabelle** «Contro le Profondità Dimenticate (lvl 10-19)»: stanze, trappole, allucinazioni, eventi (d10), tesori, tesori magici eroici e leggendari,
+  mostri (infestanti, seguaci, orde, aberranti, boss), idoli, missioni, boss finale. Sotto il 10° livello compare un avviso con conferma.
+- **Gradi** eroico e leggendario, separati dal livello: pulsante «Passa di grado» tra due avventure (tiri ES e oro), dadi **d10** e **d12** esplosivi
+  (virtuali, indicati con `[d10]` e `[d12]`), 1 naturale sempre un fallimento, numero del grado (GR) nelle formule dei mostri.
+- **Scheda**: 45 abilità eroiche e 21 leggendarie filtrate per classe e grado, 12 incantesimi (2 o 3 posti di memoria), armi e armature perfette,
+  oggetti leggendari, segreti da 5 o 6 indizi.
+- **Fiumi, rovine, tumuli, Cittadelle, idoli**: strumenti guidati nel pannello Strumenti che tirano le tabelle e creano gli incontri; le mappe non
+  vengono disegnate (nel manuale sono solo immagini) e i tratti si leggono a mano. Portali e passaggi verso l'Aldilà sono solo descritti.
+- Dove testo e tabella dei gradi si contraddicono si segue la tabella (il d12 esplode con 9 o più).
+
 ## Manuale (non automatizzato)
 
 - Missioni di soccorso, rituale di resurrezione, vendita di oggetti (solo promemoria).

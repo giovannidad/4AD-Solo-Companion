@@ -13,11 +13,12 @@ export const nuovaAvventura = () => ({
   attiva: false, numero: 0, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null,
   maggioriSconfitti: 0, incontriSeguaci: 0, ultimoLivello: null, indizi: [],
   guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, ricompense: [],
-  fine: null, set: 'base', missione: null, eventiUsati: []
+  fine: null, set: 'base', missione: null, eventiUsati: [],
+  fiume: null, sezione: null, cittadella: null   // Profondità: fiume in corso (con la barca), rovine/tumulo/idolo e Cittadella in corso
 });
 
 export async function caricaRegole() {
-  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'tratti', 'traguardi'];
+  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'profondita', 'tratti', 'traguardi'];
   const dati = await Promise.all(nomi.map(n => api.regola(n)));
   nomi.forEach((n, i) => { R[n] = dati[i]; });
   R.tilesSet = { classico: R['tiles-classico'], foresta: R['tiles-foresta'] };   // geometria delle tessere dei set tematici
