@@ -86,9 +86,16 @@ export async function d6Esplosivo(label = '1d6', soglia = 6) {
 /** Tira N dadi e tieni il migliore (attacco furioso); con `facce` diverso da 6 (d8, d10, d12) i dadi sono virtuali, non 3D. */
 export async function migliorDi(n, label, facce = 6) {
   const raw = facce !== 6 ? Array.from({ length: n }, () => dN(facce)) : await fisici(n, ['rosso', 'rosso', 'rosso'], label);
-  const best = Math.max(...raw);
-  registra({ label: `${label} (migliore di ${n}${facce !== 6 ? ', d' + facce : ''})`, expr: `${n}d${facce} max`, totale: best, dadi: raw, ora: Date.now() });
-  return { totale: best, naturale: best, tiri: raw };
+  const soglia = { 6: 6, 8: 7, 10: 8, 12: 9 }[facce] || facce;
+  const somme = [];
+  for (const v0 of raw) {   // ogni dado si legge da solo ed esplode per conto suo (FAQ), poi vale il migliore
+    let v = v0, tot = v0, k = 0;
+    while (v >= soglia && k++ < 7) { v = facce !== 6 ? dN(facce) : (await fisici(1, ['rosso'], label))[0]; tot += v; }
+    somme.push(tot);
+  }
+  const best = Math.max(...somme), ib = somme.indexOf(best);
+  registra({ label: `${label} (migliore di ${n}${facce !== 6 ? ', d' + facce : ''}, ogni dado esplode)`, expr: `${n}d${facce} max`, totale: best, dadi: somme, ora: Date.now() });
+  return { totale: best, naturale: raw[ib], tiri: raw };
 }
 
 // ---------------- d8 (supplemento «Contro l'Abisso») ----------------

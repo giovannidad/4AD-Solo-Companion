@@ -1,7 +1,7 @@
 // Equipaggiare come armi e armature gli oggetti trovati (bottino) o tenuti nello zaino.
 import { R, S, log, modificato } from './state.js';
 import { toast, scelta } from './util.js';
-import { armaDi, armaConsentita, limiteArma, suppl } from './rules.js';
+import { armaDi, armaConsentita, limiteArma, suppl, armaVisibile, controllaArmi } from './rules.js';
 import * as P from './profondita.js';
 
 const ARMATURE = { leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
@@ -15,6 +15,7 @@ export function tipoEquip(o) {
   if (/armatura pesante/.test(t)) return { tipo: 'armatura', valore: 'pesante' };
   if (/armatura leggera/.test(t)) return { tipo: 'armatura', valore: 'leggera' };
   if (/\barmatura\b/.test(t) && !/magica \(anello/.test(t)) return { tipo: 'armatura', valore: null };
+  if (/arma magica \(arco\)/.test(t)) return { tipo: 'arma', id: 'arco' };
   if (/\barma\b/.test(t) && !/arma incantata/.test(t)) {
     const cat = /due mani/.test(t) ? 'due-mani' : /una mano/.test(t) ? 'una-mano' : /leggera/.test(t) ? 'leggera' : null;
     const mat = /contundente/.test(t) ? 'contundente' : /taglio/.test(t) ? 'taglio' : null;
@@ -30,7 +31,7 @@ export const equipaggiabile = o => !!tipoEquip(o);
 
 function armiAmmesse(e) {
   const c = R.classi[e.classe]?.armi;
-  return R.equipaggiamento.armi.filter(a => (!a.suppl || S.party.supplCaos) && armaConsentita(e, a).ok && (c === 'tutte' || (c || []).some(k => k === a.categoria || k === a.id || (k === 'mischia' && !a.lancio) || (k === 'distanza' && a.lancio))));
+  return R.equipaggiamento.armi.filter(a => armaVisibile(a) && armaConsentita(e, a).ok && (c === 'tutte' || (c || []).some(k => k === a.categoria || k === a.id || (k === 'mischia' && !a.lancio) || (k === 'distanza' && a.lancio))));
 }
 const togli = (e, o) => { if ((o.qta || 1) > 1) o.qta--; else e.oggetti = (e.oggetti || []).filter(x => x !== o); };
 const rimetti = (e, nome) => { const ex = (e.oggetti = e.oggetti || []).find(o => o.nome === nome); if (ex) ex.qta = (ex.qta || 1) + 1; else e.oggetti.push({ nome, qta: 1 }); };
@@ -59,13 +60,13 @@ export async function equipaggia(e, o) {
     if (!id) {
       const filtra = lista => lista.filter(a => (!q.cat || a.categoria === q.cat) && (!q.mat || a.tipo === q.mat));
       let cand = filtra(armiAmmesse(e));
-      if (!cand.length) { cand = filtra(R.equipaggiamento.armi.filter(a => !a.suppl || S.party.supplCaos)); if (cand.length) toast(`${R.classi[e.classe].nome}: non è un’arma tipica della classe (si applicano le penalità previste).`, 'warn'); }   // regola morbida: maghi e furfanti possono impugnare armi pesanti con malus
+      if (!cand.length) { cand = filtra(R.equipaggiamento.armi.filter(armaVisibile)); if (cand.length) toast(`${R.classi[e.classe].nome}: non è un’arma tipica della classe (si applicano le penalità previste).`, 'warn'); }   // regola morbida: maghi e furfanti possono impugnare armi pesanti con malus
       if (!cand.length) { toast('Nessuna arma di questo tipo.', 'warn'); return false; }
       id = cand.length === 1 ? cand[0].id : await scelta('Che arma è?', `${o.nome}`, cand.map(a => [a.id, a.nome, `${a.mod >= 0 ? '+' : ''}${a.mod} all’attacco`]));
       if (!id) return false;
     }
     const arma = armaDi(id);
-    if (arma && suppl()) {   // armi da fuoco riservate a certe classi, limiti di bolas e boomerang
+    if (arma && controllaArmi(e)) {   // armi da fuoco riservate a certe classi, limiti di bolas e boomerang
       const c = armaConsentita(e, arma); if (!c.ok) { toast(c.motivo, 'warn'); return false; }
       if (!limiteArma(e, id)) { toast(`${arma.nome}: ne puoi portare al massimo ${id === 'bolas' ? 2 : 1}.`, 'warn'); return false; }
     }

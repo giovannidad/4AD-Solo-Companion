@@ -1,6 +1,7 @@
 // Regole di Four Against Darkness: calcolo modificatori, tabelle, mostri.
 import { R, S, eroiVivi, livelloMax } from './state.js';
 import * as P from './profondita.js';
+import * as Q from './acque.js';
 
 export const NOME_ARMATURA = { nessuna: 'Nessuna', leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
 
@@ -15,9 +16,19 @@ export function riga(tab, v) {
   return tab.find(r => v >= r.da && v <= r.a) || tab[tab.length - 1];
 }
 // Set di tabelle attivo per l'avventura: base, «Nemici diabolici» (avanzate) o «Caverne del Caos» (supplemento).
-export const SETS = { base: 'Four Against Darkness (lvl 1-2)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', abisso: 'Contro l\'Abisso (lvl 5-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
+export const SETS = { base: 'Four Against Darkness (lvl 1-2)', coboldi: 'Schiavisti Coboldi (lvl 1-2)', acque: 'Acque Oscure (lvl 1-4)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', abisso: 'Contro l\'Abisso (lvl 5-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
 export const setAttivo = () => (S.adv && S.adv.set) || 'base';
-const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, profondita: R.profondita })[setAttivo()];
+const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, profondita: R.profondita, acque: R.acque, coboldi: R.coboldi })[setAttivo()];
+// ---- «Acque Oscure» (livelli 1-4) e «Caverne degli Schiavisti Coboldi» (livelli 1-2) ----
+export const inAcque = () => setAttivo() === 'acque';
+export const inCoboldi = () => setAttivo() === 'coboldi';
+/** Spadaccino, acqua santa, flagello: casella attiva o dungeon di uno dei due set. */
+export const acqueAttive = () => !!(S.party?.supplAcque || inAcque() || inCoboldi());
+/** Classe selezionabile: le classi del Caos con la casella del Caos, lo Spadaccino con il contenuto di Acque Oscure e Coboldi. */
+export const classeDisponibile = c => !c.suppl || (c.suppl === 'acque' ? acqueAttive() : !!S.party?.supplCaos);
+export const armaVisibile = a => !a.suppl || (a.suppl === 'acque' ? acqueAttive() : !!S.party?.supplCaos);
+/** Chi salva come il furfante (furfante e spadaccino). */
+export const comeFurfante = e => e.classe === 'furfante' || e.classe === 'spadaccino';
 export const inCaos = () => setAttivo() === 'caos';
 // ---- supplemento «Contro l'Abisso» (livelli 5-9) ----
 export const inAbisso = () => setAttivo() === 'abisso';
@@ -78,11 +89,14 @@ export function tipoNonVivente(m) {
 }
 
 /** Armi da fuoco e simili: restrizioni di classe e limiti di trasporto. */
+export const controllaArmi = e => suppl() || e.classe === 'spadaccino' || !!(e.arti?.mano || e.arti?.gamba);
 export function armaConsentita(e, a) {
   if (!a) return { ok: true };
   if (a.soloClassi && !a.soloClassi.includes(e.classe)) return { ok: false, motivo: `${a.nome}: la possono usare solo ${a.soloClassi.map(c => R.classi[c]?.nome || c).join(', ')}.` };
   if (a.lancio && e.classe === 'elfo-fuoco') return { ok: false, motivo: 'Gli elfi del fuoco non usano armi a distanza.' };
   if (e.classe === 'veterano' && a.categoria === 'due-mani') return { ok: false, motivo: 'Il veterano non porta armi a due mani.' };
+  if (e.classe === 'spadaccino' && (a.categoria === 'due-mani' || ['arco', 'balestra', 'archibugio'].includes(a.id))) return { ok: false, motivo: 'Lo spadaccino non usa armi a due mani né l’arco.' };
+  if ((e.arti?.mano || e.arti?.gamba) && (a.mani === 2)) return { ok: false, motivo: 'Con una mano perduta (o una stampella) non si usano armi a due mani.' };
   return { ok: true };
 }
 const LIMITE_ARMI = { bolas: 2, boomerang: 1 };
@@ -139,27 +153,35 @@ const EXTRA = ['livPrimoTurno', 'livDifesaFerito', 'immuneIncantesimi', 'immuneC
   'tesoroFossa', 'premioMorte', 'benedizioneModReazione', 'nonAttaccaInFuga', 'corruzioneAlternativa', 'tesoroSoloGemmeMagici', 'senzaSoffio', 'argentoMod', 'immobile', 'allarmeFurfante',
   'unicoPerDungeon', 'bersagliPrioritari', 'follia', 'oroFisso'];
 
+const EXTRA_Q = ['veleno', 'contundentePiu', 'immuneIncantesimi', 'maiErrante', 'attDadi'];
+const QX = ['salvezza', 'aggancio', 'intrappola', 'frenesia', 'iniziativa', 'contraccolpo', 'contundenteMod', 'modAttaccoContro', 'immuneVeleno', 'immuneMalattie', 'attDivisiEquamente', 'attDadiOgniTurno', 'attaccoCrescente',
+  'incantesimiMostro', 'tentacoli', 'tiriES', 'tesoroExtra', 'indebolitoSe', 'infezione', 'moraleRegola', 'patto', 'trasformaCaduti', 'distruggePergamenePallaDiFuoco', 'ignoraSoloArmatura', 'vulnerabileAcquaSanta',
+  'perdeLivello', 'poteri', 'nonAumentareBossFinale', 'paralisi', 'paura', 'premioMorte', 'bersagliPrioritari', 'corruzioneAlternativa', 'comeInStanza', 'bonusPrimoTurno', 'modPallaDiFuoco', 'incantesimiMod', 'frecceMod', 'attiraErranti'];
+
 /** Descrive il mostro in base ad una voce della tabella. */
 export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
+  const dq = typeof voce.id === 'string' && /^[qk]-/.test(voce.id);   // voci di «Acque Oscure» e «Caverne dei Coboldi»
   const prof = typeof voce.id === 'string' && voce.id.startsWith('p-');   // voci di «Contro le Profondità Dimenticate»: formule su LMP e GR
   const maggiore = ['aberranti', 'boss', 'draghi'].includes(tabellaNome) || (prof && voce.conta === '1');
   const finale = !!opzioni.bossFinale;
-  const pv = (prof ? P.pvMostro(voce) : voce.pv) + (finale && maggiore ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
+  const boost = finale && maggiore && !voce.nonAumentareBossFinale;
+  const pv = (prof ? P.pvMostro(voce) : voce.pv) + (boost ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
   const livBase = prof ? P.livMostro(voce) : voce.liv === 'LMP' ? livelloMax() : voce.liv;
   const inc = {
     tabella: tabellaNome, id: voce.id, nome: voce.nome, minore: !maggiore,
     tag: [...(voce.tag || [])], livBase, liv: livBase,
-    att: voce.att + (finale && maggiore ? 1 : 0), danno: voce.danno || 1,
+    att: voce.att + (boost ? 1 : 0), danno: voce.danno || 1,
     n: maggiore ? 1 : quantita, nIniziale: maggiore ? 1 : quantita,
-    pvMax: pv, pv, moraleMod: typeof voce.mor === 'number' ? voce.mor : 0, noMorale: voce.mor === 'NO',
+    pvMax: pv, pv, moraleMod: typeof voce.mor === 'number' ? voce.mor : 0, noMorale: voce.mor === 'NO' || (finale && maggiore),   // il boss finale combatte fino alla morte (FAQ)
     tes: voce.tes, tesMolt: voce.tesMolt || (voce.tes === 'x2' ? 2 : 1), xp: voce.xp !== false,
     note: voce.note || '', reazioni: voce.reazioni || [], speciale: voce.speciale || null, drago: !!voce.drago,
     bossFinale: finale, errante: !!opzioni.errante, sorpresa: !!opzioni.errante,
     stato: 'nuovo', moraleFatto: false, reazione: null, turno: 0, sottoAttacco: false,
     sedato: 0, segreta: !!opzioni.segreta,
-    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k))).map(k => [k, voce[k]]))
+    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k)) && !(dq && !EXTRA_Q.includes(k))).map(k => [k, voce[k]]))
   };
   if (prof) P.adattaMostro(inc, voce, maggiore);
+  if (dq) inc.qx = Object.fromEntries(QX.filter(k => voce[k] !== undefined).map(k => [k, voce[k]]));   // poteri dei due supplementi, tenuti separati dai campi di Abisso e Caos
   return inc;
 }
 
@@ -234,8 +256,8 @@ function bonusDifesaAbisso(e, ctx, add) {
   if (tags.includes('non-morto') && haAggeggio(e, /amuleto di protezione dai non-morti/i)) add('Amuleto anti non-morti', 1);
   if (!ctx.ignoraArmatura) {
     if (e.scudoMagico && e.scudo && !ctx.ignoraScudo && !ctx.sorpreso && !ctx.fuga) add('Scudo magico (+2 invece di +1)', 1);
-    if (e.cottaElfica && e.armatura === 'leggera') add('Cotta di maglia elfica (+2)', 1);
-    if (e.armaturaIncantata && e.armatura === 'pesante' && !ctx.ignoraPesante) add('Armatura incantata (+3)', 1);
+    if (e.cottaElfica && e.armatura === 'leggera' && !ctx.ignoraSoloArmatura) add('Cotta di maglia elfica (+2)', 1);
+    if (e.armaturaIncantata && e.armatura === 'pesante' && !ctx.ignoraPesante && !ctx.ignoraSoloArmatura) add('Armatura incantata (+3)', 1);
   }
   if (tags.includes('drago') && haAggeggio(e, /pelle di drago/i)) add('Pelle di drago', 1);
   if (poz.argento && /lupo mannaro/i.test(nome)) add('Argento polverizzato', 1);
@@ -274,6 +296,7 @@ export function modAttacco(e, ctx = {}) {
       case 'furfante': if (ctx.inferiorita && bers.minore) add('Livello (inferiorità numerica)', liv); break;
       case 'mezzuomo': if (arma?.id === 'fionda') add('Fionda: 1/3 livello', Math.floor(liv / 3)); break;
       case 'assassino': add('Livello', liv); break;
+      case 'spadaccino': add('Mezzo livello', Math.floor(liv / 2)); break;
       case 'elfo-fuoco': if (!dueMani) add('Livello', liv); break;
       case 'tiratore': if (daLancio) add('Livello +1', liv + 1); else add('Mezzo livello', Math.floor(liv / 2)); break;
       case 'arlecchino': { const ok = a => ['leggera', 'una-mano'].includes(a?.categoria) && !a.lancio; if (!(ok(arma) && (e.armi || []).filter(id => ok(armaDi(id))).length >= 2)) add('Mezzo livello (1 sola arma)', Math.floor(liv / 2)); break; }
@@ -293,6 +316,7 @@ export function modAttacco(e, ctx = {}) {
   if (suppl()) { bonusSupplAttacco(e, ctx, bers, arma, add); if (!ctx.incantesimo) bonusPrestiti(e, 'att', add); }
   if (abissoAttivo()) { bonusAttaccoAbisso(e, ctx, bers, arma, add); if (e.mercAtt && !ctx.incantesimo) add('Armigero', e.mercAtt); }
   if (profonditaAttiva()) P.attacco(e, ctx, bers, arma, add, parti);
+  Q.attacco(e, ctx, bers, arma, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);   // l'elfo del fuoco vede anche al buio
   if (ctx.bonusGruppo) add(ctx.bonusGruppoTxt || 'Bonus', ctx.bonusGruppo);
@@ -307,12 +331,13 @@ export function modDifesa(e, ctx = {}) {
   const tags = ctx.tag || [];
   const gigante = tags.includes('gigante') || tags.includes('troll');
   if (!ctx.ignoraArmatura) {
-    if (e.armatura === 'leggera') add('Armatura leggera', 1);
-    if (e.armatura === 'pesante' && !ctx.ignoraPesante) add('Armatura pesante', 2);
+    if (e.armatura === 'leggera' && !ctx.ignoraSoloArmatura) add('Armatura leggera', 1);
+    if (e.armatura === 'pesante' && !ctx.ignoraPesante && !ctx.ignoraSoloArmatura) add('Armatura pesante', 2);
     if (e.scudo && !ctx.ignoraScudo && !ctx.sorpreso && !ctx.fuga) add('Scudo', 1);
   }
   if (e.classe === 'furfante') add('Furfante: livello', e.livello);
   if (e.classe === 'arlecchino') add('Arlecchino: mezzo livello', Math.floor(e.livello / 2));
+  if (e.classe === 'spadaccino') add('Spadaccino: mezzo livello', Math.floor(e.livello / 2));
   if (e.classe === 'nano' && gigante) add('Nano vs giganti/troll', 1);
   if (e.classe === 'mezzuomo' && gigante) add('Mezzuomo vs giganti/troll', e.livello);
   if (e.bonusDifesa) add('Armatura magica', e.bonusDifesa);
@@ -330,6 +355,7 @@ export function modDifesa(e, ctx = {}) {
   }
   if (abissoAttivo()) bonusDifesaAbisso(e, ctx, add);
   if (profonditaAttiva()) P.difesa(e, ctx, add);
+  Q.difesa(e, ctx, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);
   if (ctx.primoMinotauro) add('Carica del minotauro', -1);

@@ -48,7 +48,7 @@ function disegna(forza = false) {
 }
 
 // ---------------- segnalini dei personaggi ----------------
-const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a' };
+const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a', spadaccino: '#a03060' };
 let firmaSicure = '';
 function aggiornaSicure() {
   const f = (S.adv.tessere || []).filter(t => stanzaSicura(t)).map(t => t.id).join(',');

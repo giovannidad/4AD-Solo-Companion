@@ -142,7 +142,8 @@
     "guerriero",
     "nano",
     "tiratore",
-    "assassino"
+    "assassino",
+    "spadaccino"
    ],
    "riparazione": 10
   },
@@ -157,6 +158,17 @@
    "categoria": "leggera",
    "suppl": true,
    "note": "Utilizzabile da qualsiasi personaggio."
+  },
+  {
+   "id": "flagello",
+   "nome": "Flagello (mazza ferrata a catena)",
+   "costo": 0,
+   "mani": 1,
+   "tipo": "contundente",
+   "mod": 0,
+   "categoria": "una-mano",
+   "suppl": "acque",
+   "note": "Mazza dei coboldi: per il gruppo è solo un’arma contundente a una mano, senza altri benefici. Non è in vendita."
   }
  ],
  "oggetti": [

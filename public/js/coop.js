@@ -4,6 +4,7 @@ import { S, onChange, emit, eroePerId, modificato, log } from './state.js';
 import { h, modal, toast } from './util.js';
 import * as dice from './dice.js';
 import * as C from './combat.js';
+import * as Q from './acque.js';
 import * as table from './map2d.js';
 
 export const coop = { ruolo: null, codice: null, token: null, id: null, nome: null, info: null, ospiti: [], porta: null, indirizzi: [] };
@@ -120,6 +121,7 @@ async function esegui({ da, nome, cmd }) {
       if (!i || i.stato === 'finito') return avvisa('Non c’è un combattimento in corso.');
       if (speso()) return avvisa(`${e.nome} ha terminato gli attacchi per questo turno.`);
       return void (await C.attacca(e, { armaId: cmd.armaId, furioso: !!cmd.furioso, coda: !!cmd.coda }));
+    case 'maestria': return void Q.armaMaestria(e);
     case 'marchia': if (speso()) return avvisa(`${e.nome} ha terminato gli attacchi per questo turno.`); return void (await C.marchia(e));
     case 'lancia': {
       if (speso()) return avvisa(`${e.nome} ha terminato gli attacchi per questo turno.`);

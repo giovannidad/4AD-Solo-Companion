@@ -1,7 +1,7 @@
 // Effetti con scelta del giocatore: trappole, fantasmi e simili. Ogni effetto apre una finestra con le azioni possibili.
 import { S, log, modificato, ordineMarcia, eroiVivi } from './state.js';
 import { dado } from './dice.js';
-import { modDifesa, suppl, tratto, bonusSalvezza } from './rules.js';
+import { modDifesa, suppl, tratto, bonusSalvezza, comeFurfante } from './rules.js';
 import * as T from './tratti.js';
 import { toast, scelta } from './util.js';
 import * as C from './combat.js';
@@ -9,6 +9,7 @@ import * as K from './caos.js';
 import * as G from './game.js';
 import * as A from './abisso.js';
 import * as P from './profondita.js';
+import * as Q from './acque.js';
 
 const adv = () => S.adv;
 const viviOra = () => ordineMarcia().filter(e => e.stato === 'ok');
@@ -117,6 +118,7 @@ export async function proponiTrappolaTesoro(liv) {
 
 export async function risolviTrappola(t) {
   if (t.abisso) return A.risolviTrappola(t);   // trappole di «Contro l'Abisso»
+  if (t.acque) return Q.risolviTrappola(t);       // trappole acquatiche
   if (t.prof) return P.risolviTrappola(t);       // trappole delle Profondità Dimenticate (LMP+GR+2)
   const vivi = viviOra(); if (!vivi.length) return;
   const casuale = () => vivi[Math.floor(Math.random() * vivi.length)];
@@ -124,7 +126,7 @@ export async function risolviTrappola(t) {
   const prova = async (e, { salvezza, extra = 0, ctx = {} }) => {
     const r = await C.dE(e, `${n}: ${salvezza ? 'tiro salvezza' : 'difesa'} di ${e.nome}`);
     let mod = extra;
-    if (salvezza) { mod += e.armatura === 'leggera' && n === 'Botola' ? -1 : e.armatura === 'pesante' && n === 'Botola' ? -2 : 0; if (['elfo', 'mezzuomo'].includes(e.classe) && ['Botola', 'Tagliola'].includes(n)) mod += 1; if (e.classe === 'furfante') mod += e.livello; if (e.zoppo) mod -= 2; mod += bonusSalvezza(e, n).tot; }
+    if (salvezza) { mod += e.armatura === 'leggera' && n === 'Botola' ? -1 : e.armatura === 'pesante' && n === 'Botola' ? -2 : 0; if (['elfo', 'mezzuomo'].includes(e.classe) && ['Botola', 'Tagliola'].includes(n)) mod += 1; if (comeFurfante(e)) mod += e.livello; if (e.zoppo) mod -= 2; mod += bonusSalvezza(e, n).tot; }
     else mod += modDifesa(e, ctx).tot;
     mod += meccanica(e);
     const tot = r.totale + mod;

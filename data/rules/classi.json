@@ -248,5 +248,30 @@
    "Lanterna"
   ],
   "tratti": "Nessun bonus ad attacco e difesa. Inizia con Assistenza (presta una capacità di classe a un compagno per 1 incontro) e Leader carismatico. Gli altri eroi possono proteggerlo rinunciando a un attacco per difenderlo. Salva come un chierico ma sottrae il livello ai tiri salvezza fisici. Non porta armi a due mani, armature pesanti né più di 200 p.o."
+ },
+ "spadaccino": {
+  "nome": "Spadaccino",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [],
+  "scudo": false,
+  "armi": [
+   "una-mano",
+   "leggera",
+   "fionda",
+   "stella",
+   "bolas",
+   "boomerang",
+   "pistola"
+  ],
+  "suppl": "acque",
+  "equip": [
+   "Arma a una mano",
+   "Arma leggera",
+   "Cappello da cavaliere piumato o tricorno",
+   "Cappa"
+  ],
+  "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco e di difesa. Nessuna armatura né scudo; niente armi a due mani né arco. Con un’arma a una mano come principale e un’arma leggera come secondaria fa 2 attacchi, uno per arma. Guadagna 1 punto maestria per ogni mostro ucciso, fino a un massimo pari al livello; ogni punto dà +1 a un tiro di attacco o di difesa (al massimo 1 punto per tiro). Salva come il furfante.",
+  "maestria": true
  }
 }

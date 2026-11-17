@@ -4,7 +4,7 @@
 import { S, salva, modificato } from './state.js';
 import { h, toast } from './util.js';
 
-const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a' };
+const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a', spadaccino: '#a03060' };
 export const coloreClasse = c => COLORI[c] || '#555';
 
 // ---------------- ritratti predefiniti (SVG) ----------------
@@ -53,6 +53,9 @@ function svgRitratto(classe, seed) {
       davanti = `<path d="M30 62 Q64 52 98 62 L96 74 Q64 66 32 74Z" fill="#101014"/><path d="M34 82 Q64 120 94 82 L92 112 L36 112Z" fill="#7a1a1a"/>`; break;
     case 'tiratore':
       davanti = `<path d="M18 52 Q64 40 110 52 L106 58 Q64 48 22 58Z" fill="#5a3a1a"/><path d="M34 52 Q34 24 64 22 Q94 24 94 52Z" fill="#7a5a2a"/><circle cx="82" cy="68" r="9" fill="none" stroke="#c9ccd2" stroke-width="3"/><path d="M82 77 L84 96" stroke="#c9ccd2" stroke-width="1.5"/>`; break;
+    case 'spadaccino':
+      dietro = `<path d="M18 104 Q10 66 40 62 L88 62 Q118 66 110 104Z" fill="#7a1a3a"/>`;
+      davanti = `<path d="M14 56 Q64 26 114 56 L102 62 Q64 44 26 62Z" fill="#2e2418"/><path d="M34 54 Q36 28 64 24 Q92 28 94 54Z" fill="#43321f"/><path d="M90 40 Q112 14 122 30 Q108 28 100 48Z" fill="#c0392b"/><path d="M50 84 Q64 90 78 84" fill="none" stroke="#2b1b10" stroke-width="3"/>`; break;
     case 'veterano':
       davanti = `<path d="M28 58 Q64 40 100 58 L98 68 Q64 54 30 68Z" fill="#b8281f"/><path d="M84 54 L96 92" stroke="#7a2a2a" stroke-width="3"/>` + `<path d="M40 86 Q64 104 88 86 Q64 96 40 86Z" fill="#8a8a8a" opacity=".7"/>`; break;
   }

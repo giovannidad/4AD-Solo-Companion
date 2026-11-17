@@ -1,13 +1,14 @@
 // Incontri e combattimento: reazioni, attacchi, incantesimi, difese, morale, bottino.
 import { R, S, log, modificato, eroiVivi, eroiAttivi, eroePerId, ordineMarcia, livelloMax, inCampo } from './state.js';
 import { dado, tira, d6Esplosivo, d8Esplosivo, dEsplosivoN, migliorDi } from './dice.js';
-import { modAttacco, modDifesa, trovaReazione, gruppoHaLanterna, haNano, armaDi, armaPrincipale, creaIncontro, suppl, tratto, haAbilita, abilita, bonusSalvezza, armaConsentita, tipoNonVivente, oggettoEffetto, haBraccialetto, usaD8, abissoAttivo, inAbisso, profonditaAttiva, profiloDado, grNumero } from './rules.js';
+import { acqueAttive, controllaArmi, modAttacco, modDifesa, trovaReazione, gruppoHaLanterna, haNano, armaDi, armaPrincipale, creaIncontro, suppl, tratto, haAbilita, abilita, bonusSalvezza, armaConsentita, tipoNonVivente, oggettoEffetto, haBraccialetto, usaD8, abissoAttivo, inAbisso, profonditaAttiva, profiloDado, grNumero } from './rules.js';
 import { tesoro, vittoria, terminaAvventura, monstroErrante, avviaIncontro, aggiungiIndizio } from './game.js';
 import { toast, pick, scelta, sceltaMultipla } from './util.js';
 import * as K from './caos.js';
 import * as T from './tratti.js';
 import * as A from './abisso.js';
 import * as P from './profondita.js';
+import * as Q from './acque.js';
 
 export const inc = () => S.adv.incontro;
 const livAtt = i => (i.livPrimoTurno && i.turno <= 1) ? i.livPrimoTurno : (P.livelloSenzaFeriti(i) ?? i.liv);
@@ -49,6 +50,7 @@ async function afferra(e) {
 async function blocchiDiTurno() {
   const i = inc(); if (!i || i.stato === 'finito') return;
   await A.inizioTurno(i);
+  await Q.inizioTurno(i);
   if (i.id === 'd-doppelganger') {
     for (const e of eroiAttivi()) {
       if (e.id === i.imitato) continue;
@@ -74,7 +76,7 @@ async function poteriIniziali() {
     else {
       nota('Il manto predatore cade sul gruppo!');
       for (const e of eroiAttivi()) {
-        const b = (['elfo', 'furfante'].includes(e.classe) ? 1 : 0) - (e.armatura === 'pesante' ? 1 : 0);
+        const b = (['elfo', 'furfante', 'spadaccino'].includes(e.classe) ? 1 : 0) - (e.armatura === 'pesante' ? 1 : 0);
         if (!(await salva(e, 3, b, 'Schivare il manto predatore'))) { e.avvolto = true; nota(`${e.nome} è avvolto: non attacca e perde 1 PV a ogni turno di difesa.`); }
       }
     }
@@ -103,7 +105,7 @@ export async function inizioScontro() {
   i.stato = 'combattimento'; i.turno = 1; i.agito = {}; i.nAtt = {}; i.protetti = {}; i.difeso = {}; i.sparati = {};
   S.party.eroi.forEach(e => { if (e.classe === 'elfo-fuoco') { (e.incantesimi || []).forEach(sp => { sp.usato = false; }); e.vistaAperta = false; } });   // la vista di fuoco si ricarica a ogni scontro
   if (i.id === 'catoblepa') await salvaTutti('Sguardo del catoblepa', 4, () => 0, e => perdiPV(e, 1, 'sguardo'));
-  if (i.id === 'medusa') await salvaTutti('Sguardo della medusa', 4, e => (e.classe === 'furfante' ? Math.floor(e.livello / 2) : 0), e => { e.stato = 'pietra'; T.evento(e, 'trasformazione'); nota(`${e.nome} è trasformato in pietra!`); });
+  if (i.id === 'medusa') await salvaTutti('Sguardo della medusa', 4, e => (['furfante', 'spadaccino'].includes(e.classe) ? Math.floor(e.livello / 2) : 0), e => { e.stato = 'pietra'; T.evento(e, 'trasformazione'); nota(`${e.nome} è trasformato in pietra!`); });
   if (i.id === 'signore-caos' || i.id === 'd-signore-caos') await poteriCaos();
   if (i.attDadi) {
     const x = await tira(i.attDadi, `Attacchi di ${i.nome}`); i.att = x.totale;
@@ -111,12 +113,13 @@ export async function inizioScontro() {
     else nota(`${i.nome}: ${x.totale} attacchi per turno.`);
   }
   await poteriIniziali();
+  await Q.inizioIncontro(i);
   await A.inizioIncontro(i);
   if (profonditaAttiva()) await P.inizioIncontro(i);   // raffiche, illusioni, ruggito, muco, Resistenza alla magia
   if (i.speciale === 'schiavisti' && !i.errante) {
     const lead = ordineMarcia().find(e => e.stato === 'ok');
     if (lead) {
-      const b = (['elfo', 'mezzuomo'].includes(lead.classe) ? 1 : 0) + (lead.classe === 'furfante' ? lead.livello : 0);
+      const b = (['elfo', 'mezzuomo'].includes(lead.classe) ? 1 : 0) + (['furfante', 'spadaccino'].includes(lead.classe) ? lead.livello : 0);
       nota('Gli schiavisti hanno preparato una tagliola!');
       if (!(await salva(lead, 4, b, 'Tagliola degli schiavisti'))) { perdiPV(lead, 1, 'tagliola'); if (lead.stato === 'ok') { lead.zoppo = true; nota(`${lead.nome} zoppica.`); } }
     }
@@ -157,6 +160,7 @@ export async function tiraReazione() {
   let azione = re[2];
   if (i.id === 'troll' && haNano() && ['combatte'].includes(azione)) azione = 'morte';
   if (azione === 'fugge-inf' && eroiAttivi().length <= i.n) azione = 'combatte';
+  if (azione === 'patto-demoniaco' && S.adv.acque?.patto?.stipulato) azione = 'combatte';   // un solo patto: i demoni successivi combattono
   i.reazione = { tiro: r.totale, azione, param: re[3], tipoCorr: re[4] };
   nota(`Reazione (${r.totale}): ${i.nome} → ${azione === 'corruzione' ? `Corruzione (${re[3]} p.o.${re[4] === 'totale' ? ' in tutto' : ' a mostro'})` : azione}.`);
   if (azione === 'fugge' || azione === 'fugge-inf') { i.stato = 'finito'; i.esito = 'fuga'; nota(`${i.nome} fugge: nessun bottino.`); }
@@ -174,7 +178,7 @@ export async function tiraReazione() {
     if (azione !== 'combatte') i.noMorale = true;
     i.mostriPrima = true; await inizioScontro();
   } else if (azione === 'dorme') { i.bonusPrimoAttacco = 2; await inizioScontro(); }
-  else i.stato = 'speciale';
+  else i.stato = 'speciale';   // anche il patto demoniaco
   modificato();
 }
 
@@ -196,7 +200,7 @@ export function costoCorruzione() {
   if (typeof p !== 'number') return null;
   return i.reazione.tipoCorr === 'totale' ? p : p * i.n;
 }
-export const oroTotale = () => eroiVivi().reduce((a, e) => a + (e.oro || 0), 0);
+export const oroTotale = () => eroiVivi().reduce((a, e) => a + (e.oro || 0) + (e.oggetti || []).filter(o => o.tipo === 'gemma').reduce((b, o) => b + (o.valore || 0) * (o.qta || 1), 0), 0);   // le gemme valgono come moneta (senza resto)
 export function haOroStolti() { return eroiVivi().some(e => (e.oggetti || []).some(o => /oro degli stolti/i.test(o.nome))); }
 
 export function paga(costo, stolti = false, gratis = false) {
@@ -208,9 +212,16 @@ export function paga(costo, stolti = false, gratis = false) {
   } else {
     let resto = costo;
     for (const e of [...eroiVivi()].sort((a, b) => b.oro - a.oro)) { const q = Math.min(e.oro || 0, resto); e.oro -= q; resto -= q; if (!resto) break; }
-    nota(`Pagati ${costo} p.o.: ${i.nome} corrotto e considerato sconfitto.`);
+    if (resto > 0) {   // si può pagare con gemme, ma non si riceve il resto
+      const gs = eroiVivi().flatMap(e => (e.oggetti || []).filter(o => o.tipo === 'gemma' && o.valore > 0).flatMap(o => Array.from({ length: o.qta || 1 }, () => [e, o]))).sort((a, b) => a[1].valore - b[1].valore);
+      const sc = []; let somma = 0; const unica = gs.find(g => g[1].valore >= resto);
+      if (unica) { sc.push(unica); somma = unica[1].valore; } else for (const g of gs.reverse()) { if (somma >= resto) break; sc.push(g); somma += g[1].valore; }
+      sc.forEach(([e, o]) => { if (o.qta > 1) o.qta--; else e.oggetti = e.oggetti.filter(y => y !== o); });
+      nota(`Pagate ${sc.length} gemm${sc.length === 1 ? 'a' : 'e'} (${somma} p.o., nessun resto).`);
+    }
+    nota(`Pagati ${costo} p.o.: ${i.nome} corrotto e considerato superato.`);
   }
-  vittoria(i); finisci('corrotto');
+  vittoria(i, { superato: true }); finisci('corrotto');
 }
 export function rifiutaCorruzione() { const i = inc(); nota('Corruzione rifiutata: si combatte.'); i.mostriPrima = true; return inizioScontro(); }
 
@@ -224,7 +235,7 @@ export function perdiPV(e, n, causa = '', opz = {}) {
   if (e.pv * 2 > e.pvMax) e.furiaSangue = false;   // il braccialetto della furia si riattiva alla prossima discesa sotto metà PV
   e.pv -= n;
   nota(`${e.nome} perde ${n} PV${causa ? ' (' + causa + ')' : ''}${e.pv <= 0 ? ' e cade a terra, ferito mortalmente!' : ` → ${e.pv}/${e.pvMax}`}`);
-  if (e.pv <= 0) { e.pv = 0; e.stato = 'morto'; if (e.caosTrasf) document.dispatchEvent(new CustomEvent('caos-rinasci', { detail: e.id })); if (abissoAttivo()) A.dopoMorte(e).catch(err => console.error(err)); if (profonditaAttiva()) P.eroeCaduto(e, causa).catch(err => console.error(err)); }
+  if (e.pv <= 0) { e.pv = 0; e.stato = 'morto'; if (e.caosTrasf) document.dispatchEvent(new CustomEvent('caos-rinasci', { detail: e.id })); if (abissoAttivo()) A.dopoMorte(e).catch(err => console.error(err)); if (profonditaAttiva()) P.eroeCaduto(e, causa).catch(err => console.error(err)); if (acqueAttive()) Q.eroeCaduto(e, causa).catch(err => console.error(err)); }
   else if (profonditaAttiva() && n > 0) P.eroeFerito(e);
   else if (suppl()) {
     if (e.ubriaco && e.pv * 2 <= e.pvMax) { e.ubriaco = false; nota(`${e.nome}, ferito, torna sobrio.`); }
@@ -274,6 +285,7 @@ export function contestoAttacco(e, opz = {}) {
 const armaDiOpz = (e, opz) => (opz.armaId !== undefined ? armaDi(opz.armaId) : armaPrincipale(e));
 /** Attacco di un eroe; la stella da lancio dei «Lanciatori di coltelli» specializzati ne scaglia due con una sola azione. */
 export async function attacca(e, opz = {}) {
+  if (opz.armaId === undefined && Q.doppioAttacco(e) && (inc()?.nAtt?.[e.id] || 0) === 1) opz = { ...opz, armaId: Q.armaSecondaria(e) };   // spadaccino: il secondo attacco è con l'arma leggera
   const arma = armaDiOpz(e, opz);
   const doppio = suppl() && arma?.id === 'stella' && abilita(e, 'lanciatore-di-coltelli')?.arma === 'stella' && !opz.coda;
   const r = await attaccaUno(e, opz);
@@ -306,7 +318,7 @@ async function attaccaUno(e, opz = {}) {
   const arma0 = opz.armaId !== undefined ? armaDi(opz.armaId) : armaPrincipale(e);
   const L = opz.coda ? 6 : (i.livControDistanza && arma0?.lancio ? i.livControDistanza : livAtt(i));
   const sup = suppl();
-  if (arma0 && sup) { const c = armaConsentita(e, arma0); if (!c.ok) { toast(c.motivo, 'warn'); return; } }
+  if (arma0 && controllaArmi(e)) { const c = armaConsentita(e, arma0); if (!c.ok) { toast(c.motivo, 'warn'); return; } }
   if (sup && arma0?.id === 'balestra' && e.balestraScarica) { toast('La balestra è scarica: ricaricala con 1 azione.', 'warn'); return; }
   if (sup && S.adv.missione?.portatoreArazzo === e.id && (arma0?.categoria === 'due-mani' || arma0?.id === 'arco')) { toast('Chi porta l’arazzo non può usare armi a due mani né archi: lascialo cadere.', 'warn'); return; }
   if (sup && arma0?.id === 'boomerang' && (i.corridoio || S.adv.tema === 'foresta')) { toast('Il boomerang non si usa nei corridoi, nelle foreste e nelle stanze sotto i 6 quadretti.', 'warn'); return; }
@@ -327,9 +339,11 @@ async function attaccaUno(e, opz = {}) {
   const furioso = !!opz.furioso;
   if (profonditaAttiva() && arma0?.lancio && !opz.coda && await P.fuocoAmico(e, i)) { segna(arma0); return modificato(); }   // falena: gli attacchi a distanza possono colpire i compagni
   const r = furioso ? await migliorDi(3, `Attacco furioso di ${e.nome}`, profiloDado(e).facce) : await d6e(e, `Attacco di ${e.nome}`, profonditaAttiva() ? { esp: P.espAttacco(e, arma0), senzaEsp: P.senzaEsplosione(i) } : {});
+  if (r.naturale === 1 && i.qx?.contraccolpo) await Q.contraccolpo(e, i);
   if (r.naturale === 1 && e.infettoCaos) { e.infettoCaos = false; await K.toccatoDalCaos(e); }
   if (r.naturale === 1 && sup && !arma0?.lancio && tratto(e, 'miope') && e.occhiali === true) { e.occhiali = 'rotti'; nota(`${e.nome}: gli occhiali si rompono (100 p.o. per ripararli).`); }
   const m = modAttacco(e, ctx);
+  Q.spendiMaestria(e);
   if (profonditaAttiva()) P.consumaDichiarazioni(e, i, arma0);
   const dichCM = abissoAttivo() && e.dichiara?.colpoMortale && armaDiOpz(e, opz)?.categoria === 'due-mani';
   if (dichCM) { e.dichiara.colpoMortale = false; (i.usati = i.usati || {})[e.id + 'cm'] = true; }   // il Colpo mortale si dichiara prima del tiro: se fallisce l'uso è perso
@@ -385,6 +399,7 @@ async function attaccaUno(e, opz = {}) {
   i.fonte = 'arma'; i.armaTaglio = armaUsata?.tipo === 'taglio';
   await applicaDanni(colpi);
   T.uccisioni(e, i, pre, { mischia: !armaUsata?.lancio });
+  Q.dopoColpo(e, i, pre);
   if (profonditaAttiva()) await P.dopoColpo(e, i, pre, { mischia: !armaUsata?.lancio });
   if (abissoAttivo() && e.bastoneRettitudine && !i.minore && pre.pv > 0 && i.pv <= 0 && armaUsata?.tipo === 'contundente' && armaUsata.categoria === 'una-mano') { e.pv = Math.min(e.pvMax, e.pv + 1); nota(`${e.nome}: il bastone della rettitudine lo cura di 1 PV.`); }
   if (abissoAttivo() && e.dichiara?.vortice && i.minore && !opz.vorticeCont && colpi && i.stato === 'combattimento' && i.n > 0 && !(i.usati || {})[e.id + 'vl']) {   // Vortice di lame: fino a 2 attacchi in più a -1 e -2
@@ -450,6 +465,7 @@ export function sottrarsiIndenne(motivo) {
 
 /** Numero di attacchi in mischia che un eroe può fare in un turno (l'arlecchino giocoliere ne fa fino a 3). */
 export function maxAttacchi(e, arma) {
+  if (Q.doppioAttacco(e)) return 2;   // spadaccino: arma a una mano + arma leggera
   if (profonditaAttiva() && P.doppioColpo(e, arma)) return 2;   // abilità eroica Doppio colpo
   if (e.classe === 'tiratore' && suppl() && arma?.lancio && !arma.fuoco && S.adv.tema === 'foresta' && (inc()?.turno || 1) <= 1) return 2;   // all'aperto: 2 attacchi a distanza prima della mischia
   if (abissoAttivo() && e.classe !== 'arlecchino' && arma && !arma.lancio) {   // Attacco penetrante (armi leggere) e Doppio attacco (armi a una mano, 1 volta per incontro)
@@ -497,13 +513,15 @@ export async function applicaDanni(n) {
   if (i.minore) {
     const prima = i.n;
     i.n = Math.max(0, i.n - n);
+    Q.dopoDanni(i, prima, n);
     if (prima > i.n) await dopoMorti(i, prima - i.n, i.fonte);
     if (i.pf) { if (prima > i.n && i.pf.risorge && !i.fuocoTurno) { i.cadaveri = (i.cadaveri || 0) + (prima - i.n); i.rigenerati = 1; } P.livelloDinamico(i); }
     if (i.n === 0 && !((i.risorti || 0) > 0 || (i.rigenerati || 0) > 0 || (i.rientri || []).length)) return vittoriaScontro();
     if (i.n === 0) { nota('I caduti torneranno in piedi: resta il turno dei mostri.'); return modificato(); }
-    if (!i.moraleFatto && !i.noMorale && !(i.leaderInc && !i.leaderInc.morto) && i.n * 2 < i.nIniziale) { i.moralePendente = true; nota(`Rimasti ${i.n} su ${i.nIniziale}: serve un tiro di morale.`); }
+    if (!i.moraleFatto && !i.noMorale && !(i.leaderInc && !i.leaderInc.morto) && !i.qx?.moraleRegola && i.n * 2 < i.nIniziale) { i.moralePendente = true; nota(`Rimasti ${i.n} su ${i.nIniziale}: serve un tiro di morale.`); }
   } else {
     i.pv = Math.max(0, i.pv - n);
+    Q.dopoDanni(i, 0, n);
     if (i.pv === 0) {
       if (i.id === 'd-troll' && !i.noRig) {
         const k = await scelta('Grosso troll', 'È a 0 PV: lo fai a pezzi con un’arma da taglio (altrimenti si rigenera)?', [[true, 'Sì, a pezzi'], [false, 'No']]);
@@ -531,6 +549,7 @@ function vittoriaScontro(esito = 'sconfitti') {
   i.stato = 'finito'; i.esito = esito; i.n = esito === 'fuga' ? i.n : 0;
   nota(esito === 'fuga' ? `${i.nome} in fuga: conta come sconfitto.` : `${i.nome} sconfitto!`);
   vittoria(i);
+  Q.fineIncontro(i, esito);
   if (profonditaAttiva()) { P.vittoria(i, esito); P.fineIncontro(i, esito).catch(err => console.error(err)); }
   const coda = (S.adv.coda = S.adv.coda || []);
   if (i.leaderInc && !i.leaderInc.morto && esito !== 'fuga') { if (abissoAttivo()) i.tesoroPreso = true; i.campione = null; coda.push(i.leaderInc); nota(`Resta da affrontare il leader: ${i.leaderInc.nome}.`); i.leaderInc = null; }
@@ -563,12 +582,15 @@ export async function saccheggia() {
   const mod = typeof i.tes === 'number' ? i.tes : 0;
   let molt = i.tes === 'x2' ? 2 : (i.tesMolt || 1);
   if (pieno) { S.adv.pienoOro = false; molt *= 2; nota('Mostro pieno d’oro: le monete del tesoro sono raddoppiate.'); }
-  const t = await tesoro(mod, { molt, finale: i.bossFinale, orcoSenzaMagia: i.tag.includes('orco'), gemmeInvece: !!i.tesoroSoloGemmeMagici });
+  if (i.qx?.tesoroExtra) { (S.adv.bottino = S.adv.bottino || []).push({ id: Math.random().toString(36).slice(2, 9), tipo: 'oggetto', testo: `${i.qx.tesoroExtra} (valore non indicato dal manuale)` }); nota(`Tesoro extra: ${i.qx.tesoroExtra}.`); }
+  const t = await tesoro(mod, { molt, finale: i.bossFinale, orcoSenzaMagia: i.tag.includes('orco'), gemmeInvece: !!i.tesoroSoloGemmeMagici, distruggiPergamene: !!(i.qx?.distruggePergamenePallaDiFuoco && i.pdfColpita) });
   nota(`Saccheggio: ${t}`); modificato();
 }
 
 export function chiudiIncontro() {
   const i = inc(); if (!i) return;
+  if (!i.minore && !i.maggioreContato) { S.adv.maggioriSconfitti = (S.adv.maggioriSconfitti || 0) + 1; i.maggioreContato = true; }   // FAQ: conta ogni maggiore incontrato, anche se superato
+  Q.chiudiIncontro(i);
   S.adv.incontro = (S.adv.coda || []).shift() || null;
   S.party.eroi.forEach(e => {
     if (i.paralisi?.finisceFineCombattimento) e.paralizzato = false;
@@ -624,7 +646,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
   if (abissoAttivo() && nome === 'Rifletti Sguardo') { annulla(); return toast('Rifletti Sguardo si lancia da solo quando devi salvarti da uno sguardo.', 'warn'); }
   if (A.AVANZATI_LANCIABILI.includes(nome)) return await A.lanciaAvanzato(e, nome, annulla, bersaglioId);
   if (nome === 'Protezione') { const b = eroePerId(bersaglioId) || e; i.protetti[b.id] = true; nota(`${e.nome} lancia Protezione su ${b.nome}: +2 alle difese per questo combattimento.`); return modificato(); }
-  if (nome === 'Benedizione') { const b = eroePerId(bersaglioId) || e; b.maledetto = false; b.malattia = false; b.sfortuna = 0; if (b.stato === 'pietra') b.stato = 'ok'; nota(`${e.nome} lancia Benedizione su ${b.nome}.`); if (abissoAttivo()) await A.dopoBenedizione(e, b); if (profonditaAttiva()) P.dopoBenedizione(b); return modificato(); }
+  if (nome === 'Benedizione') { const b = eroePerId(bersaglioId) || e; b.maledetto = false; b.malattia = false; b.sfortuna = 0; Q.curaAcque(b, 'benedizione'); if (b.stato === 'pietra') b.stato = 'ok'; nota(`${e.nome} lancia Benedizione su ${b.nome}.`); if (abissoAttivo()) await A.dopoBenedizione(e, b); if (profonditaAttiva()) P.dopoBenedizione(b); return modificato(); }
   if (nome === 'Fuga') { nota(`${e.nome} lancia Fuga e riappare nella stanza d’ingresso.`); e.fuga = true; return modificato(); }
   if (nome === 'Comunicazione a Distanza') return await comunicazioneDistanza(e, s);
   if (nome === 'Muro di Ghiaccio') return await muroGhiaccio(e);
@@ -663,7 +685,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
   const base = `${e.nome} lancia ${nome}: ${totale} contro LIV ${L}`;
   if (e.classe === 'elfo-fuoco' && r.naturale === 1) {
     const x = await tira(e.armatura === 'pesante' ? '1d6' : '1d3', 'Fiamme che avvolgono l’elfo del fuoco'); perdiPV(e, x.totale, 'vista di fuoco');
-    for (const a of eroiAttivi()) if (a.id !== e.id && !(await salva(a, e.livello, ['elfo-fuoco', 'furfante'].includes(a.classe) ? a.livello : 0, 'Fiamme dell’elfo del fuoco'))) perdiPV(a, 1, 'fiamme');
+    for (const a of eroiAttivi()) if (a.id !== e.id && !(await salva(a, e.livello, ['elfo-fuoco', 'furfante', 'spadaccino'].includes(a.classe) ? a.livello : 0, 'Fiamme dell’elfo del fuoco'))) perdiPV(a, 1, 'fiamme');
   }
   if (profonditaAttiva()) { await P.dopoTiroIncantesimo(e, nome, r); if (P.NOMI_INCANTESIMI().includes(nome)) { await P.lanciaConTiro(e, nome, { i, r, totale, L, base, colpisce }); return modificato(); } }
   if (!colpisce) { nota(`${base} → fallito.`); return modificato(); }
@@ -697,6 +719,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
     const q = i.dannoDaIncantesimo?.[nome] ?? (i.minore ? 1 : Math.max(2, Math.floor(totale / L)));
     nota(`${base} → ${i.minore ? '1 ucciso' : q + ' ferite'}.`); await applicaDanni(q);
   } else if (nome === 'Palla di Fuoco') {
+    i.pdfColpita = true;
     if (S.adv.muroGhiaccio) { S.adv.muroGhiaccio = false; nota('Il fuoco distrugge il Muro di Ghiaccio.'); }
     if (['d-troll', 'troll'].includes(i.id)) i.noRig = true;   // il fuoco impedisce la rigenerazione
     if (i.drago && !i.tag.includes('non-morto')) { nota(`${base} → nessun effetto sui draghi.`); return modificato(); }
@@ -761,7 +784,7 @@ export async function guarisci(e, bersaglio) {
   const r = profonditaAttiva() ? await P.dadoCura(e, `Guarigione di ${e.nome}`) : await tira('1d6', `Guarigione di ${e.nome}`);
   let q = r.totale + e.livello + (e.simboloSacro ? 2 : 0);
   if (profonditaAttiva()) { if (P.curaRivoMorte()) q = Math.floor(q / 2); bersaglio.curatoMagia = true; }
-  const prima = bersaglio.pv;
+  const prima = bersaglio.pv; Q.curaAcque(bersaglio, 'guarigione');
   bersaglio.pv = Math.min(bersaglio.pvMax, bersaglio.pv + q);
   e.usi.guarigione++;
   if (inc()) inc().agito[e.id] = true;
@@ -777,7 +800,7 @@ export async function usaBenedizione(e, bersaglio) {
   e.usi.benedizione++;
   const bersagli = profonditaAttiva() && P.forza(e, 'p-benedizione-condivisa') ? eroiVivi().filter(x => x.stato !== 'morto') : [bersaglio];   // Benedizione condivisa: tutto il gruppo
   for (const b of bersagli) {
-    b.maledetto = false; b.malattia = false; b.sfortuna = 0; if (b.stato === 'pietra') b.stato = 'ok';
+    b.maledetto = false; b.malattia = false; b.sfortuna = 0; Q.curaAcque(b, 'benedizione'); if (b.stato === 'pietra') b.stato = 'ok';
     nota(`${e.nome} lancia Benedizione su ${b.nome}.`); if (abissoAttivo()) await A.dopoBenedizione(e, b); if (profonditaAttiva()) P.dopoBenedizione(b);
   }
   modificato();
@@ -785,7 +808,7 @@ export async function usaBenedizione(e, bersaglio) {
 
 // ---------------- turno dei mostri ----------------
 const ODIATI = { nano: ['troll', 'goblin', 'coboldo'], elfo: ['orco'], chierico: ['non-morto'] };
-const odia = (inc_, e) => (ODIATI[e.classe] || []).some(t => inc_.tag.includes(t)) || P.odia(inc_, e);
+const odia = (inc_, e) => (ODIATI[e.classe] || []).some(t => inc_.tag.includes(t)) || P.odia(inc_, e) || Q.odia(inc_, e);
 
 /** Propone chi viene attaccato da ogni attacco dei mostri. Restituisce [{eroeId}] */
 export function propostaAttacchi(opz = {}) {
@@ -800,7 +823,8 @@ function propostaBase({ tuttiAttaccano = false } = {}) {
   const i = inc();
   if (i.nonAttacca) return [];
   if (i.assenteTurni > 0) return [];
-  let attacchi = i.attPerBersaglio ? eroiAttivi().length * (i.attPerBersaglioN || 1) : (i.minore ? i.n + (i.risorti || 0) : i.att);
+  let attacchi = i.attPerBersaglio ? eroiAttivi().length * (i.attPerBersaglioN || 1) : (i.minore ? i.n + (i.risorti || 0) + (i.id === 'troll' ? (i.rigenerati || 0) : 0) : i.att);   // i troll rigenerati combattono prima delle difese (FAQ)
+  if (i.stordito > 0) attacchi = i.minore ? Math.max(0, attacchi - i.stordito) : 0;
   if (i.pf?.primoAttaccoSeSorpresa && i.sorpresa && i.turno <= 1) attacchi = ordineMarcia().some(x => x.stato === 'ok' && haAbilita(x, 'sesto-senso')) ? i.pf.primoAttaccoSeSorpresa.attacchiSeSestoSenso : i.pf.primoAttaccoSeSorpresa.attacchi;
   if (i.id === 'd-doppelganger') { const im = eroePerId(i.imitato); if (im && im.stato === 'ok') return [{ eroeId: im.id }]; }
   if (i.minore && i.corridoio && !tuttiAttaccano) attacchi = Math.min(attacchi, 2);
@@ -825,7 +849,7 @@ function propostaBase({ tuttiAttaccano = false } = {}) {
   }
   if (i.primoBersaglio && i.turno <= 1 && lista.length && eroePerId(i.primoBersaglio)?.stato === 'ok') lista[0] = { eroeId: i.primoBersaglio };   // il 1° attacco dell'ogre è sul PG che ha mangiato
   if (i.pf?.primoAttaccoSeSorpresa && i.sorpresa && i.turno <= 1 && lista.length) { const b = casuale(eleg).id; return lista.map(() => ({ eroeId: b })); }   // pedinatori: tutti i colpi sullo stesso bersaglio
-  if (!i.minore && i.att > 1 && lista.length) { // attacchi multipli del maggiore: a caso fra i bersagli possibili
+  if (!i.minore && i.att > 1 && lista.length && !i.qx?.attDivisiEquamente) { // attacchi multipli del maggiore: a caso fra i bersagli possibili
     if (i.pf?.attaccoConcentrato) { const b = casuale(eleg).id; return lista.map(() => ({ eroeId: b })); }   // falene: tutti gli attacchi su un solo bersaglio
     if (i.id === 'c-manticora') { const b = casuale(eleg).id; return lista.map(() => ({ eroeId: b })); }   // la manticora colpisce sempre lo stesso bersaglio
     return lista.map(() => ({ eroeId: casuale(eleg).id }));
@@ -833,8 +857,9 @@ function propostaBase({ tuttiAttaccano = false } = {}) {
   return lista;
 }
 
-async function effettoFerita(e, dn = 1) {
+async function effettoFerita(e, dn = 1, r, dif) {
   const i = inc();
+  await Q.effettoFerita(e, i, dn, r, dif);
   await A.effettoFerita(e, i, dn);
   if (profonditaAttiva()) P.dopoFerita(e, i, dn);
   if (e.stato !== 'ok') return;
@@ -862,15 +887,17 @@ export async function provaDifesa(dif, i, liv, opz) {
     tag: i.tag, nome: i.nome, id: i.id, minore: i.minore, sorpreso: i.sorpresa && i.turno <= 1, ritirata: opz.ritirata, fuga: opz.fuga,
     ignoraArmatura: i.id === 'c-vespe' || i.psionico || i.ignoraArmatura, extra: (i.psionico ? Math.floor(dif.livello / 2) : 0) + (i.bonusDifesaClassi?.[dif.classe] ? dif.livello : 0) + (i.malusDifesaAbisso || 0),
     protezione: i.protetti?.[dif.id], senzaLanterna: !gruppoHaLanterna(), malusDifesa: i.malusDifesa, tenzone: i.tenzone,
-    ignoraPesante: i.id === 'ferrofago', primoMinotauro: i.id === 'minotauro' && !i.difeso?.[dif.id]
+    ignoraSoloArmatura: !!i.qx?.ignoraSoloArmatura, ignoraPesante: i.id === 'ferrofago', primoMinotauro: i.id === 'minotauro' && !i.difeso?.[dif.id]
   };
   if (profonditaAttiva()) { ctx.ignoraScudo = !!i.pf?.ignoraBonusScudi; ctx.circolo = i.circolo?.eroeId === dif.id ? i.circolo.mod : 0; if (i.fortunaBarcaiolo) ctx.extra = (ctx.extra || 0) + grNumero(); }
   if (profonditaAttiva() && dif.nessunPericolo) { dif.nessunPericolo = false; nota(`${dif.nome} ignora il pericolo (allucinazione) e non si difende.`); return { r: { naturale: 1, tiri: [1], totale: 1 }, tot: 0, ok: false }; }
   if (profonditaAttiva() && dif.autoDifesa) { dif.autoDifesa = false; nota(`${dif.nome} si difende in automatico (rivelazione).`); return { r: { naturale: 99, tiri: [99], totale: 99 }, tot: 99, ok: true }; }
+  if (opz.agg) ctx.extra = (ctx.extra || 0) + opz.agg;
   const m = modDifesa(dif, ctx);
   const r = await d6e(dif, `Difesa di ${dif.nome} (contro LIV ${liv})`, profonditaAttiva() ? { esp: P.espDifesa(dif) } : {});
   if (profonditaAttiva() && r.naturale === 1 && i.circolo?.eroeId === dif.id) { i.circolo = null; nota('Un 1 in difesa: il circolo di protezione cessa.'); }
   const tot = r.totale + m.tot;
+  Q.spendiMaestria(dif);
   if (r.naturale === 1 && dif.infettoCaos) { dif.infettoCaos = false; await K.toccatoDalCaos(dif); }
   if (abissoAttivo() && r.naturale === 1 && i.rompeScudoSu1 && dif.scudo && !dif.scudoMagico && !dif.srv?.scudo) { dif.scudo = false; nota(`${i.nome} manda in frantumi lo scudo di ${dif.nome}!`); }
   return { r, tot, ok: esplode(dif, r) || (r.naturale !== 1 && tot > liv) };
@@ -891,7 +918,8 @@ export async function eseguiDifese(assegnazioni, opz = {}) {
   for (const e of eroiAttivi()) if (i.dissanguati?.[e.id]) perdiPV(e, 1, 'uccelli stigei');
   for (const e of eroiAttivi()) if (e.avvolto) perdiPV(e, 1, 'manto predatore');
   { const pre = await A.inizioTurnoMostri(i, assegnazioni); if (pre?.salta) return fineTurnoMostri(); if (pre?.assegnazioni) assegnazioni = pre.assegnazioni; }
-  if (profonditaAttiva() && i.pf && await P.inizioTurnoMostri(i)) return fineTurnoMostri();   // fanghiglia, poteri psionici, forza oscura, raggio congelante, semi
+  if (profonditaAttiva() && i.pf && await P.inizioTurnoMostri(i)) return fineTurnoMostri();
+  { const qp = await Q.inizioTurnoMostri(i); if (qp?.salta) return fineTurnoMostri(); }   // fanghiglia, poteri psionici, forza oscura, raggio congelante, semi
   if (i.speciale === 'cubo') {
     for (const e of eroiAttivi()) {
       if (e.inghiottito) continue;
@@ -918,10 +946,11 @@ export async function eseguiDifese(assegnazioni, opz = {}) {
     let dif = e;   // il veterano può essere protetto da un compagno che rinuncia a un attacco e tira la difesa al suo posto
     const prot = a.protettoreId ? eroePerId(a.protettoreId) : null;
     if (prot && prot.id !== e.id && prot.stato === 'ok') { dif = prot; i.agito[prot.id] = true; nota(`${prot.nome} rinuncia a un attacco per proteggere ${e.nome}: tira lui la difesa.`); }
-    let es = dif.paralizzato ? { r: { naturale: 1, tiri: [1] }, tot: 0, ok: false } : await provaDifesa(dif, i, liv, opz);
-    if (!es.ok && abissoAttivo() && !dif.paralizzato && await A.ripetiDifesa(dif, i)) es = await provaDifesa(dif, i, liv, opz);
+    const opzK = { ...opz, agg: Q.aggancio(e, i, k, assegnazioni) };
+    let es = (dif.paralizzato || dif.rete || dif.affascinato) ? { r: { naturale: 1, tiri: [1], auto: true }, tot: 0, ok: false } : await provaDifesa(dif, i, liv, opzK);
+    if (!es.ok && abissoAttivo() && !dif.paralizzato && await A.ripetiDifesa(dif, i)) es = await provaDifesa(dif, i, liv, opzK);
     if (!es.ok && suppl() && tratto(dif, 'protetto') && !(dif.usi || {}).protetto && await scelta('Protetto dagli dèi', `${dif.nome} ha fallito la difesa (${es.tot} contro LIV ${liv}): la ripeti? (1 volta per avventura)`, [[true, 'Sì, ripeti'], [false, 'No']])) {
-      dif.usi = dif.usi || {}; dif.usi.protetto = 1; nota(`${dif.nome} è protetto dagli dèi e ripete la difesa.`); es = await provaDifesa(dif, i, liv, opz);
+      dif.usi = dif.usi || {}; dif.usi.protetto = 1; nota(`${dif.nome} è protetto dagli dèi e ripete la difesa.`); es = await provaDifesa(dif, i, liv, opzK);
     }
     const { r, tot, ok } = es;
     i.difeso[e.id] = true;
@@ -949,7 +978,7 @@ export async function eseguiDifese(assegnazioni, opz = {}) {
         perdiPV(e, dn, i.nome);
         if (i.id === 'd-demone') { i.scheletriGen = (i.scheletriGen || 0) + dn; nota(`Il sangue versato genera ${dn} scheletr${dn === 1 ? 'o corazzato' : 'i corazzati'} (totale ${i.scheletriGen}).`); }
         if (i.rompeScudo && dif.scudo && dif.stato !== 'morto') { dif.scudo = false; nota(`${i.nome} distrugge lo scudo di ${dif.nome}!`); }
-        await effettoFerita(e, dn);
+        await effettoFerita(e, dn, r, dif);
       }
     }
   }
@@ -976,7 +1005,9 @@ async function fineTurnoMostri() {
     i.erranteChiamato = true; nota(`${i.nome}: troppo rumore! Arrivano i mostri erranti, che sorprendono il gruppo.`);
     const m = await monstroErrante(); m.sorpresa = true; avviaIncontro(m, S.adv.tessere.find(x => x.id === i.tessera) || null);
   }
+  Q.fineTurnoMostri(i);
   i.turno++; i.sorpresa = false; i.mostriPrima = false; i.agito = {}; i.nAtt = {}; i.protetti = i.protetti || {};
+  await Q.nuovoTurno(i);
   await blocchiDiTurno();
   if (i.id === 'troll' && i.n === 0) nota('Ricorda: i troll uccisi possono rigenerarsi (5-6 su 1d6 ciascuno) se non usi incantesimi o non li fai a pezzi.');
   modificato();

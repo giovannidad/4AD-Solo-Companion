@@ -2,11 +2,12 @@
 import { R, S, modificato, salva, log, nuovoEroe, eroePerId, eroiVivi, livelloMax } from './state.js';
 import { h, modal, toast, confirmBox, sign, uid, scelta } from './util.js';
 import { tira, dado } from './dice.js';
-import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaLanterna, suppl, tratto, armaConsentita, limiteArma, abissoAttivo, maxFurie, profonditaAttiva, grNumero } from './rules.js';
+import { armaDi, nomeClasse, sovraccarico, incantatore, NOME_ARMATURA, gruppoHaLanterna, suppl, tratto, armaConsentita, limiteArma, abissoAttivo, maxFurie, profonditaAttiva, grNumero, acqueAttive, classeDisponibile, armaVisibile, controllaArmi } from './rules.js';
 import { tiroES, eroePuoSalire } from './game.js';
 import * as T from './tratti.js';
 import * as A from './abisso.js';
 import * as P from './profondita.js';
+import * as Q from './acque.js';
 const Prof = P;   // alias: renderGruppo ha una variabile locale P (il gruppo)
 import * as C from './combat.js';
 import * as Rit from './ritratti.js';
@@ -27,7 +28,7 @@ function nomeCasuale(extra = []) {
   return liberi.length ? liberi[Math.floor(Math.random() * liberi.length)] : nomeLibero(NOMI[Math.floor(Math.random() * NOMI.length)], null, extra);
 }
 const NOMI = ['Bruggo', 'Aldric', 'Thora', 'Kenna', 'Marcus', 'Elowen', 'Dollom', 'Grimli', 'Sera', 'Tobin', 'Vesna', 'Rurik', 'Ilya', 'Fenn', 'Mirela', 'Orsolo', 'Brannoc', 'Zadi', 'Nerys', 'Cael'];
-const ICONE = { arlecchino: '\u{1F3AD}', assassino: '\u{1F5E1}', 'elfo-fuoco': '\u{1F525}', tiratore: '\u{1F3AF}', veterano: '\u{1F396}', barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
+const ICONE = { arlecchino: '\u{1F3AD}', assassino: '\u{1F5E1}', 'elfo-fuoco': '\u{1F525}', tiratore: '\u{1F3AF}', veterano: '\u{1F396}', spadaccino: '\u{1F93A}', barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
 export const iconaClasse = c => ICONE[c] || '✦';
 
 export function slotIncantesimi(e) {
@@ -61,6 +62,7 @@ export function equipaggiamentoIniziale(e) {
     case 'arlecchino': A('leggera-taglio'); e.armi.push('leggera-taglio', 'una-mano-taglio'); e.armatura = 'leggera'; e.oggetti.push({ nome: 'Costume da menestrello', qta: 1 }, { nome: 'Grimaldelli', qta: 1 }); break;
     case 'assassino': A('una-mano-taglio'); e.armi.push('leggera-taglio'); e.armatura = 'leggera'; e.oggetti.push({ nome: 'Grimaldelli', qta: 1 }); break;
     case 'elfo-fuoco': A('una-mano-taglio'); e.armatura = 'leggera'; break;
+    case 'spadaccino': A('una-mano-taglio'); e.armi.push('leggera-taglio'); e.oggetti.push({ nome: 'Cappello piumato (o tricorno)', qta: 1 }, { nome: 'Cappa', qta: 1 }); break;
     case 'tiratore': A('arco'); e.armi.push('leggera-taglio'); e.armatura = 'leggera'; break;
     case 'veterano': A('leggera-taglio'); e.lanterna = true; e.abilita = [{ id: 'assistenza' }, { id: 'leader-carismatico' }]; break;
     case 'mezzuomo': A('leggera-taglio'); e.armi.push('fionda'); e.oggetti.push({ nome: 'Razioni', qta: 3 }); break;
@@ -81,6 +83,7 @@ export function renderGruppo(box) {
       h('button', { class: 'primary', onclick: creaEroe, disabled: P.eroi.filter(e => e.stato !== 'morto').length >= 4 && false }, '+ Eroe'),
       profonditaAttiva() && !S.adv.attiva && !S.ospite ? h('button', { onclick: () => Prof.passaDiGrado(), title: 'Tra due avventure: passa al grado eroico (livello 9) o leggendario (livello 14) spendendo tiri ES messi da parte e oro' }, 'Passa di grado') : null,
       abissoAttivo() && !S.adv.attiva ? h('button', { onclick: () => A.addestramento(), title: 'Tra due avventure: 100 p.o. per livello in cambio di 1 tiro ES (regola opzionale di «Contro l’Abisso»)' }, 'Addestramento') : null,
+      acqueAttive() ? h('button', { onclick: () => Q.nuovoCompagno(), title: 'Aggiunge un alleato PNG come membro aggiuntivo del gruppo' }, '+ Compagno PNG') : null,
       h('button', { onclick: negozio, title: 'Compra e vendi equipaggiamento' }, 'Negozio'))));
   if (P.eroi.length && !lant) box.append(h('div', { class: 'warn-box' }, 'Nessuna lanterna in mano al gruppo: -2 a tutti gli attacchi e alle difese (regola della lanterna).'));
   const stat = h('div', { class: 'party-stats' },
@@ -115,6 +118,7 @@ function schedaCompatta(e, idx) {
   if (sovraccarico(e)) stati.push(h('span', { class: 'tag red', title: 'Troppo carico: -1 alla difesa' }, 'Sovraccarico'));
   if (e.stato === 'prigioniero') stati.push(h('span', { class: 'tag red', title: 'Prigioniero: pagare il riscatto o liberarlo, poi cambia lo stato dalla scheda' }, 'Prigioniero'));
   if (e.png) stati.push(h('span', { class: 'tag amber', title: 'Compagno della missione' }, 'Compagno'));
+  for (const [t, c, ti] of Q.statiAcque(e)) stati.push(h('span', { class: `tag ${c}`, title: ti }, t));
   if (suppl()) {
     if (e.ubriaco) stati.push(h('span', { class: 'tag red', title: '-1 a tutti i tiri finché non scende a metà PV' }, 'Ubriaco'));
     if (e.stordito) stati.push(h('span', { class: 'tag red', title: '-1 alla difesa per un turno' }, 'Stordito'));
@@ -204,7 +208,7 @@ export async function creaEroe() {
       const c = R.classi[classe];
       info.textContent = `${c.tratti} Vita iniziale: ${c.vitaBase + 1}. Ricchezza: ${c.oro} p.o.`;
     };
-    Object.entries(R.classi).filter(([, c]) => !c.suppl || S.party.supplCaos).forEach(([id, c]) => grid.append(h('button', { class: 'class-card', dataset: { c: id }, onclick: () => { classe = id; aggiorna(); } }, h('span', { class: 'ico' }, iconaClasse(id)), c.nome)));
+    Object.entries(R.classi).filter(([, c]) => classeDisponibile(c)).forEach(([id, c]) => grid.append(h('button', { class: 'class-card', dataset: { c: id }, onclick: () => { classe = id; aggiorna(); } }, h('span', { class: 'ico' }, iconaClasse(id)), c.nome)));
     b.append(h('label', {}, 'Nome', nome), grid, info,
       h('div', { class: 'row end' }, h('button', { onclick: close }, 'Annulla'),
         h('button', { class: 'primary', onclick: async () => {
@@ -226,7 +230,7 @@ export async function creaEroe() {
 
 async function creaGruppoVeloce() {
   // 4 classi estratte a caso (senza ripetizioni finché le classi disponibili bastano), nomi tutti diversi
-  const disponibili = Object.entries(R.classi).filter(([, c]) => !c.suppl || S.party.supplCaos).map(([id]) => id);
+  const disponibili = Object.entries(R.classi).filter(([, c]) => classeDisponibile(c)).map(([id]) => id);
   const pesca = [...disponibili].sort(() => Math.random() - 0.5);
   const classi = [];
   while (classi.length < 4) { if (!pesca.length) pesca.push(...disponibili.sort(() => Math.random() - 0.5)); classi.push(pesca.shift()); }
@@ -279,10 +283,10 @@ export function scheda(id) {
       if (!e.armi?.length) armi.append(h('small', {}, 'Nessuna arma (attacca a mani nude: -2).'));
     };
     rArmi();
-    const aggArma = h('select', {}, R.equipaggiamento.armi.filter(a => !a.suppl || S.party.supplCaos).map(a => h('option', { value: a.id }, a.nome)));
+    const aggArma = h('select', {}, R.equipaggiamento.armi.filter(armaVisibile).map(a => h('option', { value: a.id }, a.nome)));
     b.append(h('h4', {}, 'Armi (spunta quella impugnata)'), armi,
       h('div', { class: 'row' }, aggArma, h('button', { onclick: () => {
-        if (suppl()) { const a = armaDi(aggArma.value), c = armaConsentita(e, a); if (!c.ok) return toast(c.motivo, 'warn'); if (!limiteArma(e, aggArma.value)) return toast(`${a.nome}: ne puoi portare al massimo ${aggArma.value === 'bolas' ? 2 : 1}.`, 'warn'); }
+        if (controllaArmi(e)) { const a = armaDi(aggArma.value), c = armaConsentita(e, a); if (!c.ok) return toast(c.motivo, 'warn'); if (!limiteArma(e, aggArma.value)) return toast(`${a.nome}: ne puoi portare al massimo ${aggArma.value === 'bolas' ? 2 : 1}.`, 'warn'); }
         (e.armi = e.armi || []).push(aggArma.value); if (!e.armaPrincipale) e.armaPrincipale = aggArma.value; rArmi(); modificato('party'); } }, 'Aggiungi arma')),
       h('div', { class: 'grid2' }, sel('Armatura', 'armatura', Object.entries(NOME_ARMATURA)), chk('Scudo', 'scudo')));
 
@@ -325,6 +329,7 @@ export function scheda(id) {
     if (profonditaAttiva() && !e.merc) b.append(P.sezioneGrado(e, () => scheda(e.id)));
     if (S.party.supplCaos || abissoAttivo()) b.append(T.sezioneAbilita(e, () => scheda(e.id)));
     if (S.party.supplCaos) b.append(T.sezione(e, () => scheda(e.id)));
+    b.append(Q.sezioneScheda(e, () => scheda(e.id)));
     b.append(h('h4', {}, 'Oggetti e bottino'), og, h('div', { class: 'row' }, nuovo, h('button', { onclick: () => { if (!nuovo.value.trim()) return; (e.oggetti = e.oggetti || []).push({ nome: nuovo.value.trim(), qta: 1 }); nuovo.value = ''; ro(); modificato('party'); } }, 'Aggiungi')));
     if ((e.segreti || []).length) b.append(h('h4', {}, 'Segreti scoperti'), h('ul', {}, e.segreti.map(s => h('li', {}, s))));
     b.append(h('label', {}, 'Note', h('textarea', { rows: 3, onchange: ev => { e.note = ev.target.value; modificato('party'); } }, e.note || '')));
@@ -368,6 +373,7 @@ function usaOggetto(e) {
       modificato('party'); close();
     } }, 'Bevi pozione di guarigione'));
     azioni.push(h('button', { onclick: () => { const k = (e.oggetti || []).findIndex(o => /razion/i.test(o.nome)); if (k >= 0) { e.oggetti[k].qta--; if (e.oggetti[k].qta <= 0) e.oggetti.splice(k, 1); } log(`${e.nome} consuma una razione.`); modificato('party'); close(); } }, 'Consuma razione'));
+    azioni.push(...Q.azioniOggetti(e, close));
     if (abissoAttivo()) azioni.push(...A.azioniOggetti(e, close));
     b.append(h('div', { class: 'col' }, azioni));
     const trasf = h('select', {}, S.party.eroi.filter(x => x.id !== e.id).map(x => h('option', { value: x.id }, x.nome)));
@@ -379,10 +385,12 @@ function usaOggetto(e) {
 // ---------------- negozio ----------------
 const gemme = e => (e.oggetti || []).filter(o => o.tipo === 'gemma' && o.valore > 0);
 const valGemme = e => gemme(e).reduce((a, o) => a + o.valore * (o.qta || 1), 0);
+const vendGemme = e => gemme(e).reduce((a, o) => a + (e.classe === 'nano' ? Math.floor(o.valore * 1.2) : o.valore) * (o.qta || 1), 0);
 
 /** Prezzo di vendita di un oggetto del personaggio (null = non vendibile). Gli oggetti magici generici valgono 1d6×1d6 (tirati alla vendita). */
-function prezzoOggetto(o) {
-  if (o.tipo === 'gemma') return { v: o.valore };
+function prezzoOggetto(o, e) {
+  if (/alghe curative/i.test(o.nome || '')) return { v: 40 };
+  if (o.tipo === 'gemma' || o.tipo === 'gioiello') return e?.classe === 'nano' ? { v: Math.floor(o.valore * 1.2), nota: '+20% (nano)' } : { v: o.valore };   // FAQ: prezzo pieno, +20% se vende un nano
   const n = o.nome || '';
   if (o.cariche != null && o.incantesimo) return { v: 100 * Math.max(0, o.cariche), nota: `100 p.o. per carica (${o.cariche})` };
   if (/bacchetta del potere/i.test(n)) return { v: 25 * Math.max(0, o.cariche ?? 0), nota: '25 p.o. per carica' };
@@ -416,7 +424,7 @@ export function negozio() {
       const e = eroePerId(eroeSel.value); if (!e) return;
       const fondi = (e.oro || 0) + oroAltri(e) + valGemme(e);
       const voci = [
-        ...R.equipaggiamento.armi.filter(a => !a.suppl || S.party.supplCaos).map(a => ({ nome: a.nome, costo: a.costo, arma: a.id })),
+        ...R.equipaggiamento.armi.filter(a => armaVisibile(a) && a.costo > 0).map(a => ({ nome: a.nome, costo: a.costo, arma: a.id })),
         ...R.equipaggiamento.oggetti.filter(o => o.id !== 'occhiali' || (suppl() && tratto(e, 'miope'))).map(o => ({ nome: o.nome, costo: prezzo(e, o), id: o.id }))
       ];
       lista.append(h('p', { class: 'hint' }, `Fondi: ${e.oro || 0} p.o.${oroAltri(e) ? ` + ${oroAltri(e)} p.o. dei compagni` : ''}${valGemme(e) ? ` + ${valGemme(e)} p.o. in gemme (usate come moneta se l’oro non basta)` : ''}.`));
@@ -427,7 +435,7 @@ export function negozio() {
       venditaBox.append(h('h4', {}, `Vendi (${e.nome})`));
       let n = 0;
       (e.oggetti || []).forEach(o => {
-        const p = prezzoOggetto(o); if (!p) return; n++;
+        const p = prezzoOggetto(o, e); if (!p) return; n++;
         venditaBox.append(h('div', { class: 'row' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}`),
           h('span', { class: 'price' }, p.dadi ? '1d6×1d6 p.o.' : `${p.v * (o.tipo === 'gemma' ? 1 : 1)} p.o.${p.nota ? ` (${p.nota})` : ''}`),
           h('button', { onclick: async () => {
@@ -450,18 +458,19 @@ export function negozio() {
         if (e.occhiali === 'rotti') { n++; venditaBox.append(h('div', { class: 'row' }, h('span', { class: 'grow' }, 'Occhiali rotti'), h('span', { class: 'price' }, '100 p.o.'),
           h('button', { disabled: fondi < 100, onclick: () => { pagaOro(e, 100); e.occhiali = true; log(`${e.nome} ripara gli occhiali (100 p.o.).`); aggiorna(e); } }, 'Ripara'))); }
       }
-      if (gemme(e).length > 1) venditaBox.append(h('button', { class: 'accent', onclick: () => { const v = valGemme(e); e.oggetti = e.oggetti.filter(o => o.tipo !== 'gemma'); e.oro = (e.oro || 0) + v; log(`${e.nome} vende tutte le gemme per ${v} p.o.`); aggiorna(e); } }, `Vendi tutte le gemme (${valGemme(e)} p.o.)`));
+      if (gemme(e).length > 1) venditaBox.append(h('button', { class: 'accent', onclick: () => { const v = vendGemme(e); e.oggetti = e.oggetti.filter(o => o.tipo !== 'gemma'); e.oro = (e.oro || 0) + v; log(`${e.nome} vende tutte le gemme per ${v} p.o.`); aggiorna(e); } }, `Vendi tutte le gemme (${vendGemme(e)} p.o.)`));
       if (!n) venditaBox.append(h('small', {}, 'Niente da vendere.'));
     };
     /** Prezzo per l'acquirente: il tratto Sovrappeso aumenta del 20% (per eccesso) cibo e armature. */
-    const prezzo = (e, o) => suppl() && tratto(e, 'sovrappeso') && ['armatura-leggera', 'armatura-pesante', 'razioni'].includes(o.id) ? Math.ceil(o.costo * 1.2) : o.costo;
+    const prezzo = (e, o) => o.id === 'acqua-santa' && acqueAttive() && S.party.demoneNoto ? 20 : suppl() && tratto(e, 'sovrappeso') && ['armatura-leggera', 'armatura-pesante', 'razioni'].includes(o.id) ? Math.ceil(o.costo * 1.2) : o.costo;
     /** Paga con l'oro del personaggio e poi con quello dei compagni (usato dalle riparazioni). */
     const pagaOro = (e, costo) => {
       let da = costo; const usa = Math.min(e.oro || 0, da); e.oro = (e.oro || 0) - usa; da -= usa;
       for (const x of donatori(e).sort((a, b) => (b.oro || 0) - (a.oro || 0))) { if (da <= 0) break; const k = Math.min(x.oro || 0, da); x.oro -= k; da -= k; }
     };
     const compra = (e, v) => {
-      if (v.arma && suppl()) {   // armi da fuoco riservate, limiti di bolas e boomerang
+      if (v.id === 'acqua-santa' && acqueAttive() && (e.oggetti || []).some(o => /acqua santa/i.test(o.nome))) return toast('Al massimo 1 fiala di acqua santa per personaggio.', 'warn');
+      if (v.arma && controllaArmi(e)) {   // armi da fuoco riservate, limiti di bolas e boomerang
         const a = armaDi(v.arma), c = armaConsentita(e, a); if (!c.ok) return toast(c.motivo, 'warn');
         if (!limiteArma(e, v.arma)) return toast(`${a.nome}: ne puoi portare al massimo ${v.arma === 'bolas' ? 2 : 1}.`, 'warn');
       }
@@ -479,7 +488,7 @@ export function negozio() {
         const unica = gs.find(g => g.valore >= da);
         if (unica) { scelte.push(unica); somma = unica.valore; } else for (const g of gs.reverse()) { if (somma >= da) break; scelte.push(g); somma += g.valore; }
         scelte.forEach(g => { if (g.qta > 1) g.qta--; else e.oggetti = e.oggetti.filter(y => y !== g); });
-        e.oro += somma - da; nota += ` (pagando con ${scelte.length} gemm${scelte.length === 1 ? 'a' : 'e'} da ${somma} p.o.${somma > da ? `; resto ${somma - da} p.o.` : ''})`;
+        nota += ` (pagando con ${scelte.length} gemm${scelte.length === 1 ? 'a' : 'e'} da ${somma} p.o.${somma > da ? '; nessun resto' : ''})`;   // le gemme non danno resto
       }
       if (v.arma) { (e.armi = e.armi || []).push(v.arma); if (!e.armaPrincipale) e.armaPrincipale = v.arma; }
       else if (v.id === 'armatura-leggera') { e.armatura = e.armatura === 'pesante' ? 'pesante' : 'leggera'; if (e.armatura === 'leggera') { e.cottaElfica = false; e.armaturaPerfetta = false; e.armaturaLeggendaria = false; } }
@@ -493,6 +502,7 @@ export function negozio() {
     };
     eroeSel.onchange = rLista;
     rSel();
+    if (acqueAttive()) b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.demoneNoto, onchange: ev => { S.party.demoneNoto = ev.target.checked; modificato('party'); rLista(); } }), 'Il gruppo sa che c’è un demone: acqua santa a 20 p.o. invece di 30'));
     b.append(h('label', {}, 'Personaggio', eroeSel), h('label', { class: 'chk' }, gruppoCk, 'Usa anche l’oro del gruppo se quello del personaggio non basta'), lista, venditaBox,
       ...(abissoAttivo() ? [A.sezioneAlleati(() => { close(); negozio(); })] : []),
       h('p', { class: 'hint' }, 'Vendita: armi a metà prezzo (arrotondato per difetto); gemme al loro valore; pozioni e anelli magici 50 p.o.; bacchette, bastoni e pergamene 100 p.o. per incantesimo; altri oggetti magici 1d6×1d6 p.o. (o il valore indicato). Le gemme si possono anche usare direttamente come moneta negli acquisti.'),

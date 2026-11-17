@@ -8,6 +8,7 @@ import * as G from './game.js';
 import * as C from './combat.js';
 import * as K from './caos.js';
 import * as P from './profondita.js';
+import * as Q from './acque.js';
 
 const adv = () => S.adv;
 const casuale = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -965,7 +966,7 @@ export function preIncontro(i, btn) {
   return out;
 }
 /** Il tiro del tipo di mostro errante / contenuti ritirabili dai segreti: promemoria sulla carta. */
-export const sogliaErranti = () => (eroiVivi().some(e => e.campanellini) ? 3 : 1);
+export const sogliaErranti = () => Math.max(eroiVivi().some(e => e.campanellini) ? 3 : 1, Q.sogliaErranti());
 
 /** Carta della scheda dell'incontro: leader e campione. */
 export function cartaLeader(i, btn) {
