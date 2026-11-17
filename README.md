@@ -24,15 +24,18 @@ del regolamento automatizzate. Tutti i dati sono salvati in **file di testo** (J
 Cosa è automatico e cosa no è descritto in [docs/REGOLE.md](docs/REGOLE.md): l'app è un **assistente al tavolo**,
 le scelte restano al giocatore.
 
-## Su telefono (modalità locale, sperimentale)
+## Su telefono (versione web installabile)
 
-Il programma può funzionare senza server: i file (`public/`, `assets/`, `data/rules/`) si pubblicano su un host web statico con HTTPS
-(es. GitHub Pages); `node tools/prepara-statico.js` prepara la cartella da pubblicare (`web-statico/`). Aperto da quell'indirizzo,
-salva le campagne nella memoria del browser (IndexedDB) e, con il service worker, funziona offline dopo il primo caricamento;
-si può aggiungere alla schermata Home. Le campagne non passano dal telefono al PC: usa «Esporta/Importa campagna» nelle Impostazioni.
-La cooperativa online richiede il server e non è disponibile. Provato finora solo su browser desktop (con `?locale=1` si forza questa
-modalità anche con il server); il layout non è ancora adattato agli schermi piccoli e l'installazione su un telefono vero non è stata provata.
-Dettagli in `docs/ARCHITETTURA.md`.
+Indirizzo: **https://giovannidad.github.io/4AD-Solo-Companion/**
+
+- **Android (Chrome):** apri l'indirizzo, poi menu ⋮ → «Installa app» (o «Aggiungi a schermata Home»).
+- **iPhone (Safari):** apri l'indirizzo, poi Condividi → «Aggiungi alla schermata Home» (deve essere Safari).
+- **PC:** Chrome ed Edge mostrano l'icona di installazione nella barra dell'indirizzo.
+
+Questa versione non usa il server: le campagne si salvano nella memoria del browser del dispositivo e, dopo il primo caricamento, funziona anche offline.
+Il browser può cancellare quei dati (soprattutto su iPhone): ogni tanto usa «Esporta campagna» nelle Impostazioni; con «Importa campagna» la ritrovi su un altro dispositivo.
+La cooperativa online richiede il server e non è disponibile. L'interfaccia per telefono (barra in basso, mappa al tocco) è stata provata finora solo
+nel browser del computer, con la finestra ridimensionata: non su un telefono vero. Dettagli in `docs/ARCHITETTURA.md`.
 
 ## Avvio rapido (sviluppo)
 

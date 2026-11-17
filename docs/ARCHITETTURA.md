@@ -34,6 +34,7 @@ Browser / Electron  ──HTTP──▶  server.js  ──▶  data/campagne/<id
   Il percorso delle tessere salvate in `avventura.json` è ora `assets/…` (i vecchi salvataggi `/assets/…` vengono convertiti al caricamento).
   Restano assoluti solo `/api/…` (esistono solo col server).
 - Limiti: i dati stanno nella memoria del browser (cancellabile); nessuna cooperativa; niente sincronizzazione tra dispositivi.
+- Pubblicazione: il sito sta su GitHub Pages dal ramo `gh-pages` (contenuto di `web-statico/`, indirizzo `https://giovannidad.github.io/4AD-Solo-Companion/`). Va aggiornato a ogni release: ricreare `web-statico/` con `prepara-statico.js` e fare un push forzato di quella cartella sul ramo `gh-pages` (un commit orfano, con un file `.nojekyll`).
 - Prova: `node server.js` e aprire `http://localhost:3000/?locale=1`; oppure `node tools/prepara-statico.js /tmp/web` e servire la cartella con un server statico qualsiasi.
 
 ## Moduli frontend
