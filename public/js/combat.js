@@ -9,10 +9,11 @@ import * as T from './tratti.js';
 import * as A from './abisso.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
+import * as V from './silvani.js';
 
 export const inc = () => S.adv.incontro;
 const livAtt = i => (i.livPrimoTurno && i.turno <= 1) ? i.livPrimoTurno : (P.livelloSenzaFeriti(i) ?? i.liv);
-const livDif = (i, e) => (i.livPrimoTurno && i.turno <= 1) ? i.livPrimoTurno : (i.livDifesaFerito && e.pv < e.pvMax ? i.livDifesaFerito : (P.livelloSenzaFeriti(i) ?? i.liv));
+const livDif = (i, e) => ((i.livPrimoTurno && i.turno <= 1) ? i.livPrimoTurno : (i.livDifesaFerito && e.pv < e.pvMax ? i.livDifesaFerito : (P.livelloSenzaFeriti(i) ?? i.liv))) + (i.sv?.livPiuPrimoAttacco && i.turno <= 1 ? i.sv.livPiuPrimoAttacco : 0);   // unicorno nero: +2 al primo attacco
 const casuale = arr => arr[Math.floor(Math.random() * arr.length)];
 
 export function nota(testo) {
@@ -51,6 +52,7 @@ async function blocchiDiTurno() {
   const i = inc(); if (!i || i.stato === 'finito') return;
   await A.inizioTurno(i);
   await Q.inizioTurno(i);
+  await V.inizioTurno(i);
   if (i.id === 'd-doppelganger') {
     for (const e of eroiAttivi()) {
       if (e.id === i.imitato) continue;
@@ -115,6 +117,7 @@ export async function inizioScontro() {
   await poteriIniziali();
   await Q.inizioIncontro(i);
   await A.inizioIncontro(i);
+  await V.inizioIncontro(i);   // Labirinti Silvani: fetore, masso, sorpresa delle ruote, foto del rakshasa
   if (profonditaAttiva()) await P.inizioIncontro(i);   // raffiche, illusioni, ruggito, muco, Resistenza alla magia
   if (i.speciale === 'schiavisti' && !i.errante) {
     const lead = ordineMarcia().find(e => e.stato === 'ok');
@@ -146,23 +149,27 @@ async function poteriCaos() {
 
 export function attaccaSubito() {
   const i = inc(); i.reazione = { azione: 'attacco-subito', testo: 'Attacchi per primo.' };
-  i.mostriPrima = false; i.sorpresa = false; return inizioScontro();
+  i.mostriPrima = false; i.sorpresa = false; V.attaccaPrima(i); return inizioScontro();
 }
 
 export async function tiraReazione() {
   const i = inc();
   if (i.speciale === 'gremlin') return;
   let r = await dado(`Reazione di ${i.nome} (d6)`);
-  r = { ...r, totale: await A.modReazione(i, await negoziatore(i, r.totale)) };
+  r = { ...r, totale: await V.amicoForesta(i, await A.modReazione(i, await negoziatore(i, r.totale))) };
   if (i.modReazioni) { r.totale = Math.max(1, Math.min(6, r.totale + i.modReazioni)); nota(`Modificatore alla reazione: ${i.modReazioni > 0 ? '+' : ''}${i.modReazioni} → ${r.totale}.`); }
   let re = trovaReazione(i, r.totale);
   if (!re) { re = [1, 6, 'combatte']; }
+  await eseguiReazione(i, V.reazioneForzata(i, re), r.totale);
+}
+/** Applica una reazione (tirata, scelta con la Musica dell'armonia o forzata): corruzione, fuga, combattimento, enigma, mercanti, cattura… */
+export async function eseguiReazione(i, re, tiro) {
   let azione = re[2];
   if (i.id === 'troll' && haNano() && ['combatte'].includes(azione)) azione = 'morte';
   if (azione === 'fugge-inf' && eroiAttivi().length <= i.n) azione = 'combatte';
   if (azione === 'patto-demoniaco' && S.adv.acque?.patto?.stipulato) azione = 'combatte';   // un solo patto: i demoni successivi combattono
-  i.reazione = { tiro: r.totale, azione, param: re[3], tipoCorr: re[4] };
-  nota(`Reazione (${r.totale}): ${i.nome} → ${azione === 'corruzione' ? `Corruzione (${re[3]} p.o.${re[4] === 'totale' ? ' in tutto' : ' a mostro'})` : azione}.`);
+  i.reazione = { tiro, azione, param: re[3], tipoCorr: re[4], risorsa: re[5] };
+  nota(`Reazione (${tiro}): ${i.nome} → ${azione === 'corruzione' ? `Corruzione (${re[3]} ${re[5] || 'p.o.'}${re[4] === 'totale' ? ' in tutto' : ' a mostro'})` : azione}.`);
   if (azione === 'fugge' || azione === 'fugge-inf') { i.stato = 'finito'; i.esito = 'fuga'; nota(`${i.nome} fugge: nessun bottino.`); }
   else if (azione === 'corruzione') {
     if (i.id === 'ferrofago') i.reazione.param = (await tira('1d6', 'Corruzione ferrofago')).totale;
@@ -173,12 +180,14 @@ export async function tiraReazione() {
     i.mostriPrima = false; await inizioScontro(); await applicaDanni(x.totale);
   } else if (azione === 'tenzone' && abissoAttivo()) await A.tenzone(i);
   else if (azione === 'immobile') { i.noMorale = true; await inizioScontro(); }
+  else if (azione === 'cattura') { nota(`${i.nome} usa attacchi non letali: chi scende a 0 PV è catturato e portato in un rifugio segreto; un solo mostro alla volta fugge col prigioniero.`); i.cattura = true; i.mostriPrima = true; await inizioScontro(); }
   else if (azione === 'combatte' || azione === 'morte' || azione === 'combatte-sempre' || azione === 'tenzone') {
     if (azione === 'tenzone') nota('Singolar tenzone: combatte solo il capo o il campione del nemico (1 contro 1).');
     if (azione !== 'combatte') i.noMorale = true;
     i.mostriPrima = true; await inizioScontro();
   } else if (azione === 'dorme') { i.bonusPrimoAttacco = 2; await inizioScontro(); }
-  else i.stato = 'speciale';   // anche il patto demoniaco
+  else if (azione === 'offre-riposo' && i.id === 's-angelo-luce') { i.stato = 'speciale'; await V.benedizioneAngelo(); }
+  else i.stato = 'speciale';   // anche il patto demoniaco, l'enigma e i mercanti (carte nella scheda dell'incontro)
   modificato();
 }
 
@@ -231,11 +240,18 @@ function ctxGruppo() {
   return { senzaLanterna: !gruppoHaLanterna(), inferiorita: eroiAttivi().length > i.n };
 }
 export function perdiPV(e, n, causa = '', opz = {}) {
+  if (!opz.noDirotta && n > 0) { n = V.dirottaDanno(e, n, causa); if (n <= 0) return; }   // il cane da guerra può subire il danno al posto del padrone
+  if (e.orso && n > 0) {   // Aspetto dell'orso: le ferite si prendono come orso (a fine incontro il druido ne subisce metà)
+    e.orso.subite += n; nota(`${e.nome} (orso) subisce ${n} ferit${n === 1 ? 'a' : 'e'} (${e.orso.subite}/${e.orso.pvMax}).`);
+    if (e.orso.subite >= e.orso.pvMax) { const q = Math.floor(e.orso.subite / 2); e.orso = null; nota(`La forma d’orso di ${e.nome} cede: torna uomo e subisce ${q} ferite.`); if (q) perdiPV(e, q, 'forma d’orso', { noExtra: true, noDirotta: true }); }
+    return modificato();
+  }
   if (e.malattia && !opz.noExtra && n > 0) { n += 1; causa = (causa ? causa + ', ' : '') + 'malattia della melma verde'; }
   if (e.pv * 2 > e.pvMax) e.furiaSangue = false;   // il braccialetto della furia si riattiva alla prossima discesa sotto metà PV
   e.pv -= n;
   nota(`${e.nome} perde ${n} PV${causa ? ' (' + causa + ')' : ''}${e.pv <= 0 ? ' e cade a terra, ferito mortalmente!' : ` → ${e.pv}/${e.pvMax}`}`);
-  if (e.pv <= 0) { e.pv = 0; e.stato = 'morto'; if (e.caosTrasf) document.dispatchEvent(new CustomEvent('caos-rinasci', { detail: e.id })); if (abissoAttivo()) A.dopoMorte(e).catch(err => console.error(err)); if (profonditaAttiva()) P.eroeCaduto(e, causa).catch(err => console.error(err)); if (acqueAttive()) Q.eroeCaduto(e, causa).catch(err => console.error(err)); }
+  if (e.pv <= 0 && V.catturato(e, causa)) { controllaSconfitta(); return modificato(); }   // reazione Cattura: catturato, non morto
+  if (e.pv <= 0) { e.pv = 0; e.stato = 'morto'; V.eroeCaduto(e, causa); if (e.caosTrasf) document.dispatchEvent(new CustomEvent('caos-rinasci', { detail: e.id })); if (abissoAttivo()) A.dopoMorte(e).catch(err => console.error(err)); if (profonditaAttiva()) P.eroeCaduto(e, causa).catch(err => console.error(err)); if (acqueAttive()) Q.eroeCaduto(e, causa).catch(err => console.error(err)); }
   else if (profonditaAttiva() && n > 0) P.eroeFerito(e);
   else if (suppl()) {
     if (e.ubriaco && e.pv * 2 <= e.pvMax) { e.ubriaco = false; nota(`${e.nome}, ferito, torna sobrio.`); }
@@ -313,10 +329,15 @@ async function attaccaUno(e, opz = {}) {
   if (i.speciale === 'gremlin') return;
   if (e.inghiottito) { toast(`${e.nome} è stato inghiottito e non può attaccare.`, 'warn'); return; }
   if (e.paralizzato) { toast(`${e.nome} è paralizzato e non può attaccare.`, 'warn'); return; }
+  if (e.calderone || e.rospo) { toast(`${e.nome} è ${e.calderone ? 'nel calderone' : 'un rospo'} e non può attaccare.`, 'warn'); return; }
+  if (e.anim && (i.tag || []).includes('volante') === false && e.anim.id === 's-falco' && i.corridoio) { toast('I falchi non attaccano nei corridoi.', 'warn'); return; }
+  if (e.anim && ['s-gufo'].includes(e.anim.id) && (i.corridoio || e.anim.aiuta)) { toast(e.anim.aiuta ? 'Il gufo sta aiutando negli incantesimi.' : 'I gufi non attaccano nei corridoi.', 'warn'); return; }
   if (profonditaAttiva()) { const blocco = P.bloccoAttacco(e, i); if (blocco) { toast(blocco, 'warn'); return; } i.attacchiRicevuti = (i.attacchiRicevuti || 0) + 1; }
   if (i.campione === e.id && i.leaderInc && !i.leaderInc.morto && !opz.coda) return A.attaccoControLeader(e, opz);   // il campione duella con il leader
   const arma0 = opz.armaId !== undefined ? armaDi(opz.armaId) : armaPrincipale(e);
-  const L = opz.coda ? 6 : (i.livControDistanza && arma0?.lancio ? i.livControDistanza : livAtt(i));
+  const vol = V.controlloVolanti(e, i, arma0); if (vol) { toast(vol, 'warn'); return; }   // volanti in aree ampie
+  if (e.nascosto) { e.nascosto = false; nota(`${e.nome} attacca e non è più nascosto.`); }
+  const L = (opz.coda ? 6 : (i.livControDistanza && arma0?.lancio ? i.livControDistanza : livAtt(i))) - (i.clima && arma0?.lancio ? 1 : 0);   // Controllo del clima: -1 al LIV nei tiri a distanza
   const sup = suppl();
   if (arma0 && controllaArmi(e)) { const c = armaConsentita(e, arma0); if (!c.ok) { toast(c.motivo, 'warn'); return; } }
   if (sup && arma0?.id === 'balestra' && e.balestraScarica) { toast('La balestra è scarica: ricaricala con 1 azione.', 'warn'); return; }
@@ -393,6 +414,7 @@ async function attaccaUno(e, opz = {}) {
   if (furioso && colpi) colpi *= 2;
   if (furioso) e.usi.furie = (e.usi.furie || 0) + 1;
   segna(armaUsata);
+  if (colpi && i.sv?.sangueVelenoso && !armaUsata?.lancio) await V.sangueVelenoso(e, i);   // centauri: sangue velenoso
   if (!colpi) { nota(`${desc} → mancato.`); if (r.naturale === 1 && i.disarmaSu1 && armaUsata && !armaUsata.lancio) await A.disarmato(e, i, armaUsata); modificato(); return { colpi: 0, totale }; }
   nota(`${desc} → ${i.minore ? `${colpi} uccis${colpi === 1 ? 'o' : 'i'}` : `${colpi} ferit${colpi === 1 ? 'a' : 'e'}`}${furioso ? ' (furioso: danni doppi)' : ''}.`);
   const pre = { n: i.n, pv: i.pv };
@@ -465,6 +487,7 @@ export function sottrarsiIndenne(motivo) {
 
 /** Numero di attacchi in mischia che un eroe può fare in un turno (l'arlecchino giocoliere ne fa fino a 3). */
 export function maxAttacchi(e, arma) {
+  if (V.attacchiExtra(e, arma)) return 2;   // arco della rapidità: una freccia in più nel primo turno
   if (Q.doppioAttacco(e)) return 2;   // spadaccino: arma a una mano + arma leggera
   if (profonditaAttiva() && P.doppioColpo(e, arma)) return 2;   // abilità eroica Doppio colpo
   if (e.classe === 'tiratore' && suppl() && arma?.lancio && !arma.fuoco && S.adv.tema === 'foresta' && (inc()?.turno || 1) <= 1) return 2;   // all'aperto: 2 attacchi a distanza prima della mischia
@@ -514,6 +537,7 @@ export async function applicaDanni(n) {
     const prima = i.n;
     i.n = Math.max(0, i.n - n);
     Q.dopoDanni(i, prima, n);
+    await V.dopoDanni(i, prima, n);   // lupi e uomini lucertola: morale dopo la Palla di Fuoco
     if (prima > i.n) await dopoMorti(i, prima - i.n, i.fonte);
     if (i.pf) { if (prima > i.n && i.pf.risorge && !i.fuocoTurno) { i.cadaveri = (i.cadaveri || 0) + (prima - i.n); i.rigenerati = 1; } P.livelloDinamico(i); }
     if (i.n === 0 && !((i.risorti || 0) > 0 || (i.rigenerati || 0) > 0 || (i.rientri || []).length)) return vittoriaScontro();
@@ -549,6 +573,7 @@ function vittoriaScontro(esito = 'sconfitti') {
   i.stato = 'finito'; i.esito = esito; i.n = esito === 'fuga' ? i.n : 0;
   nota(esito === 'fuga' ? `${i.nome} in fuga: conta come sconfitto.` : `${i.nome} sconfitto!`);
   vittoria(i);
+  V.vittoria(i, esito).catch(err => console.error(err));
   Q.fineIncontro(i, esito);
   if (profonditaAttiva()) { P.vittoria(i, esito); P.fineIncontro(i, esito).catch(err => console.error(err)); }
   const coda = (S.adv.coda = S.adv.coda || []);
@@ -566,6 +591,7 @@ export async function saccheggia() {
   const i = inc();
   if (i.tesoroPreso) return; i.tesoroPreso = true;
   if (profonditaAttiva() && i.pf && (await P.saccheggioExtra(i)) === 'solo') return modificato();   // tesori particolari delle Profondità
+  if (await V.saccheggioExtra(i) === 'solo') return modificato();   // selva: gemme delle aquile, angelo, cubi anima, schiavi venduti al boss
   if (i.oroFisso) {   // imboscate dei tratti «Braccato»: monete fisse al posto della tabella dei tesori
     const x = await tira(i.oroFisso, `Oro degli aggressori (${i.oroFisso})`);
     (S.adv.bottino = S.adv.bottino || []).push({ id: Math.random().toString(36).slice(2, 9), tipo: 'oro', testo: `${x.totale} pezzi d’oro (dagli aggressori)`, valore: x.totale });
@@ -591,6 +617,7 @@ export function chiudiIncontro() {
   const i = inc(); if (!i) return;
   if (!i.minore && !i.maggioreContato) { S.adv.maggioriSconfitti = (S.adv.maggioriSconfitti || 0) + 1; i.maggioreContato = true; }   // FAQ: conta ogni maggiore incontrato, anche se superato
   Q.chiudiIncontro(i);
+  V.fineIncontro(i);
   S.adv.incontro = (S.adv.coda || []).shift() || null;
   S.party.eroi.forEach(e => {
     if (i.paralisi?.finisceFineCombattimento) e.paralizzato = false;
@@ -627,6 +654,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
   const rimborsa = () => { if (oggetto) { oggetto.cariche++; if (!e.oggetti.includes(oggetto)) e.oggetti.push(oggetto); } };
   if (profonditaAttiva()) { const v = P.incantesimoVietato(e); if (v) { rimborsa(); return toast(v, 'warn'); } }
   if (e.paralizzato) return toast(`${e.nome} è paralizzato e non può lanciare incantesimi.`, 'warn');
+  if (e.orso) { rimborsa(); return toast(`${e.nome} è in forma d’orso e non può lanciare incantesimi.`, 'warn'); }
   if (i?.stato === 'combattimento' && e.illuso) return toast(`${e.nome} è illuso e non può lanciare incantesimi.`, 'warn');
   s.usato = true; i && (i.agito[e.id] = true);
   const annulla = () => { s.usato = false; rimborsa(); if (i) i.agito[e.id] = false; };
@@ -643,6 +671,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
     if (P.NOMI_INCANTESIMI().includes(nome) && P.AUTOMATICI.includes(nome)) return await P.lanciaAutomatico(e, nome, annulla);
     if (i?.stato === 'combattimento' && i.pf?.immuneTuttiIncantesimi && nome !== 'Distruggi la Non-vita') { nota(`${e.nome} lancia ${nome}: ${i.nome} è immune a tutti gli incantesimi.`); return modificato(); }
   }
+  if (V.NOMI_INCANTESIMI().includes(nome)) return await V.lancia(e, nome, annulla, bersaglioId);   // incantesimi del druido e Raccolto abbondante
   if (abissoAttivo() && nome === 'Rifletti Sguardo') { annulla(); return toast('Rifletti Sguardo si lancia da solo quando devi salvarti da uno sguardo.', 'warn'); }
   if (A.AVANZATI_LANCIABILI.includes(nome)) return await A.lanciaAvanzato(e, nome, annulla, bersaglioId);
   if (nome === 'Protezione') { const b = eroePerId(bersaglioId) || e; i.protetti[b.id] = true; nota(`${e.nome} lancia Protezione su ${b.nome}: +2 alle difese per questo combattimento.`); return modificato(); }
@@ -661,6 +690,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
   if (nome === 'Teletrasporto del Caos') { s.usato = false; const ok = await K.teletrasporto(e); if (ok) s.usato = true; return modificato(); }
   if (!i || i.stato !== 'combattimento') { toast('Serve un combattimento in corso.', 'warn'); s.usato = false; rimborsa(); return; }
   if (i.immuneIncantesimi?.includes(nome)) { nota(`${e.nome} lancia ${nome}: ${i.nome} è immune.`); return modificato(); }
+  if (i.sv?.immuneMagia) { nota(`${e.nome} lancia ${nome}: ${i.nome} è immune alla magia (solo Getto d’acqua, Controllo del clima o Estingui fuoco).`); return modificato(); }
   if (i.incantesimiAnnullati) { const x = await dado(`${i.nome}: annulla l’incantesimo? (1-${i.incantesimiAnnullati.probabilita})`); if (x.totale <= i.incantesimiAnnullati.probabilita) { nota(`${e.nome} lancia ${nome}: il ${i.nome} lo annulla!`); return modificato(); } }
   const L = i.livControDistanza || livAtt(i);
   if (nome === 'Missile del Caos') {
@@ -727,7 +757,7 @@ export async function lancia(e, idx, { bersaglioId, daPergamena, oggetto, sputaf
     const bonus2 = i.id === 'mummia' ? 2 : 0;
     if (i.pf?.risorge) i.fuocoTurno = true;   // il fuoco impedisce ai troll di rialzarsi
     const comeMinori = i.minore || i.ordaP, q = comeMinori ? Math.max(1, totale + bonus2 - L) : Math.max(1, Math.floor((totale + bonus2) / L));
-    nota(`${base} → ${comeMinori ? q + (i.ordaP ? ' PV all’orda' : ' uccisi') : q + ' ferite'}.`); await applicaDanni(q);
+    nota(`${base} → ${comeMinori ? q + (i.ordaP ? ' PV all’orda' : ' uccisi') : q + ' ferite'}.`); await applicaDanni(q); await V.incendioDaFuoco(e, nome);
   } else if (nome === 'Sonno') {
     if (i.immuneSonnoProb) {
       if (i.immuneSonno === undefined) { const x = await dado(`${i.nome}: immuni al Sonno? (1-${i.immuneSonnoProb.probabilita}, un solo tiro)`); i.immuneSonno = x.totale <= i.immuneSonnoProb.probabilita; }
@@ -812,7 +842,8 @@ const odia = (inc_, e) => (ODIATI[e.classe] || []).some(t => inc_.tag.includes(t
 
 /** Propone chi viene attaccato da ogni attacco dei mostri. Restituisce [{eroeId}] */
 export function propostaAttacchi(opz = {}) {
-  const lista = propostaBase(opz), i = inc();
+  let lista = propostaBase(opz); const i = inc();
+  if (V.attacchiPerMostro(i) > 1) lista = lista.flatMap(a => Array(V.attacchiPerMostro(i)).fill(a));   // uomini gufo e cani: ogni coppia colpisce lo stesso bersaglio
   if (suppl() && i.drago && lista.length) {   // Esca per draghi: se possibile un attacco colpisce lui
     const esca = ordineMarcia().find(x => x.stato === 'ok' && inCampo(x) && tratto(x, 'esca-draghi'));
     if (esca && !lista.some(a => a.eroeId === esca.id)) lista[0] = { eroeId: esca.id };
@@ -830,8 +861,10 @@ function propostaBase({ tuttiAttaccano = false } = {}) {
   if (i.minore && i.corridoio && !tuttiAttaccano) attacchi = Math.min(attacchi, 2);
   let ordine = ordineMarcia().filter(e => e.stato === 'ok' && inCampo(e) && i.campione !== e.id);
   if (i.illusione) ordine = A.filtraBersagli(i, ordine);
+  ordine = V.filtraBersagli(ordine);   // nascosti e creature nel calderone
   if (!ordine.length) return [];
   let eleg = ordine;
+  { const sp = V.attacchiSpeciali(i, eleg); if (sp) return sp; }   // mostro occhio, genio
   if (i.corridoio && !i.attPerBersaglio) {
     const dietro = i.sorpresa && i.errante;
     eleg = dietro ? ordine.slice(-2) : ordine.slice(0, 2);
@@ -861,6 +894,7 @@ async function effettoFerita(e, dn = 1, r, dif) {
   const i = inc();
   await Q.effettoFerita(e, i, dn, r, dif);
   await A.effettoFerita(e, i, dn);
+  await V.effettoFerita(e, i, dn, r, dif);
   if (profonditaAttiva()) P.dopoFerita(e, i, dn);
   if (e.stato !== 'ok') return;
   if (i.id === 'ratti') { const x = await dado(`Infezione dei ratti per ${e.nome} (1 = perde 1 PV)`); if (x.totale === 1) perdiPV(e, 1, 'infezione'); }
@@ -919,7 +953,8 @@ export async function eseguiDifese(assegnazioni, opz = {}) {
   for (const e of eroiAttivi()) if (e.avvolto) perdiPV(e, 1, 'manto predatore');
   { const pre = await A.inizioTurnoMostri(i, assegnazioni); if (pre?.salta) return fineTurnoMostri(); if (pre?.assegnazioni) assegnazioni = pre.assegnazioni; }
   if (profonditaAttiva() && i.pf && await P.inizioTurnoMostri(i)) return fineTurnoMostri();
-  { const qp = await Q.inizioTurnoMostri(i); if (qp?.salta) return fineTurnoMostri(); }   // fanghiglia, poteri psionici, forza oscura, raggio congelante, semi
+  { const qp = await Q.inizioTurnoMostri(i); if (qp?.salta) return fineTurnoMostri(); }
+  { const vp = await V.inizioTurnoMostri(i); if (vp?.salta) return fineTurnoMostri(); }   // ratti, scoiattoli, lamia, calderone, rakshasa   // fanghiglia, poteri psionici, forza oscura, raggio congelante, semi
   if (i.speciale === 'cubo') {
     for (const e of eroiAttivi()) {
       if (e.inghiottito) continue;
@@ -973,6 +1008,7 @@ export async function eseguiDifese(assegnazioni, opz = {}) {
           if (e.stato === 'ok' && !(await salva(e, 6, 0, 'Veleno della manticora'))) { nota(`${e.nome} muore avvelenato!`); perdiPV(e, e.pv, 'veleno della manticora', { noExtra: true }); }
         }
       } else {
+        if (i.sv && await V.colpoAlBersaglio(e, i, dif, r)) continue;   // folletti, danni a dado, rapimento delle aquile
         const dn = (i.dannoSu1 && r.naturale === 1) ? i.dannoSu1 : (i.dannoPerAttacco?.[k] ?? (i.danno || 1));
         if (abissoAttivo() && haAbilita(e, 'sopportare-il-dolore') && !(i.usati || {})[e.id + 'sd']) { (i.usati = i.usati || {})[e.id + 'sd'] = true; nota(`${e.nome} (Sopportare il dolore) ignora la ferita.`); continue; }
         perdiPV(e, dn, i.nome);
@@ -1006,6 +1042,7 @@ async function fineTurnoMostri() {
     const m = await monstroErrante(); m.sorpresa = true; avviaIncontro(m, S.adv.tessere.find(x => x.id === i.tessera) || null);
   }
   Q.fineTurnoMostri(i);
+  await V.fineTurnoMostri(i);   // incantesimi della strega nera
   i.turno++; i.sorpresa = false; i.mostriPrima = false; i.agito = {}; i.nAtt = {}; i.protetti = i.protetti || {};
   await Q.nuovoTurno(i);
   await blocchiDiTurno();

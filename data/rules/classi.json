@@ -273,5 +273,138 @@
   ],
   "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco e di difesa. Nessuna armatura né scudo; niente armi a due mani né arco. Con un’arma a una mano come principale e un’arma leggera come secondaria fa 2 attacchi, uno per arma. Guadagna 1 punto maestria per ogni mostro ucciso, fino a un massimo pari al livello; ogni punto dà +1 a un tiro di attacco o di difesa (al massimo 1 punto per tiro). Salva come il furfante.",
   "maestria": true
+ },
+ "chierico-elidra": {
+  "nome": "Chierico di Elidra",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo",
+   "Strumento musicale"
+  ],
+  "tratti": "Variante del chierico, devoto di Elidra (bellezza, pace, musica). Per il resto vale il chierico base. Può spendere 1 Benedizione (al posto di un attacco) per «Musica dell'armonia»: 1d6 + livello contro il LIV del mostro; se riesce sceglie la reazione tra quelle disponibili. Salva come chierico o come elfo, a scelta.",
+  "benedizioni": 3,
+  "guarigioni": 3
+ },
+ "chierico-korimnos": {
+  "nome": "Chierico di Korimnos",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Variante del chierico, devoto di Korimnos (il Cervo Dorato). Per il resto vale il chierico base. Può spendere 1 Benedizione (al posto di un attacco) perché un animale naturale, o un gruppo di animali, abbia la reazione Pacifico. Prepara pozioni come un mago e sa amoreggiare come un mezzuomo (evento Festeggiamenti sfrenati).",
+  "benedizioni": 3,
+  "guarigioni": 3
+ },
+ "druido": {
+  "nome": "Druido",
+  "vitaBase": 3,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": [
+   "leggera",
+   "fionda",
+   "arco-corto",
+   "giavellotto"
+  ],
+  "suppl": "silvani",
+  "incantatore": true,
+  "equip": [
+   "Falcetto (arma leggera da taglio)"
+  ],
+  "tratti": "Sacerdote della natura. Attacco +1/2 livello. Conosce tutti gli incantesimi base del druido (2 + 1 per livello, da preparare meditando tra le avventure), senza libro; aggiunge il livello ai propri incantesimi e solo metà livello a quelli fuori lista (da pergamene). Dal 5° livello impara incantesimi avanzati. Oltre a 1 cavalcatura può avere 1 compagno animale gratuito. Nei dungeon la sua forza è ridotta, all'aperto è formidabile."
+ },
+ "elfo-silvano": {
+  "nome": "Elfo silvano",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": [
+   "arco",
+   "una-mano",
+   "leggera",
+   "balestra",
+   "bolas",
+   "boomerang"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arco",
+   "Arma a una mano",
+   "Cotta di fogliacciaio"
+  ],
+  "tratti": "Aggiunge il livello ad attacco e difesa in foresta o giungla, e in ogni luogo con l'arco (non la balestra); altrove solo metà livello all'attacco. +livello ai TS contro buche, lacci e tagliole e alla furtività in foresta. In foresta la probabilità di sorpresa scende di 1. Può modificare di 1 la reazione delle creature della foresta e fabbricare cotte di fogliacciaio. Non è un incantatore. Salva come elfo."
+ },
+ "guida-terre-selvagge": {
+  "nome": "Guida delle terre selvagge",
+  "vitaBase": 3,
+  "oro": "1d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arma leggera",
+   "Lanterna"
+  ],
+  "tratti": "Esperto locale. Nessun bonus all'attacco, mezzo livello alla difesa. 2 volte per livello a ogni avventura può ripetere un tiro su una tabella dell'ambiente selvaggio (non nei dungeon). Può essere un quinto personaggio. Salva come il barbaro."
+ },
+ "signore-bestie": {
+  "nome": "Signore delle bestie",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "suppl": "silvani",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo",
+   "1 compagno animale di livello 0 o 1"
+  ],
+  "tratti": "Cacciatore che addestra animali. Attacco +1/2 livello. Bonus di addestramento pari a metà livello da ripartire tra attacco, difesa, morale, TS e PV dei compagni animali; 1 compagno ogni 3 livelli (per eccesso). Può controllare più mostri sottomessi. Salva come il barbaro. Niente armi da fuoco."
  }
 }

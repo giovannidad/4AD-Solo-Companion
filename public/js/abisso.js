@@ -6,6 +6,7 @@ import { riga, tabella, mostriTabella, creaIncontro, inAbisso, abissoAttivo, haA
 import { h, modal, toast, scelta, sceltaMultipla, confirmBox, uid } from './util.js';
 import * as G from './game.js';
 import * as C from './combat.js';
+import * as V from './silvani.js';
 import * as K from './caos.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
@@ -542,7 +543,7 @@ export async function moraleMercenari(chi) {
 //  ABILITÀ E INCANTESIMI AVANZATI
 // =============================================================
 /** Catalogo delle abilità avanzate dell'Abisso, filtrate per classe. */
-export const abilitaPerClasse = e => R.abisso.abilita.filter(a => a.classi.includes(e.classe));
+export const abilitaPerClasse = e => R.abisso.abilita.filter(a => a.classi.includes(e.classe) || V.abilitaNomi(e.classe).includes(a.nome));   // + le classi dei Labirinti Silvani
 /** Voce di abilità con eventuale scelta del bersaglio (Nemico giurato, Resistente). Restituisce null se annullato. */
 export async function sceltaAbilita(a) {
   const voce = { id: a.id };
@@ -692,11 +693,13 @@ export async function sceltaPostaES(e, puoSalire = true) {
   const opz = puoSalire ? [['livello', 'Salire di livello', `${e.livello}° → ${e.livello + 1}°`]] : [];
   if (e.livello >= 5) opz.push(['abilita', 'Imparare un’abilità avanzata', `${abilitaPerClasse(e).filter(a => !(e.abilita || []).some(x => x.id === a.id && a.id !== 'resistente')).length} disponibili`]);
   if (e.livello >= 5 && ['mago', 'elfo'].includes(e.classe)) opz.push(['incantesimo', 'Imparare un incantesimo avanzato', `${NOMI_AVANZATI().filter(n => !incantesimiAvanzatiHero(e).includes(n)).length} disponibili`]);
+  opz.push(...V.postaExtra(e));   // druido: incantesimi avanzati; compagni animali e cavalcature
   if (!opz.length) { toast('Nessuna scelta possibile con questo tiro.', 'warn'); return null; }
   if (opz.length === 1 && opz[0][0] === 'livello') return { tipo: 'livello' };
   const k = await scelta(`Tiro ES di ${e.nome}`, 'Che cosa tenti con questo tiro? (la scelta si fa prima di tirare)', opz);
   if (!k) return null;
   if (k === 'livello') return { tipo: 'livello' };
+  if (String(k).startsWith('silv:')) return await V.risolviPosta(e, k);
   if (k === 'abilita') {
     const mie = e.abilita || [], lista = abilitaPerClasse(e).filter(a => a.id === 'resistente' || !mie.some(x => x.id === a.id));
     if (!lista.length) { toast('Nessuna abilità disponibile.', 'warn'); return null; }
@@ -708,6 +711,7 @@ export async function sceltaPostaES(e, puoSalire = true) {
   return n ? { tipo: 'incantesimo', nome: n } : null;
 }
 export function applicaPosta(e, posta) {
+  if (['promozione-compagno', 'cavalcatura-compagno', 'incantesimo-druido'].includes(posta.tipo)) { V.applicaPosta(e, posta).catch(err => console.error(err)); return; }
   if (posta.tipo === 'abilita') impara(e, posta.voce);
   else if (posta.tipo === 'incantesimo') { incantesimiAvanzatiHero(e).push(posta.nome); log(`${e.nome} aggiunge «${posta.nome}» al grimorio.`); modificato('party'); }
 }

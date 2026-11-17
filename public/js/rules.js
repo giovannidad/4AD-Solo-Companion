@@ -2,12 +2,13 @@
 import { R, S, eroiVivi, livelloMax } from './state.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
+import * as V from './silvani.js';
 
 export const NOME_ARMATURA = { nessuna: 'Nessuna', leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
 
 export const armaDi = id => R.equipaggiamento.armi.find(a => a.id === id);
 export const armaPrincipale = e => armaDi(e.armaPrincipale);
-export const nomeClasse = e => (e.merc ? 'Mercenario' : R.classi[e.classe].nome);
+export const nomeClasse = e => (e.merc ? 'Mercenario' : (e.culto && R.classi[e.culto]?.nome) || R.classi[e.classe].nome);   // i chierici di Elidra e Korimnos sono chierici (classe) con un culto
 export const incantatore = e => ['mago', 'elfo', 'elfo-fuoco'].includes(e.classe);
 export const puoUsareMagia = e => e.classe !== 'barbaro';
 
@@ -16,17 +17,21 @@ export function riga(tab, v) {
   return tab.find(r => v >= r.da && v <= r.a) || tab[tab.length - 1];
 }
 // Set di tabelle attivo per l'avventura: base, «Nemici diabolici» (avanzate) o «Caverne del Caos» (supplemento).
-export const SETS = { base: 'Four Against Darkness (lvl 1-2)', coboldi: 'Schiavisti Coboldi (lvl 1-2)', acque: 'Acque Oscure (lvl 1-4)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', abisso: 'Contro l\'Abisso (lvl 5-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
+export const SETS = { base: 'Four Against Darkness (lvl 1-2)', coboldi: 'Schiavisti Coboldi (lvl 1-2)', acque: 'Acque Oscure (lvl 1-4)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', silvani: 'Labirinti Silvani (lvl 4+)', abisso: 'Contro l\'Abisso (lvl 5-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
 export const setAttivo = () => (S.adv && S.adv.set) || 'base';
-const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, profondita: R.profondita, acque: R.acque, coboldi: R.coboldi })[setAttivo()];
+const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, profondita: R.profondita, acque: R.acque, coboldi: R.coboldi, silvani: R.silvani })[setAttivo()];
 // ---- «Acque Oscure» (livelli 1-4) e «Caverne degli Schiavisti Coboldi» (livelli 1-2) ----
 export const inAcque = () => setAttivo() === 'acque';
 export const inCoboldi = () => setAttivo() === 'coboldi';
 /** Spadaccino, acqua santa, flagello: casella attiva o dungeon di uno dei due set. */
 export const acqueAttive = () => !!(S.party?.supplAcque || inAcque() || inCoboldi());
 /** Classe selezionabile: le classi del Caos con la casella del Caos, lo Spadaccino con il contenuto di Acque Oscure e Coboldi. */
-export const classeDisponibile = c => !c.suppl || (c.suppl === 'acque' ? acqueAttive() : !!S.party?.supplCaos);
-export const armaVisibile = a => !a.suppl || (a.suppl === 'acque' ? acqueAttive() : !!S.party?.supplCaos);
+export const classeDisponibile = c => !c.suppl || (c.suppl === 'acque' ? acqueAttive() : c.suppl === 'silvani' ? silvaniAttivi() : !!S.party?.supplCaos);
+export const armaVisibile = a => !a.suppl || (a.suppl === 'acque' ? acqueAttive() : a.suppl === 'silvani' ? silvaniAttivi() : !!S.party?.supplCaos || (silvaniAttivi() && ['balestra', 'bolas', 'boomerang'].includes(a.id)));
+// ---- «Labirinti Silvani» (livelli 4+): selva, druido, elfo silvano, guida, signore delle bestie, chierici di Elidra e Korimnos ----
+export const inSilvani = () => setAttivo() === 'silvani';
+/** Le sei classi, i compagni animali e le cavalcature valgono con la casella attiva o nella selva. */
+export const silvaniAttivi = () => !!(S.party?.supplSilvani || inSilvani());
 /** Chi salva come il furfante (furfante e spadaccino). */
 export const comeFurfante = e => e.classe === 'furfante' || e.classe === 'spadaccino';
 export const inCaos = () => setAttivo() === 'caos';
@@ -89,13 +94,14 @@ export function tipoNonVivente(m) {
 }
 
 /** Armi da fuoco e simili: restrizioni di classe e limiti di trasporto. */
-export const controllaArmi = e => suppl() || e.classe === 'spadaccino' || !!(e.arti?.mano || e.arti?.gamba);
+export const controllaArmi = e => suppl() || e.classe === 'spadaccino' || !!(e.arti?.mano || e.arti?.gamba) || V.classeSilvana(e);
 export function armaConsentita(e, a) {
   if (!a) return { ok: true };
   if (a.soloClassi && !a.soloClassi.includes(e.classe)) return { ok: false, motivo: `${a.nome}: la possono usare solo ${a.soloClassi.map(c => R.classi[c]?.nome || c).join(', ')}.` };
   if (a.lancio && e.classe === 'elfo-fuoco') return { ok: false, motivo: 'Gli elfi del fuoco non usano armi a distanza.' };
   if (e.classe === 'veterano' && a.categoria === 'due-mani') return { ok: false, motivo: 'Il veterano non porta armi a due mani.' };
   if (e.classe === 'spadaccino' && (a.categoria === 'due-mani' || ['arco', 'balestra', 'archibugio'].includes(a.id))) return { ok: false, motivo: 'Lo spadaccino non usa armi a due mani né l’arco.' };
+  const rs = V.armaVietata(e, a); if (rs) return { ok: false, motivo: rs };   // classi silvane
   if ((e.arti?.mano || e.arti?.gamba) && (a.mani === 2)) return { ok: false, motivo: 'Con una mano perduta (o una stampella) non si usano armi a due mani.' };
   return { ok: true };
 }
@@ -126,6 +132,7 @@ export function bonusSalvezza(e, label = '') {
   const L = String(label), p = e.perm || {}, inc = S.adv?.incontro, nomeInc = inc && inc.stato !== 'finito' ? (inc.nome || '') : '';
   if (abissoAttivo()) bonusSalvezzaAbisso(e, L, inc, add);
   if (profonditaAttiva()) P.salvezza(e, L, inc, add);
+  V.salvezza(e, L, inc, add);
   if (!suppl()) return { tot: parti.reduce((a, q) => a + q[1], 0), parti };
   const paura = /paura|terrore|orrore|fantasma/i.test(L);
   if (haAbilita(e, 'concentrazione-mentale') && MAGIA.test(L)) add('Concentrazione mentale', e.livello);
@@ -153,6 +160,7 @@ const EXTRA = ['livPrimoTurno', 'livDifesaFerito', 'immuneIncantesimi', 'immuneC
   'tesoroFossa', 'premioMorte', 'benedizioneModReazione', 'nonAttaccaInFuga', 'corruzioneAlternativa', 'tesoroSoloGemmeMagici', 'senzaSoffio', 'argentoMod', 'immobile', 'allarmeFurfante',
   'unicoPerDungeon', 'bersagliPrioritari', 'follia', 'oroFisso'];
 
+const EXTRA_S = ['immuneIncantesimi', 'nonAttacca', 'sorpresaProb', 'attaccaPerPrimo', 'attPerBersaglio', 'incantesimiMod'];   // campi di EXTRA con lo stesso significato nei Labirinti Silvani
 const EXTRA_Q = ['veleno', 'contundentePiu', 'immuneIncantesimi', 'maiErrante', 'attDadi'];
 const QX = ['salvezza', 'aggancio', 'intrappola', 'frenesia', 'iniziativa', 'contraccolpo', 'contundenteMod', 'modAttaccoContro', 'immuneVeleno', 'immuneMalattie', 'attDivisiEquamente', 'attDadiOgniTurno', 'attaccoCrescente',
   'incantesimiMostro', 'tentacoli', 'tiriES', 'tesoroExtra', 'indebolitoSe', 'infezione', 'moraleRegola', 'patto', 'trasformaCaduti', 'distruggePergamenePallaDiFuoco', 'ignoraSoloArmatura', 'vulnerabileAcquaSanta',
@@ -161,12 +169,13 @@ const QX = ['salvezza', 'aggancio', 'intrappola', 'frenesia', 'iniziativa', 'con
 /** Descrive il mostro in base ad una voce della tabella. */
 export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
   const dq = typeof voce.id === 'string' && /^[qk]-/.test(voce.id);   // voci di «Acque Oscure» e «Caverne dei Coboldi»
+  const sv = typeof voce.id === 'string' && voce.id.startsWith('s-');   // voci di «Labirinti Silvani»: poteri in inc.sv
   const prof = typeof voce.id === 'string' && voce.id.startsWith('p-');   // voci di «Contro le Profondità Dimenticate»: formule su LMP e GR
   const maggiore = ['aberranti', 'boss', 'draghi'].includes(tabellaNome) || (prof && voce.conta === '1');
   const finale = !!opzioni.bossFinale;
   const boost = finale && maggiore && !voce.nonAumentareBossFinale;
-  const pv = (prof ? P.pvMostro(voce) : voce.pv) + (boost ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
-  const livBase = prof ? P.livMostro(voce) : voce.liv === 'LMP' ? livelloMax() : voce.liv;
+  const pv = (prof ? P.pvMostro(voce) : voce.pvFormula ? livelloMax() + (voce.pvLMP || 0) : voce.pv) + (boost ? 1 : 0) + (maggiore ? (opzioni.pvExtra || 0) : 0);
+  const livBase = (prof ? P.livMostro(voce) : voce.liv === 'LMP' ? livelloMax() : voce.liv) + (maggiore ? (opzioni.livExtra || 0) : 0);   // livExtra: scala dei Labirinti Silvani
   const inc = {
     tabella: tabellaNome, id: voce.id, nome: voce.nome, minore: !maggiore,
     tag: [...(voce.tag || [])], livBase, liv: livBase,
@@ -178,8 +187,9 @@ export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
     bossFinale: finale, errante: !!opzioni.errante, sorpresa: !!opzioni.errante,
     stato: 'nuovo', moraleFatto: false, reazione: null, turno: 0, sottoAttacco: false,
     sedato: 0, segreta: !!opzioni.segreta,
-    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k)) && !(dq && !EXTRA_Q.includes(k))).map(k => [k, voce[k]]))
+    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k)) && !(dq && !EXTRA_Q.includes(k)) && !(sv && !EXTRA_S.includes(k))).map(k => [k, voce[k]]))
   };
+  if (sv) inc.sv = V.poteriMostro(voce);
   if (prof) P.adattaMostro(inc, voce, maggiore);
   if (dq) inc.qx = Object.fromEntries(QX.filter(k => voce[k] !== undefined).map(k => [k, voce[k]]));   // poteri dei due supplementi, tenuti separati dai campi di Abisso e Caos
   return inc;
@@ -282,7 +292,8 @@ export function modAttacco(e, ctx = {}) {
   const tags = bers.tag || [];
   const daLancio = arma?.lancio;
   const dueMani = arma?.categoria === 'due-mani';
-  if (ctx.incantesimo) {
+  if (V.classeSilvana(e)) V.attaccoClasse(e, ctx, bers, arma, add);   // druido, elfo silvano, guida, signore delle bestie, compagni animali
+  else if (ctx.incantesimo) {
     if (ctx.sputafuoco) { /* non magico: il livello si aggiunge sotto, per qualsiasi classe */ }
     else if (['mago', 'elfo', 'elfo-fuoco'].includes(e.classe)) add('Livello (incantesimo)', liv);
     else if (ctx.daPergamena) add('Pergamena (livello 1)', 0);
@@ -317,6 +328,7 @@ export function modAttacco(e, ctx = {}) {
   if (abissoAttivo()) { bonusAttaccoAbisso(e, ctx, bers, arma, add); if (e.mercAtt && !ctx.incantesimo) add('Armigero', e.mercAtt); }
   if (profonditaAttiva()) P.attacco(e, ctx, bers, arma, add, parti);
   Q.attacco(e, ctx, bers, arma, add);
+  V.attacco(e, ctx, bers, arma, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);   // l'elfo del fuoco vede anche al buio
   if (ctx.bonusGruppo) add(ctx.bonusGruppoTxt || 'Bonus', ctx.bonusGruppo);
@@ -356,6 +368,7 @@ export function modDifesa(e, ctx = {}) {
   if (abissoAttivo()) bonusDifesaAbisso(e, ctx, add);
   if (profonditaAttiva()) P.difesa(e, ctx, add);
   Q.difesa(e, ctx, add);
+  V.difesa(e, ctx, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);
   if (ctx.primoMinotauro) add('Carica del minotauro', -1);
@@ -371,7 +384,7 @@ export function sovraccarico(e) {
   const armiCont = (e.armi || []).reduce((a, id) => a + (armaDi(id)?.mani === 2 && id !== 'arco' ? 2 : id === 'fionda' ? 0 : 1), 0);
   const scudi = e.scudo ? 1 : 0;
   if (e.ondataForza > 0) return false;   // Ondata di Forza: nessuna penalità di peso
-  return (e.oro || 0) > 200 || armiCont > 3 || scudi > 2;
+  return (e.oro || 0) > 200 * V.caricoCavalcatura(e) || armiCont > 3 || scudi > 2;   // una cavalcatura porta il carico (mulo: triplo)
 }
 
 /** Caratteristiche di un mostro in forma leggibile. */
@@ -386,13 +399,13 @@ export const ETICHETTE_REAZIONE = {
   pacifico: 'Pacifico', tenzone: 'Singolar tenzone', banchetto: 'Banchetto',
   fugge: 'Fugge', 'fugge-inf': 'Fugge se in inferiorità numerica', corruzione: 'Corruzione', combatte: 'Combatte',
   morte: 'Combatte fino alla morte', 'combatte-sempre': 'Combatte sempre', dorme: 'Dorme (+2 al primo attacco)', missione: 'Missione', enigma: 'Enigma', sfida: 'Sfida magica',
-  amichevole: 'Amichevole (ti lascia passare, nessun tesoro)', immobile: 'Immobile (non attacca, urla)'
+  amichevole: 'Amichevole (ti lascia passare, nessun tesoro)', immobile: 'Immobile (non attacca, urla)', mercanti: 'Mercanti (come Pacifico, vendono oggetti)', cattura: 'Cattura (attacchi non letali: i caduti sono catturati)'
 };
 export function reazioneTesto(r, m) {
   const eti = ETICHETTE_REAZIONE[r[2]] || r[2];
   if (r[2] === 'corruzione') {
     const unita = r[4] === 'totale' ? 'in tutto' : 'a mostro';
-    return `${eti} (${r[3]} p.o. ${unita})`;
+    return `${eti} (${r[3]} ${r[5] || 'p.o.'} ${unita})`;
   }
   return eti;
 }

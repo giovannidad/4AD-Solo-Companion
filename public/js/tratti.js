@@ -2,10 +2,11 @@
 import { R, S, log, modificato, eroiVivi } from './state.js';
 import { d66, tira, dado } from './dice.js';
 import { h, toast, scelta, confirmBox, uid } from './util.js';
-import { FLAGELLI, tratto, incantatore, haAbilita, suppl, creaIncontro, abissoAttivo, profonditaAttiva } from './rules.js';
+import { FLAGELLI, tratto, incantatore, haAbilita, suppl, creaIncontro, abissoAttivo, profonditaAttiva, silvaniAttivi } from './rules.js';
 import * as G from './game.js';
 import * as K from './caos.js';
 import * as A from './abisso.js';
+import * as V from './silvani.js';
 import * as P from './profondita.js';
 
 const ha = (e, id) => (e.tratti || []).some(t => t.id === id);
@@ -358,7 +359,8 @@ export function sezioneAbilita(e, rinfresca) {
   const box = h('div', { class: 'tratti' });
   const cat = [];   // catalogo: abilità del Caos (se attivo) e dell'Abisso (se attivo, con il testo del manuale che le descrive)
   if (S.party.supplCaos) cat.push(...(R.caos.abilita || []));
-  if (abissoAttivo()) for (const a of R.abisso.abilita) { const k = cat.findIndex(x => x.id === a.id); if (k >= 0) cat[k] = { ...cat[k], testo: a.effetto, classi: [...new Set([...cat[k].classi, ...a.classi])] }; else cat.push({ id: a.id, nome: a.nome, classi: a.classi, testo: a.effetto }); }
+  if (abissoAttivo()) for (const a of R.abisso.abilita) { const cl = [...a.classi, ...V.classiAbilita(a.nome)], k = cat.findIndex(x => x.id === a.id); if (k >= 0) cat[k] = { ...cat[k], testo: a.effetto, classi: [...new Set([...cat[k].classi, ...cl])] }; else cat.push({ id: a.id, nome: a.nome, classi: cl, testo: a.effetto }); }   // le classi silvane usano le abilità di «Contro l'Abisso»
+  if (silvaniAttivi()) cat.push(V.abilitaNuotare());
   if (profonditaAttiva()) cat.push(...P.catalogoAbilita());   // 45 abilità eroiche e 21 leggendarie (filtrate per classe, grado e versione precedente)
   const sincronizza = () => {
     const sp = (e.abilita || []).filter(a => a.id === 'attacco-specializzato');

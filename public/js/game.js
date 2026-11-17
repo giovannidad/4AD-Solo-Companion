@@ -1,11 +1,12 @@
 // Flusso di gioco: avventura, generazione stanze, contenuti, tesori, ricerche, esperienza.
 import { R, S, log, modificato, eroiVivi, livelloMax, eroePerId, emit } from './state.js';
 import { tira, d66, dado, d6Esplosivo, d8Esplosivo, dEsplosivoN, estremo } from './dice.js';
-import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, inAbisso, inProfondita, abissoAttivo, profonditaAttiva, gradoDi, livelloTetto, incantesimoACasoLista, SETS, suppl, inAcque, acqueAttive } from './rules.js';
+import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, inAbisso, inProfondita, abissoAttivo, profonditaAttiva, gradoDi, livelloTetto, incantesimoACasoLista, SETS, suppl, inAcque, acqueAttive, inSilvani } from './rules.js';
 import * as K from './caos.js';
 import * as A from './abisso.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
+import * as V from './silvani.js';
 import * as T from './tratti.js';
 import * as Eff from './effetti.js';
 import { nomeDungeon } from './nomi.js';
@@ -74,6 +75,7 @@ async function risolviSet() {
   const vivi = eroiVivi().filter(e => !e.merc);
   const pronti = vivi.length > 0 && vivi.every(e => e.livello >= 3);
   const pronti5 = vivi.length > 0 && vivi.every(e => e.livello >= 5);
+  const pronti4 = vivi.length > 0 && vivi.every(e => e.livello >= 4);
   const pronti10 = P.prontiProfondita(vivi);
   if (pronti10 && !S.party.propostaProfondita && S.party.set !== 'profondita') {   // tutti hanno il livello adatto alle Profondità Dimenticate: si propone una volta sola
     S.party.propostaProfondita = true;
@@ -86,9 +88,10 @@ async function risolviSet() {
       ...(pronti5 ? [['abisso', SETS.abisso, 'Supplemento «Contro l’Abisso»: livelli 6-9, d8 esplosivo, abilità avanzate, mercenari e artigiani.']] : []),
       ['diabolici', SETS.diabolici, 'Tabelle avanzate del manuale base: tesori e mostri più letali.'],
       ['caos', SETS.caos, 'Supplemento «Contro il Caos»: dungeon a tema con missione, trappole, eventi e incantesimi del caos.'],
+      ...(pronti4 ? [['silvani', SETS.silvani, 'Supplemento «Labirinti Silvani»: la selva (mappa Foresta), druido, compagni animali, cavalcature.']] : []),
       ['base', SETS.base, 'Resta con le tabelle normali.']]);
     if (v === null) return S.party.set || 'base';
-    S.party.set = v; modificato('party');
+    S.party.set = v; if (v === 'silvani') S.party.tema = 'foresta'; modificato('party');   // la selva usa lo stile Foresta (si può cambiare)
   }
   return S.party.set || 'base';
 }
@@ -98,11 +101,13 @@ export async function iniziaAvventura() {
   const set = await risolviSet();
   if ((set === 'abisso' || S.party.supplAbisso) && !(await A.controlloIngresso())) return false;
   if ((set === 'profondita' || S.party.supplProfondita) && !(await P.controlloIngresso())) return false;
+  if (set === 'silvani' && !(await V.controlloIngresso())) return false;
   let missione = null;
   if (set === 'caos') { missione = await K.scegliMissione(); }
   Object.assign(S.adv, { set, missione, tema: S.party.tema || 'carta', eventiUsati: [],
     attiva: true, numero: (S.adv.numero || 0) + 1, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null, coda: [],
-    maggioriSconfitti: 0, incontriSeguaci: S.adv.incontriSeguaci || 0, acque: {}, esPendenti: S.party.supplProfondita ? (S.adv.esPendenti || []) : [], esTirati: false, bottino: [],   // con le Profondità i tiri ES non tirati restano: servono per passare di grado fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false,
+    maggioriSconfitti: 0, incontriSeguaci: S.adv.incontriSeguaci || 0, acque: {}, esPendenti: S.party.supplProfondita ? (S.adv.esPendenti || []) : [], esTirati: false, bottino: [],   // con le Profondità i tiri ES non tirati restano: servono per passare di grado
+    fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false, silvani: null,
     guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: [],
     fiume: null, sezione: null, cittadella: null, iscrizioni: [], allucinazioni: 0, stregheUccise: 0, agitazione: null, alluvione: null, missioneP: null, idoloFuggito: false, artefatto: null, setaTrovata: false
   });
@@ -118,15 +123,19 @@ export async function iniziaAvventura() {
   await A.inizioAvventura();      // «Contro l'Abisso»: oggetti creati dalle abilità, stati da ripristinare
   await P.inizioAvventura();      // «Profondità Dimenticate»: stati temporanei da azzerare
   await Q.inizioAvventura();      // «Acque Oscure» e coboldi: stati temporanei, delfino
+  await V.inizioAvventura();      // «Labirinti Silvani»: stato della selva, compagni, cotte e usi dei poteri
   await K.dotazioniMissione();    // compagni e oggetti forniti dalla missione
   table.setTema(S.adv.tema); table.setTiles([]);
-  const r = await dado('Stanza d’ingresso (d6)');
-  const idx = r.totale;
-  const t = nuovaTessera('ingresso', String(idx));
+  const selva = set === 'silvani';   // nella selva l'ingresso è 1d6+60 sulla stessa tabella delle aree (tessere 61-66), non una tabella d'ingressi
+  const r = await dado(selva ? 'Area d’ingresso (1d6+60: tessere 61-66)' : 'Stanza d’ingresso (d6)');
+  const idx = selva ? r.totale + 60 : r.totale;
+  const t = nuovaTessera(selva ? 'stanza' : 'ingresso', String(idx));
+  if (selva) { t.ingressoSelva = true; t.corridoio = V.eSentiero(idx); }
   t.nome = `Ingresso ${idx}`; t.contenuto = { testo: 'Stanza d’ingresso (sempre vuota).', vuota: true, ingresso: true };
   table.placeBottom(t);
   adv().tessere.push(t); adv().stanzaCorrente = t.id;
   S.party.eroi.forEach(e => { e.posizione = t.id; });
+  if (selva) await V.dopoStanza(t);   // l'area d'ingresso può avere un pozzo (63, 65)
   table.setTiles(adv().tessere);
   table.selectTile(null); table.animate(t.id);
   log(`Inizia l’avventura n. ${adv().numero}: «${adv().nomeDungeon}» (${SETS[set] || SETS.base}). Ingresso ${idx}.`);
@@ -143,6 +152,7 @@ export function terminaAvventura(esito) {
   T.fineAvventura().catch(err => console.error(err));
   A.fineAvventura(esito).catch(err => console.error(err));
   Q.fineAvventura(esito);
+  V.fineAvventura(esito);
   P.fineAvventura(esito).catch(err => console.error(err));   // «Profondità Dimenticate»: Mente stabile, fiume e sezioni chiuse   // «Contro l'Abisso»: follia, alchimista, mercenari   // conteggi dei dungeon, santuari, giuramenti e imboscate dei tratti
   modificato();
 }
@@ -157,6 +167,7 @@ export async function nuovaStanza(opzioni = {}) {
   if (inv !== n && espertoPrimaFila()) { if (await scelta('Esperto dei dungeon', `Leggi il d66 ${n} come ${inv}?`, [[false, `Tieni ${n}`], [true, `Inverti: ${inv}`]])) n = inv; }
   const t = nuovaTessera('stanza', n);
   Object.assign(t, { pending: true, segreta: !!opzioni.segreta, finale: !!opzioni.finale });
+  if (inSilvani()) t.corridoio = V.eSentiero(n);   // radure = stanze, sentieri = corridoi (modificabile prima di confermare)
   table.autoPlace(t, tileById(adv().stanzaCorrente), adv().tessere);
   adv().tessere.push(t);
   table.setTiles(adv().tessere); table.selectTile(t.id); table.ensureVisible(t);
@@ -177,6 +188,7 @@ export async function confermaStanza(t, corridoio) {
   await K.dopoStanza(t);
   await A.dopoStanza();   // peste oscura: tiri degli infetti e contagio
   await P.dopoStanza(t);  // Profondità: eventi a più stanze, artefatti dei segreti, missioni
+  await V.dopoStanza(t);  // Selva: ponti, pozzi e incendi secondo il numero della tessera
   await indizioGratis(t);
 }
 /** «Mente geniale» (indizio gratis): la prima volta che si entra in una stanza vuota in un'avventura. */
@@ -205,13 +217,16 @@ export function annullaStanza(t) {
 // ---------------- contenuti ----------------
 export async function monstroDa(nomeTab, opzioni = {}) {
   let voce, v;
+  const erranteBase = inSilvani() && opzioni.errante;   // i Labirinti Silvani non hanno tabelle di erranti: valgono quelle del manuale base
+  const lista = erranteBase ? R.mostri[nomeTab] : mostriTabella(nomeTab);
   do {
     const r = await dado(`Tabella mostri ${nomeTab}`);
-    v = r.totale; voce = mostriTabella(nomeTab)[v - 1];
+    v = r.totale; if (inSilvani() && !erranteBase && V.cieloAperto()) v = Math.ceil(v / 2);   // dungeon a cielo aperto: 1d3 invece di 1d6 (solo volanti)
+    voce = V.sostituisci(lista[v - 1], nomeTab);
   } while (opzioni.errante && (voce.drago || voce.maiErrante));
   let contaForzata = null;
   if (inAbisso() && nomeTab === 'seguaci' && adv().caosMuove) { adv().caosMuove = false; voce = mostriTabella('seguaci').find(m => m.id === 'a-fanatici') || voce; contaForzata = '1d6'; log('Il caos si sta muovendo: i seguaci sono fanatici del caos (+1 in difesa a tutto il gruppo nel 1° turno).'); }
-  const diff = inCaos() ? K.differenzaLivello() : 0;   // gruppo sopra il livello consigliato: più mostri e più PV
+  const diff = inCaos() ? K.differenzaLivello() : inSilvani() ? V.scala() : 0;   // gruppo sopra il livello consigliato: più mostri e più PV (selva: anche +LIV ai maggiori)
   let quantita = 1, nome = voce.nome, extra = {}, exprQ = null, extraQx = null;
   if (voce.speciale === 'scheletri-o-zombi') {
     const t = await dado('Scheletri (1-3) o zombi (4-6)');
@@ -228,13 +243,15 @@ export async function monstroDa(nomeTab, opzioni = {}) {
     const sa = eroiVivi().find(x => (x.perm?.abitanti || []).some(b => b.id === voce.id));
     if (sa && await scelta('Conoscenza degli abitanti dei sotterranei', `${sa.nome} conosce questi mostri: ritiri il numero (${quantita})? Il secondo tiro vale comunque.`, [[true, 'Ritira'], [false, `Tieni ${quantita}`]])) quantita = (await tira(exprQ, `Numero ${nome} (ritiro)`)).totale;
   }
-  const inc = creaIncontro(nomeTab, { ...voce, nome }, quantita + (inc_minore(nomeTab) ? diff : 0) + (nomeTab === 'seguaci' ? Q.piuSeguaci() : 0), { ...opzioni, pvExtra: diff });
+  if (inSilvani() && inc_minore(nomeTab)) quantita = V.moltiplicaBraccati(quantita);   // «Braccati»: il prossimo incontro con minori ha il doppio delle creature
+  const inc = creaIncontro(nomeTab, { ...voce, nome }, quantita + (inc_minore(nomeTab) ? diff : 0) + (nomeTab === 'seguaci' ? Q.piuSeguaci() : 0), { ...opzioni, pvExtra: diff, livExtra: inSilvani() ? diff : 0 });
   if (voce.id === 'ratti-scheletrici') inc.contundentePiu = true;
   Object.assign(inc, extra); if (exprQ) inc.contaExpr = exprQ; if (extraQx) inc.qx = { ...(inc.qx || {}), ...extraQx };
   if (voce.leaderDati && inc_minore(nomeTab)) inc.leaderInc = await A.leaderAbisso(voce, inc);
   else if (voce.leader && inc_minore(nomeTab)) inc.leaderInc = await leaderDi(voce, inc);
   if (inAbisso()) await A.postCrea(inc, voce);
   if (inProfondita()) await P.postCrea(inc, voce);
+  if (inSilvani() || String(voce.id).startsWith('s-')) await V.postCrea(inc, voce);
   return inc;
 }
 
@@ -376,6 +393,12 @@ export async function generaContenuto(t) {
       i = await bossCheck(i); avviaIncontro(i, t); testo += ` ${i.nome}${i.bossFinale ? ' (BOSS FINALE)' : ''}`;
     } break;
     case 'boss': testo += ' ' + await boss(t); break;
+    case 'braccati': testo += ' ' + await V.braccati(); break;
+    case 'caccia-prodigiosa': testo += ' ' + V.cacciaProdigiosa(); break;
+    case 'pista': testo += ' ' + await V.pista(); break;
+    case 'seguaci-o-sentiero-vuoto': if (corr) vuotaCorr(); else { const i = await monstroDa('seguaci'); avviaIncontro(i, t); testo += ` ${i.nome} ×${i.n}`; } break;
+    case 'aberranti': { let i = await monstroDa('aberranti'); i = await bossCheck(i); avviaIncontro(i, t); testo += ` ${i.nome}${i.bossFinale ? ' (BOSS FINALE)' : ''}`; break; }
+    case 'banda-guerrieri': testo += ' ' + await V.bandaGuerrieri(t, corr); break;
     case 'drago-o-vuoto': if (corr) vuotaCorr(); else {
       let i = creaIncontro('boss', mostriTabella('boss').find(m => m.drago) || R.mostri.boss.find(m => m.drago), 1);   // i set senza draghi usano quello base
       i = await bossCheck(i); avviaIncontro(i, t); testo += ` ${i.nome}${i.bossFinale ? ' (BOSS FINALE)' : ''}`;
@@ -421,6 +444,7 @@ async function evento(t) {
   if (inAbisso()) { const x = await A.evento(t); log(x); modificato(); return x; }
   if (inProfondita()) { const x = await P.evento(t); log(x); modificato(); return x; }
   if (inAcque()) { const x = await Q.evento(t); log(x); modificato(); return x; }
+  if (inSilvani()) { const x = await V.evento(t); log(x); modificato(); return x; }
   const r = await dado('Evento speciale (d6)');
   const row = riga(tabella('eventi'), r.totale);
   let tx = `${row.nome}: ${row.testo}`;
@@ -474,6 +498,9 @@ export async function tesoro(mod = 0, ctx = {}) {
       case 'difesa-magica': aggiungi(await A.difesaMagica()); return;
       case 'pergamena': if (ctx.distruggiPergamene) { log('La Palla di Fuoco distrugge la pergamena del tesoro.'); return; } aggiungi(await generaPergamena(ctx.orcoSenzaMagia)); return;
       case 'pergamena-caos': aggiungi(await K.pergamenaCaos()); return;
+      case 'oggetto': aggiungi(await V.oggettoBase(row.valoreMax)); return;
+      case 'acqua-santa': aggiungi({ tipo: 'oggetto', nome: 'Acqua santa (fiala)', testo: 'Acqua santa (fiala)' }); return;
+      case 'pergamenaInutile': aggiungi(await V.pergamenaInutile()); return;
       case 'pergamena-o-arma': {
         const k = await scelta('Pergamena o arma', 'A scelta:', [['p', 'Una pergamena con 1 incantesimo a caso'], ['a', 'Un’arma non magica (2 su 1d6 è d’argento)']]);
         if (k === 'a') {
@@ -517,6 +544,7 @@ async function tiroTesoro(expr, label) {
 }
 
 export async function generaPergamena(orco) {
+  if (inSilvani() && !orco) return V.generaPergamena();   // tipo (mago o druido), lista base o avanzata e 1d12
   if (inProfondita() && !orco) { const lista = P.incantesimiACaso(), nome = lista[(await dado('Incantesimo a caso (d6)')).totale - 1]; return { tipo: 'pergamena', testo: `Pergamena: ${nome}`, incantesimo: nome }; }
   if (orco) { const x = await tira('1d6x1d6', 'Pergamena degli orchi = monete'); return { tipo: 'oro', testo: `${x.totale} p.o. (pergamena degli orchi)`, valore: x.totale }; }
   const lista = incantesimoACasoLista();
@@ -549,6 +577,7 @@ export async function oggettoMagico(orco) {
   if (inAbisso()) return A.oggettoMagico();
   if (inProfondita()) return P.tesoroMagico();
   if (inAcque()) return Q.tesoroMagico();
+  if (inSilvani()) return V.tesoroMagico();
   const r = await dado('Tesori magici (d6)');
   const row = riga(tabella('tesoriMagici'), r.totale);
   let testo = `${row.nome}: ${row.testo}`;
@@ -654,7 +683,7 @@ export async function tiroES(es, e, posta = { tipo: 'livello' }) {
   const pr = alto ? P.profiloES(e, posta) : A.profiloES(e, setAttivo());   // Abisso: 1d8+2 per gli esperti; in un dungeon base 1d6 (o 1d6+1)
   const etichetta = `Tiro ES di ${e.nome} (deve superare il livello ${e.livello})`;
   const r = alto ? await dEsplosivoN(pr.facce, pr.soglia, etichetta) : pr.d8 ? await d8Esplosivo(etichetta) : await d6Esplosivo(etichetta);
-  const tot = r.totale + pr.bonus + (profonditaAttiva() ? P.bonusES(e, posta) : 0) + (es.meno1 ? -1 : 0) + (inCaos() ? 1 : 0) + (e.bonusES || 0) + ((e.tratti || []).some(t => t.id === 'lesto-esperienza') ? 1 : 0) + (e.perm?.prossimoES || 0);
+  const tot = r.totale + pr.bonus + (profonditaAttiva() ? P.bonusES(e, posta) : 0) + (es.meno1 ? -1 : 0) + (inCaos() ? 1 : 0) + (es.silvani ? 1 : 0) + (e.bonusES || 0) + ((e.tratti || []).some(t => t.id === 'lesto-esperienza') ? 1 : 0) + (e.perm?.prossimoES || 0);
   const ok = r.naturale !== 1 && (tot > e.livello || (pr.d8 && r.naturale >= 7));   // 7-8 naturale = sempre un successo (d8)
   if (e.perm?.prossimoES) e.perm.prossimoES = 0;   // «Ritratto eroico»: vale per un solo tiro
   if (posta.tipo === 'incantesimo-p') P.fineStudio(e, posta, ok);   // pergamena o iscrizione: l'incantesimo entra nel grimorio o la fonte è perduta
@@ -686,14 +715,14 @@ export function vittoria(inc, opz = {}) {
   if (mid === 'salvataggio' && inc.minore) return;          // niente ES dai minori
   if (inc.errante && inc.minore && inc.tabella === 'infestanti') return;
   if (!inc.minore) {
-    if (inc.speciale === 'gremlin') return;
+    if (inc.speciale === 'gremlin' || inc.sv?.senzaXp) return;   // gremlin e incendi non sono mostri da sconfiggere
     adv().maggioriSconfitti = (adv().maggioriSconfitti || 0) + 1;
     const draghi = inc.drago && inc.bossFinale;
-    if (!opz.superato) aggiungiES(`${inc.nome} sconfitto`, false, inc.qx?.tiriES || (draghi ? 2 : 1));   // FAQ: niente ES per i maggiori superati senza sconfiggerli
+    if (!opz.superato) aggiungiES(`${inc.nome} sconfitto`, false, inc.qx?.tiriES || (draghi ? 2 : 1), inc.sv ? { silvani: true } : {});   // FAQ: niente ES per i maggiori superati senza sconfiggerli
   } else if (inc.tabella === 'seguaci' || inc.xp) {
     if (inc.tabella === 'infestanti' && !inc.xp) return;
     adv().incontriSeguaci = (adv().incontriSeguaci || 0) + (inc.contaDoppio ? 2 : 1);   // «Molti nemici, molta gloria» conta doppio
-    if (adv().incontriSeguaci >= 10) { adv().incontriSeguaci = 0; aggiungiES('10 incontri con seguaci', true); }
+    if (adv().incontriSeguaci >= 10) { adv().incontriSeguaci = 0; aggiungiES(inSilvani() ? '10 incontri con infestanti o seguaci' : '10 incontri con seguaci', true, 1, inc.sv ? { silvani: true } : {}); }
   }
   modificato();
 }

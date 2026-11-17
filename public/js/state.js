@@ -14,11 +14,12 @@ export const nuovaAvventura = () => ({
   maggioriSconfitti: 0, incontriSeguaci: 0, ultimoLivello: null, indizi: [],
   guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, ricompense: [],
   fine: null, set: 'base', missione: null, eventiUsati: [],
-  fiume: null, sezione: null, cittadella: null   // Profondità: fiume in corso (con la barca), rovine/tumulo/idolo e Cittadella in corso
+  fiume: null, sezione: null, cittadella: null,   // Profondità: fiume in corso (con la barca), rovine/tumulo/idolo e Cittadella in corso
+  silvani: null   // Labirinti Silvani: ponti, pozzi, incendi, prigionieri, missioni, rifugio dei catturati (vedi silvani.js)
 });
 
 export async function caricaRegole() {
-  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'profondita', 'acque', 'coboldi', 'tratti', 'traguardi'];
+  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'profondita', 'acque', 'coboldi', 'silvani', 'tratti', 'traguardi'];
   const dati = await Promise.all(nomi.map(n => api.regola(n)));
   nomi.forEach((n, i) => { R[n] = dati[i]; });
   R.tilesSet = { classico: R['tiles-classico'], foresta: R['tiles-foresta'] };   // geometria delle tessere dei set tematici
@@ -60,7 +61,7 @@ export function log(testo) {
 // ---- helper sul gruppo ----
 export const eroiVivi = () => S.party.eroi.filter(e => e.stato !== 'morto' && e.stato !== 'pazzo');
 /** Eroe che partecipa all'incontro in corso: negli scontri «da solo» (imboscate, «Molti nemici») combatte uno solo. */
-export const inCampo = e => { const i = S.adv?.incontro; return !(i && i.solo && i.stato !== 'finito' && (!i.soloTurni || i.turno <= i.soloTurni)) || i.solo === e.id; };
+export const inCampo = e => { const i = S.adv?.incontro; if (e.svanito) return false; return !(i && i.solo && i.stato !== 'finito' && (!i.soloTurni || i.turno <= i.soloTurni)) || i.solo === e.id; };
 export const eroiAttivi = () => S.party.eroi.filter(e => e.stato === 'ok' && inCampo(e));
 export const livelloMax = () => Math.max(1, ...S.party.eroi.filter(e => e.stato !== 'morto').map(e => e.livello));
 export const eroePerId = id => S.party.eroi.find(e => e.id === id);
@@ -69,10 +70,11 @@ export const ordineMarcia = () => S.party.ordine.map(eroePerId).filter(Boolean);
 export function nuovoEroe(classe, nome) {
   const c = R.classi[classe];
   const e = {
-    id: uid(), nome, classe, livello: 1, pvMax: c.vitaBase + 1, pv: c.vitaBase + 1, oro: 0,
+    id: uid(), nome, classe: c.base || classe, livello: 1, pvMax: c.vitaBase + 1, pv: c.vitaBase + 1, oro: 0,
     armi: [], armaPrincipale: null, armatura: 'nessuna', scudo: false, lanterna: false,
     oggetti: [], incantesimi: [], usi: { benedizione: 0, guarigione: 0, furie: 0, fortuna: 0 },
     indizi: 0, follia: 0, stato: 'ok', maledetto: false, zoppo: false, note: ''
   };
+  if (c.base) e.culto = classe;   // chierici di Elidra e Korimnos: classe «chierico» con un culto (valgono tutte le regole del chierico)
   return e;
 }

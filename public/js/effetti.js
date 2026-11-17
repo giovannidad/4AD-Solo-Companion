@@ -181,6 +181,6 @@ export async function risolviTrappola(t) {
     }
     case 'Tagliola': { const e = vivi[0]; if (!(await prova(e, { salvezza: true }))) { ferisci(e, 1); if (e.stato === 'ok') { e.zoppo = true; log(`${e.nome} zoppica (-1 attacco e difesa).`); } } break; }
   }
-  adv().trappolaAttiva = null; modificato();
+  adv().trappolaAttiva = null; if (adv().silvani) adv().silvani.protLacci = null; modificato();   // Protezione da lacci e tagliole vale per il primo TS contro una trappola
 }
 

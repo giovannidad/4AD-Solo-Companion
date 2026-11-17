@@ -8,6 +8,7 @@ import * as K from './caos.js';
 import * as G from './game.js';
 import * as T from './tratti.js';
 import * as A from './abisso.js';
+import * as V from './silvani.js';
 
 const inCombattimento = () => { const i = C.inc(); return i && i.stato === 'combattimento' ? i : null; };
 const consuma = (e, o) => { if ((o.qta || 1) > 1) o.qta--; else e.oggetti = (e.oggetti || []).filter(x => x !== o); };
@@ -116,7 +117,7 @@ export function usaFiltro(e, o) {
 // ---------------- benedizioni gratuite del traguardo «Generoso» ----------------
 export function benedizioneDivina(e, bersaglio) {
   const P = e.perm || {}; if (!(P.benGratis > 0)) return toast('Nessuna Benedizione gratuita rimasta.', 'warn');
-  P.benGratis--; bersaglio.maledetto = false; bersaglio.malattia = false; bersaglio.sfortuna = 0; if (bersaglio.stato === 'pietra') bersaglio.stato = 'ok';
+  P.benGratis--; bersaglio.maledetto = false; bersaglio.malattia = false; bersaglio.sfortuna = 0; if (bersaglio.stato === 'pietra') bersaglio.stato = 'ok'; V.cura(bersaglio, 'benedizione');
   C.nota(`${e.nome} lancia una Benedizione divina (azione gratuita) su ${bersaglio.nome}; ne restano ${P.benGratis}.`); if (abissoAttivo()) A.dopoBenedizione(e, bersaglio); modificato();
 }
 

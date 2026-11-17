@@ -4,7 +4,7 @@
 import { S, salva, modificato } from './state.js';
 import { h, toast } from './util.js';
 
-const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a', spadaccino: '#a03060' };
+const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a', spadaccino: '#a03060', 'chierico-elidra': '#b9709a', 'chierico-korimnos': '#8a7a30', druido: '#4f7a3a', 'elfo-silvano': '#2f6a46', 'guida-terre-selvagge': '#8a6a3a', 'signore-bestie': '#7a4a2a' };
 export const coloreClasse = c => COLORI[c] || '#555';
 
 // ---------------- ritratti predefiniti (SVG) ----------------
@@ -17,7 +17,7 @@ function svgRitratto(classe, seed) {
   const r = prng(classe + seed), col = coloreClasse(classe), pelle = scegli(r, PELLI), capelli = scegli(r, CAPELLI), stile = Math.floor(r() * 3);
   const occhi = scegli(r, ['#2b1b10', '#1d3d6b', '#2f6b3a']);
   let dietro = '', davanti = '';
-  const elfico = ['elfo', 'elfo-fuoco'].includes(classe);
+  const elfico = ['elfo', 'elfo-fuoco', 'elfo-silvano'].includes(classe);
   const orecchie = `<path d="M30 66 L${elfico ? 14 : 24} ${elfico ? 52 : 64} L33 78Z M98 66 L${elfico ? 114 : 104} ${elfico ? 52 : 64} L95 78Z" fill="${pelle}"/>`;
   // capelli (di base, poi ogni classe aggiunge copricapo e dettagli)
   const chioma = classe === 'elfo-fuoco'
@@ -56,6 +56,23 @@ function svgRitratto(classe, seed) {
     case 'spadaccino':
       dietro = `<path d="M18 104 Q10 66 40 62 L88 62 Q118 66 110 104Z" fill="#7a1a3a"/>`;
       davanti = `<path d="M14 56 Q64 26 114 56 L102 62 Q64 44 26 62Z" fill="#2e2418"/><path d="M34 54 Q36 28 64 24 Q92 28 94 54Z" fill="#43321f"/><path d="M90 40 Q112 14 122 30 Q108 28 100 48Z" fill="#c0392b"/><path d="M50 84 Q64 90 78 84" fill="none" stroke="#2b1b10" stroke-width="3"/>`; break;
+    case 'chierico-elidra':
+      dietro = `<path d="M22 100 Q18 30 64 16 Q110 30 106 100Z" fill="#f6e4ee" stroke="#b9709a" stroke-width="3"/>`;
+      davanti = `<path d="M44 30 Q64 12 84 30" fill="none" stroke="#e7c76a" stroke-width="3"/><circle cx="64" cy="18" r="4" fill="#e7c76a"/><path d="M50 106 Q47 122 58 124 M78 106 Q81 122 70 124 M50 106 Q64 98 78 106 M57 107 V122 M64 105 V123 M71 107 V122" stroke="#e7c76a" stroke-width="2.4" fill="none"/>`; break;
+    case 'chierico-korimnos':
+      dietro = `<path d="M22 100 Q18 30 64 16 Q110 30 106 100Z" fill="#3f6a3a" stroke="#d8b23a" stroke-width="3"/>`;
+      davanti = `<path d="M42 38 Q30 24 36 6 M37 22 Q26 18 22 8 M86 38 Q98 24 92 6 M91 22 Q102 18 106 8 M64 30 Q64 14 64 4" stroke="#e0b93a" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="64" cy="112" r="9" fill="#e0b93a" stroke="#7a5a10" stroke-width="2"/>`; break;
+    case 'druido':
+      dietro = `<path d="M20 102 Q16 28 64 14 Q112 28 108 102Z" fill="#4a5f34" stroke="#2b3a1c" stroke-width="2"/>`;
+      davanti = `<path d="M34 46 Q42 28 54 34 Q50 46 38 50Z M94 46 Q86 28 74 34 Q78 46 90 50Z M54 26 Q64 10 74 26 Q64 30 54 26Z" fill="#6fae4a" stroke="#2f5a1c" stroke-width="2"/>` + barba('#c9c4b4', true) + `<path d="M92 90 L104 128" stroke="#7a5a2a" stroke-width="5"/><circle cx="92" cy="88" r="6" fill="#6fae4a"/>`; break;
+    case 'elfo-silvano':
+      dietro = `<path d="M24 100 Q18 30 64 14 Q110 30 104 100Z" fill="#2f5a3a"/>`;
+      davanti = `<path d="M30 56 Q64 36 98 56 L96 64 Q64 48 32 64Z" fill="#3f7a4a"/><path d="M88 40 Q104 10 118 14 Q106 24 98 46Z" fill="#c9a24a" stroke="#7a5a1a" stroke-width="1.5"/><path d="M96 52 L100 36" stroke="#7a5a1a" stroke-width="2"/><path d="M28 96 Q20 56 34 44 L36 96Z M100 96 Q108 56 94 44 L92 96Z" fill="${capelli}"/>`; break;
+    case 'guida-terre-selvagge':
+      davanti = `<path d="M8 54 Q64 38 120 54 L116 62 Q64 50 12 62Z" fill="#6a4a22"/><path d="M36 54 Q38 22 64 20 Q90 22 92 54Z" fill="#8a6a3a"/><path d="M84 28 Q106 6 122 16 Q104 22 94 40Z" fill="#c0392b"/><path d="M36 98 Q64 116 92 98 L90 118 Q64 126 38 118Z" fill="#a8452a"/><circle cx="64" cy="108" r="5" fill="none" stroke="#e0c46a" stroke-width="2"/>`; break;
+    case 'signore-bestie':
+      dietro = `<path d="M18 104 Q14 40 40 28 L40 8 L52 24 Q64 20 76 24 L88 8 L88 28 Q114 40 110 104Z" fill="#7a6a58" stroke="#3a2a1a" stroke-width="2"/>`;
+      davanti = `<path d="M30 60 Q64 36 98 60 Q92 44 64 40 Q36 44 30 60Z" fill="#8a7a66"/><path d="M42 100 l4 14 4 -14 M56 104 l4 14 4 -14 M70 104 l4 14 4 -14 M84 100 l4 14 4 -14" stroke="#efe4c4" stroke-width="4" fill="none" stroke-linecap="round"/>`; break;
     case 'veterano':
       davanti = `<path d="M28 58 Q64 40 100 58 L98 68 Q64 54 30 68Z" fill="#b8281f"/><path d="M84 54 L96 92" stroke="#7a2a2a" stroke-width="3"/>` + `<path d="M40 86 Q64 104 88 86 Q64 96 40 86Z" fill="#8a8a8a" opacity=".7"/>`; break;
   }
@@ -64,8 +81,8 @@ function svgRitratto(classe, seed) {
 }
 const cacheSvg = new Map();
 function predefinito(e) {
-  const k = e.classe + '|' + e.id; let u = cacheSvg.get(k);
-  if (!u) { u = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgRitratto(e.classe, e.id)); cacheSvg.set(k, u); }
+  const k = (e.culto || e.classe) + '|' + e.id; let u = cacheSvg.get(k);
+  if (!u) { u = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgRitratto(e.culto || e.classe, e.id)); cacheSvg.set(k, u); }
   return u;
 }
 

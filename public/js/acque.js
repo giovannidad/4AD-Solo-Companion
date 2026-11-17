@@ -9,6 +9,7 @@ import * as G from './game.js';
 import * as C from './combat.js';
 import * as K from './caos.js';
 import * as A from './abisso.js';
+import * as V from './silvani.js';
 
 const adv = () => S.adv;
 const casuale = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -457,7 +458,7 @@ export function chiudiIncontro(i) {
   normalizza().catch(err => console.error(err));
 }
 export function curaAcque(b, tipo) {
-  b.affascinato = false; b.acqueOscure = false; void tipo;
+  b.affascinato = false; b.acqueOscure = false; V.cura(b, tipo);   // anche i malus silvani (lamia, rospo, apatia)
 }
 export async function inizioAvventura() {
   for (const e of S.party.eroi) { e.barriera = false; e.avviluppato = false; e.gelo = false; e.paura = null; e.rete = false; e.affascinato = false; e.acqueOscure = false; e.paralisiQ = 0; e.maestriaPronta = false; }

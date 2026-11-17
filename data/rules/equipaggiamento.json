@@ -169,6 +169,28 @@
    "categoria": "una-mano",
    "suppl": "acque",
    "note": "Mazza dei coboldi: per il gruppo è solo un’arma contundente a una mano, senza altri benefici. Non è in vendita."
+  },
+  {
+   "id": "arco-corto",
+   "nome": "Arco corto",
+   "costo": 0,
+   "mani": 2,
+   "tipo": "taglio",
+   "mod": 0,
+   "lancio": true,
+   "suppl": "silvani",
+   "note": "Arma da lancio del druido (Labirinti Silvani). Prezzo non indicato dal manuale: non in vendita."
+  },
+  {
+   "id": "giavellotto",
+   "nome": "Giavellotto",
+   "costo": 0,
+   "mani": 1,
+   "tipo": "taglio",
+   "mod": 0,
+   "lancio": true,
+   "suppl": "silvani",
+   "note": "Arma da lancio del druido (Labirinti Silvani). Prezzo non indicato dal manuale: non in vendita."
   }
  ],
  "oggetti": [
