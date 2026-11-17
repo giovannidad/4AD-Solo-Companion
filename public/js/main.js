@@ -11,6 +11,8 @@ import * as Coop from './coop.js';
 import { esportaMappa, esportaSchede } from './esporta.js';
 import * as Rit from './ritratti.js';
 import { renderDungeon, renderIncontro, renderStrumenti, renderRegistro, firmaUI } from './ui.js';
+import './mobile.js';   // versione per telefono: schede in basso, menu, suggerimenti al tocco (sul desktop non fa nulla)
+import './tocco.js';    // gesti sulla mappa: pizzico per lo zoom, doppio tocco per «adatta»
 
 let tab = 'dungeon';
 
