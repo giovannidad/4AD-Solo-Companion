@@ -1,7 +1,27 @@
 // Schermata Impostazioni: aspetto dei dadi (colore, spigoli smussati, ombre).
-import { h, modal } from './util.js';
+import { h, modal, toast } from './util.js';
 import * as dice from './dice.js';
 import * as mappa from './map2d.js';
+import { api } from './api.js';
+import { S } from './state.js';
+
+// Copia di sicurezza (solo modalità locale): la memoria del browser può essere cancellata (pulizia dei dati, poco spazio, disinstallazione).
+async function esportaCampagna() {
+  await new Promise(r => setTimeout(r, 400));   // lascia finire il salvataggio ritardato
+  const f = await api.esporta(S.camp);
+  const a = h('a', { href: URL.createObjectURL(new Blob([JSON.stringify(f, null, 1)], { type: 'application/json' })), download: `campagna-${f.id}.json` });
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
+function importaCampagna() {
+  const inp = h('input', { type: 'file', accept: '.json,application/json', onchange: async () => {
+    try {
+      const nuova = await api.importa(JSON.parse(await inp.files[0].text()));
+      toast(`Campagna «${nuova.nome}» importata come nuova campagna.`);
+      document.dispatchEvent(new CustomEvent('campagne-cambiate', { detail: nuova.id }));
+    } catch (e) { toast(e.message || 'File non valido', 'warn'); }
+  } });
+  inp.click();
+}
 
 const NOMI = { avorio: 'Avorio', rosso: 'Rosso', blu: 'Blu', verde: 'Verde', nero: 'Nero', oro: 'Oro' };
 
@@ -30,6 +50,13 @@ export async function apriImpostazioni({ leggera } = {}) {
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: a.smussato, onchange: ev => dadi3d.setAspetto({ smussato: ev.target.checked }) }), 'Spigoli e angoli smussati'));
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: a.distingui, onchange: ev => dadi3d.setAspetto({ distingui: ev.target.checked }) }), 'Distingui i dadi secondari (decine del d66, 2° dado) in rosso'));
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: a.ombre, onchange: ev => dadi3d.setAspetto({ ombre: ev.target.checked }) }), 'Ombre dei dadi'));
+    if (api.modalita === 'locale') {
+      b.append(h('h4', {}, 'Campagne su questo dispositivo'),
+        h('p', { class: 'warn-box' }, 'Le campagne sono salvate solo nella memoria di questo browser: se i dati del sito vengono cancellati (o l’app viene disinstallata) si perdono, e non passano da un dispositivo all’altro. Fai ogni tanto una copia con «Esporta campagna».'),
+        h('div', { class: 'row' },
+          h('button', { onclick: () => esportaCampagna().catch(e => toast(e.message, 'warn')) }, 'Esporta campagna'),
+          h('button', { onclick: importaCampagna }, 'Importa campagna')));
+    }
     b.append(h('div', { class: 'row end' },
       h('button', { disabled: !!leggera, onclick: () => dice.tira('2d6', 'Prova dadi') }, 'Lancia due dadi di prova'),
       h('button', { class: 'primary', onclick: close }, 'Chiudi')));

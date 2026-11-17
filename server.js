@@ -19,7 +19,7 @@ const CAMPAGNE = process.env.FAD_DATA || path.join(DATA, 'campagne');
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml',
-  '.txt': 'text/plain; charset=utf-8', '.ico': 'image/x-icon', '.woff2': 'font/woff2'
+  '.txt': 'text/plain; charset=utf-8', '.webmanifest': 'application/manifest+json; charset=utf-8', '.ico': 'image/x-icon', '.woff2': 'font/woff2'
 };
 // file di campagna ammessi (solo questi, niente path arbitrari)
 const FILES = { party: 'party.json', avventura: 'avventura.json', registro: 'registro.txt', ritratti: 'ritratti.json' };

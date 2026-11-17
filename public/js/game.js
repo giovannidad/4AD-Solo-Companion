@@ -22,7 +22,7 @@ const CARTELLA_SET = { classico: 'set-classico', foresta: 'set-foresta' };
 function nuovaTessera(tipo, n) {
   const m = ((R.tilesSet || {})[adv().tema] || R.tiles)[tipo === 'ingresso' ? 'ingressi' : 'tiles'][n];
   return {
-    id: uid(), tipo, n, src: `/assets/${CARTELLA_SET[adv().tema] ? CARTELLA_SET[adv().tema] + '/' : ''}${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.${m.svg ? 'svg' : 'webp'}`,
+    id: uid(), tipo, n, src: `assets/${CARTELLA_SET[adv().tema] ? CARTELLA_SET[adv().tema] + '/' : ''}${tipo === 'ingresso' ? 'ingressi' : 'tiles'}/${n}.${m.svg ? 'svg' : 'webp'}`,
     w: m.w, h: m.h, cx: m.cx, cy: m.cy, ox: m.ox, oy: m.oy,
     x: 10, z: 14, rot: 0, flip: false, scale: 1, pending: false, nome: `Stanza ${n}`, corridoio: false, contenuto: null, perquisita: false
   };

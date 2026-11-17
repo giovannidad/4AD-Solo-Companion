@@ -1,5 +1,6 @@
 import { $, $$, h, modal, toast, confirmBox } from './util.js';
-import { api } from './api.js';
+import { api, inizializzaApi } from './api.js';
+import { registraSw, pulisciSw, avvisoLocale } from './pwa.js';
 import { R, S, caricaRegole, apriCampagna, onChange, modificato, emit, ordineMarcia, log, eroePerId } from './state.js';
 import { muoviGruppo, tileById, spostamento, stanzaSicura } from './game.js';
 import * as table from './map2d.js';
@@ -115,9 +116,14 @@ async function nuovaCampagna() {
     const n = h('input', { type: 'text', value: 'La mia campagna', maxlength: 40 });
     const ok = async () => { const c = await api.creaCampagna(n.value.trim() || 'Campagna'); res(c); close(); };
     n.onkeydown = e => { if (e.key === 'Enter') ok(); };
-    b.append(h('label', {}, 'Nome della campagna', n), h('p', { class: 'hint' }, 'Tutti i dati vengono salvati come file di testo in data/campagne/.'), h('div', { class: 'row end' }, h('button', { onclick: () => { res(null); close(); } }, 'Annulla'), h('button', { class: 'primary', onclick: ok }, 'Crea')));
+    b.append(h('label', {}, 'Nome della campagna', n), h('p', { class: 'hint' }, api.modalita === 'locale' ? 'I dati vengono salvati nella memoria di questo browser (usa Esporta campagna nelle Impostazioni per fare una copia).' : 'Tutti i dati vengono salvati come file di testo in data/campagne/.'), h('div', { class: 'row end' }, h('button', { onclick: () => { res(null); close(); } }, 'Annulla'), h('button', { class: 'primary', onclick: ok }, 'Crea')));
     setTimeout(() => n.select(), 50);
   }, { onClose: () => res(null) }));
+}
+/** Modalità locale: niente server, quindi niente cooperativa; si avvisa che i dati restano nel dispositivo; service worker per l'uso offline. */
+function modoLocale() {
+  const b = $('#coopBtn'); b.disabled = true; b.title = 'La cooperativa online richiede il server di gioco (sul PC): non è disponibile quando si usa il programma dal telefono.';
+  registraSw(); avvisoLocale();
 }
 async function selezionaCampagna(id) {
   await apriCampagna(id);
@@ -128,6 +134,8 @@ async function selezionaCampagna(id) {
 
 async function avvia() {
   try {
+    const modo = await inizializzaApi();   // server (file in data/) oppure locale (IndexedDB, senza server)
+    if (modo === 'locale') modoLocale(); else pulisciSw();
     await caricaRegole();
     table.initMap($('#mapView')); table.setTileData(R.tiles, R.tilesSet); table.setSicuraFn(stanzaSicura);
     // three.js e cannon-es (~1 MB) si scaricano in background: l'interfaccia parte subito e i primi tiri sono virtuali
@@ -150,7 +158,7 @@ async function avvia() {
     $('#loading').remove(); window.__avvioMs = Math.round(performance.now());
   } catch (e) { $('#loading').textContent = 'Errore: ' + e.message; console.error(e); return; }
 
-  fetch('/versione.json').then(r => r.json()).then(v => { if (v.versione) $('#ver').textContent = '· v' + v.versione; }).catch(() => {});
+  fetch('versione.json').then(r => r.json()).then(v => { if (v.versione) $('#ver').textContent = '· v' + v.versione; }).catch(() => {});
   $('#esporta').onclick = () => esportaMappa();
   $('#esportaSchede').onclick = () => esportaSchede();
   $('#impostazioni').onclick = () => apriImpostazioni({ leggera: LEGGERA });
@@ -161,6 +169,7 @@ async function avvia() {
   $$('#stageTop [data-view]').forEach(b => b.onclick = () => table.setView(b.dataset.view));
   $$('#tabs button').forEach(b => b.onclick = () => apriTab(b.dataset.tab));
   document.addEventListener('apri-tab', e => apriTab(e.detail));
+  document.addEventListener('campagne-cambiate', async e => { await caricaElencoCampagne(e.detail); await selezionaCampagna(e.detail); });
   inizializzaDadi();
   onChange(programma);
 

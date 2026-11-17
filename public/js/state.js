@@ -30,7 +30,7 @@ export async function apriCampagna(id) {
   S.camp = id;
   S.party = (await api.leggi(id, 'party')) || nuovaPartita();
   S.adv = Object.assign(nuovaAvventura(), (await api.leggi(id, 'avventura')) || {});
-  S.adv.tessere.forEach(t => { t.src = t.src.replace(/\.png$/, '.webp'); });   // salvataggi vecchi
+  S.adv.tessere.forEach(t => { t.src = t.src.replace(/\.png$/, '.webp').replace(/^\/assets\//, 'assets/'); });   // salvataggi vecchi (.png; percorso assoluto -> relativo, per le sottocartelle)
   S.registro = (await api.leggi(id, 'registro')).split('\n').filter(Boolean);
   S.ritratti = (await api.leggi(id, 'ritratti').catch(() => null)) || {};
   localStorage.setItem('4ad-campagna', id);

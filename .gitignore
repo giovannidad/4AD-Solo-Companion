@@ -7,3 +7,4 @@ manuali/
 # salvataggi personali
 data/campagne/*
 !data/campagne/.gitkeep
+web-statico/

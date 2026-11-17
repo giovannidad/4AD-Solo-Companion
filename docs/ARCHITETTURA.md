@@ -17,6 +17,25 @@ Browser / Electron  ──HTTP──▶  server.js  ──▶  data/campagne/<id
 - **Variabile `FAD_DATA`**: cartella delle campagne (usata da Electron per salvare nella cartella dati dell'utente).
 - **Electron (`electron/main.js`)**: avvia il server su una porta libera e apre una finestra.
 
+## Modalità locale (PWA, senza server)
+
+- `public/js/api.js` ha due implementazioni con la stessa interfaccia: **server** (rotte `/api/campagne`) e **locale** (IndexedDB `4ad-companion`,
+  un record per campagna con gli stessi identificatori e gli stessi testi dei file: `party`, `avventura`, `registro`, `ritratti`).
+  `inizializzaApi()` (chiamata in `main.js`) sceglie: se `/api/campagne` risponde con un elenco JSON si usa il server, altrimenti IndexedDB.
+  `?locale=1` forza la modalità locale. In locale: `navigator.storage.persist()`, pulsanti Esporta/Importa campagna nelle Impostazioni
+  (file JSON `{formato:'4ad-campagna', …}`; l'importazione crea sempre una nuova campagna), pulsante Cooperativa disattivato.
+- `public/sw.js` + `public/js/pwa.js`: il service worker è registrato SOLO in modalità locale; in modalità server viene rimosso (con le sue cache `4ad-*`)
+  se presente. Cache `4ad-<versione>-<impronta>`, risposta dalla cache con aggiornamento in background; una nuova versione resta in attesa e
+  compare l'avviso «Aggiornamento disponibile, ricarica». Non intercetta mai `/api/`.
+- `tools/prepara-statico.js [cartella]` crea la cartella da pubblicare (public/ + `assets/` + `rules/`), scrive `versione.json` (da `package.json`),
+  `elenco-file.json` (file da mettere in cache) e inserisce l'impronta in `sw.js`. Senza questo passaggio il service worker funziona lo stesso,
+  ma mette in cache solo i file indispensabili e quelli usati man mano.
+- Percorsi relativi alla pagina (`css/`, `js/`, `vendor/`, `assets/`, `rules/`, `versione.json`), quindi l'app può stare in una sottocartella.
+  Il percorso delle tessere salvate in `avventura.json` è ora `assets/…` (i vecchi salvataggi `/assets/…` vengono convertiti al caricamento).
+  Restano assoluti solo `/api/…` (esistono solo col server).
+- Limiti: i dati stanno nella memoria del browser (cancellabile); nessuna cooperativa; niente sincronizzazione tra dispositivi.
+- Prova: `node server.js` e aprire `http://localhost:3000/?locale=1`; oppure `node tools/prepara-statico.js /tmp/web` e servire la cartella con un server statico qualsiasi.
+
 ## Moduli frontend
 
 | Modulo | Responsabilità |

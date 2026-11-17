@@ -24,6 +24,16 @@ del regolamento automatizzate. Tutti i dati sono salvati in **file di testo** (J
 Cosa è automatico e cosa no è descritto in [docs/REGOLE.md](docs/REGOLE.md): l'app è un **assistente al tavolo**,
 le scelte restano al giocatore.
 
+## Su telefono (modalità locale, sperimentale)
+
+Il programma può funzionare senza server: i file (`public/`, `assets/`, `data/rules/`) si pubblicano su un host web statico con HTTPS
+(es. GitHub Pages); `node tools/prepara-statico.js` prepara la cartella da pubblicare (`web-statico/`). Aperto da quell'indirizzo,
+salva le campagne nella memoria del browser (IndexedDB) e, con il service worker, funziona offline dopo il primo caricamento;
+si può aggiungere alla schermata Home. Le campagne non passano dal telefono al PC: usa «Esporta/Importa campagna» nelle Impostazioni.
+La cooperativa online richiede il server e non è disponibile. Provato finora solo su browser desktop (con `?locale=1` si forza questa
+modalità anche con il server); il layout non è ancora adattato agli schermi piccoli e l'installazione su un telefono vero non è stata provata.
+Dettagli in `docs/ARCHITETTURA.md`.
+
 ## Avvio rapido (sviluppo)
 
 Requisiti: Node.js 18 o superiore.
