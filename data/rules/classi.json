@@ -406,5 +406,111 @@
    "1 compagno animale di livello 0 o 1"
   ],
   "tratti": "Cacciatore che addestra animali. Attacco +1/2 livello. Bonus di addestramento pari a metà livello da ripartire tra attacco, difesa, morale, TS e PV dei compagni animali; 1 compagno ogni 3 livelli (per eccesso). Può controllare più mostri sottomessi. Salva come il barbaro. Niente armi da fuoco."
+ },
+ "chierico-zur": {
+  "nome": "Chierico di Zur",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "aldila",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "benedizioni": 3,
+  "guarigioni": 3,
+  "tratti": "Variante del chierico devota a Zur, dio della morte. Al posto di una Benedizione e pagando 1 PV di sangue può rendere Pacifici i non-morti (minori in automatico, maggiori con tiro salvezza; non il boss finale). Nell'Aldilà non mangia. Non usa cubi anima né ha figli. Niente Creare acqua santa né Creare pergamene; ha Negromanzia minore."
+ },
+ "chierico-foryos": {
+  "nome": "Chierico di Foryos",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "aldila",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "benedizioni": 3,
+  "guarigioni": 3,
+  "tratti": "Variante del chierico devota a Foryos, dio della guerra. Con una Benedizione aggiunge il livello intero (invece di metà) all'attacco contro i mostri con «demone» nel nome per tutto l'incontro."
+ },
+ "cambione": {
+  "nome": "Cambione",
+  "vitaBase": 5,
+  "oro": "0",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte-tranne-lancio",
+  "suppl": "aldila",
+  "incantatore": true,
+  "incantesimiPerLivello": 1,
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo",
+   "Souvenir terrificante"
+  ],
+  "tratti": "Mezzo demone. Mezzo livello all'attacco, livello ai tiri per lanciare i soli incantesimi dell'Aldilà (1 per livello, armatura leggera e niente scudo) e ai tiri salvezza contro la follia; ripete 1 tiro di follia fallito; PV 4+livello; non mangia nell'Aldilà; -½L alle reazioni della progenie infernale. Parte con 2d6 ϰ (non oro). Con 3+ follia non è benedicibile né resuscitabile; niente acqua santa."
+ },
+ "demonologo": {
+  "nome": "Demonologo",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [],
+  "scudo": false,
+  "armi": [
+   "una-mano-taglio",
+   "leggera"
+  ],
+  "suppl": "aldila",
+  "equip": [
+   "Arma leggera",
+   "Tatuaggi di protezione"
+  ],
+  "tratti": "Sottoclasse del mago che non lancia incantesimi (salvo Stregone infernale o pergamene). Mezzo livello all'attacco, livello intero contro la progenie infernale (anche ai tiri salvezza) e ½L alla difesa; PV 3+livello; immune alla follia (ogni punto guarisce 1 PV); non benedicibile né resuscitabile. Possessione: colpo di grazia a un maggiore infernale. Parte con 2d6 p.o., 2d6 ϰ e un dono esecrando."
+ },
+ "paladino": {
+  "nome": "Paladino",
+  "vitaBase": 7,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte-tranne-lancio",
+  "suppl": "aldila",
+  "equip": [
+   "Arma a una mano",
+   "Armatura pesante",
+   "Scudo"
+  ],
+  "tratti": "Livello ai tiri di attacco; PV 6+livello; livello+1 punti preghiera (cura 1 PV, ripeti un tiro salvezza, cavalcatura); Punizione divina 1 volta per avventura. A fine avventura paga 10 p.o. × livello. Non si sottrae al combattimento; -2 alla furtività del gruppo; non adora i blasfemi."
  }
 }

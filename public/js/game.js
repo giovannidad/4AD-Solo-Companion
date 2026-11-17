@@ -1,12 +1,13 @@
 // Flusso di gioco: avventura, generazione stanze, contenuti, tesori, ricerche, esperienza.
 import { R, S, log, modificato, eroiVivi, livelloMax, eroePerId, emit } from './state.js';
 import { tira, d66, dado, d6Esplosivo, d8Esplosivo, dEsplosivoN, estremo } from './dice.js';
-import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, inAbisso, inProfondita, abissoAttivo, profonditaAttiva, gradoDi, livelloTetto, incantesimoACasoLista, SETS, suppl, inAcque, acqueAttive, inSilvani } from './rules.js';
+import { riga, tabella, creaIncontro, mostriTabella, setAttivo, inCaos, inAbisso, inProfondita, abissoAttivo, profonditaAttiva, gradoDi, livelloTetto, incantesimoACasoLista, SETS, suppl, inAcque, acqueAttive, inSilvani, inAldila } from './rules.js';
 import * as K from './caos.js';
 import * as A from './abisso.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
 import * as V from './silvani.js';
+import * as AL from './aldila.js';
 import * as T from './tratti.js';
 import * as Eff from './effetti.js';
 import { nomeDungeon } from './nomi.js';
@@ -82,10 +83,16 @@ async function risolviSet() {
     const v = await scelta('Contro le Profondità Dimenticate', 'Tutti i personaggi hanno raggiunto il livello 10 (o il 9° da eroi). Vuoi usare le tabelle delle Profondità Dimenticate (livelli 10-19) per il prossimo dungeon? Potrai cambiare scelta prima di ogni avventura.', [['profondita', SETS.profondita, 'Tabelle, mostri, tesori, fiumi e Cittadelle del supplemento; gradi eroico e leggendario.'], [null, 'Resta con le tabelle attuali']]);
     if (v) { S.party.set = v; S.party.supplProfondita = true; } modificato('party');
   }
+  if (AL.prontiAldila(vivi) && !S.party.propostaAldila && !['aldila', 'profondita'].includes(S.party.set)) {   // tutti 6°-9° livello: si propone una volta sola l'Aldilà
+    S.party.propostaAldila = true;
+    const v = await scelta('Orrori dall’Aldilà', 'Tutti i personaggi hanno tra il 6° e il 9° livello. Vuoi usare le tabelle di «Orrori dall’Aldilà» (livelli 6-9) per il prossimo dungeon? Potrai cambiare scelta prima di ogni avventura.', [['aldila', SETS.aldila, 'Fortezze, templi e sotterranei dell’Aldilà, nuove classi, cubi anima, blasfemi.'], [null, 'Resta con le tabelle attuali']]);
+    if (v) { S.party.set = v; S.party.supplAldila = true; } modificato('party');
+  }
   if (S.party.set === undefined && pronti) {
     const v = await scelta('Tabelle avanzate', `Tutti i personaggi hanno raggiunto il ${pronti5 ? '5' : '3'}° livello. Quali tabelle vuoi usare per il prossimo dungeon? (Potrai cambiare scelta prima di ogni avventura.)`, [
       ...(pronti10 ? [['profondita', SETS.profondita, 'Supplemento «Contro le Profondità Dimenticate»: livelli 10-19, d10 e d12, gradi eroico e leggendario.']] : []),
       ...(pronti5 ? [['abisso', SETS.abisso, 'Supplemento «Contro l’Abisso»: livelli 6-9, d8 esplosivo, abilità avanzate, mercenari e artigiani.']] : []),
+      ...(AL.prontiAldila(vivi) ? [['aldila', SETS.aldila, 'Supplemento «Orrori dall’Aldilà»: livelli 6-9, fortezze e templi infernali, cambione, demonologo, paladino, cubi anima.']] : []),
       ['diabolici', SETS.diabolici, 'Tabelle avanzate del manuale base: tesori e mostri più letali.'],
       ['caos', SETS.caos, 'Supplemento «Contro il Caos»: dungeon a tema con missione, trappole, eventi e incantesimi del caos.'],
       ...(pronti4 ? [['silvani', SETS.silvani, 'Supplemento «Labirinti Silvani»: la selva (mappa Foresta), druido, compagni animali, cavalcature.']] : []),
@@ -102,6 +109,7 @@ export async function iniziaAvventura() {
   if ((set === 'abisso' || S.party.supplAbisso) && !(await A.controlloIngresso())) return false;
   if ((set === 'profondita' || S.party.supplProfondita) && !(await P.controlloIngresso())) return false;
   if (set === 'silvani' && !(await V.controlloIngresso())) return false;
+  if ((set === 'aldila' || S.party.supplAldila) && !(await AL.controlloIngresso())) return false;
   let missione = null;
   if (set === 'caos') { missione = await K.scegliMissione(); }
   Object.assign(S.adv, { set, missione, tema: S.party.tema || 'carta', eventiUsati: [],
@@ -124,6 +132,7 @@ export async function iniziaAvventura() {
   await P.inizioAvventura();      // «Profondità Dimenticate»: stati temporanei da azzerare
   await Q.inizioAvventura();      // «Acque Oscure» e coboldi: stati temporanei, delfino
   await V.inizioAvventura();      // «Labirinti Silvani»: stato della selva, compagni, cotte e usi dei poteri
+  await AL.inizioAvventura();     // «Orrori dall'Aldilà»: classi, doni esecrandi, stati temporanei
   await K.dotazioniMissione();    // compagni e oggetti forniti dalla missione
   table.setTema(S.adv.tema); table.setTiles([]);
   const selva = set === 'silvani';   // nella selva l'ingresso è 1d6+60 sulla stessa tabella delle aree (tessere 61-66), non una tabella d'ingressi
@@ -153,6 +162,7 @@ export function terminaAvventura(esito) {
   A.fineAvventura(esito).catch(err => console.error(err));
   Q.fineAvventura(esito);
   V.fineAvventura(esito);
+  AL.fineAvventura(esito).catch(err => console.error(err));   // «Orrori dall'Aldilà»: tributo del paladino, cubi e catturati
   P.fineAvventura(esito).catch(err => console.error(err));   // «Profondità Dimenticate»: Mente stabile, fiume e sezioni chiuse   // «Contro l'Abisso»: follia, alchimista, mercenari   // conteggi dei dungeon, santuari, giuramenti e imboscate dei tratti
   modificato();
 }
@@ -218,12 +228,14 @@ export function annullaStanza(t) {
 export async function monstroDa(nomeTab, opzioni = {}) {
   let voce, v;
   const erranteBase = inSilvani() && opzioni.errante;   // i Labirinti Silvani non hanno tabelle di erranti: valgono quelle del manuale base
-  const lista = erranteBase ? R.mostri[nomeTab] : mostriTabella(nomeTab);
+  const lista = erranteBase ? R.mostri[nomeTab] : mostriTabella(opzioni.lista || nomeTab);
   do {
     const r = await dado(`Tabella mostri ${nomeTab}`);
     v = r.totale; if (inSilvani() && !erranteBase && V.cieloAperto()) v = Math.ceil(v / 2);   // dungeon a cielo aperto: 1d3 invece di 1d6 (solo volanti)
     voce = V.sostituisci(lista[v - 1], nomeTab);
+    if (voce.sottotabella) voce = await AL.sottotabellaSeguaci(voce);   // Aldilà: il selettore dei seguaci (non-morti, umanoidi, demoniaci) e poi la sottotabella
   } while (opzioni.errante && (voce.drago || voce.maiErrante));
+  if (String(voce.id).startsWith('o-')) voce = await AL.risolviVoce(voce);   // Aldilà: livello, PV e attacchi a dado
   let contaForzata = null;
   if (inAbisso() && nomeTab === 'seguaci' && adv().caosMuove) { adv().caosMuove = false; voce = mostriTabella('seguaci').find(m => m.id === 'a-fanatici') || voce; contaForzata = '1d6'; log('Il caos si sta muovendo: i seguaci sono fanatici del caos (+1 in difesa a tutto il gruppo nel 1° turno).'); }
   const diff = inCaos() ? K.differenzaLivello() : inSilvani() ? V.scala() : 0;   // gruppo sopra il livello consigliato: più mostri e più PV (selva: anche +LIV ai maggiori)
@@ -252,6 +264,7 @@ export async function monstroDa(nomeTab, opzioni = {}) {
   if (inAbisso()) await A.postCrea(inc, voce);
   if (inProfondita()) await P.postCrea(inc, voce);
   if (inSilvani() || String(voce.id).startsWith('s-')) await V.postCrea(inc, voce);
+  if (inc.al) await AL.postCrea(inc, voce, opzioni);
   return inc;
 }
 
@@ -310,19 +323,21 @@ const voceDi = inc => mostriTabella(inc.tabella).find(m => m.id === inc.id) || (
 export async function bossCheck(inc) {
   if (inc.errante) return inc;
   if (adv().missione?.id === 'esplorazione') return inc;   // non si tira il boss finale
+  if (inc.al?.maiBossFinale) { AL.nota(`${inc.nome} non è mai boss finale (conta come maggiore).`); return inc; }
   const r = await dado('Boss finale? (1d6 + maggiori sconfitti)');
   const tot = r.totale + adv().maggioriSconfitti;
   log(`Boss finale? ${r.totale} + ${adv().maggioriSconfitti} = ${tot}${tot >= 6 ? ' → È IL BOSS FINALE!' : ''}`);
   if (tot >= 6) {
     const fisso = adv().missione?.bossFinale;
     if (fisso) { const f = creaSpeciale(fisso, true); log(`Missione: il boss finale è ${f.nome}.`); return f; }
+    if (inc.al) return AL.bossFinale(inc);   // l'Aldilà: lo stesso mostro già estratto (con livello, PV e poteri) diventa il boss finale
     return await Q.bossFinale(creaIncontro(inc.tabella, voceDi(inc), 1, { bossFinale: true }));
   }
   return inc;
 }
 export async function boss(tessera, forzaFinale = false) {
   let inc = await monstroDa('boss');
-  if (forzaFinale) inc = adv().missione?.bossFinale ? creaSpeciale(adv().missione.bossFinale, true) : await Q.bossFinale(creaIncontro('boss', voceDi(inc), 1, { bossFinale: true }));
+  if (forzaFinale) inc = adv().missione?.bossFinale ? creaSpeciale(adv().missione.bossFinale, true) : inc.al ? AL.bossFinale(inc) : await Q.bossFinale(creaIncontro('boss', voceDi(inc), 1, { bossFinale: true }));
   else inc = await bossCheck(inc);
   avviaIncontro(inc, tessera);
   if (inc.bossFinale && adv().liberato) {   // il mostro incatenato liberato: 2 su 1d6 di trovarlo con il boss finale
@@ -445,6 +460,7 @@ async function evento(t) {
   if (inProfondita()) { const x = await P.evento(t); log(x); modificato(); return x; }
   if (inAcque()) { const x = await Q.evento(t); log(x); modificato(); return x; }
   if (inSilvani()) { const x = await V.evento(t); log(x); modificato(); return x; }
+  if (inAldila()) { const x = await AL.evento(t); log(x); modificato(); return x; }
   const r = await dado('Evento speciale (d6)');
   const row = riga(tabella('eventi'), r.totale);
   let tx = `${row.nome}: ${row.testo}`;
@@ -465,9 +481,9 @@ export async function trappola(forzaLiv) {
   const row = riga(tabella('trappole'), r.totale);
   let liv = forzaLiv || (row.livFormula ? P.livTrappola(row) : row.liv);
   if (!forzaLiv && row.livExpr) liv = (await tira(row.livExpr, `Livello della trappola (${row.livExpr})`)).totale;
-  if (inAbisso() && row.livCorridoio && tileById(adv().stanzaCorrente)?.corridoio) liv = row.livCorridoio;   // la sfera di metallo è L9 in corridoio
+  if ((inAbisso() || inAldila()) && row.livCorridoio && tileById(adv().stanzaCorrente)?.corridoio) liv = row.livCorridoio;   // la sfera di metallo è L9 in corridoio
   const t = `Trappola – ${row.nome} (L${liv}): ${row.testo}`;
-  adv().trappolaAttiva = { nome: row.nome, liv, testo: row.testo, caos: !!row.caos, abisso: inAbisso(), prof: inProfondita(), acque: inAcque(), riga: row.da };
+  adv().trappolaAttiva = { nome: row.nome, liv, testo: row.testo, caos: !!row.caos, abisso: inAbisso() || inAldila(), prof: inProfondita(), acque: inAcque(), riga: row.da };
   log(t); modificato(); document.dispatchEvent(new CustomEvent('apri-tab', { detail: 'strumenti' }));
   await Eff.proponiTrappola(adv().trappolaAttiva);   // finestra con le azioni possibili (disarmare, subire, risolvere a mano)
   return t;
@@ -476,6 +492,7 @@ export async function trappola(forzaLiv) {
 // ---------------- tesori ----------------
 export async function tesoro(mod = 0, ctx = {}) {
   if (inProfondita()) return P.tesoro(mod, ctx);   // tabella Tesori d10 delle Profondità
+  if (inAldila()) return AL.tesoro(mod, ctx);      // tabella Tesori dell'Aldilà (d6, cubi anima, catturati)
   const r = inAbisso() ? await tira('1d8', `Tabella Tesori (d8${mod ? (mod > 0 ? '+' : '') + mod : ''})`) : await dado(`Tabella Tesori (d6${mod ? (mod > 0 ? '+' : '') + mod : ''})`);
   const v = r.totale + mod;
   const tab = tabella('tesori');
@@ -578,6 +595,7 @@ export async function oggettoMagico(orco) {
   if (inProfondita()) return P.tesoroMagico();
   if (inAcque()) return Q.tesoroMagico();
   if (inSilvani()) return V.tesoroMagico();
+  if (inAldila()) return AL.oggettoMagico();
   const r = await dado('Tesori magici (d6)');
   const row = riga(tabella('tesoriMagici'), r.totale);
   let testo = `${row.nome}: ${row.testo}`;
@@ -705,7 +723,7 @@ export function vittoria(inc, opz = {}) {
   if (inc.missioneBoss) K.bossMissioneSconfitto(inc.missioneBoss);
   if (inc.bossFinale) { adv().bossFinaleUcciso = true; log('Il boss finale è stato sconfitto: si può lasciare il dungeon.'); }
   if (inc.bossFinale && (adv().armiRubate || []).length) { adv().armiRubate.forEach(a => bottinoArma(a)); adv().armiRubate = []; }
-  if (inAbisso()) {   // 2 ES per maggiore; 1 ES ogni 5 incontri con seguaci o infestanti
+  if (inAbisso() || inAldila()) {   // 2 ES per maggiore; 1 ES ogni 5 incontri con seguaci o infestanti
     if (!inc.minore) { adv().maggioriSconfitti = (adv().maggioriSconfitti || 0) + 1; if (!opz.superato) aggiungiES(`${inc.nome} sconfitto`, false, A.ES_PER_MAGGIORE); }
     else if (inc.xp !== false && !inc.leaderInc) { adv().incontriSeguaci = (adv().incontriSeguaci || 0) + 1; if (adv().incontriSeguaci >= A.INCONTRI_PER_ES) { adv().incontriSeguaci = 0; aggiungiES('5 incontri con seguaci o infestanti'); } }
     modificato(); return;
@@ -743,9 +761,9 @@ export async function aggiungiIndizio(eroe, { semplice = false } = {}) {
 }
 async function unIndizio(eroe) {
   eroe.indizi = (eroe.indizi || 0) + 1;
-  log(`${eroe.nome} trova un indizio (${eroe.indizi}/${P.sogliaIndizi(eroe) || (inAbisso() && eroe.attesa4 ? 4 : 3)}).`);
+  log(`${eroe.nome} trova un indizio (${eroe.indizi}/${P.sogliaIndizi(eroe) || ((inAbisso() || inAldila()) && eroe.attesa4 ? 4 : 3)}).`);
   if (P.sogliaIndizi(eroe)) { await P.indizio(eroe); modificato(); return; }   // eroi di grado eroico e leggendario: 5 o 6 indizi, nessun tiro ES
-  if (inAbisso()) { await A.indizio(eroe); modificato(); return; }
+  if (inAbisso() || inAldila()) { await A.indizio(eroe); modificato(); return; }
   if (eroe.indizi >= 3) {
     eroe.indizi = 0;
     aggiungiES(`${eroe.nome}: segreto scoperto (3 indizi)`);

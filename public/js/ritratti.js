@@ -5,6 +5,7 @@ import { S, salva, modificato } from './state.js';
 import { h, toast } from './util.js';
 
 const COLORI = { guerriero: '#b8281f', barbaro: '#8a4a1c', chierico: '#b9a55a', elfo: '#2f7d46', furfante: '#5a4a9a', mago: '#2557a7', mezzuomo: '#9a7a22', nano: '#6a5a4a', arlecchino: '#c0397b', assassino: '#3a3a44', 'elfo-fuoco': '#d2631a', tiratore: '#3b7a8a', veterano: '#7a7a7a', spadaccino: '#a03060', 'chierico-elidra': '#b9709a', 'chierico-korimnos': '#8a7a30', druido: '#4f7a3a', 'elfo-silvano': '#2f6a46', 'guida-terre-selvagge': '#8a6a3a', 'signore-bestie': '#7a4a2a' };
+Object.assign(COLORI, { cambione: '#7a2a5a', demonologo: '#5a1a1a', paladino: '#c9ccd2', 'chierico-zur': '#4a4a58', 'chierico-foryos': '#b8561f' });
 export const coloreClasse = c => COLORI[c] || '#555';
 
 // ---------------- ritratti predefiniti (SVG) ----------------
@@ -73,6 +74,19 @@ function svgRitratto(classe, seed) {
     case 'signore-bestie':
       dietro = `<path d="M18 104 Q14 40 40 28 L40 8 L52 24 Q64 20 76 24 L88 8 L88 28 Q114 40 110 104Z" fill="#7a6a58" stroke="#3a2a1a" stroke-width="2"/>`;
       davanti = `<path d="M30 60 Q64 36 98 60 Q92 44 64 40 Q36 44 30 60Z" fill="#8a7a66"/><path d="M42 100 l4 14 4 -14 M56 104 l4 14 4 -14 M70 104 l4 14 4 -14 M84 100 l4 14 4 -14" stroke="#efe4c4" stroke-width="4" fill="none" stroke-linecap="round"/>`; break;
+    case 'cambione':
+      davanti = `<path d="M36 42 Q22 22 30 4 Q44 18 52 36Z M92 42 Q106 22 98 4 Q84 18 76 36Z" fill="#3a0f1f" stroke="#12060c" stroke-width="2"/><path d="M42 74 Q64 92 86 74" fill="none" stroke="#7a1a1a" stroke-width="3"/><circle cx="52" cy="66" r="3" fill="#ff5a3a"/><circle cx="76" cy="66" r="3" fill="#ff5a3a"/>`; break;
+    case 'demonologo':
+      dietro = `<path d="M22 104 Q16 30 64 14 Q112 30 106 104Z" fill="#2a0c10" stroke="#8a1a1a" stroke-width="2"/>`;
+      davanti = `<path d="M44 34 L64 12 L84 34" fill="none" stroke="#c9302c" stroke-width="3"/><circle cx="64" cy="24" r="5" fill="none" stroke="#c9302c" stroke-width="2"/><path d="M50 52 l6 6 M78 52 l-6 6 M64 46 v8" stroke="#c9302c" stroke-width="3"/>`; break;
+    case 'paladino':
+      davanti = `<path d="M26 66 Q24 20 64 16 Q104 20 102 66 L92 66 Q92 38 64 36 Q36 38 36 66Z" fill="#c9ccd2" stroke="#6a707a" stroke-width="2"/><path d="M64 16 V36 M52 24 H76" stroke="#d8b23a" stroke-width="4"/><rect x="60" y="36" width="8" height="30" fill="#aeb3bb"/>`; break;
+    case 'chierico-zur':
+      dietro = `<path d="M22 100 Q18 30 64 16 Q110 30 106 100Z" fill="#26262e" stroke="#7a7a88" stroke-width="3"/>`;
+      davanti = `<path d="M40 44 Q64 30 88 44 L88 52 Q64 40 40 52Z" fill="#d8d8e0"/><circle cx="52" cy="66" r="4" fill="#d8d8e0"/><circle cx="76" cy="66" r="4" fill="#d8d8e0"/><path d="M52 90 H76 M56 86 v8 M64 86 v8 M72 86 v8" stroke="#d8d8e0" stroke-width="2"/>`; break;
+    case 'chierico-foryos':
+      dietro = `<path d="M22 100 Q18 30 64 16 Q110 30 106 100Z" fill="#8a3a14" stroke="#e0a43a" stroke-width="3"/>`;
+      davanti = `<path d="M30 56 Q64 20 98 56 L90 60 Q64 34 38 60Z" fill="#b8561f" stroke="#e0a43a" stroke-width="2"/><path d="M64 18 L72 4 L56 4Z" fill="#e0a43a"/><path d="M50 108 L78 128 M78 108 L50 128" stroke="#e0a43a" stroke-width="4"/>`; break;
     case 'veterano':
       davanti = `<path d="M28 58 Q64 40 100 58 L98 68 Q64 54 30 68Z" fill="#b8281f"/><path d="M84 54 L96 92" stroke="#7a2a2a" stroke-width="3"/>` + `<path d="M40 86 Q64 104 88 86 Q64 96 40 86Z" fill="#8a8a8a" opacity=".7"/>`; break;
   }

@@ -9,6 +9,7 @@ import * as A from './abisso.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
 import * as V from './silvani.js';
+import * as AL from './aldila.js';
 const Prof = P;   // alias: renderGruppo ha una variabile locale P (il gruppo)
 import * as C from './combat.js';
 import * as Rit from './ritratti.js';
@@ -29,11 +30,11 @@ function nomeCasuale(extra = []) {
   return liberi.length ? liberi[Math.floor(Math.random() * liberi.length)] : nomeLibero(NOMI[Math.floor(Math.random() * NOMI.length)], null, extra);
 }
 const NOMI = ['Bruggo', 'Aldric', 'Thora', 'Kenna', 'Marcus', 'Elowen', 'Dollom', 'Grimli', 'Sera', 'Tobin', 'Vesna', 'Rurik', 'Ilya', 'Fenn', 'Mirela', 'Orsolo', 'Brannoc', 'Zadi', 'Nerys', 'Cael'];
-const ICONE = { arlecchino: '\u{1F3AD}', assassino: '\u{1F5E1}', 'elfo-fuoco': '\u{1F525}', tiratore: '\u{1F3AF}', veterano: '\u{1F396}', spadaccino: '\u{1F93A}', 'chierico-elidra': '\u{1F3B6}', 'chierico-korimnos': '\u{1F98C}', druido: '\u{1F33F}', 'elfo-silvano': '\u{1F332}', 'guida-terre-selvagge': '\u{1F9ED}', 'signore-bestie': '\u{1F43A}', barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
+const ICONE = { arlecchino: '\u{1F3AD}', assassino: '\u{1F5E1}', 'elfo-fuoco': '\u{1F525}', tiratore: '\u{1F3AF}', veterano: '\u{1F396}', spadaccino: '\u{1F93A}', 'chierico-elidra': '\u{1F3B6}', 'chierico-korimnos': '\u{1F98C}', druido: '\u{1F33F}', 'elfo-silvano': '\u{1F332}', 'guida-terre-selvagge': '\u{1F9ED}', 'signore-bestie': '\u{1F43A}', cambione: '\u{1F608}', demonologo: '\u{1F52E}', paladino: '\u{1F6E1}', 'chierico-zur': '\u{1F480}', 'chierico-foryos': '\u{1F525}', barbaro: '\u{1FA93}', chierico: '✡', elfo: '\u{1F3F9}', furfante: '\u{1F5E1}', guerriero: '⚔', mago: '✨', mezzuomo: '\u{1F344}', nano: '⛏' };
 export const iconaClasse = c => ICONE[c] || '✦';
 
 export function slotIncantesimi(e) {
-  let n = (e.classe === 'mago' || e.classe === 'druido') ? 2 + e.livello : e.classe === 'elfo' ? e.livello : e.classe === 'elfo-fuoco' ? 1 : 0;
+  let n = (e.classe === 'mago' || e.classe === 'druido') ? 2 + e.livello : (e.classe === 'elfo' || e.classe === 'cambione') ? e.livello : e.classe === 'elfo-fuoco' ? 1 : 0;
   if (n && suppl()) { if (e.perm?.pergamene) n++; if (tratto(e, 'mente')?.scelta === 'incantesimo') n++; }   // grimorio di pergamene e Mente geniale
   if (n && e.classe !== 'elfo-fuoco') n += P.livelloMemoria(e);   // Memoria prodigiosa: conta come 2 (o 4) livelli in più
   return n;
@@ -45,7 +46,7 @@ export function sistemaSlot(e) {
   if (aCosto) {   // incantesimi eroici (x2) e leggendari (x3): occupano più spazio in memoria, i posti in eccesso saltano dalla coda
     let usato = 0; e.incantesimi = e.incantesimi.filter(s => { const c = P.costoMemoria(s.nome); if (usato + c > n) return false; usato += c; return true; });
     for (; usato < n; usato++) e.incantesimi.push({ nome: 'Sonno', usato: false });
-  } else while (e.incantesimi.length < n) e.incantesimi.push({ nome: e.classe === 'elfo-fuoco' ? 'Palla di Fuoco' : V.incantesimoPredefinito(e) || 'Sonno', usato: false });
+  } else while (e.incantesimi.length < n) e.incantesimi.push({ nome: e.classe === 'elfo-fuoco' ? 'Palla di Fuoco' : V.incantesimoPredefinito(e) || AL.incantesimoPredefinito(e) || 'Sonno', usato: false });
   if (e.classe === 'elfo-fuoco') e.incantesimi.forEach(s => { s.nome = 'Palla di Fuoco'; });
   if (!aCosto && e.incantesimi.length > n) e.incantesimi.length = n;
   const fisso = suppl() && n && e.perm?.pergamene;   // l'incantesimo del grimorio non si cambia a ogni avventura
@@ -69,6 +70,8 @@ export function equipaggiamentoIniziale(e) {
     case 'elfo-silvano': A('una-mano-taglio'); e.armi.push('arco'); e.armatura = 'pesante'; e.cottaFoglia = 2; break;   // cotta di fogliacciaio: armatura pesante senza penalità, 2 avventure
     case 'guida-terre-selvagge': A('leggera-taglio'); e.lanterna = true; break;
     case 'signore-bestie': A('una-mano-taglio'); e.armatura = 'leggera'; e.scudo = true; break;
+    case 'cambione': case 'paladino': A('una-mano-taglio'); e.armatura = e.classe === 'paladino' ? 'pesante' : 'leggera'; e.scudo = true; break;
+    case 'demonologo': A('leggera-taglio'); break;
     case 'veterano': A('leggera-taglio'); e.lanterna = true; e.abilita = [{ id: 'assistenza' }, { id: 'leader-carismatico' }]; break;
     case 'mezzuomo': A('leggera-taglio'); e.armi.push('fionda'); e.oggetti.push({ nome: 'Razioni', qta: 3 }); break;
   }
@@ -124,6 +127,7 @@ function schedaCompatta(e, idx) {
   if (e.stato === 'prigioniero') stati.push(h('span', { class: 'tag red', title: 'Prigioniero: pagare il riscatto o liberarlo, poi cambia lo stato dalla scheda' }, 'Prigioniero'));
   if (e.png) stati.push(h('span', { class: 'tag amber', title: 'Compagno della missione' }, 'Compagno'));
   for (const [t, c, ti] of Q.statiAcque(e)) stati.push(h('span', { class: `tag ${c}`, title: ti }, t));
+  for (const [t, c, ti] of AL.statiAldila(e)) stati.push(h('span', { class: `tag ${c}`, title: ti }, t));
   for (const [t, c, ti] of V.statiSilvani(e)) stati.push(h('span', { class: `tag ${c}`, title: ti }, t));
   if (suppl()) {
     if (e.ubriaco) stati.push(h('span', { class: 'tag red', title: '-1 a tutti i tiri finché non scende a metà PV' }, 'Ubriaco'));
@@ -228,7 +232,7 @@ export async function creaEroe() {
           S.party.eroi.push(e); S.party.ordine.push(e.id);
           if (!S.party.eroi.some(x => x.lanterna)) e.lanterna = true;
           log(`${e.nome}, ${nomeClasse(e)} di livello 1, si unisce al gruppo con ${e.oro} p.o.`);
-          await V.dotazioneIniziale(e);
+          await V.dotazioneIniziale(e); await AL.dotazioneIniziale(e);
           modificato('party'); scheda(e.id);
         } }, 'Crea e tira la ricchezza')));
     aggiorna();
@@ -247,7 +251,7 @@ async function creaGruppoVeloce() {
     equipaggiamentoIniziale(e);
     e.oro = (await tira(R.classi[c].oro, `Ricchezza di ${e.nome}`)).totale;
     nuovi.push(e); S.party.eroi.push(e); S.party.ordine.push(e.id);
-    await V.dotazioneIniziale(e, true);
+    await V.dotazioneIniziale(e, true); await AL.dotazioneIniziale(e, true);
   }
   nuovi[0].lanterna = true;
   log(`Gruppo casuale creato: ${nuovi.map(e => `${e.nome} (${nomeClasse(e)})`).join(', ')}.${nuovi.some(e => e.classe === 'mago') ? ' Ricordati di preparare gli incantesimi del mago.' : ''}`);
@@ -305,6 +309,7 @@ export function scheda(id) {
         sl.replaceChildren();
         const permessi = e.classe === 'druido' ? V.incantesimiDruido(e).map(n => ({ nome: n })) : [...R.equipaggiamento.incantesimi.filter(s => (e.classe === 'mago' || s.id !== 'benedizione') && (!s.suppl || S.party.supplCaos) && (!s.caos || S.party.supplCaos) && (e.classe !== 'elfo-fuoco' || s.nome === 'Palla di Fuoco')),
           ...(abissoAttivo() && ['mago', 'elfo'].includes(e.classe) ? (e.avanzati || []).map(n => ({ nome: n })) : [])];
+        if (e.classe === 'cambione') permessi.splice(0, permessi.length, ...AL.NOMI_INCANTESIMI().map(n => ({ nome: n })));
         e.incantesimi.forEach((s, k) => sl.append(h('div', { class: 'row' },
           h('select', { disabled: !!s.fisso, title: s.fisso ? 'Incantesimo fisso del grimorio di pergamene' : '', onchange: ev => { s.nome = ev.target.value; if (profonditaAttiva()) sistemaSlot(e); modificato('party'); if (profonditaAttiva()) rs(); } }, permessi.map(p => h('option', { value: p.nome, selected: p.nome === s.nome }, `${p.nome}${P.costoMemoria(p.nome) > 1 ? ` (occupa ${P.costoMemoria(p.nome)} posti)` : ''}`))),
           h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!s.usato, onchange: ev => { s.usato = ev.target.checked; modificato('party'); } }), 'usato'))));
@@ -339,6 +344,7 @@ export function scheda(id) {
     if (S.party.supplCaos) b.append(T.sezione(e, () => scheda(e.id)));
     b.append(Q.sezioneScheda(e, () => scheda(e.id)));
     { const sv = V.sezioneScheda(e, () => scheda(e.id)); if (sv) b.append(sv); }
+    { const sa = AL.sezioneScheda(e, () => scheda(e.id)); if (sa) b.append(sa); }
     b.append(h('h4', {}, 'Oggetti e bottino'), og, h('div', { class: 'row' }, nuovo, h('button', { onclick: () => { if (!nuovo.value.trim()) return; (e.oggetti = e.oggetti || []).push({ nome: nuovo.value.trim(), qta: 1 }); nuovo.value = ''; ro(); modificato('party'); } }, 'Aggiungi')));
     if ((e.segreti || []).length) b.append(h('h4', {}, 'Segreti scoperti'), h('ul', {}, e.segreti.map(s => h('li', {}, s))));
     b.append(h('label', {}, 'Note', h('textarea', { rows: 3, onchange: ev => { e.note = ev.target.value; modificato('party'); } }, e.note || '')));

@@ -3,13 +3,14 @@ import { R, S, eroiVivi, livelloMax } from './state.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
 import * as V from './silvani.js';
+import * as AL from './aldila.js';
 
 export const NOME_ARMATURA = { nessuna: 'Nessuna', leggera: 'Armatura leggera', pesante: 'Armatura pesante' };
 
 export const armaDi = id => R.equipaggiamento.armi.find(a => a.id === id);
 export const armaPrincipale = e => armaDi(e.armaPrincipale);
 export const nomeClasse = e => (e.merc ? 'Mercenario' : (e.culto && R.classi[e.culto]?.nome) || R.classi[e.classe].nome);   // i chierici di Elidra e Korimnos sono chierici (classe) con un culto
-export const incantatore = e => ['mago', 'elfo', 'elfo-fuoco'].includes(e.classe);
+export const incantatore = e => ['mago', 'elfo', 'elfo-fuoco', 'cambione'].includes(e.classe);
 export const puoUsareMagia = e => e.classe !== 'barbaro';
 
 /** Cerca una riga di tabella in base al valore del dado. */
@@ -17,17 +18,17 @@ export function riga(tab, v) {
   return tab.find(r => v >= r.da && v <= r.a) || tab[tab.length - 1];
 }
 // Set di tabelle attivo per l'avventura: base, «Nemici diabolici» (avanzate) o «Caverne del Caos» (supplemento).
-export const SETS = { base: 'Four Against Darkness (lvl 1-2)', coboldi: 'Schiavisti Coboldi (lvl 1-2)', acque: 'Acque Oscure (lvl 1-4)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', silvani: 'Labirinti Silvani (lvl 4+)', abisso: 'Contro l\'Abisso (lvl 5-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
+export const SETS = { base: 'Four Against Darkness (lvl 1-2)', coboldi: 'Schiavisti Coboldi (lvl 1-2)', acque: 'Acque Oscure (lvl 1-4)', diabolici: 'Four Against Darkness – Nemici diabolici (lvl 3-5)', caos: 'Contro il Caos (lvl 3-6)', silvani: 'Labirinti Silvani (lvl 4+)', abisso: 'Contro l\'Abisso (lvl 5-9)', aldila: 'Orrori dall\'Aldilà (lvl 6-9)', profondita: 'Contro le Profondità Dimenticate (lvl 10-19)' };
 export const setAttivo = () => (S.adv && S.adv.set) || 'base';
-const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, profondita: R.profondita, acque: R.acque, coboldi: R.coboldi, silvani: R.silvani })[setAttivo()];
+const datiSet = () => ({ diabolici: R.avanzate, caos: R.caos, abisso: R.abisso, aldila: R.aldila, profondita: R.profondita, acque: R.acque, coboldi: R.coboldi, silvani: R.silvani })[setAttivo()];
 // ---- «Acque Oscure» (livelli 1-4) e «Caverne degli Schiavisti Coboldi» (livelli 1-2) ----
 export const inAcque = () => setAttivo() === 'acque';
 export const inCoboldi = () => setAttivo() === 'coboldi';
 /** Spadaccino, acqua santa, flagello: casella attiva o dungeon di uno dei due set. */
 export const acqueAttive = () => !!(S.party?.supplAcque || inAcque() || inCoboldi());
 /** Classe selezionabile: le classi del Caos con la casella del Caos, lo Spadaccino con il contenuto di Acque Oscure e Coboldi. */
-export const classeDisponibile = c => !c.suppl || (c.suppl === 'acque' ? acqueAttive() : c.suppl === 'silvani' ? silvaniAttivi() : !!S.party?.supplCaos);
-export const armaVisibile = a => !a.suppl || (a.suppl === 'acque' ? acqueAttive() : a.suppl === 'silvani' ? silvaniAttivi() : !!S.party?.supplCaos || (silvaniAttivi() && ['balestra', 'bolas', 'boomerang'].includes(a.id)));
+export const classeDisponibile = c => !c.suppl || (c.suppl === 'acque' ? acqueAttive() : c.suppl === 'silvani' ? silvaniAttivi() : c.suppl === 'aldila' ? aldilaAttivo() : !!S.party?.supplCaos);
+export const armaVisibile = a => !a.suppl || (a.suppl === 'acque' ? acqueAttive() : a.suppl === 'silvani' ? silvaniAttivi() : a.suppl === 'aldila' ? aldilaAttivo() : !!S.party?.supplCaos || (silvaniAttivi() && ['balestra', 'bolas', 'boomerang'].includes(a.id)));
 // ---- «Labirinti Silvani» (livelli 4+): selva, druido, elfo silvano, guida, signore delle bestie, chierici di Elidra e Korimnos ----
 export const inSilvani = () => setAttivo() === 'silvani';
 /** Le sei classi, i compagni animali e le cavalcature valgono con la casella attiva o nella selva. */
@@ -35,6 +36,10 @@ export const silvaniAttivi = () => !!(S.party?.supplSilvani || inSilvani());
 /** Chi salva come il furfante (furfante e spadaccino). */
 export const comeFurfante = e => e.classe === 'furfante' || e.classe === 'spadaccino';
 export const inCaos = () => setAttivo() === 'caos';
+// ---- supplemento «Orrori dall'Aldilà» (livelli 6-9): cambione, demonologo, paladino, chierici di Zur e Foryos, cubi anima, esplorazione a esagoni ----
+export const inAldila = () => setAttivo() === 'aldila';
+/** Classi, oggetti e regole dell'Aldilà per i personaggi: casella attiva o dungeon dell'Aldilà. */
+export const aldilaAttivo = () => !!(S.party?.supplAldila || inAldila());
 // ---- supplemento «Contro l'Abisso» (livelli 5-9) ----
 export const inAbisso = () => setAttivo() === 'abisso';
 // ---- supplemento «Contro le Profondità Dimenticate» (livelli 10-19) ----
@@ -42,7 +47,7 @@ export const inProfondita = () => setAttivo() === 'profondita';
 /** Gradi eroico e leggendario: casella attiva o dungeon delle Profondità. */
 export const profonditaAttiva = () => !!(S.party?.supplProfondita || inProfondita());
 /** Le regole per i personaggi (livelli oltre il 5°, abilità, oggetti, mercenari) valgono con la casella attiva o nel dungeon dell'Abisso; restano valide per i personaggi di grado superiore (Profondità). */
-export const abissoAttivo = () => !!(S.party?.supplAbisso || inAbisso() || profonditaAttiva());
+export const abissoAttivo = () => !!(S.party?.supplAbisso || inAbisso() || profonditaAttiva() || aldilaAttivo());
 /** Grado dell'eroe, tracciato separatamente dal livello: base (1-4), esperto (5-9, d8), eroico (d10) o leggendario (d12). Eroico e leggendario si ottengono solo con il passaggio di grado. */
 export function gradoDi(e) {
   if (!e || e.merc) return 'base';
@@ -61,12 +66,13 @@ export const livelloTetto = () => (profonditaAttiva() ? 19 : abissoAttivo() ? 9 
 /** Attacchi furiosi del barbaro per avventura: ceil(L/2) come in precedenza; con l'Abisso floor(L/2)+1 (come nel manuale) e +1 con Furia del berserker. */
 export const maxFurie = e => (abissoAttivo() ? Math.floor(e.livello / 2) + 1 + (haAbilita(e, 'furia-del-berserker') ? 1 : 0) + (profonditaAttiva() ? P.furieExtra(e) : 0) : Math.ceil(e.livello / 2));
 export const haAggeggio = (e, re) => !!oggettoEffetto(e, re);
-export const tabella = nome => datiSet()?.tabelle?.[nome] || R.tabelle[nome];
-export const mostriTabella = nome => datiSet()?.mostri?.[nome] || R.mostri[nome];
+export const tabella = nome => datiSet()?.tabelle?.[nome] || (inAldila() && nome === 'trappole' && R.abisso.tabelle.trappole) || R.tabelle[nome];   // l'Aldilà usa le Trappole dell'Abisso e per il resto le tabelle base
+export const mostriTabella = nome => (inAldila() ? AL.listaMostri(nome) : null) || datiSet()?.mostri?.[nome] || R.mostri[nome];
 export const incantesimoACasoLista = () => {
   const l = tabella('incantesimoCaso');
   if (setAttivo() === 'caos' || setAttivo() === 'abisso') return l;   // incantesimi del caos o avanzati dell'Abisso (d6)
   if (inProfondita()) return P.incantesimiACaso();   // incantesimi eroici o leggendari secondo il grado
+  if (inAldila()) return l.map(r => r.nome);   // i 6 incantesimi dell'Aldilà (d6)
   return S.party?.supplCaos ? R.caos.incantesimiBase : l;   // con il supplemento: tabella d12
 };
 
@@ -94,14 +100,14 @@ export function tipoNonVivente(m) {
 }
 
 /** Armi da fuoco e simili: restrizioni di classe e limiti di trasporto. */
-export const controllaArmi = e => suppl() || e.classe === 'spadaccino' || !!(e.arti?.mano || e.arti?.gamba) || V.classeSilvana(e);
+export const controllaArmi = e => suppl() || AL.classeAldila(e) || e.classe === 'spadaccino' || !!(e.arti?.mano || e.arti?.gamba) || V.classeSilvana(e);
 export function armaConsentita(e, a) {
   if (!a) return { ok: true };
   if (a.soloClassi && !a.soloClassi.includes(e.classe)) return { ok: false, motivo: `${a.nome}: la possono usare solo ${a.soloClassi.map(c => R.classi[c]?.nome || c).join(', ')}.` };
   if (a.lancio && e.classe === 'elfo-fuoco') return { ok: false, motivo: 'Gli elfi del fuoco non usano armi a distanza.' };
   if (e.classe === 'veterano' && a.categoria === 'due-mani') return { ok: false, motivo: 'Il veterano non porta armi a due mani.' };
   if (e.classe === 'spadaccino' && (a.categoria === 'due-mani' || ['arco', 'balestra', 'archibugio'].includes(a.id))) return { ok: false, motivo: 'Lo spadaccino non usa armi a due mani né l’arco.' };
-  const rs = V.armaVietata(e, a); if (rs) return { ok: false, motivo: rs };   // classi silvane
+  const rs = V.armaVietata(e, a) || AL.armaVietata(e, a); if (rs) return { ok: false, motivo: rs };   // classi silvane e dell'Aldilà
   if ((e.arti?.mano || e.arti?.gamba) && (a.mani === 2)) return { ok: false, motivo: 'Con una mano perduta (o una stampella) non si usano armi a due mani.' };
   return { ok: true };
 }
@@ -133,6 +139,7 @@ export function bonusSalvezza(e, label = '') {
   if (abissoAttivo()) bonusSalvezzaAbisso(e, L, inc, add);
   if (profonditaAttiva()) P.salvezza(e, L, inc, add);
   V.salvezza(e, L, inc, add);
+  if (aldilaAttivo()) AL.salvezza(e, L, inc, add);
   if (!suppl()) return { tot: parti.reduce((a, q) => a + q[1], 0), parti };
   const paura = /paura|terrore|orrore|fantasma/i.test(L);
   if (haAbilita(e, 'concentrazione-mentale') && MAGIA.test(L)) add('Concentrazione mentale', e.livello);
@@ -161,6 +168,7 @@ const EXTRA = ['livPrimoTurno', 'livDifesaFerito', 'immuneIncantesimi', 'immuneC
   'unicoPerDungeon', 'bersagliPrioritari', 'follia', 'oroFisso'];
 
 const EXTRA_S = ['immuneIncantesimi', 'nonAttacca', 'sorpresaProb', 'attaccaPerPrimo', 'attPerBersaglio', 'incantesimiMod'];   // campi di EXTRA con lo stesso significato nei Labirinti Silvani
+const EXTRA_O = ['immuneIncantesimi', 'sorpresaProb', 'attaccaPerPrimo', 'contundentePiu', 'attDadi', 'ignoraArmatura', 'frecceMod', 'modPallaDiFuoco'];   // campi generici usati dai mostri dell'Aldilà
 const EXTRA_Q = ['veleno', 'contundentePiu', 'immuneIncantesimi', 'maiErrante', 'attDadi'];
 const QX = ['salvezza', 'aggancio', 'intrappola', 'frenesia', 'iniziativa', 'contraccolpo', 'contundenteMod', 'modAttaccoContro', 'immuneVeleno', 'immuneMalattie', 'attDivisiEquamente', 'attDadiOgniTurno', 'attaccoCrescente',
   'incantesimiMostro', 'tentacoli', 'tiriES', 'tesoroExtra', 'indebolitoSe', 'infezione', 'moraleRegola', 'patto', 'trasformaCaduti', 'distruggePergamenePallaDiFuoco', 'ignoraSoloArmatura', 'vulnerabileAcquaSanta',
@@ -170,6 +178,7 @@ const QX = ['salvezza', 'aggancio', 'intrappola', 'frenesia', 'iniziativa', 'con
 export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
   const dq = typeof voce.id === 'string' && /^[qk]-/.test(voce.id);   // voci di «Acque Oscure» e «Caverne dei Coboldi»
   const sv = typeof voce.id === 'string' && voce.id.startsWith('s-');   // voci di «Labirinti Silvani»: poteri in inc.sv
+  const ald = typeof voce.id === 'string' && voce.id.startsWith('o-');   // voci di «Orrori dall'Aldilà»: poteri in inc.al
   const prof = typeof voce.id === 'string' && voce.id.startsWith('p-');   // voci di «Contro le Profondità Dimenticate»: formule su LMP e GR
   const maggiore = ['aberranti', 'boss', 'draghi'].includes(tabellaNome) || (prof && voce.conta === '1');
   const finale = !!opzioni.bossFinale;
@@ -187,9 +196,10 @@ export function creaIncontro(tabellaNome, voce, quantita, opzioni = {}) {
     bossFinale: finale, errante: !!opzioni.errante, sorpresa: !!opzioni.errante,
     stato: 'nuovo', moraleFatto: false, reazione: null, turno: 0, sottoAttacco: false,
     sedato: 0, segreta: !!opzioni.segreta,
-    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k)) && !(dq && !EXTRA_Q.includes(k)) && !(sv && !EXTRA_S.includes(k))).map(k => [k, voce[k]]))
+    ...Object.fromEntries(EXTRA.filter(k => voce[k] !== undefined && !(prof && ['veleno', 'orda', 'illusione', 'follia'].includes(k)) && !(dq && !EXTRA_Q.includes(k)) && !(sv && !EXTRA_S.includes(k)) && !(ald && !EXTRA_O.includes(k))).map(k => [k, voce[k]]))
   };
   if (sv) inc.sv = V.poteriMostro(voce);
+  if (ald) { inc.al = AL.poteriMostro(voce); if (voce.progenieInfernale) inc.progenieInfernale = true; }
   if (prof) P.adattaMostro(inc, voce, maggiore);
   if (dq) inc.qx = Object.fromEntries(QX.filter(k => voce[k] !== undefined).map(k => [k, voce[k]]));   // poteri dei due supplementi, tenuti separati dai campi di Abisso e Caos
   return inc;
@@ -329,6 +339,7 @@ export function modAttacco(e, ctx = {}) {
   if (profonditaAttiva()) P.attacco(e, ctx, bers, arma, add, parti);
   Q.attacco(e, ctx, bers, arma, add);
   V.attacco(e, ctx, bers, arma, add);
+  if (aldilaAttivo() || bers.al) AL.attacco(e, ctx, bers, arma, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);   // l'elfo del fuoco vede anche al buio
   if (ctx.bonusGruppo) add(ctx.bonusGruppoTxt || 'Bonus', ctx.bonusGruppo);
@@ -369,6 +380,7 @@ export function modDifesa(e, ctx = {}) {
   if (profonditaAttiva()) P.difesa(e, ctx, add);
   Q.difesa(e, ctx, add);
   V.difesa(e, ctx, add);
+  if (aldilaAttivo()) AL.difesa(e, ctx, add);
   if (e.zoppo) add('Zoppicante', -1);
   if (ctx.senzaLanterna && e.classe !== 'elfo-fuoco' && !e.pozioni?.scurovisione) add('Gruppo senza lanterna', -2);
   if (ctx.primoMinotauro) add('Carica del minotauro', -1);

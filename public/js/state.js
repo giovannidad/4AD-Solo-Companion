@@ -15,11 +15,12 @@ export const nuovaAvventura = () => ({
   guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, ricompense: [],
   fine: null, set: 'base', missione: null, eventiUsati: [],
   fiume: null, sezione: null, cittadella: null,   // Profondità: fiume in corso (con la barca), rovine/tumulo/idolo e Cittadella in corso
-  silvani: null   // Labirinti Silvani: ponti, pozzi, incendi, prigionieri, missioni, rifugio dei catturati (vedi silvani.js)
+  silvani: null,   // Labirinti Silvani: ponti, pozzi, incendi, prigionieri, missioni, rifugio dei catturati (vedi silvani.js)
+  aldila: null   // Orrori dall'Aldilà: spedizione a esagoni (giorno, terreno, razioni, obiettivo…), vedi aldila.js; non si azzera a ogni dungeon
 });
 
 export async function caricaRegole() {
-  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'profondita', 'acque', 'coboldi', 'silvani', 'tratti', 'traguardi'];
+  const nomi = ['classi', 'equipaggiamento', 'mostri', 'tabelle', 'tiles', 'tiles-classico', 'tiles-foresta', 'avanzate', 'caos', 'abisso', 'aldila', 'profondita', 'acque', 'coboldi', 'silvani', 'tratti', 'traguardi'];
   const dati = await Promise.all(nomi.map(n => api.regola(n)));
   nomi.forEach((n, i) => { R[n] = dati[i]; });
   R.tilesSet = { classico: R['tiles-classico'], foresta: R['tiles-foresta'] };   // geometria delle tessere dei set tematici

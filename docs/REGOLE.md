@@ -88,6 +88,21 @@ inghiottimento del cubo, malattia della melma verde, tagliola degli schiavisti, 
   vengono disegnate (nel manuale sono solo immagini) e i tratti si leggono a mano. Portali e passaggi verso l'Aldilà sono solo descritti.
 - Dove testo e tabella dei gradi si contraddicono si segue la tabella (il d12 esplode con 9 o più).
 
+## Altri supplementi
+
+- **«Acque Oscure» (lvl 1-4) e «Schiavisti Coboldi» (lvl 1-2)**: due set di tabelle (acquatico e demoniaco), classe **Spadaccino** (doppio attacco, punti maestria),
+  oggetti acquatici, acqua santa e flagello, patto demoniaco, perdita di arti, compagno PNG. Casella «Usa Acque Oscure e Schiavisti Coboldi».
+  Le avventure scritte non sono implementate.
+- **«Labirinti Silvani» (lvl 4+)**: set della selva con stile mappa «Foresta» e ingresso 1d6+60; classi chierico di Elidra, chierico di Korimnos, druido, elfo silvano,
+  guida delle terre selvagge, signore delle bestie; 19 incantesimi del druido, compagni animali, cavalcature. Nuotare, abbattere alberi, incendio, ponti, pozzi
+  e cattura sono strumenti guidati che tirano e scrivono nel registro; ponti e pozzi scattano dal numero di tessera (non sono disegnati). «L'Unicorno Nero» non è implementato.
+- **«Orrori dall'Aldilà» (lvl 6-9)**: set di tabelle, classi paladino, demonologo, cambione, chierico di Zur e chierico di Foryos, 6 incantesimi, oggetti magici.
+  L'esplorazione a esagoni è una carta di strumenti (spedizione, terreno, incontri, fortezza, Guf, luoghi I-VII, Scoperte, dicerie, mercanti, blasfemi persistenti,
+  contatori di necro, razioni, cubi anima, catturati); la mappa a esagoni non è disegnata. Dungeon annidati e molti poteri dei blasfemi restano a mano.
+- **Chiarimenti alle regole base** (dalle FAQ di «Acque Oscure»), validi in tutti i dungeon: attacco furioso con dadi esplosivi separati, boss finale senza morale,
+  +1 del boss finale per ogni maggiore incontrato, maggiore corrotto senza tiro ES, conteggio dei seguaci non azzerato tra avventure, troll rigenerati prima delle difese,
+  +20% su gemme e gioielli venduti da un nano, pagamento con gemme senza resto.
+
 ## Manuale (non automatizzato)
 
 - Missioni di soccorso, rituale di resurrezione, vendita di oggetti (solo promemoria).

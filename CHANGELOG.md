@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.15.0
+- **«Acque Oscure» (lvl 1-4) e «Schiavisti Coboldi» (lvl 1-2):** due nuovi set di tabelle, classe Spadaccino, oggetti acquatici, acqua santa, flagello, patto demoniaco.
+- **«Labirinti Silvani» (lvl 4+):** set della selva con mappa in stile «Foresta», sei nuove classi (druido, elfo silvano, signore delle bestie, guida delle terre selvagge, due chierici), incantesimi del druido, compagni animali e cavalcature, strumenti per nuotare, abbattere alberi, incendi, ponti, pozzi e cattura.
+- **«Orrori dall'Aldilà» (lvl 6-9):** set di tabelle, cinque nuove classi (paladino, demonologo, cambione, chierico di Zur, chierico di Foryos), carta «Aldilà» negli Strumenti per l'esplorazione (terreni, incontri, fortezze, Guf, luoghi unici, Scoperte, blasfemi persistenti, contatori di necro, razioni e cubi anima).
+- **Menu «Tabelle del dungeon»** ordinato per livello, con le nuove voci.
+- **Regole base chiarite** (FAQ di «Acque Oscure»), valide ovunque: attacco furioso con dadi esplosivi separati, boss finale senza morale, +1 del boss finale per ogni maggiore incontrato, maggiore corrotto senza tiro ES, conteggio dei seguaci non azzerato tra avventure, troll rigenerati prima delle difese, +20% su gemme e gioielli venduti da un nano, pagamento con gemme senza resto.
+- **Correzione:** a ogni nuova avventura si azzerano anche il nome precedente, la fine e il boss finale ucciso.
+- Non ancora presenti: le avventure scritte, la mappa a esagoni dell'Aldilà e il disegno di ponti e pozzi della selva.
+
 ## 1.14.0
 - **Supplemento «Contro le Profondità Dimenticate (lvl 10-19)»:** nuovo set di tabelle del dungeon (stanze, trappole, allucinazioni, eventi, tesori, mostri e orde, idoli, missioni, boss finale), gradi eroico e leggendario con il pulsante «Passa di grado», dadi d10 e d12 esplosivi (virtuali, non 3D), 66 abilità eroiche e leggendarie, 12 incantesimi, armi e armature perfette, oggetti leggendari.
 - **Fiumi, rovine, tumuli e Cittadelle** come strumenti guidati nel pannello Strumenti: tirano le tabelle e creano gli incontri; le mappe restano da disegnare a mano.

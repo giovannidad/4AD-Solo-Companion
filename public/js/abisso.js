@@ -10,6 +10,7 @@ import * as V from './silvani.js';
 import * as K from './caos.js';
 import * as P from './profondita.js';
 import * as Q from './acque.js';
+import * as AL from './aldila.js';
 
 const adv = () => S.adv;
 const casuale = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -543,7 +544,7 @@ export async function moraleMercenari(chi) {
 //  ABILITÀ E INCANTESIMI AVANZATI
 // =============================================================
 /** Catalogo delle abilità avanzate dell'Abisso, filtrate per classe. */
-export const abilitaPerClasse = e => R.abisso.abilita.filter(a => a.classi.includes(e.classe) || V.abilitaNomi(e.classe).includes(a.nome));   // + le classi dei Labirinti Silvani
+export const abilitaPerClasse = e => R.abisso.abilita.filter(a => a.classi.includes(e.classe) || V.abilitaNomi(e.classe).includes(a.nome) || AL.abilitaNomi(e.classe).includes(a.nome));   // + le classi dei Labirinti Silvani
 /** Voce di abilità con eventuale scelta del bersaglio (Nemico giurato, Resistente). Restituisce null se annullato. */
 export async function sceltaAbilita(a) {
   const voce = { id: a.id };
@@ -650,6 +651,7 @@ export async function dopoStanza() {
 export function curaPeste(e) { e.peste = false; e.pesteImmune = true; log(`${e.nome} guarisce dalla peste oscura ed è immune per l’avventura.`); modificato('party'); }
 /** Benedizione lanciata su `b` (da `inc`): toglie malus e malattie semplici, prova a curare la peste, toglie 1 follia. */
 export async function dopoBenedizione(incantatore, b) {
+  AL.dopoBenedizione(b);
   b.marchiato = false; b.orrore = false; b.campanellini = false; b.paralizzato = false;
   if (!abissoAttivo()) return;
   if (b.peste) { const x = await tira('1d8', `Benedizione contro la peste: 1d8+${incantatore.livello}`); if (x.totale + incantatore.livello >= 10) curaPeste(b); else log('La Benedizione non basta: la peste resta.'); }
@@ -682,7 +684,7 @@ export async function controlloIngresso() {
 export function profiloES(e, set) {
   const esperto = abissoAttivo() && e.livello >= 5;
   if (!esperto) return { d8: false, bonus: 0, esperto };
-  if (set === 'abisso' || set === 'profondita') return { d8: true, bonus: 2, esperto };
+  if (set === 'abisso' || set === 'profondita' || set === 'aldila') return { d8: true, bonus: 2, esperto };
   return { d8: false, bonus: set === 'base' ? 0 : 1, esperto };
 }
 /** Tiri ES e incontri con seguaci/infestanti nell'Abisso. */
@@ -883,7 +885,8 @@ export const segretiDisponibili = e => R.abisso.segreti.filter(s => {
 export async function indizio(eroe) {
   if (eroe.indizi >= 3 && !eroe.attesa4) {
     G.aggiungiES(`${eroe.nome}: segreto scoperto (3 indizi)`);
-    const k = await scelta(`${eroe.nome} ha 3 indizi`, 'Che cosa scegli?', [['base', 'Un segreto del manuale base (3 indizi)'], ['abisso', 'Aspetta il 4° indizio per un segreto dell’Abisso', 'Il tiro ES è già guadagnato']]);
+    const k = await scelta(`${eroe.nome} ha 3 indizi`, 'Che cosa scegli?', [...(abissoAttivo() && ['chierico', 'guerriero', 'paladino'].includes(eroe.classe) && S.party.supplAldila || adv().set === 'aldila' && ['chierico', 'guerriero', 'paladino'].includes(eroe.classe) ? [['aldila', 'Un segreto dell’Aldilà (Marchio dei dimenticati o Magione oscura)']] : []), ['base', 'Un segreto del manuale base (3 indizi)'], ['abisso', 'Aspetta il 4° indizio per un segreto dell’Abisso', 'Il tiro ES è già guadagnato']]);
+    if (k === 'aldila') { eroe.indizi = 0; await AL.segretoAldila(eroe); return; }
     if (k === 'abisso') { eroe.attesa4 = true; log(`${eroe.nome} tiene 3 indizi in attesa del 4° (segreto dell’Abisso).`); return; }
     eroe.indizi = 0; await G.scegliSegreto(eroe); return;
   }
