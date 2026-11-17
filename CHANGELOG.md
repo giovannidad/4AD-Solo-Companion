@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.16.0
+- **Versione per telefono:** sotto gli 860 px di larghezza compare una barra in basso (Gruppo, Mappa, Dungeon, Impostazioni), con una sola area visibile alla volta; schede degli eroi e pannelli a tutta larghezza, finestre che salgono dal basso, intestazione ridotta a un menu «⋯», mappa a tutto schermo con pizzico per lo zoom e doppio tocco per «adatta», dadi 3D spenti di partenza sul telefono. Sul desktop non cambia nulla.
+- **App installabile (PWA) e salvataggio nel browser:** quando il gioco viene aperto senza il server di gioco, le campagne si salvano sul dispositivo (con Esporta e Importa nelle impostazioni) e l'app si installa dalla schermata Home e funziona offline. `tools/prepara-statico.js` prepara la cartella da pubblicare su un host statico. Con il server (PC, app desktop) tutto resta come prima.
+- I percorsi interni delle tessere sono ora relativi; i vecchi salvataggi vengono convertiti da soli.
+- Non provato su un telefono vero: tocco a due dita, iPhone, installazione.
+
 ## 1.15.0
 - **«Acque Oscure» (lvl 1-4) e «Schiavisti Coboldi» (lvl 1-2):** due nuovi set di tabelle, classe Spadaccino, oggetti acquatici, acqua santa, flagello, patto demoniaco.
 - **«Labirinti Silvani» (lvl 4+):** set della selva con mappa in stile «Foresta», sei nuove classi (druido, elfo silvano, signore delle bestie, guida delle terre selvagge, due chierici), incantesimi del druido, compagni animali e cavalcature, strumenti per nuotare, abbattere alberi, incendi, ponti, pozzi e cattura.
