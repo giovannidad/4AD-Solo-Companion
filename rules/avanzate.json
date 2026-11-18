@@ -1,0 +1,799 @@
+{
+ "_nota": "Tabelle avanzate «Nemici diabolici» (manuale p. 89-95). Sostituiscono Tesori, Tesori magici, Mostri infestanti, seguaci, aberranti e boss. Trappole e Incantesimo a caso sono identiche alla versione base.",
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "d-ragni",
+    "nome": "Ragni",
+    "conta": "3d6+3",
+    "tag": [
+     "animale"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "veleno": 3,
+    "contundentePiu": true,
+    "note": "Ingarbugliati nelle ragnatele: il gruppo non può sottrarsi al combattimento, salvo Palla di Fuoco (che brucia anche le tele). Ogni volta che un personaggio è ferito: tiro salvezza contro il veleno (L3) o perde 1 altro PV. Le armi contundenti hanno +1.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "d-uccelli",
+    "nome": "Uccelli stigei",
+    "conta": "2d6+2",
+    "tag": [],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "dissangua": true,
+    "note": "Un personaggio ferito perde automaticamente 1 PV a ogni turno di difesa, finché gli uccelli non sono sconfitti (sciamano addosso succhiando sangue).",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "d-serpenti",
+    "nome": "Serpenti giganti",
+    "conta": "1d6+4",
+    "tag": [],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "veleno": 4,
+    "note": "Ogni volta che un personaggio è ferito: tiro salvezza contro il veleno (L4) o perde 1 altro PV.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "d-rospi",
+    "nome": "Rospi giganti",
+    "conta": "1d6+4",
+    "tag": [],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Quando un rospo muore, le vesciche scoppiano: salvo arma da lancio o incantesimo, chi lo ha colpito per ultimo fa un tiro salvezza contro il veleno (L3) o perde 1 PV.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "pacifico"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "d-scheletri-corazzati",
+    "nome": "Scheletri corazzati",
+    "conta": "2d3+4",
+    "tag": [
+     "non-morto"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": -1,
+    "xp": true,
+    "note": "A causa dell'armatura le armi contundenti non hanno alcun bonus; le frecce hanno -1.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-uomini-capra",
+    "nome": "Uomini capra",
+    "conta": "2d3+1",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": 2,
+    "tes": 0,
+    "xp": true,
+    "livPrimoTurno": 8,
+    "note": "Caricano fanaticamente: nel 1° turno di combattimento contano come LIV 8, sia in attacco sia in difesa.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      30
+     ],
+     [
+      2,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "d-orchi",
+    "nome": "Orchi saccheggiatori",
+    "conta": "1d6+6",
+    "tag": [
+     "orco"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "tesMolt": 3,
+    "xp": true,
+    "note": "Hanno paura della magia: morale ogni volta che uno è ucciso da un incantesimo (a -1 se scendono sotto la metà). Mai oggetti magici: una pergamena vale 1d6xd6 p.o.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      40
+     ],
+     [
+      2,
+      2,
+      "combatte"
+     ],
+     [
+      3,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-coccatrici",
+    "nome": "Coccatrici",
+    "conta": "1d3+4",
+    "tag": [],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "petrifica": 2,
+    "note": "Ogni volta che un personaggio è ferito: tiro salvezza contro la pietrificazione (L2) o diventa di pietra. Benedizione annulla l'effetto.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-nani-posseduti",
+    "nome": "Nani posseduti",
+    "conta": "1d6+3",
+    "tag": [
+     "non-morto"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "note": "Posseduti da demoni e armati di falce. Se ne uccidi uno, tira 1d6: con 3 o più attaccherà di nuovo al prossimo turno, poi resta morto.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      30
+     ],
+     [
+      3,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-gnoll",
+    "nome": "Gnoll",
+    "conta": "2d3+4",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": 0,
+    "xp": true,
+    "livDifesaFerito": 7,
+    "note": "Contro un personaggio ferito diventano furiosi: contano come LIV 7 nei tiri di difesa.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      20
+     ],
+     [
+      3,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-maestri-hobgoblin",
+    "nome": "Maestri di spada hobgoblin",
+    "conta": "2d3+2",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Con un 1 naturale nell'attacco (salvo arma da lancio o incantesimo) il personaggio subisce subito 1 attacco di risposta fuori sequenza e deve fare un tiro di difesa.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      30
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-schiavisti",
+    "nome": "Schiavisti del caos",
+    "conta": "2d3+2",
+    "tag": [
+     "caos"
+    ],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": 0,
+    "tesMolt": 2,
+    "xp": true,
+    "speciale": "schiavisti",
+    "note": "Hanno preparato una trappola: prima del combattimento chi guida l'ordine di marcia fa un tiro salvezza contro una tagliola (L4). Se incontrati come erranti non hanno la tagliola.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      40
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   }
+  ],
+  "aberranti": [
+   {
+    "id": "d-doppelganger",
+    "nome": "Doppelganger",
+    "conta": "1",
+    "tag": [],
+    "liv": 5,
+    "att": 1,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Prima del combattimento assume la forma di un personaggio a caso. A ogni turno gli altri salvano contro lo smarrimento (L4) o non attaccano. Il personaggio imitato attacca normalmente; il doppelganger attacca lui e, se muore, fugge.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "d-manto",
+    "nome": "Manto predatore",
+    "conta": "1",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 5,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "maiErrante": true,
+    "note": "Appeso al soffitto, non è mai errante. 2 probabilità su 1d6 (4 con un furfante) di individuarlo: se lo noti puoi tornare indietro. Altrimenti cade: tutti schivano a 3+ (-1 armatura pesante, +1 elfi e furfanti); chi fallisce non attacca e perde 1 PV a ogni turno di difesa finché non è ucciso.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-melma",
+    "nome": "Melma verde",
+    "conta": "1",
+    "tag": [],
+    "liv": 6,
+    "att": 3,
+    "pv": 8,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "speciale": "melma",
+    "note": "Se colpisce non fa danni, ma il personaggio fa un tiro salvezza contro la malattia (L4; mezzuomini +½L): se fallisce, ogni volta che perde 1 PV ne perde subito 1 in più. Benedizione la cura. Se muore contagiato diventa a sua volta una melma verde.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-cubo",
+    "nome": "Cubo gelatinoso",
+    "conta": "1",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 6,
+    "mor": "NO",
+    "tes": 0,
+    "tesMolt": 3,
+    "xp": true,
+    "speciale": "cubo",
+    "immuneIncantesimi": [
+     "Sonno",
+     "Fulmine Magico"
+    ],
+    "note": "Trasparente: 3 su 1d6 di attaccare per primo. Non fa danno, ma ogni turno ciascun personaggio salva contro l'essere inghiottito (L2, oppure L4 se ha attaccato in mischia il turno prima). Chi è inghiottito non attacca finché il cubo non è distrutto. Immune a Sonno e Fulmine Magico.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-golem",
+    "nome": "Golem di carne",
+    "conta": "1",
+    "tag": [],
+    "liv": 7,
+    "att": 2,
+    "pv": 8,
+    "mor": 2,
+    "tes": 0,
+    "xp": true,
+    "immuneContundenti": true,
+    "immuneIncantesimi": [
+     "Sonno",
+     "Fulmine Magico"
+    ],
+    "dannoSu1": 2,
+    "note": "Immune alle armi contundenti e a tutti gli incantesimi tranne la Palla di Fuoco. Infligge 2 PV se ottieni 1 al tiro di difesa.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "d-scimitarra",
+    "nome": "Mostro scimitarra",
+    "conta": "1",
+    "tag": [],
+    "liv": 8,
+    "att": 2,
+    "pv": 12,
+    "mor": 0,
+    "tes": 1,
+    "tesMolt": 2,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "note": "Rettile con due braccia a scimitarra. Con un nano nel gruppo combatte fino alla morte. Immune a Sonno.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      250,
+      "totale"
+     ],
+     [
+      3,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ]
+   }
+  ],
+  "boss": [
+   {
+    "id": "d-signore-caos",
+    "nome": "Signore oscuro del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 3,
+    "pv": 7,
+    "mor": 0,
+    "tes": 0,
+    "tesMolt": 3,
+    "xp": true,
+    "speciale": "signore-caos-av",
+    "note": "Prima del combattimento tira 1d6 per i poteri: 1-4 Malocchio (salva L4 o -1 a tutte le difese fino alla sua morte); 5 Risucchio di energia (a ogni ferita salva L4 o perdi 1 livello); 6 Raggio di fuoco infernale minore (salva L5, chierici +½L, o perdi 2 PV). Uccisione: 5-6 su 1d6 = 1 indizio.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      200,
+      "totale"
+     ],
+     [
+      3,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-demone",
+    "nome": "Demone scheletrico",
+    "conta": "1",
+    "tag": [
+     "non-morto"
+    ],
+    "liv": 7,
+    "att": 2,
+    "pv": 8,
+    "mor": 1,
+    "tes": 0,
+    "tesMolt": 3,
+    "xp": true,
+    "note": "Bastone ferrato maledetto: per ogni PV inflitto ai personaggi il sangue versato genera 1 scheletro corazzato, che arriva nel tuo turno di attacco.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "sfida"
+     ],
+     [
+      3,
+      3,
+      "missione"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "d-capo-hobgoblin",
+    "nome": "Capo hobgoblin",
+    "conta": "1",
+    "tag": [],
+    "liv": 7,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 0,
+    "tesMolt": 2,
+    "xp": true,
+    "note": "Spada piena di anelli e campanelli: a ogni suo attacco, 3 su 1d6 che nel tuo turno di attacco arrivino i maestri di spada hobgoblin (una volta entrati non si tira più).",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      400,
+      "totale"
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-spettro",
+    "nome": "Spettro",
+    "conta": "1",
+    "tag": [
+     "non-morto"
+    ],
+    "liv": 7,
+    "att": 1,
+    "pv": 6,
+    "mor": "NO",
+    "tes": 0,
+    "tesMolt": 2,
+    "xp": true,
+    "note": "Prima del combattimento 2 su 1d6 che tutte le lanterne si spengano fino a fine incontro. Ogni ferita: tiro salvezza contro la magia (L4) o perdi 1 livello. Colpito solo da armi magiche o d'argento, incantesimi, acqua santa (1 PV per fiala) o attacchi che infliggono 2+ PV in un colpo.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      "un oggetto magico",
+      "totale"
+     ],
+     [
+      3,
+      3,
+      "missione"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "d-troll",
+    "nome": "Grosso troll",
+    "conta": "1",
+    "tag": [
+     "troll"
+    ],
+    "liv": 8,
+    "att": 2,
+    "pv": 7,
+    "mor": 0,
+    "tes": 0,
+    "tesMolt": 4,
+    "xp": true,
+    "note": "Gli attacchi contundenti hanno -1. Rigenera 1 PV nel proprio turno di attacco, salvo il turno dopo aver subito Palla di Fuoco o acido, o se è fatto a pezzi con un'arma da taglio a 0 PV.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      250,
+      "totale"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "d-drago",
+    "nome": "Giovane drago rosso",
+    "conta": "1",
+    "tag": [
+     "drago"
+    ],
+    "liv": 9,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 1,
+    "tesMolt": 4,
+    "xp": true,
+    "drago": true,
+    "sofLiv": 7,
+    "sofDanno": "1d3",
+    "note": "Al primo turno soffia fuoco: 1d3 PV a chi fallisce il tiro salvezza (L7; ognuno aggiunge +½L); poi 2 attacchi a caso (morso e artigli). Mai errante.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "dorme"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      300,
+      "totale"
+     ],
+     [
+      4,
+      4,
+      "missione"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ]
+   }
+  ]
+ },
+ "tabelle": {
+  "tesori": [
+   {
+    "da": -99,
+    "a": 0,
+    "nome": "Nessun tesoro",
+    "azione": "niente"
+   },
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Monete",
+    "azione": "oro",
+    "dadi": "2d6x2",
+    "testo": "2d6x2 pezzi d'oro"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Monete",
+    "azione": "oro",
+    "dadi": "2d6x5",
+    "testo": "2d6x5 pezzi d'oro"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Pergamena o arma",
+    "azione": "pergamena-o-arma",
+    "testo": "A scelta: una pergamena con 1 incantesimo a caso, oppure un'arma non magica (2 su 1d6 è d'argento)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Gemma",
+    "azione": "gemma",
+    "dadi": "2d6x10",
+    "testo": "Una gemma del valore di 2d6x10 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Gioiello",
+    "azione": "gioiello",
+    "dadi": "2d6x20",
+    "testo": "Un gioiello del valore di 2d6x20 p.o."
+   },
+   {
+    "da": 6,
+    "a": 99,
+    "nome": "Oggetto magico",
+    "azione": "magico",
+    "testo": "Un oggetto magico a caso (tabella avanzata)"
+   }
+  ],
+  "tesoriMagici": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Arma magica migliorata",
+    "azione": "arma-migliorata",
+    "testo": "Permanente: +1 (1-4) o +2 (5-6) ai tiri di attacco."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Armatura magica",
+    "azione": "armatura-magica",
+    "testo": "Permanente: +1 (1-4) o +2 (5-6) ai tiri di difesa."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Fiale di liquido",
+    "azione": "fiale",
+    "testo": "1d3+1 fiale: guarigione, acido o acqua santa."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Bacchetta del potere",
+    "azione": "bacchetta-potere",
+    "testo": "Solo maghi: 2d3 cariche, ognuna aggiunge 1 livello a un incantesimo. Si brucia con l’ultima carica; vale 25 p.o. per carica rimasta."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Vernice incantata",
+    "azione": "vernice",
+    "testo": "Ciò che dipingi diventa reale (porte, stanze, oggetti non magici fino a 15 p.o.; niente liquidi). A ogni uso 1d6: con 1 si esaurisce. Non per barbari."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Rosario",
+    "azione": "rosario",
+    "testo": "Collana con d6 grani monouso. Quando un chierico recita una benedizione o guarigione tira 1d6: con 4+ non consuma il potere. Ogni tiro consuma un grano. Vale 10 p.o. per grano."
+   }
+  ]
+ }
+}

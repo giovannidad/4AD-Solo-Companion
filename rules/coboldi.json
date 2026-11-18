@@ -1,0 +1,1153 @@
+{
+ "_nota": "Supplemento «Caverne degli Schiavisti Coboldi» (MS Edizioni), livelli 1-2: set demoniaco/coboldi pp. 19-21, regole generali pp. 3, 5, 13-15, 20, 24. Pagine 4, 8, 12 solo illustrazioni. Convenzioni (come abisso.json): mor/tes 0 = ST, 'NO' = assente, tesMolt = numero di tiri tesoro; reazioni [da, a, tipo, parametro?, 'totale'?]; att = numero di attacchi (1 se non indicato), danno = PV per colpo. Il set sostituisce SOLO infestanti, seguaci e boss: non ha aberranti (si usa la base, vedi rimandi). Campi nuovi: infezione, contraccolpo, moraleRegola, varianti, patto, trasformaCaduti, distruggePergamenePallaDiFuoco, ignoraSoloArmatura, contundenteMod, vulnerabileAcquaSanta, perdeLivello, poteri, nonAumentareBossFinale, attaccoCrescente, comeInStanza; nuovo tipo di reazione 'patto-demoniaco'. Riusati: veleno, danno, attiraErranti (con sotto-campi diversi), frecceMod, contundentePiu, incantesimiMod, modPallaDiFuoco, premioMorte, bersagliPrioritari, corruzioneAlternativa, paura, tesMolt. id con prefisso k-. Le avventure scritte (caverne, Kokras Tharn, assedio) non sono trascritte: solo l'elenco in 'avventure'.",
+ "livelli": {
+  "min": 1,
+  "max": 2,
+  "sottotitolo": "Caverne degli Schiavisti Coboldi (livelli 1-2)",
+  "regolaLivello3": "k-livello-3"
+ },
+ "set": {
+  "id": "coboldi-demoniaco",
+  "nome": "Coboldi e demoni",
+  "pagine": "14, 19-21",
+  "capitoli": [
+   1,
+   2
+  ],
+  "sostituisce": {
+   "infestanti": "Mostri infestanti",
+   "seguaci": "Mostri seguaci",
+   "boss": "Mostri boss"
+  },
+  "nonSostituisce": [
+   "aberranti"
+  ],
+  "bossFinaleCapitolo2": "k-demone-maggiore"
+ },
+ "dadi": {
+  "infestanti": "1d6",
+  "seguaci": "1d6",
+  "boss": "1d6"
+ },
+ "indiceTabelle": [
+  {
+   "chiave": "infestanti",
+   "nome": "Caverne dei coboldi: Mostri infestanti",
+   "dado": "d6",
+   "pagina": 19,
+   "dove": "mostri.infestanti",
+   "sostituisce": "Mostri infestanti (base p.82)"
+  },
+  {
+   "chiave": "seguaci",
+   "nome": "Mostri seguaci demoniaci",
+   "dado": "d6",
+   "pagina": 20,
+   "dove": "mostri.seguaci",
+   "sostituisce": "Mostri seguaci (base p.83)"
+  },
+  {
+   "chiave": "boss",
+   "nome": "Mostri boss demoniaci",
+   "dado": "d6",
+   "pagina": 21,
+   "dove": "mostri.boss",
+   "sostituisce": "Mostri boss (base p.85)"
+  }
+ ],
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "k-ratti",
+    "nome": "Ratti",
+    "conta": "2d6",
+    "tag": [
+     "animale"
+    ],
+    "liv": 1,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Ogni volta che un personaggio è ferito, 1 su 1d6 di perdere 1 altro PV per infezione.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "fugge"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "infezione": {
+     "quando": "ferito",
+     "probabilita": 1,
+     "dado": "1d6",
+     "pv": 1
+    }
+   },
+   {
+    "id": "k-coboldi-scheletri",
+    "nome": "Coboldi scheletri",
+    "conta": "1d6",
+    "tag": [
+     "non-morto",
+     "coboldo"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Le armi contundenti attaccano a +1, le frecce a -1.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "fugge"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "contundentePiu": true,
+    "frecceMod": -1
+   },
+   {
+    "id": "k-coboldi",
+    "nome": "Coboldi",
+    "conta": "2d6+1",
+    "tag": [
+     "coboldo"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": -1,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "fugge-inf"
+     ],
+     [
+      4,
+      4,
+      "corruzione",
+      5
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "k-millepiedi-giganti",
+    "nome": "Millepiedi giganti",
+    "conta": "1d6+1",
+    "tag": [
+     "animale"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Ogni volta che un personaggio è ferito deve salvare contro il veleno (L2) o perde 1 altro PV.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "fugge-inf"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "veleno": 2
+   },
+   {
+    "id": "k-mastini-coboldi",
+    "nome": "Mastini da guardia dei coboldi",
+    "conta": "1d6",
+    "tag": [
+     "animale"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "L'abbaiare ha 1 su 6 di attirare mostri erranti alla fine del combattimento.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "attiraErranti": {
+     "probabilita": 1,
+     "dado": "1d6",
+     "quando": "fine-combattimento"
+    }
+   },
+   {
+    "id": "k-rapaci-sanguinari",
+    "nome": "Rapaci sanguinari",
+    "conta": "2d6+2",
+    "tag": [
+     "animale",
+     "volante"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Mostri volanti: gli attacchi con l'arco hanno +1. Tirano il morale in ogni turno in cui il gruppo ne uccide almeno 3, ma non quando ne sono stati uccisi più della metà. Sciamano: in corridoio si combatte come in una stanza.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "frecceMod": 1,
+    "comeInStanza": true,
+    "moraleRegola": {
+     "tiraOgniTurnoSeUccisiAlmeno": 3,
+     "nonTiraSeUccisiPiuDellaMeta": true
+    }
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "k-pipistrelli-vampiro",
+    "nome": "Pipistrelli vampiro",
+    "conta": "4d6",
+    "tag": [
+     "animale"
+    ],
+    "liv": 1,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Gli incantesimi si lanciano a -1 per lo stridio. Nonostante il nome non sono non-morti.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "incantesimiMod": -1
+   },
+   {
+    "id": "k-scheletri-o-zombi",
+    "nome": "Scheletri o zombi",
+    "conta": "1d6+3 scheletri / 1d6+4 zombi",
+    "tag": [
+     "non-morto"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "note": "Si tira 1d6: 1-3 scheletri (1d6+3), 4-6 zombi (1d6+4). Non-morti, mai morale; i chierici aggiungono il livello. Le armi contundenti hanno +1 contro gli scheletri; le frecce -1 contro entrambi.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "varianti": [
+     {
+      "nome": "Scheletri",
+      "da": 1,
+      "a": 3,
+      "conta": "1d6+3",
+      "contundentePiu": true,
+      "frecceMod": -1
+     },
+     {
+      "nome": "Zombi",
+      "da": 4,
+      "a": 6,
+      "conta": "1d6+4",
+      "contundentePiu": false,
+      "frecceMod": -1
+     }
+    ]
+   },
+   {
+    "id": "k-adoratori-demoni",
+    "nome": "Adoratori dei demoni",
+    "conta": "1d6+3",
+    "tag": [],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": 0,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "fugge-inf"
+     ],
+     [
+      3,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "k-coboldi-demoniaci",
+    "nome": "Coboldi demoniaci",
+    "conta": "1d6+3",
+    "tag": [
+     "coboldo"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge-inf"
+     ],
+     [
+      2,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "k-demoni-minori",
+    "nome": "Demoni minori",
+    "conta": "1d3",
+    "tag": [
+     "demone"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "4 su 6 propongono un patto demoniaco (vedi regola k-patto-demoniaco). Se ne esiste già uno, i demoni minori incontrati dopo combattono in automatico.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "combatte"
+     ],
+     [
+      3,
+      6,
+      "patto-demoniaco"
+     ]
+    ],
+    "patto": {
+     "regola": "k-patto-demoniaco",
+     "oro": 50,
+     "unico": true,
+     "seGiaStipulato": "combattono"
+    }
+   },
+   {
+    "id": "k-guerrieri-caos",
+    "nome": "Guerrieri del caos",
+    "conta": "1d6+2",
+    "tag": [],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Armature con aculei velenosi: chi fa 1 naturale su un tiro di attacco salva contro il veleno (L5) o perde 1 PV.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      50
+     ],
+     [
+      2,
+      2,
+      "combatte"
+     ],
+     [
+      3,
+      6,
+      "morte"
+     ]
+    ],
+    "contraccolpo": {
+     "quando": "1-naturale-attacco",
+     "salvezza": {
+      "tipo": "veleno",
+      "liv": 5,
+      "bonus": {}
+     },
+     "fallimento": {
+      "pv": 1
+     }
+    }
+   }
+  ],
+  "boss": [
+   {
+    "id": "k-lupo-mannaro-demoniaco",
+    "nome": "Lupo mannaro demoniaco",
+    "conta": "1",
+    "tag": [
+     "demone",
+     "licantropo"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 5,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Un personaggio ucciso da lui diventa un altro lupo mannaro demoniaco da affrontare, a meno che su di lui venga lanciata una Benedizione: allora resta morto e può essere resuscitato.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "trasformaCaduti": {
+     "in": "k-lupo-mannaro-demoniaco",
+     "evitabileCon": "Benedizione",
+     "seEvitata": "resta morto, resuscitabile"
+    }
+   },
+   {
+    "id": "k-fanghiglia-amorfa",
+    "nome": "Fanghiglia amorfa",
+    "conta": "1",
+    "tag": [
+     "demone"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Palla di Fuoco attacca a +1 ma distrugge in automatico ogni pergamena tirata per il suo tesoro. Chi si difende ha il bonus dello scudo (+1) ma nessun bonus da armature leggere o pesanti. Le armi contundenti attaccano a -2. Tesoro normale per 3 tiri.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "tesMolt": 3,
+    "modPallaDiFuoco": 1,
+    "distruggePergamenePallaDiFuoco": true,
+    "ignoraSoloArmatura": true,
+    "contundenteMod": -2
+   },
+   {
+    "id": "k-orco-demoniaco",
+    "nome": "Orco demoniaco",
+    "conta": "1",
+    "tag": [
+     "orco",
+     "demone"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 4,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni attacco infligge 2 ferite e richiede un tiro salvezza contro il veleno (L3): se fallito, 1 altra ferita.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      100,
+      "totale"
+     ],
+     [
+      3,
+      3,
+      "combatte"
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ],
+    "danno": 2,
+    "veleno": 3
+   },
+   {
+    "id": "k-wight",
+    "nome": "Wight",
+    "conta": "1",
+    "tag": [
+     "non-morto"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 4,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Vulnerabile all'acqua santa (stesse regole dell'attacco con acqua santa contro i demoni). Se colpisce, il bersaglio salva contro la magia (L4) o perde 1 livello.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      100,
+      "totale"
+     ],
+     [
+      2,
+      2,
+      "missione"
+     ],
+     [
+      3,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "vulnerabileAcquaSanta": {
+     "ferite": 1,
+     "regola": "k-uso-acqua-santa"
+    },
+    "perdeLivello": {
+     "quando": "colpisce",
+     "salvezza": {
+      "tipo": "magia",
+      "liv": 4,
+      "bonus": {}
+     },
+     "livelli": 1
+    }
+   },
+   {
+    "id": "k-signore-supremo-caos",
+    "nome": "Signore supremo del caos",
+    "conta": "1",
+    "tag": [],
+    "liv": 6,
+    "att": 3,
+    "pv": 6,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Prima del combattimento 1d6 per il potere: 1-4 Malocchio, 5 Risucchio di energia, 6 Raggio di fuoco infernale minore. Tesoro +1 per 2 tiri. Quando muore, un personaggio a scelta trova 1 indizio.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "tesMolt": 2,
+    "premioMorte": {
+     "indizi": 1,
+     "aUnPersonaggioAScelta": true
+    },
+    "poteri": {
+     "dado": "1d6",
+     "quando": "prima-combattimento",
+     "tabella": [
+      {
+       "da": 1,
+       "a": 4,
+       "nome": "Malocchio",
+       "bersaglio": "tutti",
+       "salvezza": {
+        "tipo": "magia",
+        "liv": 4,
+        "bonus": {}
+       },
+       "fallimento": {
+        "modDifesa": -1,
+        "durata": "finché il signore non muore"
+       }
+      },
+      {
+       "da": 5,
+       "a": 5,
+       "nome": "Risucchio di energia",
+       "bersaglio": "ogni-personaggio-ferito",
+       "salvezza": {
+        "tipo": "magia",
+        "liv": 4,
+        "bonus": {}
+       },
+       "fallimento": {
+        "livelli": 1
+       }
+      },
+      {
+       "da": 6,
+       "a": 6,
+       "nome": "Raggio di fuoco infernale minore",
+       "bersaglio": "tutti",
+       "quando": "prima-combattimento",
+       "salvezza": {
+        "tipo": "magia",
+        "liv": 5,
+        "bonus": {
+         "chierico": "1/2L"
+        }
+       },
+       "fallimento": {
+        "pv": 2
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "k-demone-maggiore",
+    "nome": "Demone maggiore",
+    "conta": "1",
+    "tag": [
+     "demone"
+    ],
+    "liv": 6,
+    "att": 2,
+    "pv": 10,
+    "mor": 0,
+    "tes": 2,
+    "xp": true,
+    "note": "Se uccide un personaggio attacca 3 volte per turno; con un secondo, 4, e così via. Spaventoso: ogni PG che fallisce il tiro salvezza contro il terrore (L4) ha -1 in difesa finché il demone non ha perso almeno metà dei PV. Odia i chierici e li attacca sempre per primi. Tesoro +2 per 3 tiri. Nel capitolo 2 è sempre il boss finale e le sue statistiche includono già il bonus boss finale.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "tutto l'oro del gruppo (minimo 100 p.o.) oppure 1 oggetto magico",
+      "totale"
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ],
+    "tesMolt": 3,
+    "bersagliPrioritari": "chierici",
+    "attaccoCrescente": {
+     "su": "personaggio-ucciso",
+     "incremento": 1
+    },
+    "corruzioneAlternativa": "1 oggetto magico",
+    "paura": {
+     "tsLiv": 4,
+     "modDifesa": -1,
+     "finoAMetaPv": true,
+     "bersaglio": "tutti"
+    },
+    "nonAumentareBossFinale": true
+   }
+  ]
+ },
+ "tabelle": {},
+ "oggetti": [
+  {
+   "id": "k-acqua-santa",
+   "nome": "Fiala di acqua santa (variante demoniaca)",
+   "categoria": "consumabile",
+   "pagina": "13, 15, 17",
+   "magico": false,
+   "prezzo": 20,
+   "prezzoBase": 30,
+   "prezzoBasePagina": "manuale base p.33",
+   "effetto": "Lanciata contro un demone o un wight è un attacco automatico (senza tirare): 1 ferita. Se un boss demoniaco subisce almeno 1 ferita da acqua santa, tutti i chierici hanno +1 in attacco e difesa contro di lui fino a fine incontro (una volta sola, non per fiala). Il prezzo scontato di 20 p.o. vale solo se il gruppo sa del demone (una fiala per PG, anche per Rikka).",
+   "ferite": 1,
+   "contro": [
+    "demone",
+    "wight"
+   ],
+   "attaccoAutomatico": true,
+   "bonusChierici": {
+    "modAttacco": 1,
+    "modDifesa": 1,
+    "contro": "boss demoniaco",
+    "cumulabile": false,
+    "durata": "fine-incontro"
+   },
+   "massimoPerPersonaggio": 1,
+   "condizioneAcquisto": "il gruppo conosce l'esistenza del demone"
+  },
+  {
+   "id": "k-flagello",
+   "nome": "Flagello",
+   "categoria": "arma",
+   "pagina": 5,
+   "magico": false,
+   "prezzo": null,
+   "effetto": "Mazza ferrata a catena dei coboldi: per il gruppo è solo un'arma contundente a una mano, senza altri benefici. Quando sono i coboldi a usarla, gli scudi non danno bonus alla difesa (regola del mostro, area 2).",
+   "armaCategoria": "una-mano",
+   "tipo": "contundente",
+   "mani": 1,
+   "mod": 0,
+   "regolaMostro": "il bonus dello scudo non si applica contro chi usa il flagello (coboldi dell'armeria)"
+  }
+ ],
+ "regole": [
+  {
+   "id": "k-livello-3",
+   "nome": "PG di livello 3 nelle Caverne dei Coboldi",
+   "pagina": 3,
+   "sintesi": "L'avventura è per PG di livello 1-2. Se 2 o più PG sono di 3° livello, i mostri erranti compaiono con 2 su 1d6 e tutti i mostri seguaci incontrati sono 1 in più.",
+   "parametri": {
+    "condizione": "2 o più PG di livello 3",
+    "probabilitaErranti": 2,
+    "dado": "1d6",
+    "modNumeroSeguaci": 1
+   }
+  },
+  {
+   "id": "k-patto-demoniaco",
+   "nome": "Patto demoniaco",
+   "pagina": 20,
+   "sintesi": "I demoni minori propongono un patto (reazione 3-6): se accettato lasciano passare il gruppo e danno 50 p.o., ma il gruppo deve uccidere la prima creatura incontrata che non sia un demone o un non-morto e riportarne le spoglie nella stanza dell'incontro. Se fallisce, tutti i PG che muoiono nell'avventura non possono essere resuscitati (i demoni ne reclamano l'anima). Si può stipulare un solo patto; i demoni minori incontrati dopo combattono in automatico.",
+   "parametri": {
+    "oroRicevuto": 50,
+    "richiede": "uccidere la prima creatura incontrata (non demone, non non-morto) e riportarne le spoglie",
+    "fallimento": "nessuna resurrezione per i caduti dell'avventura",
+    "massimo": 1,
+    "durata": "intera avventura",
+    "dopoIlPatto": "i demoni minori combattono"
+   }
+  },
+  {
+   "id": "k-uso-acqua-santa",
+   "nome": "Acqua santa contro demoni e wight",
+   "pagina": "13, 15, 17",
+   "sintesi": "Nel capitolo 2 si compra a 20 p.o. (una per PG) solo se si sa del demone. Lanciata contro un demone è un attacco automatico che infligge 1 ferita; il primo boss demoniaco ferito dà +1 ad attacco e difesa a tutti i chierici contro di lui. Vale anche contro il wight. Nel capitolo 3 una fiala uccide 1 demone minore per turno.",
+   "parametri": {
+    "prezzoScontato": 20,
+    "prezzoBase": 30,
+    "ferite": 1,
+    "bonusChierici": 1,
+    "contro": [
+     "demone",
+     "wight"
+    ],
+    "capitolo3": "una fiala uccide 1 demone minore per turno",
+    "oggetto": "k-acqua-santa"
+   }
+  },
+  {
+   "id": "k-png-compagno",
+   "nome": "PNG compagno: Rikka il goblin",
+   "pagina": "7, 11, 24",
+   "sintesi": "Un PNG liberato può diventare quinto membro del gruppo e nell'ordine di marcia occupa una posizione (si può superare le 4 posizioni). Rikka è un goblin guerriero di livello 0 (nessun bonus di attacco, +1 contro i coboldi), usa solo armatura leggera, scudo, arco o fionda, arma leggera o a una mano, ha 1 PV (2 se curato o bendato) e va equipaggiato dal gruppo; scudi di nano e armature di nano o mezzuomo gli vanno bene. Se uccide almeno un coboldo schiavista diventa guerriero di livello 1 con PV massimi 2+livello. Al termine di ogni avventura gli spettano almeno 20 p.o.; con 2 o più nani nel gruppo non si unisce. Con lui, le reazioni dei goblin (nomi con 'goblin', esclusi gli hobgoblin) si possono spostare di 1 e i goblin non sorprendono il gruppo.",
+   "parametri": {
+    "personaggio": "Rikka",
+    "classe": "guerriero",
+    "livelloIniziale": 0,
+    "bonusContro": {
+     "coboldo": 1
+    },
+    "pvIniziali": 1,
+    "pvMassimoBase": 2,
+    "pvMassimoDopoLivello1": "2+livello",
+    "armi": [
+     "leggera",
+     "una-mano",
+     "fionda",
+     "arco"
+    ],
+    "armature": [
+     "leggera"
+    ],
+    "scudo": true,
+    "equipaggiamento": "a carico del gruppo",
+    "promozione": {
+     "condizione": "uccide un coboldo schiavista",
+     "livello": 1,
+     "pv": 3
+    },
+    "ingaggio": {
+     "membroDelGruppo": "quinto",
+     "costoMinimoFineAvventura": 20,
+     "nonSeNaniAlmeno": 2,
+     "occupaPostoOrdineDiMarcia": true
+    },
+    "reazioniGoblin": {
+     "spostamentoReazione": 1,
+     "goblinNonSorprendono": true,
+     "esclusi": [
+      "hobgoblin"
+     ]
+    },
+    "avventura": "coboldi",
+    "vedi": "acque.json q-png-compagno"
+   }
+  },
+  {
+   "id": "k-gemme-senza-resto",
+   "nome": "Pagare con gemme senza resto",
+   "pagina": 24,
+   "sintesi": "In un dungeon si può corrompere i mostri o comprare oggetti pagando con una o più gemme, ma non si riceve il resto in p.o.",
+   "parametri": {
+    "pagamentoConGemme": true,
+    "resto": false
+   }
+  },
+  {
+   "id": "k-riposo-tra-capitoli",
+   "nome": "Riposo tra i capitoli",
+   "pagina": "13, 24",
+   "sintesi": "Tra un capitolo e l'altro i PG recuperano PV e incantesimi, possono vendere gemme e gioielli, comprare equipaggiamento e rimpiazzare i caduti con PG di livello 1.",
+   "parametri": {
+    "recuperaPv": true,
+    "recuperaIncantesimi": true,
+    "vendeGemme": true,
+    "acquistaEquipaggiamento": true,
+    "rimpiazzoCaduti": {
+     "livello": 1
+    }
+   }
+  },
+  {
+   "id": "k-varianti-capitolo-2",
+   "nome": "Varianti del dungeon dei demoni",
+   "pagina": "14, 15",
+   "sintesi": "Nel capitolo 2: ogni trappola è un teletrasporto di livello 3 che manda un PG a caso, da solo, nella dimora del demone (boss 6 della tabella boss demoniaci); se vince prende il tesoro e torna dal gruppo, se muore il gruppo trova averi e ossa col tesoro del demone. I mostri erranti usano la tabella seguaci demoniaci con +1 al numero (un altro +1 con PG di livello 3). Un tempio benedetto (caratteristiche speciali, risultato 2) diventa un altare maledetto (risultato 4). Il guaritore errante (eventi speciali, risultato 5) è un chierico pellegrino che vende al massimo 1 fiala d'acqua santa per PG, una sola volta.",
+   "parametri": {
+    "trappole": {
+     "tipo": "teletrasporto",
+     "liv": 3,
+     "bersaglio": "un-pg-a-caso",
+     "destinazione": "dimora del demone",
+     "combattimentoSolitario": true,
+     "seVinci": "prende il tesoro e torna dal gruppo",
+     "seMuore": "il gruppo trova averi e ossa nel tesoro del demone"
+    },
+    "erranti": {
+     "tabella": "seguaci",
+     "modNumero": 1
+    },
+    "sostituzioniTabelleBase": [
+     {
+      "tabella": "Caratteristiche speciali",
+      "risultato": 2,
+      "diventa": 4,
+      "nome": "tempio benedetto -> altare maledetto",
+      "paginaBase": 78
+     },
+     {
+      "tabella": "Eventi speciali",
+      "risultato": 5,
+      "diventa": "chierico pellegrino (max 1 fiala per PG, una volta sola; se ripetuto si ignora)",
+      "paginaBase": 79
+     }
+    ]
+   }
+  },
+  {
+   "id": "k-boss-finale-demone",
+   "nome": "Boss finale: il demone maggiore",
+   "pagina": 14,
+   "sintesi": "Nel capitolo 2 il boss finale è sempre il demone maggiore (risultato 6 dei boss demoniaci). Le sue caratteristiche non vanno lette finché un PG non viene teletrasportato da lui o lo incontra, e non si applica il bonus da boss finale perché è già incluso. Il gruppo può abbandonare il dungeon se è troppo malridotto.",
+   "parametri": {
+    "creatura": "k-demone-maggiore",
+    "aumentoBossFinale": false,
+    "puoAbbandonare": true
+   }
+  },
+  {
+   "id": "k-erranti-coboldi",
+   "nome": "Mostri erranti nelle Caverne dei Coboldi",
+   "pagina": 3,
+   "sintesi": "Nei capitoli 1 e 2 il tipo di errante si tira con 1d6: 1-3 tabella infestanti dei coboldi, 4-6 seguaci demoniaci.",
+   "parametri": {
+    "dado": "1d6",
+    "sottotabella": [
+     {
+      "da": 1,
+      "a": 3,
+      "tabella": "infestanti"
+     },
+     {
+      "da": 4,
+      "a": 6,
+      "tabella": "seguaci"
+     }
+    ],
+    "capitoli": [
+     1,
+     2
+    ]
+   }
+  }
+ ],
+ "faq": [
+  {
+   "id": "k-faq-png-attaccato",
+   "tema": "PNG liberato e attacchi",
+   "pagina": 24,
+   "sintesi": "Un PNG liberato (Elvyn, guerriero di 3° livello con 9 PV) subisce gli attacchi come gli altri PG e va equipaggiato dal gruppo; se è in fondo alla marcia e arriva un errante in corridoio combatte come gli altri.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "k-faq-troll-rigenerazione",
+   "tema": "Troll: rigenerazione e morte",
+   "pagina": 24,
+   "sintesi": "Il troll tira per rigenerare dopo i tiri di attacco dei personaggi e prima dei loro tiri di difesa; a 0 o meno PV si uccide in automatico con un'arma da taglio.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "k-faq-tra-capitoli",
+   "tema": "Che cosa si fa tra un capitolo e l'altro",
+   "pagina": 24,
+   "sintesi": "Oltre a recuperare PV e incantesimi si vendono gemme e gioielli, si compra equipaggiamento e si rimpiazzano i caduti con PG di livello 1.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "k-faq-gemme-senza-resto",
+   "tema": "Pagare con gemme",
+   "pagina": 24,
+   "sintesi": "In un dungeon si può pagare corruzioni e acquisti con gemme, ma non si riceve il resto in p.o.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "k-faq-riconquistare-aree",
+   "tema": "Riconquistare le aree (capitolo 3)",
+   "pagina": 24,
+   "sintesi": "Nel capitolo 3 si può riconquistare un'area già presa dai demoni.",
+   "cambiaRegola": false
+  },
+  {
+   "id": "k-faq-ordine-di-marcia",
+   "tema": "PNG nell'ordine di marcia",
+   "pagina": 24,
+   "sintesi": "Rikka ed Elvyn entrano nell'ordine di marcia come gli altri PG, perciò un gruppo può avere più di 4 posizioni.",
+   "cambiaRegola": true
+  }
+ ],
+ "avventure": [
+  {
+   "id": "k-caverne-schiavisti",
+   "titolo": "Le caverne degli schiavisti coboldi",
+   "pagine": "5-11",
+   "livello": {
+    "min": 1,
+    "max": 2
+   },
+   "struttura": "mappa-fissa",
+   "aree": 18,
+   "note": "Mappa illustrata a p. 4 da leggere dall'immagine; paragrafi letti solo all'ingresso; i paragrafi 14-18 sono bivi richiamati dall'area 7.",
+   "tabelleProprie": [
+    {
+     "nome": "Biblioteca, Ciondolo, Ragnatele",
+     "pagina": 22
+    },
+    {
+     "nome": "Sfera di energia, Vasca d'acqua",
+     "pagina": 23
+    }
+   ]
+  },
+  {
+   "id": "k-demoni-kokras-tharn",
+   "titolo": "I demoni di Kokras Tharn",
+   "pagine": "13-15",
+   "livello": {
+    "min": 1,
+    "max": 2
+   },
+   "struttura": "dungeon-casuale-con-tabelle-sostitutive-e-boss-finale-fisso",
+   "note": "Usa le tabelle di questo file; oggetto proprio: spada magica Ailisia (non trascritta)."
+  },
+  {
+   "id": "k-assedio-demoni",
+   "titolo": "L'assedio dei demoni",
+   "pagine": "16-18",
+   "livello": {
+    "min": 1,
+    "max": 2
+   },
+   "struttura": "battaglia-a-3-aree-senza-dungeon",
+   "note": "Modalità assedio a turni alternati demoni/eroi; tabella Strategia dei demoni a p. 23.",
+   "tabelleProprie": [
+    {
+     "nome": "Strategia dei demoni",
+     "pagina": 23
+    }
+   ]
+  }
+ ],
+ "rimandi": [
+  {
+   "cosa": "Mostri aberranti: il set non ne ha una tabella propria (p. 14 sostituisce solo infestanti, seguaci e boss); si usa la tabella base",
+   "libro": "Manuale base",
+   "pagina": 84
+  },
+  {
+   "cosa": "Tabelle del dungeon casuale non sostituite: generazione stanze, contenuti, tesori, tesori magici, caratteristiche speciali, eventi speciali (con le eccezioni di k-varianti-capitolo-2)",
+   "libro": "Manuale base",
+   "pagina": "40-43, 78, 79, 80, 81"
+  },
+  {
+   "cosa": "Incantesimo a caso (pergamena in Biblioteca)",
+   "libro": "Manuale base",
+   "pagina": 28
+  },
+  {
+   "cosa": "Acqua santa: prezzo base 30 p.o., 1 ferita a vampiri e demoni, massimo 1 fiala per PG",
+   "libro": "Manuale base",
+   "pagina": 33
+  },
+  {
+   "cosa": "Riferimento reciproco: regola dei PNG compagni e alleati",
+   "libro": "Acque Oscure e Altre Avventure",
+   "pagina": "27, 36"
+  },
+  {
+   "cosa": "Reazione Missione dei mostri e regole delle missioni",
+   "libro": "Manuale base / Acque Oscure FAQ",
+   "pagina": 71
+  }
+ ],
+ "ambiguita": [
+  {
+   "punto": "Infestanti dei coboldi: non è detto se uccidere gli infestanti conti per il tiro ES (il manuale base dice no per la sua tabella, sì per quelli di alcuni supplementi).",
+   "scelta": "xp=true per tutti (come Abisso e Caos); mettere xp=false nei 6 infestanti per il comportamento del manuale base."
+  },
+  {
+   "punto": "Morale: mostri senza indicazione hanno morale standard.",
+   "scelta": "mor = 0 (ST), salvo scheletri/zombi (mai morale: 'NO') e dove il testo dà un modificatore."
+  },
+  {
+   "punto": "Orco demoniaco: il numero di attacchi non è indicato (il testo dà solo ferite per attacco).",
+   "scelta": "att = 1 (convenzione del manuale base) e danno = 2."
+  },
+  {
+   "punto": "Orco demoniaco: il tiro salvezza contro il veleno (L3) dopo ogni attacco riuscito è formulato come per i millepiedi.",
+   "scelta": "Usato il campo veleno=3 (TS a ogni ferita, altrimenti 1 PV in più)."
+  },
+  {
+   "punto": "Demone maggiore: la corruzione chiede tutto l'oro del gruppo (minimo 100) oppure 1 oggetto magico, ma non dice chi sceglie né se si può pagare meno di 100.",
+   "scelta": "Parametro testuale in reazioni (costo non numerico) e corruzioneAlternativa='1 oggetto magico'; scelta lasciata al giocatore."
+  },
+  {
+   "punto": "Demone maggiore: il testo non dice se gli attacchi in più restano per tutto l'incontro; si assume di sì.",
+   "scelta": "attaccoCrescente su personaggio-ucciso, +1 ciascuno, senza limite dichiarato."
+  },
+  {
+   "punto": "Lupo mannaro demoniaco: non è detto quando va lanciata la Benedizione sul caduto.",
+   "scelta": "trasformaCaduti.evitabileCon='Benedizione'; momento non specificato nel testo."
+  },
+  {
+   "punto": "Fanghiglia amorfa: la distruzione automatica delle pergamene del tesoro è legata a Palla di Fuoco, ma il testo non dice se solo quando la Palla di Fuoco ha ucciso la fanghiglia.",
+   "scelta": "Flag distruggePergamenePallaDiFuoco=true; condizione precisa lasciata al programma."
+  },
+  {
+   "punto": "Fanghiglia amorfa: scudo +1 ma nessun bonus da armatura (leggera o pesante).",
+   "scelta": "Nuovo campo ignoraSoloArmatura (diverso da ignoraArmatura, che ignora anche lo scudo)."
+  },
+  {
+   "punto": "Wight: 'stesse regole dell'attacco con acqua santa contro i demoni': non è chiaro se valga anche il +1 ai chierici (che il testo riserva ai boss demoniaci).",
+   "scelta": "Il wight è nella tabella dei boss demoniaci, quindi il bonus chierici si applica (vedi k-uso-acqua-santa)."
+  },
+  {
+   "punto": "Signore supremo del caos: 'salvare a 4 o più/5 o più' è espresso come livello del tiro salvezza.",
+   "scelta": "liv 4 e liv 5 (chierici +1/2L sul Raggio)."
+  },
+  {
+   "punto": "Demoni minori: il patto compare come reazione 3-6 (4 su 6) e non esiste un tipo di reazione 'patto-demoniaco' nel programma.",
+   "scelta": "Nuovo tipo di reazione 'patto-demoniaco' (3 elementi) con campo patto."
+  },
+  {
+   "punto": "Rikka: il testo dice che a 1 PV 'sale a 2' con guarigione o bende e poi 2+livello al massimo da livello 1.",
+   "scelta": "pvIniziali=1, pvMassimoBase=2, pvMassimoDopoLivello1='2+livello'."
+  },
+  {
+   "punto": "Nomi: 'Elvyn' e 'Elwyn' alternano nel testo (p. 13).",
+   "scelta": "Non riguarda i dati generali; da uniformare nella fase avventure."
+  },
+  {
+   "punto": "Tabelle interne (Biblioteca, Ciondolo, Ragnatele, Sfera di energia, Vasca d'acqua, Strategia dei demoni): ancorate alla mappa o all'assedio.",
+   "scelta": "Non trascritte: appartengono alle avventure."
+  },
+  {
+   "punto": "Il set non ha aberranti.",
+   "scelta": "Nessuna tabella aberranti inventata: rimando alla tabella base (rimandi)."
+  }
+ ]
+}

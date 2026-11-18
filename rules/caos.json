@@ -1,0 +1,1756 @@
+{
+ "_nota": "Supplemento «Contro il Caos» (MS Edizioni): Caverne del Caos, p. 47-72.",
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "c-accoliti",
+    "nome": "Accoliti del caos",
+    "conta": "2d6",
+    "tag": [
+     "caos"
+    ],
+    "liv": 2,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": 0,
+    "xp": true,
+    "note": "",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      50
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-ratti",
+    "nome": "Ratti mutanti",
+    "conta": "1d8",
+    "tag": [
+     "caos"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": "NO",
+    "xp": true,
+    "ratti": true,
+    "note": "Lo squittio acuto rende difficile concentrarsi: gli incantesimi lanciati nella stanza contano come se l'incantatore fosse di 1 livello più basso e chi non è incantatore non può leggere pergamene. Se non sono sconfitti al 1° turno, ogni pergamena o indumento magico ha 1 su 1d6 di essere distrutto (si tira una sola volta per l'incontro).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      2,
+      "corruzione",
+      "1 oggetto normale o magico"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "c-serpenti",
+    "nome": "Uomini serpente guerrieri di Ssiklis",
+    "conta": "1d6+1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      25
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "c-capra",
+    "nome": "Uomini capra del caos",
+    "conta": "1d6+3",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "x2",
+    "xp": true,
+    "livPrimoTurno": 8,
+    "richiamo": 8,
+    "note": "Caricano fanaticamente: nel 1° turno contano come LIV 8, in attacco e in difesa. All'inizio di ogni loro turno c'è 1 probabilità su 1d8 che belino, richiamando in mischia 1 ulteriore uomo capra.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      30
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-vespe",
+    "nome": "Sciame di vespe del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": "NO",
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "orda": true,
+    "note": "Orda: immune a Sonno. È una sola creatura di LIV 6, ogni attacco riuscito ne abbassa il LIV di 1; a LIV 0 si disperde. I suoi attacchi ignorano armature e scudi, anche magici. Palla di Fuoco uccide automaticamente l'intero sciame.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "c-gremlin",
+    "nome": "Gremlin del caos",
+    "conta": "1d6+3",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": 0,
+    "xp": true,
+    "sfortuna": true,
+    "note": "Si nutrono di fortuna: alla fine di ogni turno ogni personaggio riceve 1 punto sfortuna. Con sfortuna non può far esplodere i dadi: ottenendo un risultato esplosivo rimuove invece 1 punto sfortuna. Una Benedizione (o un punto fortuna del mezzuomo, per 2 punti) li rimuove.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      4,
+      "corruzione",
+      20
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ]
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "c-goblin",
+    "nome": "Goblin del caos",
+    "conta": "4d6",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "leader": "Comandante dei goblin del caos (LIV 10, ATT 1, PV 3)",
+    "leaderProb": 1,
+    "note": "Hanno 1 probabilità su 1d6 di avere come leader un comandante dei goblin del caos (BOSS, CAOS, LIV 10, ATT 1, PV 3, MOR ST, TES ST).",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      10
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "tenzone"
+     ]
+    ]
+   },
+   {
+    "id": "c-bestie",
+    "nome": "Bestie del caos",
+    "conta": "2d6",
+    "tag": [
+     "caos"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": 0,
+    "xp": true,
+    "leader": "Uomo bestia del caos (LIV 6, ATT 1, PV 2)",
+    "leaderProb": 1,
+    "note": "Animali mutanti: 1 su 1d6 di sorprendere il gruppo. Per ogni gruppo: 1 su 1d6 di avere un uomo bestia del caos (BOSS, LIV 6, ATT 1, PV 2) come leader e 1 su 1d6 di avere attacchi a distanza (1 aculeo osseo a testa prima della mischia).",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "c-nani",
+    "nome": "Nani del caos",
+    "conta": "1d6",
+    "tag": [
+     "caos"
+    ],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "x2",
+    "xp": true,
+    "note": "1 su 1d6 di avere balestre: hanno l'iniziativa e sparano prima della mischia (risolvi prima i tiri a distanza del tuo gruppo). In un corridoio i 2 di fronte usano le asce e gli altri sparano da dietro.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      80
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "c-scheletri",
+    "nome": "Scheletri del caos",
+    "conta": "1d6",
+    "tag": [
+     "caos",
+     "non-morto"
+    ],
+    "liv": 9,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "contundentePiu": true,
+    "note": "Le armi contundenti colpiscono a +1, le frecce a -2.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-ratti-uomini",
+    "nome": "Uomini ratto del caos + leader",
+    "conta": "2d6",
+    "tag": [
+     "caos"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": 1,
+    "xp": true,
+    "leader": "Campione degli uomini ratto del caos (LIV 1d3+3, PV 1d3+2)",
+    "leaderProb": 6,
+    "note": "Lame infette: a fine incontro, per ogni personaggio ferito tira 1d6; con 1 o se il tiro è inferiore ai PV subiti perde 1 PV in più. Hanno sempre un campione come leader (BOSS, CAOS, LIV 1d3+3, ATT 1, PV 1d3+2, TES +1).",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      20
+     ],
+     [
+      3,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "tenzone"
+     ]
+    ]
+   },
+   {
+    "id": "c-fanatici",
+    "nome": "Fanatici del caos",
+    "conta": "1d6+3",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": 0,
+    "xp": true,
+    "leader": "Comandante dei fanatici del caos (LIV 5, ATT 2, PV 4)",
+    "leaderProb": 2,
+    "note": "Hanno 2 probabilità su 1d6 di avere come leader un comandante dei fanatici del caos (BOSS, LIV 5, ATT 2, PV 4, MOR +1).",
+    "reazioni": [
+     [
+      1,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "tenzone"
+     ]
+    ]
+   }
+  ],
+  "aberranti": [
+   {
+    "id": "c-liquame",
+    "nome": "Liquame nero",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 12,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "attPerBersaglio": true,
+    "note": "Forma tanti pseudopodi quanti i bersagli: ognuno riceve 1 attacco. Il gruppo può sottrarsi (con un ultimo attacco) anche senza porta. Vulnerabile al sale: un sacchetto lo uccide automaticamente.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-manticora",
+    "nome": "Manticora nera",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Fa sempre 2 attacchi per turno contro lo stesso bersaglio; per ciascuno tira 1d6: 1-2 artigli (1 PV); 3-4 morso (2 PV); 5-6 pungiglione (1 PV e tiro salvezza contro il veleno L6 o morte). La coda è attaccabile come bersaglio LIV 6: se ferita il pungiglione è inutilizzabile.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      50,
+      "totale"
+     ],
+     [
+      3,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-melma-grigia",
+    "nome": "Melma grigia",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 6,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "note": "1 su 1d6 di sorprendere il gruppo. Se colpisce, il personaggio sacrifica 1 oggetto (arma, scudo, armatura o lanterna) o subisce 2 PV. Lenta: il gruppo può sottrarsi senza porta. Vulnerabile al sale (sacchetto: 2 PV). Dopo la sua morte la stanza si può perquisire.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-progenie",
+    "nome": "Progenie di Xichtul",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 6,
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "scissione": true,
+    "note": "Immune a Sonno e al veleno. Quando muore si scinde in 1d6 mostri minori (LIV 4, ATT 1, PV 1, MOR NO). Anche un personaggio ucciso da lei si scompone in 1d6 mostri minori e non può essere resuscitato.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "c-dinosauro",
+    "nome": "Dinosauro di Ssiklis",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 8,
+    "mor": 1,
+    "tes": "NO",
+    "xp": true,
+    "danno": 2,
+    "note": "Il morso infligge 2 PV. Nessun tesoro, ma 3 su 1d6 che nella tana ci siano 1d3 uova (20 p.o. l'una, una sola trasportabile per personaggio). Un uovo tenuto si schiude dopo 1d6 avventure: compagno animale per un signore delle bestie (parte da LIV 1, PV 1, +1 LIV e PV a ogni avventura fino a 5).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "c-chimera",
+    "nome": "Chimera del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 3,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "note": "Immune a Sonno. Attacchi: morso (2 PV); coda (1 PV, salva veleno L3 o -1 alle difese per 3 incontri); incornata (1 PV, salva impalamento L4, barbari e nani +1, o niente attacco al prossimo turno). Con 3 o meno PV sputa acido: attacco LIV 4 a tutti, ignora armature, 1 PV a chi fallisce.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      50,
+      "totale"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ]
+   }
+  ],
+  "boss": [
+   {
+    "id": "c-campione",
+    "nome": "Campione del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 9,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "dannoSu1": 2,
+    "note": "Armatura chiodata: immune a Sonno e infligge 1 PV in più a chi ottiene 1 al tiro di difesa.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "c-psionico",
+    "nome": "Psionico del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "follia": true,
+    "note": "3 su 1d6 di sorprendere il gruppo. Dardi mentali: ignorano scudi e armature; se la difesa fallisce 1 PV e 1 punto follia (tutti aggiungono +½L al tiro).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      200,
+      "totale"
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "c-tentacolato",
+    "nome": "Mutante tentacolato",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 7,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "attDadi": "1d3",
+    "note": "Tira 1d3 una volta all'inizio dell'incontro per i suoi attacchi. Chi ottiene 1 su un tiro di attacco o di difesa ha 1 oggetto afferrato (non usabile finché il mutante non è sconfitto).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      100,
+      "totale"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "c-lucertola",
+    "nome": "Uomo lucertola del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 8,
+    "mor": 1,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni turno 1d6: con 5-6, oltre all'attacco, un colpo di coda fa perdere l'equilibrio a un personaggio a caso (salta il prossimo attacco).",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "c-carnefice",
+    "nome": "Carnefice del caos",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 8,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "danno": 2,
+    "dannoSu1": 3,
+    "rompeScudo": true,
+    "note": "La grande ascia infligge 2 PV (3 se il difensore ottiene 1) e distrugge lo scudo di chi fallisce la difesa.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      100,
+      "totale"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "c-avatar",
+    "nome": "Avatar di Xichtul",
+    "conta": "1",
+    "tag": [
+     "caos"
+    ],
+    "liv": 6,
+    "att": 4,
+    "pv": 12,
+    "mor": 1,
+    "tes": 0,
+    "tesMolt": 3,
+    "xp": true,
+    "attDadi": "1d6",
+    "note": "Tira 1d6 per i suoi attacchi: fino a 4 attacchi di LIV 6; con 5-6 attacchi, LIV 5. La prima volta tutti salvano contro la magia (L6) o lasciano cadere 1 oggetto (anche un'arma o almeno 20 p.o.); senza oggetti, perdi 1 PV. Gli oggetti si recuperano se è ucciso.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      "tutto il tesoro",
+      "totale"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ]
+   }
+  ]
+ },
+ "speciali": {
+  "signoreCuoco": {
+   "id": "c-signore-cuoco",
+   "nome": "Signore del caos (campione)",
+   "conta": "1",
+   "tag": [
+    "caos"
+   ],
+   "liv": 4,
+   "att": 1,
+   "pv": 9,
+   "mor": 0,
+   "tes": 0,
+   "xp": true,
+   "immuneIncantesimi": [
+    "Sonno"
+   ],
+   "note": "Come un campione del caos, ma con reazioni speciali: 1-3 Banchetto (mangia il cibo avvelenato: subisce 1d6+3 PV, poi combatte e il gruppo attacca per primo), 4-5 Combatte, 6 Combatte fino alla morte.",
+   "reazioni": [
+    [
+     1,
+     3,
+     "banchetto"
+    ],
+    [
+     4,
+     5,
+     "combatte"
+    ],
+    [
+     6,
+     6,
+     "morte"
+    ]
+   ]
+  },
+  "signoreDistruzione": {
+   "id": "c-signore-distruzione",
+   "nome": "Signore del caos e della distruzione",
+   "conta": "1",
+   "tag": [
+    "caos"
+   ],
+   "liv": 8,
+   "att": 3,
+   "pv": 8,
+   "mor": 0,
+   "tes": 1,
+   "xp": true,
+   "danno": 2,
+   "rompeScudo": true,
+   "note": "Ogni suo colpo infligge 2 PV e i suoi attacchi prendono di mira un personaggio a caso. L'arma gigantesca distrugge automaticamente uno scudo non magico se il difensore ottiene 1.",
+   "reazioni": [
+    [
+     1,
+     6,
+     "morte"
+    ]
+   ]
+  },
+  "carnefice": {
+   "id": "c-carnefice",
+   "nome": "Carnefice del caos",
+   "conta": "1",
+   "tag": [
+    "caos"
+   ],
+   "liv": 5,
+   "att": 1,
+   "pv": 8,
+   "mor": 0,
+   "tes": 1,
+   "xp": true,
+   "danno": 2,
+   "dannoSu1": 3,
+   "rompeScudo": true,
+   "note": "La grande ascia infligge 2 PV (3 se il difensore ottiene 1) e distrugge lo scudo di chi fallisce la difesa.",
+   "reazioni": [
+    [
+     1,
+     2,
+     "corruzione",
+     100,
+     "totale"
+    ],
+    [
+     3,
+     6,
+     "combatte"
+    ]
+   ]
+  },
+  "mostroVuoto": {
+   "id": "c-vuoto",
+   "nome": "Mostro del vuoto",
+   "conta": "1",
+   "tag": [],
+   "liv": 5,
+   "att": 1,
+   "pv": 10,
+   "mor": 0,
+   "tes": "NO",
+   "xp": true,
+   "note": "Non si muove. Se un furfante supera il LIV con 1d6+L dà l'allarme e non sorprende il gruppo; altrimenti attacca 1 personaggio a caso: per ogni difesa fallita 1 PV e sottrae 1 oggetto (a tua scelta). Sconfitto, restituisce gli oggetti e il tesoro si può prendere.",
+   "reazioni": [
+    [
+     1,
+     6,
+     "morte"
+    ]
+   ]
+  }
+ },
+ "tabelle": {
+  "contenuto": [
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "tesoro-guardiano",
+    "testo": "Trovato un tesoro. Con 4-6 su 1d6 è custodito da un mostro aberrante o boss (a tua scelta), che ha anche un proprio tesoro."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "tesoro-trappola",
+    "testo": "Tesoro protetto da una trappola."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "evento-o-vuoto",
+    "testo": "Corridoio: vuoto. Stanza: evento unico."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "vuota-speciale",
+    "testo": "Corridoio: vuoto. Stanza: caratteristica speciale."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "infestanti",
+    "testo": "Mostri infestanti."
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "azione": "seguaci",
+    "testo": "Mostri seguaci."
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "azione": "seguaci-o-vuoto",
+    "testo": "Corridoio: vuoto. Stanza: mostri seguaci."
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "azione": "vuota-o-evento",
+    "testo": "Con 1-4 su 1d6 la stanza è vuota; con 5-6 evento unico (già accaduti ripetibili); finiti gli eventi, un boss."
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "azione": "aberranti-o-vuoto",
+    "testo": "Corridoio: vuoto. Stanza: mostro aberrante (possibile boss finale)."
+   },
+   {
+    "da": 11,
+    "a": 11,
+    "azione": "boss-o-vuoto",
+    "testo": "Corridoio: vuoto. Stanza: mostro boss (possibile boss finale)."
+   },
+   {
+    "da": 12,
+    "a": 12,
+    "azione": "doppio-o-boss",
+    "testo": "Corridoio: vuoto. Stanza piccola: boss. Stanza grande (≥12 quadretti): un aberrante e un boss."
+   }
+  ],
+  "caratteristiche": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "offerte",
+    "nome": "Offerte agli dèi del caos",
+    "testo": "Un altare con doni di cibo e bevande. Ogni personaggio che mangia tira 1d6: 1 «Toccato dal caos»; 2-4 niente; 5-6 guarisce 1d3 PV oppure +1 a tutti gli attacchi nel prossimo combattimento."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "cristalli",
+    "nome": "Cristalli del caos",
+    "testo": "1d6-1 (minimo 1) cristalli vivi. Chi ne raccoglie uno tira su «Toccato dal caos» e riceve 1 incantesimo del caos lanciabile una volta (anche dai barbari, non trascrivibile). Vendibili per 5d6 p.o. ciascuno, ma perdono i poteri fuori dal dungeon."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "orrore",
+    "nome": "Camera dell’orrore e del dolore",
+    "testo": "Camera di tortura: tutti ricevono 1 punto follia e salvano contro la paura (L7; chierici e maghi +1) o hanno -1 alle difese finché non ricevono una Benedizione o spezzano la maledizione con un risultato esplosivo contro un mostro del caos."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "catturato",
+    "nome": "Catturato dal caos",
+    "testo": "Prigione: un mostro della tabella Mostri boss base è tenuto schiavo. Puoi lasciarlo, ucciderlo (senza ES né tesori) o liberarlo: darà 1 indizio o rivelerà 1 pergamena con un incantesimo del caos."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "tomi",
+    "nome": "Tomi del caos",
+    "testo": "Biblioteca: studiando tira 1 volta per i mostri erranti; poi 1 indizio e 2 su 1d6 di trovare 1 pergamena con un incantesimo del caos; infine 1d6: con 1 follia +1 e, con un secondo 1d6 di 1-2, «Toccato dal caos»."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "puzzle",
+    "nome": "Stanza del puzzle",
+    "testo": "Una scatola puzzle: scegli un personaggio e tira contro L2d6 (maghi e furfanti +L). Ogni fallimento: 1 PV o 1 punto follia. Risolta: tira sulla tabella Tesori + Lx10 p.o."
+   }
+  ],
+  "eventi": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "verbo",
+    "nome": "Verbo del caos",
+    "testo": "Un libro sotto una pietra: chi lo legge guadagna 1d6 indizi, ma salva (livello = indizi + 2; chierici e maghi +½L) o riceve 1 punto follia e tira su «Toccato dal caos»."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "infezione",
+    "nome": "Infezione del caos",
+    "testo": "Un personaggio a caso salva contro l'infezione (L5) o tira su «Toccato dal caos»."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "sciame",
+    "nome": "Sciame di creature",
+    "testo": "Nuvola di insetti: una Palla di Fuoco la distrugge, altrimenti tutti perdono 1 PV."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "scale",
+    "nome": "Scale nascoste",
+    "testo": "Passaggio segreto ai piani di battaglia di un signore del caos, sorvegliato da 2 mostri aberranti. Sconfiggili: nessun tesoro, ma i piani valgono 3 indizi."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "aiuto",
+    "nome": "Aiuto dall’alto",
+    "testo": "Uno spirito dell'ordine: guarisci tutte le ferite di un personaggio non contaminato, oppure togli 1 punto follia, o cura 1 ferita di chiunque, oppure tira sugli Oggetti utili."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "risucchio",
+    "nome": "Risucchio di mana",
+    "testo": "Chi lancia incantesimi salva (L7; tutti +½L) o li perde (1 tiro per incantesimo). Oggetti e pergamene sono immuni; non si applica una seconda volta."
+   }
+  ],
+  "tesori": [
+   {
+    "da": -99,
+    "a": 0,
+    "azione": "oro",
+    "nome": "Monete",
+    "dadi": "1d6",
+    "testo": "1d6 pezzi d’oro"
+   },
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "scelta",
+    "nome": "Oro, arma o equipaggiamento",
+    "opzioni": [
+     {
+      "azione": "oro",
+      "dadi": "1d8x5",
+      "testo": "1d8x5 pezzi d’oro"
+     },
+     {
+      "azione": "arma",
+      "testo": "Un’arma non magica"
+     },
+     {
+      "azione": "equip",
+      "testo": "Un oggetto di equipaggiamento"
+     }
+    ]
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "scelta",
+    "nome": "Oro o oggetto utile",
+    "opzioni": [
+     {
+      "azione": "oro",
+      "dadi": "4d6x10",
+      "testo": "4d6x10 pezzi d’oro"
+     },
+     {
+      "azione": "utile",
+      "n": 1,
+      "testo": "Un oggetto utile a caso"
+     }
+    ]
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "pergamena-caos",
+    "nome": "Pergamena del caos",
+    "testo": "Una pergamena con un incantesimo del caos"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "gemma",
+    "nome": "Gemma",
+    "dadi": "4d6x30",
+    "testo": "Una gemma del valore di 4d6x30 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "scelta",
+    "nome": "Gioiello, oggetti utili o cristallo",
+    "opzioni": [
+     {
+      "azione": "gioiello",
+      "dadi": "4d6x15",
+      "testo": "Un gioiello da 4d6x15 p.o."
+     },
+     {
+      "azione": "utile",
+      "n": 2,
+      "testo": "2 oggetti utili a caso"
+     },
+     {
+      "azione": "cristallo",
+      "testo": "Un cristallo del caos"
+     }
+    ]
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "magico",
+    "nome": "Oggetto magico",
+    "testo": "Un oggetto magico a caso (tabella del caos)"
+   },
+   {
+    "da": 7,
+    "a": 99,
+    "azione": "scegli-riga",
+    "nome": "Scegli",
+    "testo": "Scegli un risultato della tabella"
+   }
+  ],
+  "tesoriMagici": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Braccialetto della furia di sangue",
+    "testo": "Quando i PV scendono a metà o meno: +1 follia, ma +1 ad attacco e difesa finché i PV non risalgono oltre la metà. Non si cumula. Vale 300 p.o."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Filtro della calma mentale",
+    "testo": "Toglie fino a 2 punti follia. Non utilizzabile in combattimento. Vale 50 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Il segno di Xichtul",
+    "testo": "Medaglione: 1 volta per avventura tira 1d8+L contro mostri minori del caos; se ottieni il LIV o più ti ignorano finché non li attacchi. Vendibile (solo da un furfante) per 200 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Invocazione dell’ordine",
+    "testo": "Pagina usabile come pergamena da chierici, guerrieri e maghi non contaminati dal caos: 3 PV a un mostro maggiore del caos, oppure morale obbligatorio (anche MOR NO) per mostri minori del caos. Monouso, vale 180 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Mazza della giustizia",
+    "testo": "Arma magica a una mano contundente: +1 contro le creature del caos e cura 1 PV quando uccide un mostro maggiore del caos. Vale 360 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Cappuccio del caos",
+    "testo": "Chi lo indossa tira subito su «Toccato dal caos»; 1 volta per avventura può lanciare Aura di Terrore oppure avere +3 a un attacco in mischia contro un maggiore. Ogni nuovo uso: «Toccato dal caos». Va tolto tornando alla civiltà. Non vendibile; corrompe una creatura del caos per 200 p.o."
+   }
+  ],
+  "oggettiUtili": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "scelta-equip",
+    "nome": "Arma o equipaggiamento",
+    "testo": "Arma a una mano (taglio o contundente), arco con 3d6 frecce, bende, corda, lanterna o sacchetto di sale (6 p.o.)"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "stelle",
+    "nome": "Stelle da lancio",
+    "dadi": "1d6",
+    "testo": "Stelle da lancio (1d6)"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "polvere",
+    "nome": "Polvere melmicida",
+    "dadi": "1d3",
+    "testo": "Polvere melmicida: 1 azione per scagliarla contro cubi gelatinosi, melme, muffe, funghi o fungoidi: 2 PV a un maggiore, oppure uccide 2 mostri minori. Non magica. 40 p.o. a dose."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Arma dorata",
+    "testo": "Spada o pugnale dorato: +2 contro creature di energia (elementali elettrici, del fulmine). Vale 50 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Triboli",
+    "testo": "Permettono di sottrarsi dal combattimento da una stanza senza porta, solo contro mostri minori non volanti. Vale 6 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Bomba",
+    "testo": "1 azione e una fonte di fuoco: attacca i minori con 2 tiri a +3 (1 tiro a +3 contro ogni maggiore), senza altri bonus. Tutti salvano contro l'esplosione (L5; nani +1) o -1 alla difesa per un turno. Non per barbari. Vale 40 p.o."
+   }
+  ],
+  "tesoroNascostoComplicazioni": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "errante",
+    "testo": "Si attiva un allarme che attira i mostri erranti nella stanza!"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "toccato",
+    "testo": "Il tesoro è contaminato dal caos: chi lo raccoglie tira su «Toccato dal caos»."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "trappola",
+    "testo": "Il tesoro è protetto da una trappola (tira 1d6 per il livello). Un furfante può disattivarla; altrimenti attacca un avventuriero a caso: 1d3 PV se fallisce il tiro salvezza."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "puzzle",
+    "testo": "Scatola puzzle: tiro contro L7 (maghi +L, furfanti +1); ogni fallimento 1 punto follia. Non si porta fuori dal dungeon."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "lite",
+    "testo": "2 membri a caso si azzuffano: ognuno salva contro il livello dell'altro o subisce 1 PV."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "vuoto",
+    "testo": "Il contenitore è un mostro del vuoto (ABERRANTE, LIV 5, ATT 1, PV 10, MOR ST, TES NO)."
+   }
+  ],
+  "trappole": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Lancia dardi avvelenati",
+    "livExpr": "1d8+3",
+    "liv": 7,
+    "caos": true,
+    "testo": "Dardo avvelenato su un personaggio a caso: se fallisce il tiro salvezza (Ld8+3; furfanti +L, mezzuomini +1) salva contro il veleno (L4; barbari +1) o è infettato dal caos: al primo 1 su un tiro di attacco, difesa o salvezza tira su «Toccato dal caos»."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Catene del caos",
+    "liv": 5,
+    "caos": true,
+    "testo": "Catene su un personaggio a caso: tiro salvezza (furfanti e mezzuomini +L, elfi e spadaccini +1) o 1 PV e 1 punto follia."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Fossa del mostro",
+    "liv": 6,
+    "caos": true,
+    "azione": "fossa",
+    "testo": "Botola su un personaggio a caso (salvezza L6; elfi e furfanti +L, mezzuomini tirano 2 volte, nani -1): cade nella fossa (1 PV) e un mostro aberrante lo attacca per primo e combatte fino alla morte. Tra i resti 3 su 1d6 di 6d6 p.o. e 1 pergamena base."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Mannaia gigante",
+    "livExpr": "1d3+3",
+    "liv": 4,
+    "testo": "Cade su un personaggio a caso: tiro salvezza (Ld3+3; furfanti +L, elfi, mezzuomini e spadaccini +1) o perde 2 PV."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Gas lacrimogeno",
+    "liv": 5,
+    "testo": "Tutti salvano contro il veleno (L5; barbari e nani +L) o perdono 1 PV; chi fallisce ha la vista sfocata (niente armi a distanza né pergamene) per 2 incontri o fino a Benedizione/guarigione."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Globo del caos",
+    "liv": 7,
+    "testo": "Palla chiodata: ognuno, nell'ordine di marcia, schiva (salvezza L7; furfanti +L, elfi e mezzuomini +½L) o para con lo scudo (difesa contro L8, +L per barbari, guerrieri e nani; lo scudo si distrugge e la palla si ferma). Se fallisce: 3 PV e la palla continua; poi rimbalza e ripassa in ordine inverso: tutti attaccati 2 volte o scudo che para."
+   }
+  ],
+  "toccatoDalCaos": [
+   {
+    "da": -99,
+    "a": 1,
+    "azione": "pv",
+    "testo": "Il tuo corpo respinge il caos a costo di narici e occhi sanguinanti e febbre alta: perdi 1 punto vita."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "pv-follia",
+    "testo": "Respingi la contaminazione, ma corpo e anima sono segnati: perdi 1 PV e ricevi 1 punto follia."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "pv-follia-rischio",
+    "testo": "Perdi 1 PV e ricevi 1 punto follia. Se muori o impazzisci per questo, rinasci subito come mostro del caos (tabella Mostri aberranti) che attacca il gruppo, senza poter essere resuscitato."
+   },
+   {
+    "da": 4,
+    "a": 99,
+    "azione": "trasformazione",
+    "testo": "Inizi a trasformarti in un mostro del caos: quando muori o impazzisci rinasci come aberrante del caos, senza resurrezione. Per fermare la trasformazione uccidi da solo un mostro maggiore e ricevi subito una Benedizione (senza uscire dal dungeon)."
+   }
+  ],
+  "errante": [
+   {
+    "da": 1,
+    "a": 1,
+    "tabella": "infestanti"
+   },
+   {
+    "da": 2,
+    "a": 3,
+    "tabella": "seguaci"
+   },
+   {
+    "da": 4,
+    "a": 5,
+    "tabella": "aberranti"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "tabella": "boss"
+   }
+  ],
+  "perquisire": [
+   {
+    "da": 1,
+    "a": 2,
+    "azione": "errante",
+    "testo": "Attacco di mostri erranti!"
+   },
+   {
+    "da": 3,
+    "a": 4,
+    "testo": "La perquisizione è infruttuosa."
+   },
+   {
+    "da": 5,
+    "a": 6,
+    "azione": "trova",
+    "testo": "Trovi un indizio, un tesoro nascosto o una porta segreta (a tua scelta)."
+   }
+  ],
+  "incantesimoCaso": [
+   "Bacio di Xichtul",
+   "Dono d’Oro",
+   "Missile del Caos",
+   "Occhio del Terrore",
+   "Scarica Oculare",
+   "Teletrasporto del Caos"
+  ],
+  "missioni": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "cuoco",
+    "nome": "Il cuoco",
+    "liv": 3,
+    "es": 4,
+    "testo": "Accompagna un mezzuomo cuoco (L2, senza armatura, arma leggera, 4d6 p.o. di equipaggiamento; membro aggiuntivo) fino alla 10ª stanza, dove incontri il signore del caos. Il cuoco ha l'effetto di Negoziatore (±1 al tiro di reazione, senza ottenere Combatte). Non guadagni ES dai mostri; 4 tiri ES se avveleni e uccidi il signore del caos.",
+    "obiettivo": "Cibo avvelenato consegnato e signore del caos ucciso"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "esplorazione",
+    "nome": "Esplorazione e fuga",
+    "liv": 3,
+    "es": 2,
+    "testo": "Mappa almeno 10 stanze/corridoi e riportale fuori dal dungeon: 2 tiri ES. Se il dungeon finisce prima, trovi una porta segreta. Tieni i tesori e fai i normali tiri ES per i mostri; non si tira il boss finale.",
+    "obiettivo": "Almeno 10 stanze mappate e gruppo uscito dal dungeon"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "salvataggio",
+    "nome": "Salvataggio",
+    "liv": 3,
+    "es": 0,
+    "testo": "Salva 1d3+3 giovani rapiti: ne trovi uno ogni 3 stanze (nella 3ª, 6ª e 9ª) e gli altri nell'ultima. Servono 1 azione per liberarli; massimo 2 prigionieri al seguito (3 con solo 2 membri, 4 con uno). Hanno 2 PV e attaccano a -2 se disarmati. 1 tiro ES per ogni giovane portato fuori vivo; niente ES dai mostri minori.",
+    "obiettivo": "Giovani portati fuori vivi"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "arazzo",
+    "nome": "L’arazzo rubato",
+    "liv": 4,
+    "es": 3,
+    "testo": "Serve un elfo (del manuale base) con una pergamena di Fulmine Magico o Sonno. Raccogli 4 indizi: spendendoli trovi l'arazzo nella stanza successiva, sorvegliato da un aberrante (1-3) o un boss (4-6) del caos. 3 tiri ES (almeno uno sull'elfo) e 200 p.o. alla consegna. Chi porta l'arazzo non usa armi a due mani o archi e difende a -1.",
+    "obiettivo": "Arazzo recuperato",
+    "indiziNecessari": 4
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "signore",
+    "nome": "Elimina il signore del caos",
+    "liv": 4,
+    "es": 0,
+    "testo": "Uccidi il boss finale di un dungeon casuale: è automaticamente il Signore del caos e della distruzione (LIV 8, ATT 3, PV 8, TES +1, 2 PV per colpo). Con gruppo di livello 4 o meno ricevi 2 pergamene di Fulmine Magico e un amuleto curativo (4 PV in totale).",
+    "obiettivo": "Signore del caos e della distruzione ucciso",
+    "bossFinale": "signoreDistruzione"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "ascia",
+    "nome": "L’ascia di Nydann",
+    "liv": 5,
+    "es": 1,
+    "testo": "Puoi perquisire anche stanze ripulite dai nemici. Con 3 indizi spesi trovi, nella stanza successiva, un carnefice del caos come boss finale con l'ascia di Nydann (+1 per un nano). Restituendola ai nani ogni sopravvissuto riceve una gemma da 100+2d6 p.o. e il gruppo 1 tiro ES in più.",
+    "obiettivo": "Carnefice ucciso e ascia riportata ai nani",
+    "bossFinale": "carnefice",
+    "indiziNecessari": 3
+   }
+  ],
+  "segretiCaos": [
+   {
+    "nome": "Amuleto d’allarme",
+    "testo": "Se indossato da chi guida l'ordine di marcia, riduce di 1 la probabilità di essere sorpresi dalle creature del caos."
+   },
+   {
+    "nome": "Distruttrice di caos",
+    "testo": "Arma magica (una o due mani) di un paladino: in mano a un personaggio incontaminato colpisce i mostri del caos a +1 e aggiunge +2 a ogni risultato esplosivo. Permanente; una sola volta per campagna."
+   },
+   {
+    "nome": "Passaggio segreto al sancta sanctorum",
+    "testo": "Chi attraversa salva contro l'infezione del caos (L5) o tira su «Toccato dal caos»; in ogni caso ottiene 1d6 pergamene di incantesimi del caos."
+   },
+   {
+    "nome": "Rituale di purificazione",
+    "testo": "Pergamena officiabile da chierici e maghi fuori dal combattimento: cura 1 punto follia o rimuove un effetto di «Toccato dal caos». Monouso; 3 indizi per trovarne un'altra."
+   }
+  ]
+ },
+ "incantesimiBase": [
+  "Benedizione",
+  "Comunicazione a Distanza",
+  "Distruggi Aberranti",
+  "Fuga",
+  "Fulmine Magico",
+  "Illusione",
+  "Muro di Ghiaccio",
+  "Ondata di Forza",
+  "Palla di Fuoco",
+  "Ponte Illusorio",
+  "Protezione",
+  "Sonno"
+ ],
+ "grandi": [
+  "23",
+  "25",
+  "34",
+  "35",
+  "36",
+  "41",
+  "44",
+  "52",
+  "56",
+  "61",
+  "66"
+ ],
+ "abilita": [
+  {
+   "id": "alchimia-delle-spore",
+   "nome": "Alchimia delle spore",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "attacco-penetrante",
+   "nome": "Attacco penetrante",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "combattente-acrobatico",
+   "nome": "Combattente acrobatico",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "doppio-attacco",
+   "nome": "Doppio attacco",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "elfo-fuoco"
+   ],
+   "testo": "Arlecchino con una sola arma: 2 attacchi invece di 1.",
+   "auto": true
+  },
+  {
+   "id": "intuizione",
+   "nome": "Intuizione",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "investigatore",
+   "nome": "Investigatore",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "lanciatore-di-coltelli",
+   "nome": "Lanciatore di coltelli",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "tiratore"
+   ],
+   "testo": "Specializzandosi nella stella da lancio se ne lanciano 2 con una sola azione.",
+   "auto": true
+  },
+  {
+   "id": "lesto-di-piedi",
+   "nome": "Lesto di piedi",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "negoziatore",
+   "nome": "Negoziatore",
+   "classi": [
+    "arlecchino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "nemico-giurato",
+   "nome": "Nemico giurato",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "preparare-veleno",
+   "nome": "Preparare veleno",
+   "classi": [
+    "arlecchino",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "scova-i-punti-deboli",
+   "nome": "Scova i punti deboli",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "sesto-senso",
+   "nome": "Sesto senso",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "sputafuoco",
+   "nome": "Sputafuoco",
+   "classi": [
+    "arlecchino",
+    "furfante",
+    "mezzuomo"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "udito-formidabile",
+   "nome": "Udito formidabile",
+   "classi": [
+    "arlecchino",
+    "veterano",
+    "assassino",
+    "elfo-fuoco",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "usare-bombe",
+   "nome": "Usare bombe",
+   "classi": [
+    "arlecchino",
+    "assassino",
+    "nano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "attacco-specializzato",
+   "nome": "Attacco specializzato",
+   "classi": [
+    "assassino"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "cacciatore-di-vampiri",
+   "nome": "Cacciatore di vampiri",
+   "classi": [
+    "assassino",
+    "veterano",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "colpo-mortale",
+   "nome": "Colpo mortale",
+   "classi": [
+    "assassino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "sopportare-il-dolore",
+   "nome": "Sopportare il dolore",
+   "classi": [
+    "assassino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "vortice-di-lame",
+   "nome": "Vortice di lame",
+   "classi": [
+    "assassino",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "ammazzaorchi",
+   "nome": "Ammazzaorchi",
+   "classi": [
+    "tiratore",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "leader-carismatico",
+   "nome": "Leader carismatico",
+   "classi": [
+    "tiratore",
+    "veterano"
+   ],
+   "testo": "I compagni hanno +1 ai salvezza contro paura e terrore (automatico).",
+   "auto": true
+  },
+  {
+   "id": "recuperare-munizioni",
+   "nome": "Recuperare munizioni",
+   "classi": [
+    "mezzuomo",
+    "tiratore"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "tiro-preciso",
+   "nome": "Tiro preciso",
+   "classi": [
+    "tiratore",
+    "veterano"
+   ],
+   "testo": "Descritta in «Contro l’Abisso» (non incluso): applicala a mano.",
+   "auto": false
+  },
+  {
+   "id": "assistenza",
+   "nome": "Assistenza",
+   "classi": [
+    "veterano"
+   ],
+   "testo": "Una volta per incontro presta a un compagno (nella stessa stanza) una capacità di classe di un terzo personaggio, che per quell’incontro non può usarla. Pulsante «Assistenza» nell’incontro.",
+   "auto": true
+  },
+  {
+   "id": "concentrazione-mentale",
+   "nome": "Concentrazione mentale",
+   "classi": [
+    "veterano"
+   ],
+   "testo": "Aggiunge il livello ai tiri salvezza relativi a magia e volontà (automatico).",
+   "auto": true
+  }
+ ]
+}

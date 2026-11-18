@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Four Against Darkness – Tavolo da gioco</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#14100c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="4AD Companion">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="icone/icona-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icone/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three/three.module.min.js",
+      "cannon-es": "./vendor/cannon-es/cannon-es.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header id="top">
+    <div class="brand"><span class="logo">&#9876;</span><div><b>Four Against Darkness</b><small>Tavolo da gioco in solitario <span id="ver" title="Versione del programma"></span></small></div></div>
+    <div class="camp">
+      <label title="Leggera: niente dadi 3D, ombre né animazione a matita (per computer datati)">Qualità <select id="qualita"><option value="alta">Alta</option><option value="leggera">Leggera</option></select></label>
+      <label>Campagna <select id="campSel"></select></label>
+      <button id="coopBtn" title="Gioca con altri giocatori online">Cooperativa</button>
+      <button id="impostazioni" title="Aspetto dei dadi e altre opzioni">Impostazioni</button>
+      <button id="campNew">Nuova</button>
+      <button id="campDel" class="danger" title="Elimina la campagna selezionata">Elimina</button>
+    </div>
+  </header>
+
+  <main id="layout">
+    <aside id="left"><div id="partyBox"></div></aside>
+
+    <section id="stageWrap">
+      <div id="mapView"></div>
+      <div id="diceLayer"></div>
+      <div id="stageTop">
+        <div class="seg">
+          <button data-view="fit" title="Mostra tutto il foglio (doppio clic sul foglio)">Adatta</button><button data-view="out" title="Rimpicciolisci">&minus;</button><button data-view="in" title="Ingrandisci">+</button>
+        </div>
+        <div class="seg"><button id="esporta" title="Salva la mappa del dungeon come PNG o PDF">Esporta mappa</button><button id="esportaSchede" title="Salva le schede dei personaggi in stile fantasy (PDF o PNG) da stampare">Esporta schede</button></div>
+        <div id="tileTools" class="seg hidden"></div>
+      </div>
+      <div id="diceBar">
+        <button data-d="1d6">1d6</button><button data-d="2d6">2d6</button><button data-d="d66">d66</button><button data-d="3d6">3d6</button>
+        <input id="diceExpr" type="text" placeholder="es. 2d6+1" size="9">
+        <button id="diceGo" class="primary">Tira</button>
+        <label class="chk"><input id="dicePhys" type="checkbox" checked> dadi 3D</label>
+      </div>
+      <div id="rollLog"></div>
+      <div id="loading">Carico il tavolo&hellip;</div>
+    </section>
+
+    <aside id="right">
+      <nav id="tabs">
+        <button data-tab="dungeon" class="on">Dungeon</button>
+        <button data-tab="incontro">Incontro</button>
+        <button data-tab="strumenti">Strumenti</button>
+        <button data-tab="registro">Registro</button>
+      </nav>
+      <div id="panel"></div>
+    </aside>
+  </main>
+  <footer id="banner">
+    <span class="bn-txt">&#128214; Ti piace <b>Four Against Darkness</b>? Questo companion non sostituisce i manuali: sostieni l&rsquo;autore e compra i libri di <b>Andrea Sfiligoi</b>!</span>
+    <a class="bn-btn" href="https://www.amazon.it/stores/Andrea-Sfiligoi/author/B007NAALH2?ref=ap_rdr&amp;shoppingPortalEnabled=true&amp;tag=corsofotograf-21" target="_blank" rel="noopener sponsored">Acquista i manuali su Amazon</a>
+  </footer>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,2444 @@
+{
+ "_nota": "Supplemento «Acque Oscure e Altre Avventure» (MS Edizioni), livelli 1-4: set acquatico pp. 24-31, classe Spadaccino p. 5, FAQ pp. 62-72. Pagine 8, 11, 15, 16, 20, 39, 42, 47, 50 solo illustrazioni. Convenzioni (come abisso.json): mor/tes 0 = ST, 'NO' = assente, 'x2' doppio, tesMolt = numero di tiri tesoro; reazioni [da, a, tipo, parametro?, 'totale'?]; att = numero di attacchi (1 se non indicato), danno = PV per colpo. Campi nuovi: salvezza[], aggancio, intrappola, frenesia, iniziativa, comeInStanza, contraccolpo, contundenteMod, modAttaccoContro, immuneVeleno, immuneMalattie, attDivisiEquamente, attDadiOgniTurno, attaccoCrescente, incantesimiMostro, tentacoli, tiriES, tesoroExtra, indebolitoSe, bonusPrimoTurno, e nelle trappole prova/portaDiMezzo/liberazione. Riusati: attDadi, paralisi (con sotto-campi nuovi durataTurni/quando/bersaglio/bonus), paura, premioMorte, immuneIncantesimi, frecceMod, maiErrante, danno, tesMolt. id con prefisso q-. Le avventure scritte (covo dei corsari, I Tre Anelli) non sono trascritte: solo l'elenco in 'avventure'.",
+ "livelli": {
+  "min": 1,
+  "max": 4,
+  "sottotitolo": "Acque Oscure (livelli 1-2) e I Tre Anelli (livelli 3-4)",
+  "acqueOscure": {
+   "min": 1,
+   "max": 2,
+   "pagine": "2-31",
+   "regolaLivello3": "q-livello-3"
+  },
+  "treAnelli": {
+   "min": 3,
+   "max": 4,
+   "pagine": "32-61",
+   "regolaLivelloBasso": "q-anelli-livello-basso"
+  }
+ },
+ "set": {
+  "id": "acquatico",
+  "nome": "Dungeon acquatico",
+  "pagine": "18, 24-31",
+  "capitolo": "Acque Oscure, capitolo 2",
+  "sostituisce": {
+   "caratteristiche": "Caratteristiche speciali",
+   "eventi": "Eventi speciali",
+   "trappole": "Trappole",
+   "tesoriMagici": "Tesori magici",
+   "infestanti": "Mostri infestanti",
+   "seguaci": "Mostri seguaci",
+   "aberranti": "Mostri aberranti",
+   "boss": "Mostri boss"
+  },
+  "ambiente": "acquatico",
+  "bossFinale": {
+   "creatura": "q-avatar-di-tezany",
+   "cerchio": "q-adepti-demoni-abissali"
+  }
+ },
+ "dadi": {
+  "caratteristiche": "1d6",
+  "eventi": "1d6",
+  "trappole": "1d6",
+  "tesoriMagici": "1d6",
+  "infestanti": "1d6",
+  "seguaci": "1d6",
+  "aberranti": "1d6",
+  "boss": "1d6",
+  "mercante": "1d6"
+ },
+ "indiceTabelle": [
+  {
+   "chiave": "caratteristiche",
+   "nome": "Caratteristiche speciali acquatiche",
+   "dado": "d6",
+   "pagina": 24,
+   "dove": "tabelle.caratteristiche",
+   "sostituisce": "Caratteristiche speciali (base p.78)"
+  },
+  {
+   "chiave": "eventi",
+   "nome": "Eventi speciali acquatici",
+   "dado": "d6",
+   "pagina": 25,
+   "dove": "tabelle.eventi",
+   "sostituisce": "Eventi speciali (base p.79)"
+  },
+  {
+   "chiave": "trappole",
+   "nome": "Trappole acquatiche",
+   "dado": "d6",
+   "pagina": 26,
+   "dove": "tabelle.trappole",
+   "sostituisce": "Trappole (base p.80)"
+  },
+  {
+   "chiave": "tesoriMagici",
+   "nome": "Tesori magici acquatici",
+   "dado": "d6",
+   "pagina": 27,
+   "dove": "tabelle.tesoriMagici",
+   "sostituisce": "Tesori magici (base p.81)"
+  },
+  {
+   "chiave": "infestanti",
+   "nome": "Mostri infestanti acquatici",
+   "dado": "d6",
+   "pagina": 28,
+   "dove": "mostri.infestanti",
+   "sostituisce": "Mostri infestanti (base p.82)"
+  },
+  {
+   "chiave": "seguaci",
+   "nome": "Mostri seguaci acquatici",
+   "dado": "d6",
+   "pagina": 29,
+   "dove": "mostri.seguaci",
+   "sostituisce": "Mostri seguaci (base p.83)"
+  },
+  {
+   "chiave": "aberranti",
+   "nome": "Mostri aberranti acquatici",
+   "dado": "d6",
+   "pagina": 30,
+   "dove": "mostri.aberranti",
+   "sostituisce": "Mostri aberranti (base p.84)"
+  },
+  {
+   "chiave": "boss",
+   "nome": "Mostri boss acquatici",
+   "dado": "d6",
+   "pagina": 31,
+   "dove": "mostri.boss",
+   "sostituisce": "Mostri boss (base p.85)"
+  },
+  {
+   "chiave": "mercante",
+   "nome": "Mercante (I Tre Anelli)",
+   "dado": "d6",
+   "pagina": 59,
+   "dove": "tabelle.mercante",
+   "ambito": "avventura i-tre-anelli, riusabile per la vendita di gemme"
+  }
+ ],
+ "classi": {
+  "spadaccino": {
+   "nome": "Spadaccino",
+   "vitaBase": 5,
+   "vitaExpr": "4+livello",
+   "oro": "2d6",
+   "armature": [],
+   "scudo": false,
+   "armi": "tutte",
+   "armiEscluse": [
+    "due-mani",
+    "arco"
+   ],
+   "suppl": true,
+   "equip": [
+    "Arma a una mano",
+    "Arma leggera",
+    "Cappello da cavaliere piumato o tricorno",
+    "Cappa"
+   ],
+   "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco e di difesa. Con arma a una mano come principale e arma leggera come secondaria fa 2 tiri di attacco, uno per arma. Guadagna 1 punto maestria per ogni mostro ucciso, fino a un massimo pari al livello; ogni punto dà +1 al prossimo tiro di attacco o di difesa (al massimo 1 punto per tiro). Salva come il furfante.",
+   "attaccoMezzoLivello": true,
+   "difesaMezzoLivello": true,
+   "doppioAttacco": {
+    "principale": "una-mano",
+    "secondaria": "leggera",
+    "attacchi": 2
+   },
+   "maestria": {
+    "max": "livello",
+    "guadagno": {
+     "perMostroUcciso": 1
+    },
+    "aTetto": "se i punti sono già pari al livello, un'uccisione non ne aggiunge",
+    "spesa": {
+     "punti": 1,
+     "effetto": "+1 al prossimo tiro di attacco o di difesa",
+     "maxPerTiro": 1
+    }
+   },
+   "tiriSalvezza": "furfante",
+   "pagina": 5
+  }
+ },
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "q-anguille-elettriche",
+    "nome": "Anguille elettriche",
+    "conta": "1d6+3",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Scarica elettrica: tiro salvezza (L3, armatura pesante -2) o si perde 1 PV. Il testo non dice quando né chi lo tira.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "salvezza": [
+     {
+      "quando": null,
+      "bersaglio": null,
+      "tipo": "elettricita",
+      "liv": 3,
+      "bonus": {
+       "armaturaPesante": -2
+      },
+      "fallimento": {
+       "pv": 1
+      }
+     }
+    ]
+   },
+   {
+    "id": "q-meduse-urticanti",
+    "nome": "Meduse urticanti",
+    "conta": "1d6+2",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Veleno urticante: tiro salvezza (L3, mezzuomini +1) o si perde 1 PV. Il testo non dice quando né chi lo tira.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "salvezza": [
+     {
+      "quando": null,
+      "bersaglio": null,
+      "tipo": "veleno",
+      "liv": 3,
+      "bonus": {
+       "mezzuomo": 1
+      },
+      "fallimento": {
+       "pv": 1
+      }
+     }
+    ]
+   },
+   {
+    "id": "q-granchi-giganti",
+    "nome": "Granchi giganti",
+    "conta": "1d6",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Un granchio che colpisce si aggancia al personaggio: -1 alle difese di quel personaggio contro quel granchio.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge-inf"
+     ],
+     [
+      2,
+      3,
+      "combatte"
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ],
+    "aggancio": {
+     "su": "colpo-a-segno",
+     "modDifesaContro": -1,
+     "soloControQuelMostro": true
+    }
+   },
+   {
+    "id": "q-piovre-giganti",
+    "nome": "Piovre giganti",
+    "conta": "1d3",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "All'inizio del combattimento tutti salvano contro i tentacoli (L4) o restano avviluppati: -1 ad attacco e difesa.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ],
+    "salvezza": [
+     {
+      "quando": "inizio-combattimento",
+      "bersaglio": "tutti",
+      "tipo": "tentacoli",
+      "liv": 4,
+      "bonus": {},
+      "fallimento": {
+       "stato": "avviluppato",
+       "modAttacco": -1,
+       "modDifesa": -1
+      }
+     }
+    ]
+   },
+   {
+    "id": "q-pesci-carnivori",
+    "nome": "Pesci carnivori",
+    "conta": "3d6",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 1,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Sciamano intorno al personaggio: in corridoio il combattimento si risolve come in una stanza.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      6,
+      "combatte"
+     ]
+    ],
+    "comeInStanza": true
+   },
+   {
+    "id": "q-spiritelli-di-mare",
+    "nome": "Spiritelli di mare",
+    "conta": "1d6+1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "note": "Minuscoli e fastidiosi: tutti gli attacchi contro di loro hanno -1.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "fugge-inf"
+     ],
+     [
+      4,
+      4,
+      "corruzione",
+      5
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "modAttaccoContro": -1
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "q-demoni-abissali",
+    "nome": "Demoni abissali",
+    "conta": "1d6+3",
+    "tag": [
+     "demone",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Armati di tridenti e reti: chi fa 1 naturale in difesa resta impigliato, non agisce e fallisce in automatico le difese; si libera con un tiro salvezza (L3) a ogni turno.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge-inf"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      10
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "intrappola": {
+     "su": "1-naturale-difesa",
+     "stato": "intrappolato",
+     "nonAgisce": true,
+     "difeseFalliteInAutomatico": true,
+     "liberazione": {
+      "tipo": "salvezza",
+      "liv": 3,
+      "ogni": "turno"
+     }
+    }
+   },
+   {
+    "id": "q-uomini-pesce",
+    "nome": "Uomini pesce",
+    "conta": "2d6",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      4,
+      "corruzione",
+      5
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ]
+   },
+   {
+    "id": "q-sirene",
+    "nome": "Sirene",
+    "conta": "1d3",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "All'inizio del combattimento tutti salvano contro il fascino magico (L3; maghi +L, chierici +1): l'affascinato non agisce e fallisce in automatico le difese, finché una guarigione o una Benedizione non rimuove l'effetto.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      20
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "salvezza": [
+     {
+      "quando": "inizio-combattimento",
+      "bersaglio": "tutti",
+      "tipo": "fascino-magico",
+      "liv": 3,
+      "bonus": {
+       "mago": "L",
+       "chierico": 1
+      },
+      "fallimento": {
+       "stato": "affascinato",
+       "nonAgisce": true,
+       "difeseFalliteInAutomatico": true,
+       "rimozione": [
+        "Guarigione",
+        "Benedizione"
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "q-squali-di-barriera",
+    "nome": "Squali di barriera",
+    "conta": "1d3",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Frenesia: quando un personaggio perde 1 PV tira subito un secondo tiro di difesa per vedere se ne perde 1 in più.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ],
+    "frenesia": {
+     "su": "pv-perso",
+     "secondoTiroDifesa": true,
+     "pvExtra": 1
+    }
+   },
+   {
+    "id": "q-barracuda",
+    "nome": "Barracuda",
+    "conta": "2d6",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "All'inizio del combattimento 1d6: con 5-6 agiscono prima del gruppo.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "iniziativa": {
+     "dado": "1d6",
+     "agisconoPrimaSe": [
+      5,
+      6
+     ],
+     "quando": "inizio-combattimento"
+    }
+   },
+   {
+    "id": "q-zombi-annegati",
+    "nome": "Zombi annegati",
+    "conta": "2d6",
+    "tag": [
+     "non-morto",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "note": "Non-morti, mai morale. Le frecce li colpiscono a -1.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "frecceMod": -1
+   }
+  ],
+  "aberranti": [
+   {
+    "id": "q-golem-di-corallo",
+    "nome": "Golem di corallo",
+    "conta": "1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 5,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Immune a Sonno, veleno e malattie. Corallo tagliente: chi fa 1 naturale su un tiro di attacco perde 1 PV.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "immuneMalattie": true,
+    "contraccolpo": {
+     "quando": "1-naturale-attacco",
+     "fallimento": {
+      "pv": 1
+     }
+    }
+   },
+   {
+    "id": "q-melma-abissale",
+    "nome": "Melma abissale",
+    "conta": "1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Immune a Sonno, veleno e malattie. Le armi contundenti la colpiscono a -2. Tesoro normale per 2 tiri.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "tesMolt": 2,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "immuneMalattie": true,
+    "contundenteMod": -2
+   },
+   {
+    "id": "q-leone-marino",
+    "nome": "Leone marino",
+    "conta": "1",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 3,
+    "pv": 4,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ]
+   },
+   {
+    "id": "q-cecaelia",
+    "nome": "Cecaelia",
+    "conta": "1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 3,
+    "pv": 4,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "A inizio di ogni suo turno tira 1d6+2 per il numero di attacchi coi tentacoli, divisi il più equamente possibile tra i personaggi (ATT 3 = minimo del tiro).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      60,
+      "totale"
+     ],
+     [
+      2,
+      2,
+      "missione"
+     ],
+     [
+      3,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "attDadi": "1d6+2",
+    "attDivisiEquamente": true,
+    "attDadiOgniTurno": true
+   },
+   {
+    "id": "q-dragone-tartaruga",
+    "nome": "Dragone tartaruga",
+    "conta": "1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni morso infligge 2 ferite.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      6,
+      "combatte"
+     ]
+    ],
+    "danno": 2
+   },
+   {
+    "id": "q-idra-di-mare",
+    "nome": "Idra di mare",
+    "conta": "1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 5,
+    "att": 2,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni volta che subisce 1 ferita guadagna 1 attacco in più. Tesoro normale per 2 tiri.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "tesMolt": 2,
+    "attaccoCrescente": {
+     "su": "ferita-subita",
+     "incremento": 1
+    }
+   }
+  ],
+  "boss": [
+   {
+    "id": "q-megera-marina",
+    "nome": "Megera marina",
+    "conta": "1",
+    "tag": [
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 2,
+    "pv": 4,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Prima del combattimento tutti salvano contro la magia (L5, maghi +L) o restano paralizzati per 2 turni.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      100,
+      "totale"
+     ],
+     [
+      2,
+      2,
+      "missione"
+     ],
+     [
+      3,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "paralisi": {
+     "liv": 5,
+     "tipo": "magia",
+     "bonus": {
+      "mago": "L"
+     },
+     "durataTurni": 2,
+     "quando": "prima-combattimento",
+     "bersaglio": "tutti"
+    }
+   },
+   {
+    "id": "q-serpente-marino",
+    "nome": "Serpente marino",
+    "conta": "1",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni colpo infligge 2 ferite. Le armi contundenti attaccano a -1.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "danno": 2,
+    "contundenteMod": -1
+   },
+   {
+    "id": "q-signore-demoni-abissali",
+    "nome": "Signore dei demoni abissali",
+    "conta": "1",
+    "tag": [
+     "demone",
+     "acquatico"
+    ],
+    "liv": 6,
+    "att": 3,
+    "pv": 4,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "A ogni suo turno un personaggio a caso salva contro la magia (L5, maghi +L) o resta paralizzato per 2 turni. Quando muore, un personaggio a scelta ottiene 1 indizio.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "corruzione",
+      60,
+      "totale"
+     ],
+     [
+      2,
+      4,
+      "combatte"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ],
+    "paralisi": {
+     "liv": 5,
+     "tipo": "magia",
+     "bonus": {
+      "mago": "L"
+     },
+     "durataTurni": 2,
+     "quando": "ogni-turno",
+     "bersaglio": "uno-a-caso"
+    },
+    "premioMorte": {
+     "indizi": 1,
+     "aUnPersonaggioAScelta": true
+    }
+   },
+   {
+    "id": "q-demone-abissale-stregone",
+    "nome": "Demone abissale stregone",
+    "conta": "1",
+    "tag": [
+     "demone",
+     "acquatico"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 4,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "A inizio di ogni suo turno, prima di attaccare, tira 1d6 per l'incantesimo (maghi +L ai tiri salvezza). Tesoro normale per 2 tiri. Quando muore, un personaggio a scelta ottiene 1 indizio.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      2,
+      "corruzione",
+      60,
+      "totale"
+     ],
+     [
+      3,
+      3,
+      "missione"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "tesMolt": 2,
+    "incantesimiMostro": {
+     "dado": "1d6",
+     "quando": "inizio-turno-prima-di-attaccare",
+     "tabella": [
+      {
+       "da": 1,
+       "a": 3,
+       "nome": "Raggio congelante",
+       "bersaglio": "tutti",
+       "salvezza": {
+        "tipo": "magia",
+        "liv": 4,
+        "bonus": {
+         "mago": "L"
+        }
+       },
+       "fallimento": {
+        "modAttacco": -1,
+        "modDifesa": -1,
+        "durata": "finché lo stregone non muore"
+       }
+      },
+      {
+       "da": 4,
+       "a": 5,
+       "nome": "Dardo di ghiaccio",
+       "bersaglio": "uno-a-caso",
+       "salvezza": {
+        "tipo": "magia",
+        "liv": 5,
+        "bonus": {
+         "mago": "L"
+        }
+       },
+       "fallimento": {
+        "pv": 1
+       }
+      },
+      {
+       "da": 6,
+       "a": 6,
+       "nome": "Fiamma gelida",
+       "bersaglio": "uno-a-caso",
+       "salvezza": {
+        "tipo": "magia",
+        "liv": 6,
+        "bonus": {
+         "mago": "L"
+        }
+       },
+       "fallimento": {
+        "pv": 2
+       }
+      }
+     ]
+    },
+    "premioMorte": {
+     "indizi": 1,
+     "aUnPersonaggioAScelta": true
+    }
+   },
+   {
+    "id": "q-grande-squalo",
+    "nome": "Grande squalo",
+    "conta": "1",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 5,
+    "att": 3,
+    "pv": 6,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Frenesia: quando un personaggio perde 1 PV tira subito un secondo tiro di difesa per vedere se ne perde 1 in più.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "frenesia": {
+     "su": "pv-perso",
+     "secondoTiroDifesa": true,
+     "pvExtra": 1
+    }
+   },
+   {
+    "id": "q-kraken",
+    "nome": "Kraken",
+    "conta": "1",
+    "tag": [
+     "animale",
+     "acquatico"
+    ],
+    "liv": 6,
+    "att": 2,
+    "pv": 5,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "A ogni suo turno 1d6: con 1 i tentacoli spazzano l'area e fanno 1 ferita a chi fallisce il tiro salvezza (L6, furfanti +L); altrimenti attacca 2 personaggi a caso. Tesoro +1 per 2 tiri. Non può mai essere un mostro errante.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "tesMolt": 2,
+    "maiErrante": true,
+    "tentacoli": {
+     "dado": "1d6",
+     "scattaCon": [
+      1
+     ],
+     "quando": "ogni-turno",
+     "bersaglio": "tutti",
+     "salvezza": {
+      "tipo": "tentacoli",
+      "liv": 6,
+      "bonus": {
+       "furfante": "L"
+      }
+     },
+     "fallimento": {
+      "pv": 1
+     },
+     "altrimenti": "attacca 2 personaggi scelti a caso"
+    }
+   }
+  ]
+ },
+ "creatureExtra": [
+  {
+   "id": "q-adepti-demoni-abissali",
+   "nome": "Demoni abissali adepti (cerchio di evocazione)",
+   "conta": "8",
+   "tag": [
+    "demone",
+    "acquatico"
+   ],
+   "liv": 4,
+   "att": 1,
+   "pv": 1,
+   "mor": null,
+   "tes": null,
+   "xp": true,
+   "note": "Otto seguaci di LIV 4 immersi nel rituale attorno alla statua d'oro. Vanno uccisi tutti nel primo turno, altrimenti l'Avatar compare al massimo della forza. Con un furfante in prima fila nell'ordine di marcia, +1 agli attacchi del primo turno. TES e MOR non sono dati dal testo.",
+   "reazioni": [],
+   "categoria": "seguaci",
+   "dove": "Capitolo 2 - Il cerchio di evocazione",
+   "pagina": 30,
+   "bonusPrimoTurno": {
+    "condizione": "furfante in prima fila",
+    "modAttacco": 1
+   }
+  },
+  {
+   "id": "q-avatar-di-tezany",
+   "nome": "Avatar di Tezany, il Dio Squalo",
+   "conta": "1",
+   "tag": [
+    "demone",
+    "acquatico"
+   ],
+   "liv": 6,
+   "att": 4,
+   "pv": 10,
+   "mor": 0,
+   "tes": 2,
+   "xp": true,
+   "note": "Boss del capitolo 2, TES +2 per 3 tiri oltre alla statua d'oro. Tutti salvano contro il terrore (L4) o hanno -1 a tutte le difese fino a fine combattimento. Se gli adepti sono tutti uccisi nel primo turno compare indebolito: -1 LIV, -1 PV, -1 ATT. Da morto vale 2 tiri ES.",
+   "reazioni": [
+    [
+     1,
+     6,
+     "morte"
+    ]
+   ],
+   "tesMolt": 3,
+   "categoria": "boss",
+   "dove": "Capitolo 2 - Il cerchio di evocazione",
+   "pagina": 30,
+   "tesoroExtra": "statua d'oro di Tezany",
+   "tiriES": 2,
+   "paura": {
+    "tsLiv": 4,
+    "modDifesa": -1,
+    "durata": "fine-combattimento",
+    "bersaglio": "tutti"
+   },
+   "indebolitoSe": {
+    "condizione": "tutti gli adepti uccisi nel primo turno",
+    "liv": -1,
+    "pv": -1,
+    "att": -1
+   },
+   "bossFinaleStatisticheInclusa": null
+  }
+ ],
+ "tabelle": {
+  "caratteristiche": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Barriera corallina incantata",
+    "azione": "bonus-difesa",
+    "bersaglio": "un-pg-a-scelta",
+    "modDifesa": 1,
+    "durata": "prossimo-scontro",
+    "testo": "Un PG a scelta ha +1 in difesa nel prossimo scontro; poi il bonus svanisce."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Letto di ostriche",
+    "azione": "ostriche",
+    "facoltativo": true,
+    "dado": "1d6",
+    "esiti": [
+     {
+      "da": 1,
+      "a": 3,
+      "azione": "spruzzo-velenoso",
+      "bersaglio": "tutti",
+      "salvezza": {
+       "tipo": "veleno",
+       "liv": 3,
+       "bonus": {
+        "mezzuomo": 1
+       }
+      },
+      "fallimento": {
+       "pv": 1
+      }
+     },
+     {
+      "da": 4,
+      "a": 6,
+      "azione": "perle",
+      "oro": "3d6x10"
+     }
+    ],
+    "testo": "Si può ignorare o esaminare: con 1-3 spruzzo velenoso (TS veleno L3, mezzuomini +1, o 1 PV a tutti), con 4-6 perle per 3d6x10 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Armeria",
+    "azione": "armeria",
+    "testo": "Tutti possono cambiare o sostituire le armi, entro i limiti della propria classe."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Ondata guaritrice",
+    "azione": "cura",
+    "bersaglio": "tutti-i-feriti",
+    "pv": 1,
+    "unaVolta": true,
+    "testo": "Tutti i feriti recuperano 1 PV. I successivi incontri con l'ondata non hanno effetto."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Acque oscure",
+    "azione": "maledizione",
+    "bersaglio": "un-pg-a-caso",
+    "modAttacco": -1,
+    "rimozione": [
+     "ondata guaritrice (risultato 4)",
+     "Guarigione",
+     "Benedizione"
+    ],
+    "testo": "Un PG a caso è maledetto: -1 agli attacchi, finché non beneficia di un'ondata guaritrice, di una guarigione o della Benedizione."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Scatola rompicapo",
+    "azione": "rompicapo",
+    "facoltativo": true,
+    "livExpr": "1d6",
+    "bonus": {
+     "furfante": "L",
+     "mago": "L"
+    },
+    "fallimento": {
+     "pv": 1,
+     "perOgniTentativo": true
+    },
+    "premio": {
+     "tabella": "tesoriMagici"
+    },
+    "testo": "Si può ignorare o tentare il rompicapo (livello 1d6, tirato solo se si tenta; furfanti e maghi +L). Ogni tentativo fallito costa 1 PV a chi prova; se riesce, 1 tiro su Tesori magici acquatici."
+   }
+  ],
+  "eventi": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Squalo fantasma",
+    "azione": "paura",
+    "bersaglio": "tutti",
+    "salvezza": {
+     "tipo": "paura",
+     "liv": 4,
+     "bonus": {
+      "chierico": "L"
+     }
+    },
+    "fallimento": {
+     "pv": 1
+    },
+    "testo": "Uno squalo spettrale attraversa il gruppo: TS paura L4 (chierici +L) o 1 PV a testa."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Mostri erranti",
+    "azione": "erranti",
+    "dado": "1d6",
+    "sottotabella": [
+     {
+      "da": 1,
+      "a": 3,
+      "tabella": "infestanti"
+     },
+     {
+      "da": 4,
+      "a": 4,
+      "tabella": "seguaci"
+     },
+     {
+      "da": 5,
+      "a": 5,
+      "tabella": "aberranti"
+     },
+     {
+      "da": 6,
+      "a": 6,
+      "tabella": "boss"
+     }
+    ],
+    "nonBossFinale": true,
+    "testo": "Mostri erranti attaccano: 1d6, 1-3 infestanti, 4 seguaci, 5 aberranti, 6 boss (acquatici). Un maggiore errante non può mai essere il boss finale."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Elfo marino errante",
+    "azione": "indizio",
+    "bersaglio": "un-pg-a-caso",
+    "indizi": 1,
+    "unaVolta": true,
+    "seRipetuto": {
+     "azione": "tabella",
+     "tabella": "trappole"
+    },
+    "testo": "L'elfo marino dà 1 indizio a un PG a caso. Una sola volta per avventura; se esce di nuovo vale come trappola (Trappole acquatiche)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Trappola",
+    "azione": "tabella",
+    "tabella": "trappole",
+    "testo": "Trappola: tira su Trappole acquatiche."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Sirena guaritrice",
+    "azione": "guaritore",
+    "costoPerPv": 10,
+    "unaVolta": true,
+    "seRipetuto": {
+     "azione": "ritira"
+    },
+    "testo": "La sirena cura i PG a 10 p.o. per ogni PV, quanti se ne vuole fin che si può pagare. Una sola volta per avventura; se ripetuta si ritira il dado."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Cavalluccio marino gigante",
+    "azione": "cavalluccio",
+    "dado": "1d6",
+    "unaVolta": true,
+    "seRipetuto": {
+     "azione": "ritira"
+    },
+    "esiti": [
+     {
+      "da": 1,
+      "a": 2,
+      "azione": "fugge"
+     },
+     {
+      "da": 3,
+      "a": 6,
+      "azione": "corrompe-automaticamente"
+     }
+    ],
+    "testo": "Il cavalluccio segue il gruppo finché non si combatte; poi 1d6: 1-2 fugge, 3-6 corrompe in automatico il mostro che si sta per affrontare. Una sola volta per avventura; se ripetuto si ritira."
+   }
+  ],
+  "trappole": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Lampo elettrico",
+    "liv": 3,
+    "bersaglio": "primo-in-ordine-di-marcia",
+    "salvezze": [
+     {
+      "tipo": "elettricita",
+      "prova": "difesa",
+      "liv": 3,
+      "bonus": {
+       "armaturaPesante": -2,
+       "scudo": -1,
+       "furfante": "L"
+      }
+     }
+    ],
+    "danno": 1,
+    "testo": "Colpisce il PG che guida la marcia: tiro di difesa contro l'elettricità (L3; armatura pesante -2, scudo -1, furfanti +L) o 1 PV."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Melma tossica",
+    "liv": 3,
+    "bersaglio": "tutti",
+    "salvezze": [
+     {
+      "tipo": "melma",
+      "prova": "difesa",
+      "liv": 3,
+      "bonus": {},
+      "ignoraArmatura": true,
+      "ignoraScudo": true
+     }
+    ],
+    "danno": 1,
+    "testo": "Attacca tutti: tiro di difesa senza i bonus di scudo e armatura (L3) o 1 PV."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Vortice",
+    "liv": 4,
+    "bersaglio": "primi-due-in-ordine-di-marcia",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "prova": "salvezza",
+      "liv": 4,
+      "bonus": {
+       "armaturaLeggera": -1,
+       "armaturaPesante": -2,
+       "elfo": 1,
+       "mezzuomo": 1,
+       "furfante": "L"
+      }
+     }
+    ],
+    "danno": 1,
+    "testo": "Risucchia i 2 PG in testa: TS (L4; armatura leggera -1, pesante -2, elfi e mezzuomini +1, furfanti +L) o sbattuti: 1 PV."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Forte corrente",
+    "liv": 5,
+    "bersaglio": "tutti",
+    "azione": "corrente",
+    "salvezze": [
+     {
+      "tipo": "corrente",
+      "prova": "salvezza",
+      "liv": 5,
+      "bonus": {}
+     }
+    ],
+    "fallimento": {
+     "spintaIndietro": "una stanza o corridoio"
+    },
+    "portaDiMezzo": {
+     "chi": "ultimo-in-ordine-di-marcia",
+     "pv": 1
+    },
+    "danno": null,
+    "testo": "Spinge il gruppo indietro: chi fallisce il TS (L5) arretra di una stanza/corridoio; se c'è una porta di mezzo l'ultimo della marcia vi sbatte e perde 1 PV."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Alghe strangolatrici",
+    "livExpr": "1d6",
+    "liv": null,
+    "bersaglio": "due-a-caso",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "prova": "dado",
+      "liv": "livello trappola",
+      "bonus": {
+       "elfo": 1,
+       "mezzuomo": 1,
+       "furfante": "L"
+      }
+     }
+    ],
+    "danno": 1,
+    "testo": "Attaccano 2 PG a caso: 1d6 contro il livello della trappola (1d6; elfi e mezzuomini +1, furfanti +L) o 1 PV."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Rete e gabbia di granchio",
+    "liv": 5,
+    "bersaglio": "uno-a-caso",
+    "azione": "gabbia",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "prova": "salvezza",
+      "liv": 5,
+      "bonus": {
+       "elfo": 1,
+       "mezzuomo": 1,
+       "furfante": "L"
+      }
+     }
+    ],
+    "creatura": "q-granchi-giganti",
+    "quantita": 1,
+    "combattimentoSolitario": true,
+    "liberazione": {
+     "rompereSbarre": {
+      "liv": 5,
+      "erranti": {
+       "probabilita": 1,
+       "dado": "1d6",
+       "perTentativo": true,
+       "unaVoltaSola": true
+      }
+     },
+     "scasso": {
+      "liv": 3,
+      "soloClasse": "furfante"
+     }
+    },
+    "testo": "Un PG a caso finisce in una gabbia: TS (L5; elfi e mezzuomini +1, furfanti +L) o resta chiuso con un granchio gigante (LIV 4) e lo affronta da solo. Gli altri rompono le sbarre (L5, ogni tentativo 1 su 1d6 di attirare erranti, una volta sola) o il furfante scassina (L3)."
+   }
+  ],
+  "tesoriMagici": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "q-corno-narvalo",
+    "nome": "Corno del narvalo",
+    "testo": "Stordisce un mostro (salta un turno); solo elfi e maghi (+L); 3 usi, poi vale 2d6 p.o.; non funziona sui non-morti."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "q-lancia-fulmine",
+    "nome": "Lancia del Fulmine",
+    "testo": "2 lanci di Fulmine Magico, solo maghi (+L); esaurita è un'arma da taglio a una mano."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "q-bacchetta-piovra",
+    "nome": "Bacchetta della piovra",
+    "testo": "Avviluppa un maggiore o 1d6+L minori; chi la usa +L all'attacco, il gruppo +1 contro gli avviluppati; 3 usi."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "q-alghe-curative",
+    "nome": "Alghe curative",
+    "testo": "Monouso, azione gratuita, cura tutti i PV persi; per tutte le classi, barbari compresi; vendibili a 40 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "q-arma-magica-acquatica",
+    "nome": "Arma magica",
+    "dado": "1d6",
+    "testo": "+1 permanente all'attacco; il tipo si tira: 1 leggera contundente, 2 leggera da taglio, 3 una mano contundente, 4-5 una mano da taglio, 6 arco."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "q-guscio-conchiglia",
+    "nome": "Guscio di conchiglia magico",
+    "testo": "3 evocazioni di un delfino (guerriero di 3° livello, 3 PV, quinto membro); solo sott'acqua."
+   }
+  ],
+  "mercante": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Prezzo ribassato",
+    "percentuale": -10,
+    "testo": "Paga il 10% in meno del valore pieno."
+   },
+   {
+    "da": 2,
+    "a": 5,
+    "nome": "Prezzo pieno",
+    "percentuale": 0,
+    "testo": "Paga il valore pieno."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Prezzo maggiorato",
+    "percentuale": 30,
+    "testo": "Paga il 30% in più sul valore pieno."
+   }
+  ]
+ },
+ "oggetti": [
+  {
+   "id": "q-corno-narvalo",
+   "nome": "Corno del narvalo",
+   "categoria": "tesoro-magico",
+   "pagina": 27,
+   "magico": true,
+   "prezzo": null,
+   "prezzoEsaurito": "2d6",
+   "effetto": "Stordisce un mostro: se l'attacco colpisce, il mostro salta un turno intero. Dopo 3 usi perde i poteri e si vende come curiosità per 2d6 p.o. Nessun effetto sui non-morti.",
+   "solo": [
+    "elfo",
+    "mago"
+   ],
+   "tiro": "d6+L",
+   "usi": 3,
+   "nonVale": [
+    "non-morti"
+   ]
+  },
+  {
+   "id": "q-lancia-fulmine",
+   "nome": "Lancia del Fulmine",
+   "categoria": "tesoro-magico",
+   "pagina": 27,
+   "magico": true,
+   "prezzo": null,
+   "effetto": "Permette 2 lanci di Fulmine Magico, solo ai maghi (+L). Esaurita diventa un'arma da taglio a una mano.",
+   "solo": [
+    "mago"
+   ],
+   "usi": 2,
+   "incantesimo": "Fulmine Magico",
+   "dopoUsi": "arma da taglio a una mano"
+  },
+  {
+   "id": "q-bacchetta-piovra",
+   "nome": "Bacchetta della piovra",
+   "categoria": "tesoro-magico",
+   "pagina": 27,
+   "magico": true,
+   "prezzo": null,
+   "effetto": "Avviluppa un mostro maggiore o 1d6+L minori, anche fuori dall'acqua. Chi la usa aggiunge il livello all'attacco; contro i bersagli avviluppati tutto il gruppo ha +1 all'attacco. 3 usi, poi è legno inutile. Nessun effetto su cecaelie, piovre giganti, kraken.",
+   "usi": 3,
+   "bonusPortatoreAttacco": "L",
+   "bonusGruppoContro": 1,
+   "nonVale": [
+    "q-cecaelia",
+    "q-piovre-giganti",
+    "q-kraken"
+   ]
+  },
+  {
+   "id": "q-alghe-curative",
+   "nome": "Alghe curative",
+   "categoria": "tesoro-magico",
+   "pagina": 27,
+   "magico": true,
+   "prezzo": 40,
+   "effetto": "Mangiate in qualsiasi momento senza spendere un'azione, curano tutti i PV persi. Monouso, per tutte le classi (anche i barbari).",
+   "monouso": true,
+   "azioneGratuita": true,
+   "curaTotale": true,
+   "barbariOk": true
+  },
+  {
+   "id": "q-arma-magica-acquatica",
+   "nome": "Arma magica acquatica",
+   "categoria": "tesoro-magico",
+   "pagina": 27,
+   "magico": true,
+   "prezzo": null,
+   "effetto": "+1 ai tiri di attacco, permanente. Tipo tirando 1d6: 1 leggera contundente, 2 leggera da taglio, 3 una mano contundente, 4-5 una mano da taglio, 6 arco.",
+   "modAttacco": 1,
+   "permanente": true,
+   "tipoTabella": [
+    {
+     "da": 1,
+     "a": 1,
+     "categoria": "leggera",
+     "tipo": "contundente"
+    },
+    {
+     "da": 2,
+     "a": 2,
+     "categoria": "leggera",
+     "tipo": "taglio"
+    },
+    {
+     "da": 3,
+     "a": 3,
+     "categoria": "una-mano",
+     "tipo": "contundente"
+    },
+    {
+     "da": 4,
+     "a": 5,
+     "categoria": "una-mano",
+     "tipo": "taglio"
+    },
+    {
+     "da": 6,
+     "a": 6,
+     "categoria": "arco",
+     "tipo": null
+    }
+   ]
+  },
+  {
+   "id": "q-guscio-conchiglia",
+   "nome": "Guscio di conchiglia magico",
+   "categoria": "tesoro-magico",
+   "pagina": 27,
+   "magico": true,
+   "prezzo": null,
+   "effetto": "Chi lo usa evoca un delfino magico (guerriero di 3° livello, 3 PV), a tutti gli effetti un quinto personaggio. 3 evocazioni; se il delfino muore non torna finché il gruppo non ha visitato 3 nuove stanze o corridoi. Funziona solo sott'acqua.",
+   "usi": 3,
+   "solo": null,
+   "soloAmbiente": "sott'acqua",
+   "alleato": {
+    "classe": "guerriero",
+    "livello": 3,
+    "pv": 3,
+    "membroDelGruppo": true,
+    "ritornoDopo": "3 nuove stanze o corridoi"
+   }
+  }
+ ],
+ "regole": [
+  {
+   "id": "q-livello-3",
+   "nome": "PG di livello 3 in Acque Oscure",
+   "pagina": 4,
+   "sintesi": "Acque Oscure è pensata per PG di livello 1-2. Se 2 o più PG sono di 3° livello, i mostri erranti compaiono con 2 su 1d6 e tutti i mostri seguaci incontrati sono 1 in più.",
+   "parametri": {
+    "condizione": "2 o più PG di livello 3",
+    "probabilitaErranti": 2,
+    "dado": "1d6",
+    "modNumeroSeguaci": 1,
+    "avventura": "acque-oscure"
+   }
+  },
+  {
+   "id": "q-anelli-livello-basso",
+   "nome": "I Tre Anelli con PG di livello basso",
+   "pagina": 34,
+   "sintesi": "I Tre Anelli è pensata per livelli 3-4; con PG di livello inferiore tutti i mostri maggiori perdono 1 PV e 1 livello.",
+   "parametri": {
+    "condizione": "PG di livello inferiore a 3",
+    "mostriMaggiori": {
+     "pv": -1,
+     "liv": -1
+    },
+    "avventura": "i-tre-anelli"
+   }
+  },
+  {
+   "id": "q-perdita-arti",
+   "nome": "Perdita di una mano o di una gamba",
+   "pagina": "10, 14, 17",
+   "sintesi": "In alcune trappole un 1 naturale costa 1 PV e un arto. Senza una mano non si usa alcun oggetto con quel braccio. Senza una gamba serve una stampella e non si usa la mano del lato corrispondente. A fine capitolo si può sostituire la mano con un'arma leggera permanente (lama, uncino) o la gamba con una gamba di legno (nessun beneficio), oppure pagare 300 p.o. per ricrescere l'arto; la resurrezione fa ricrescere l'arto.",
+   "parametri": {
+    "cause": "1 naturale in trappole indicate dall'avventura",
+    "pvPersi": 1,
+    "mano": {
+     "nonUsaOggettiConQuelBraccio": true
+    },
+    "gamba": {
+     "stampella": true,
+     "nonUsaManoDelLatoCorrispondente": true,
+     "stampellaDa": "legname galleggiante"
+    },
+    "rimedi": {
+     "mano": "arma leggera permanente (lama o uncino)",
+     "gamba": "gamba di legno, nessun beneficio",
+     "ricrescita": {
+      "costoOro": 300
+     },
+     "resurrezione": "l'arto ricresce"
+    },
+    "quando": "a fine capitolo (riposo)"
+   }
+  },
+  {
+   "id": "q-respirare-sott-acqua",
+   "nome": "Respirare e combattere sott'acqua",
+   "pagina": 17,
+   "sintesi": "Per il capitolo 2 un incantesimo (100 p.o., anticipabili e detratti dalla ricompensa dal mercante) permette a tutto il gruppo di respirare, muoversi e combattere normalmente sott'acqua; armi, incantesimi e lanterna funzionano. Segna un dungeon come ambientazione acquatica.",
+   "parametri": {
+    "costoOro": 100,
+    "ambiente": "acquatico",
+    "armiIncantesimiLanternaNormali": true,
+    "avventura": "acque-oscure"
+   }
+  },
+  {
+   "id": "q-boss-finale-predeterminato",
+   "nome": "Dungeon casuale con boss finale fisso",
+   "pagina": "18-19",
+   "sintesi": "Il capitolo 2 usa il dungeon casuale del manuale base con le tabelle acquatiche al posto di 8 tabelle; il boss finale è l'Avatar (cerchio di evocazione). Il gruppo può abbandonare il dungeon se è malridotto e, dopo il riposo, rientrare in un nuovo dungeon: l'Avatar è già evocato a piena forza, niente adepti da combattere, e la statua d'oro è con lui.",
+   "parametri": {
+    "puoAbbandonare": true,
+    "rientro": "nuovo dungeon casuale",
+    "avatarIndebolito": false,
+    "adeptiDaCombattere": false
+   }
+  },
+  {
+   "id": "q-png-compagno",
+   "nome": "Alleati PNG come membri del gruppo",
+   "pagina": "27, 36",
+   "sintesi": "Un alleato PNG assoldato o evocato conta come membro aggiuntivo del gruppo: il delfino del guscio è un guerriero di 3° livello con 3 PV (quinto membro); il boscaiolo guida (10 p.o.) è un guerriero di livello 0 con 3 PV, arma da taglio a una mano e armatura leggera, e per 3 tiri d66 può spostare il risultato di +1 o -1.",
+   "parametri": {
+    "esempi": [
+     {
+      "nome": "Delfino magico",
+      "classe": "guerriero",
+      "livello": 3,
+      "pv": 3,
+      "costo": null
+     },
+     {
+      "nome": "Boscaiolo guida",
+      "classe": "guerriero",
+      "livello": 0,
+      "pv": 3,
+      "costo": 10,
+      "equip": [
+       "arma da taglio a una mano",
+       "armatura leggera"
+      ],
+      "durataTiriD66": 3,
+      "avventura": "i-tre-anelli"
+     }
+    ],
+    "vedi": "coboldi.json k-png-compagno"
+   }
+  },
+  {
+   "id": "q-vendita-gemme",
+   "nome": "Vendita di gemme e gioielli",
+   "pagina": "59, 72",
+   "sintesi": "Le gemme si vendono a prezzo pieno, +20% se il venditore è un nano. Il mercante de I Tre Anelli compra gemme e gioielli tirando 1d6 per ogni oggetto: 1 -10%, 2-5 pieno, 6 +30%; con un nano nel gruppo un 5 vale 6 (tabella mercante).",
+   "parametri": {
+    "generale": {
+     "prezzo": "pieno",
+     "bonusNano": 0.2
+    },
+    "mercante": {
+     "tabella": "mercante",
+     "nanoSposta": {
+      "da": 5,
+      "a": 6
+     },
+     "avventura": "i-tre-anelli"
+    }
+   }
+  },
+  {
+   "id": "q-spadaccino",
+   "nome": "Classe Spadaccino",
+   "pagina": 5,
+   "sintesi": "Vedi la voce classi.spadaccino. Salva come il furfante. Le regole d'uso della maestria sono nel campo maestria: massimo 1 punto speso per tiro, solo per attacco o difesa. Altri supplementi (Contro l'Abisso) hanno liste di abilità per lo spadaccino.",
+   "parametri": {
+    "classe": "spadaccino",
+    "abissoAbilita": "abisso.json abilitaPerClasse.spadaccino"
+   }
+  }
+ ],
+ "faq": [
+  {
+   "id": "q-faq-arco",
+   "tema": "Arco e livello dell'elfo",
+   "pagina": 63,
+   "sintesi": "L'arco non è un'arma a due mani ai fini dell'elfo: è un'arma a distanza che richiede due mani. Le armi a due mani sono quelle da mischia (spadone, asce da battaglia, grandi mazze), quindi l'elfo con l'arco aggiunge il livello.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-ascia",
+   "tema": "Ascia",
+   "pagina": 63,
+   "sintesi": "Un'ascia è sempre un'arma da taglio e non conta mai come contundente, anche colpendo col dorso.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-cambio-arma",
+   "tema": "Cambiare arma",
+   "pagina": 63,
+   "sintesi": "Passare da arma a una mano con scudo a un'arma a due mani costa 1 azione.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-furioso",
+   "tema": "Attacco furioso del barbaro",
+   "pagina": 63,
+   "sintesi": "Ogni dado dell'attacco furioso si legge da solo: un 6 esplode senza far tirare altri 3 dadi; vale il risultato migliore tra i tre alla fine delle esplosioni.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-disarmati",
+   "tema": "Combattere disarmati",
+   "pagina": 63,
+   "sintesi": "Senza armi il modificatore è -2. Regola alternativa fuori manuale: dai corpi di orchi, goblin, scheletri e altri umanoidi si possono prendere armi leggere scadenti che si rompono con un 1 all'attacco; i mostri maggiori umanoidi hanno armi normali.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-procedura-difesa",
+   "tema": "Procedura di difesa",
+   "pagina": 64,
+   "sintesi": "Prima si sceglie chi è attaccato, poi si tira il dado di difesa. La scelta del bersaglio spetta di norma al giocatore, salvo attacchi a caso o altre regole.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-morale-immediato",
+   "tema": "Quando si tira il morale",
+   "pagina": 64,
+   "sintesi": "Il morale dei mostri si tira subito, appena si verifica la condizione che lo innesca.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-attacchi-a-caso",
+   "tema": "Mostri con attacchi a caso",
+   "pagina": 64,
+   "sintesi": "Di norma un mostro con più attacchi li assegna a personaggi diversi scelti dal giocatore. Se la descrizione dice attacchi a caso, ogni attacco si sorteggia e lo stesso PG può essere colpito più volte.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-erranti-corridoio-formazione",
+   "tema": "Erranti in corridoio: formazione",
+   "pagina": 64,
+   "sintesi": "Un errante in corridoio attacca per primo e alle spalle e la formazione non si può cambiare durante il combattimento; chi ha armi da lancio in posizione 1 o 2 può comunque contribuire.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-erranti-corridoio-posto-vuoto",
+   "tema": "Erranti in corridoio: posto vuoto",
+   "pagina": 64,
+   "sintesi": "Dopo l'attacco di sorpresa un PG a scelta occupa gratis il posto lasciato vuoto da un caduto.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-prima-fila",
+   "tema": "Prima fila in corridoio",
+   "pagina": 65,
+   "sintesi": "Chi è in prima fila può uccidere anche più mostri di quanti gli stiano davanti, se il tiro lo permette: i mostri avanzano quando i primi cadono.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-proteggere",
+   "tema": "Proteggere un compagno",
+   "pagina": 65,
+   "sintesi": "Si può escludere un PG dagli attacchi solo se gli altri PG bastano ad assorbire tutti gli attacchi. Non vale se il mostro odia un PG specifico, con attacchi ad area (soffio) o a bersaglio casuale.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-retrovie",
+   "tema": "Retrovie in corridoio",
+   "pagina": 65,
+   "sintesi": "Dalle posizioni 3 e 4, se non ci sono nemici alle spalle, si possono lanciare incantesimi e armi da lancio.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-corridoi-curva",
+   "tema": "Corridoi con curva",
+   "pagina": 65,
+   "sintesi": "Allungando un corridoio per far stare una stanza si può fare una curva di 90 gradi, purché non dia vantaggi (per esempio una scorciatoia verso l'uscita).",
+   "cambiaRegola": false
+  },
+  {
+   "id": "q-faq-porte-segrete",
+   "tema": "Porte segrete",
+   "pagina": 65,
+   "sintesi": "Appena trovata una porta segreta si tira 1d6: con 6 porta fuori dal dungeon (scorciatoia), altrimenti si genera una stanza segreta casuale. Si può sbirciare oltre la porta prima di entrare.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-porte-sovrapposte",
+   "tema": "Porte sovrapposte",
+   "pagina": 66,
+   "sintesi": "Due porte che si sovrappongono si fondono in una sola e non si è obbligati a cambiarne l'orientamento; le stanze si possono troncare se manca spazio.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-armi-magiche",
+   "tema": "Armi magiche e leggere",
+   "pagina": 66,
+   "sintesi": "I bonus si sommano: un'arma leggera magica +1 vale 0 in totale, un'arma a due mani magica vale +2.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-bacchetta-arma",
+   "tema": "Bacchetta usata come arma",
+   "pagina": 66,
+   "sintesi": "Una bacchetta, anche scarica, non può essere usata come arma leggera: è fragile e si spezzerebbe.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-bacchetta-palla-fuoco",
+   "tema": "Bacchetta della Palla di Fuoco",
+   "pagina": 66,
+   "sintesi": "Può essere usata solo dai maghi, non dagli elfi, come indicato nella tabella.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-bacchetta-sonno",
+   "tema": "Bacchetta del Sonno",
+   "pagina": 66,
+   "sintesi": "I 3 incantesimi Sonno si possono usare subito; quando è scarica la bacchetta va gettata (non si ricarica).",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-elfo-incantesimi",
+   "tema": "Incantesimi iniziali di elfo e mago",
+   "pagina": 66,
+   "sintesi": "Sia l'elfo sia il mago conoscono i 6 incantesimi base.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-libro-incantesimi",
+   "tema": "Libro del mago",
+   "pagina": 66,
+   "sintesi": "Se il mago perde il libro non può recuperare gli incantesimi con la regola opzionale del riposo; si presume che a casa ne abbia una copia. Gli elfi memorizzano meditando e cantando.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-pergamene-magiche",
+   "tema": "Pergamene e pozioni",
+   "pagina": 67,
+   "sintesi": "Pergamene e pozioni sono oggetti magici.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-pergamene-passaggio",
+   "tema": "Pergamene di un compagno morto",
+   "pagina": 67,
+   "sintesi": "Una pergamena non usata si può passare a un altro eroe; le pergamene sono usabili da tutti tranne i barbari.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-sonno-incantatore",
+   "tema": "Sonno: chi aggiunge il livello",
+   "pagina": 67,
+   "sintesi": "Nell'incantesimo Sonno la parola mago va letta come incantatore: anche l'elfo aggiunge il livello.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-sonno-livello-mostri",
+   "tema": "Sonno sui mostri minori",
+   "pagina": 67,
+   "sintesi": "Si tira comunque contro il livello dei mostri; per addormentare più minori bisogna raggiungere il livello di ciascuno.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-sonno-potente",
+   "tema": "Sonno e boss finale",
+   "pagina": 67,
+   "sintesi": "Sonno può funzionare anche sul boss finale (salvo immunità), ma è una risorsa limitata da usare con parsimonia: nessuna regola nuova.",
+   "cambiaRegola": false
+  },
+  {
+   "id": "q-faq-mani-elfo-due-mani",
+   "tema": "Elfo con arma a due mani",
+   "pagina": 67,
+   "sintesi": "L'elfo regge l'arma a due mani con una mano, lancia l'incantesimo con l'altra e riprende l'arma a due mani, tutto nel normale svolgimento del turno e senza spendere azioni.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-mani-fionda",
+   "tema": "Incantatore con fionda",
+   "pagina": 68,
+   "sintesi": "Per lanciare un incantesimo chi ha una fionda deve lasciar cadere fionda e proiettile (azione gratuita) o metterli via (1 azione). Raccoglierla costa 1 azione, o nulla a fine incontro. Gli oggetti a terra sono persi se il gruppo fugge.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-mani-lanterna-incantesimo",
+   "tema": "Lanterna e incantesimi",
+   "pagina": 68,
+   "sintesi": "Basta una mano per lanciare un incantesimo: si può tenere la lanterna nell'altra.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-mani-pugnale-lanterna",
+   "tema": "Lanterna e pugnale da lancio",
+   "pagina": 68,
+   "sintesi": "Con la lanterna in una mano si può tirare un pugnale (arma da lancio leggera, -1) tenuto nell'altra; in quella combinazione non si lancia un incantesimo senza lasciar cadere il pugnale.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-boss-finale-oggetti-multipli",
+   "tema": "Boss finale e oggetti magici multipli",
+   "pagina": 68,
+   "sintesi": "Se i tiri multipli del boss finale danno più oggetti magici, il numero di oggetti magici si raddoppia.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-boss-finale-bonus-maggiori",
+   "tema": "Boss finale: +1 per i maggiori",
+   "pagina": 69,
+   "sintesi": "Il +1 al tiro del boss finale vale per ogni mostro maggiore incontrato, anche se non combattuto.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-boss-finale-morale",
+   "tema": "Boss finale e morale",
+   "pagina": 69,
+   "sintesi": "Il boss finale non tira il morale: combatte fino alla morte.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-medusa-corridoio",
+   "tema": "Medusa in corridoio",
+   "pagina": 69,
+   "sintesi": "Un PG rimasto può combattere normalmente scavalcando le statue per ingaggiare la medusa in mischia, anche se è poco saggio.",
+   "cambiaRegola": false
+  },
+  {
+   "id": "q-faq-melma-verde-benedizione",
+   "tema": "Melma verde e autobenedizione",
+   "pagina": 69,
+   "sintesi": "Un chierico contagiato può benedire o curare sé stesso: chi può agire (non paralizzato o simile) può sempre autobenedirsi e autocurarsi.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-troll-morale",
+   "tema": "Troll e morale",
+   "pagina": 69,
+   "sintesi": "Il morale si tira appena scatta la condizione. Con i troll del manuale base (1d3) capita solo con 3 troll di cui 2 morti; se il terzo fugge, quelli già abbattuti non fanno in tempo a rigenerare e vengono fatti a pezzi in automatico.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-troll-rigenerazione",
+   "tema": "Troll: rigenerazione",
+   "pagina": 69,
+   "sintesi": "Il troll tira per rigenerare dopo i tiri di attacco dei personaggi e prima dei loro tiri di difesa.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-troll-fare-a-pezzi",
+   "tema": "Troll a 0 PV",
+   "pagina": 69,
+   "sintesi": "Un troll a 0 o meno PV si uccide in automatico, senza tirare, ma serve un'arma da taglio.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-troll-corridoio",
+   "tema": "Troll abbattuto in corridoio",
+   "pagina": 70,
+   "sintesi": "Il troll abbattuto in corridoio può essere fatto a pezzi dai PG in posizione 3 e 4.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-equipaggiamento-iniziale",
+   "tema": "Equipaggiamento iniziale",
+   "pagina": 70,
+   "sintesi": "L'equipaggiamento iniziale è sia quanto indicato sulla scheda (con le eventuali opzioni) sia ciò che si compra con l'oro iniziale.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-esperienza-mostri-superati",
+   "tema": "Esperienza e mostri superati",
+   "pagina": 70,
+   "sintesi": "Si ottiene il tiro ES solo per i maggiori sconfitti, non per quelli superati in altro modo.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-esperienza-conteggio-seguaci",
+   "tema": "Conteggio seguaci per l'ES a -1",
+   "pagina": 70,
+   "sintesi": "Il conteggio dei seguaci uccisi per il tiro ES a -1 non si azzera tra una missione e l'altra.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-guarigione-chierico",
+   "tema": "Guarigione del chierico",
+   "pagina": 70,
+   "sintesi": "La guarigione non è una prova: non si tira per vedere se riesce, si tira solo per i PV recuperati (anche con 1 si aggiunge il livello).",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-indizi-conteggio",
+   "tema": "Conteggio degli indizi",
+   "pagina": 70,
+   "sintesi": "Gli indizi accumulati non si azzerano tra un'avventura e l'altra.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-lanterna-fionda",
+   "tema": "Lanterna e fionda",
+   "pagina": 70,
+   "sintesi": "Non si può avere in mano la lanterna e una fionda pronta: la fionda richiede due mani, quindi non si può mollare la lanterna e usare subito la fionda.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-lanterna-a-terra",
+   "tema": "Posare la lanterna",
+   "pagina": 70,
+   "sintesi": "Posare la lanterna a terra è un'azione gratuita. Se il gruppo abbandona la stanza (ritirata o fuga) senza spendere 1 azione per riprenderla, la lanterna è persa per sempre.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-missioni-testa",
+   "tema": "Missione: portare la testa",
+   "pagina": 71,
+   "sintesi": "Dopo aver ricevuto una missione di portare la testa di un altro mostro, il prossimo boss incontrato è automaticamente quello cercato; non valgono teste di mostri già uccisi o lasciati vivi.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-ordine-di-marcia",
+   "tema": "Chi guida l'ordine di marcia",
+   "pagina": 71,
+   "sintesi": "I PG si numerano da 1 a 4 e il numero 1 guida; se non sono numerati si tira un dado.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-perquisire-svuotata",
+   "tema": "Perquisire una stanza svuotata",
+   "pagina": 71,
+   "sintesi": "Una stanza o corridoio è perquisibile solo se generato come vuoto, non dopo averlo svuotato dagli occupanti. Rientrando si tira comunque per gli erranti.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-perquisire-differita",
+   "tema": "Perquisire più tardi",
+   "pagina": 71,
+   "sintesi": "Una stanza generata vuota e non ancora perquisita si può perquisire al rientro: va segnata come vuota non perquisita. Se arrivano erranti, prima si combatte e poi si perquisisce.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-trasporto",
+   "tema": "Trasporto: malus non cumulabili",
+   "pagina": 71,
+   "sintesi": "I malus per più di 200 monete di tesoro e per troppe armi non si sommano: si applica solo -1.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-variante-competitiva",
+   "tema": "Variante competitiva",
+   "pagina": 71,
+   "sintesi": "Ogni gruppo ha il proprio boss finale e vince chi esce vivo dopo averlo sconfitto. Gli erranti si tirano in ogni stanza visitata, anche se creata dall'altro gruppo. I due gruppi possono incontrarsi ma non combattere, e possono cooperare (curarsi, scambiarsi equipaggiamento).",
+   "cambiaRegola": false
+  },
+  {
+   "id": "q-faq-variante-cooperativa",
+   "tema": "Variante cooperativa",
+   "pagina": 72,
+   "sintesi": "Due giocatori controllano 3 PG a testa (6 in tutto) con tutte le difficoltà aumentate di 1.",
+   "cambiaRegola": false
+  },
+  {
+   "id": "q-faq-vendita-gemme",
+   "tema": "Vendere le gemme",
+   "pagina": 72,
+   "sintesi": "Le gemme si vendono a prezzo pieno (non dimezzato) e con +20% se chi vende è un nano.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-tesoro-con-trappola",
+   "tema": "Tesoro protetto da trappola",
+   "pagina": 72,
+   "sintesi": "Non si può rinunciare al tesoro per evitare la trappola: scatta comunque, e il tesoro è semplicemente il motivo della trappola.",
+   "cambiaRegola": true
+  },
+  {
+   "id": "q-faq-tesoro-boss-finale-nano",
+   "tema": "Tesoro del boss finale e fiuto del nano",
+   "pagina": 72,
+   "sintesi": "Solo l'oro viene triplicato (minimo 100 monete) e un gioiello visto col fiuto non conta come oggetto magico (gli oggetti magici sono solo quelli delle tabelle Tesori magici).",
+   "cambiaRegola": true
+  }
+ ],
+ "avventure": [
+  {
+   "id": "q-covo-corsari",
+   "titolo": "Acque Oscure, capitolo 1: Cercansi avventurieri (il covo dei corsari)",
+   "pagine": "6-14",
+   "livello": {
+    "min": 1,
+    "max": 2
+   },
+   "struttura": "mappa-fissa",
+   "aree": 19,
+   "note": "Mappa illustrata (pp. 8 e 11) da leggere dall'immagine; paragrafi da leggere solo all'ingresso; due ingressi (guardacoste o Murazzo).",
+   "tabelleProprie": [
+    {
+     "nome": "Deposito merci / Pozza oscura / Scrivania del capitano",
+     "pagina": 21
+    },
+    {
+     "nome": "Covo dei corsari: mostri infestanti",
+     "pagina": 22
+    },
+    {
+     "nome": "Covo dei corsari: mostri seguaci",
+     "pagina": 23
+    }
+   ]
+  },
+  {
+   "id": "q-avatar-dio-squalo",
+   "titolo": "Acque Oscure, capitolo 2: L'Avatar del Dio Squalo",
+   "pagine": "17-19, 24-31",
+   "livello": {
+    "min": 1,
+    "max": 2
+   },
+   "struttura": "dungeon-casuale-con-tabelle-sostitutive-e-boss-finale-fisso",
+   "note": "Usa le tabelle acquatiche di questo file; boss finale: cerchio di evocazione e Avatar (creatureExtra)."
+  },
+  {
+   "id": "q-tre-anelli",
+   "titolo": "I Tre Anelli",
+   "pagine": "32-61",
+   "livello": {
+    "min": 3,
+    "max": 4
+   },
+   "struttura": "senza-mappa-eventi-d66",
+   "note": "Eventi d66 con modificatori, eventi unici e a contatore, parole chiave e scheda di gioco a p. 61; alcuni eventi aprono dungeon casuali.",
+   "tabelleProprie": [
+    {
+     "nome": "Santuario, Sfidante, Teschi, Capanna, Quercia, Fungaia, Tela del ragno, Allegro mezzuomo, Mercante, Predoni orchi",
+     "pagina": "52-60"
+    }
+   ]
+  }
+ ],
+ "rimandi": [
+  {
+   "cosa": "Dungeon casuale: generazione stanze, contenuto della stanza, tesori (non magici), mostri erranti, boss finale",
+   "libro": "Manuale base",
+   "pagina": "40-43, 80, 60"
+  },
+  {
+   "cosa": "Tabelle sostituite dal set acquatico (8): caratteristiche speciali, eventi speciali, trappole, tesori magici, infestanti, seguaci, aberranti, boss",
+   "libro": "Manuale base",
+   "pagina": "78, 79, 80, 81, 82, 83, 84, 85"
+  },
+  {
+   "cosa": "Tabella Tesori (non magici) usata anche nel set acquatico",
+   "libro": "Manuale base",
+   "pagina": 80
+  },
+  {
+   "cosa": "Sfondare porte, dividere il gruppo",
+   "libro": "Manuale base",
+   "pagina": "64, 46"
+  },
+  {
+   "cosa": "Reazione Missione dei mostri e regola delle missioni",
+   "libro": "Manuale base",
+   "pagina": "FAQ p.71 di questo volume"
+  },
+  {
+   "cosa": "Abilità avanzate dello Spadaccino",
+   "libro": "Contro l'Abisso",
+   "pagina": 72
+  }
+ ],
+ "ambiguita": [
+  {
+   "punto": "Infestanti acquatici: il testo non dice se uccidere gli infestanti dia diritto al conteggio per il tiro ES. Il manuale base dice che gli infestanti della sua tabella no, mentre quelli di alcuni supplementi sì.",
+   "scelta": "xp=true per tutti i mostri (in linea con Abisso e Caos). Se si preferisce il comportamento del manuale base, basta mettere xp=false nei 6 infestanti."
+  },
+  {
+   "punto": "Anguille elettriche e meduse urticanti: il tiro salvezza è scritto senza dire quando né chi lo tira (inizio combattimento? a ogni ferita? tutti?).",
+   "scelta": "salvezza[0].quando = null e bersaglio = null; il programma deve scegliere (suggerimento non dal testo: come i millepiedi, a ogni ferita subita)."
+  },
+  {
+   "punto": "Moralità: i mostri senza indicazione hanno morale standard.",
+   "scelta": "mor = 0 (ST) per tutti salvo zombi annegati (mai morale: 'NO') e dove il testo dà un modificatore."
+  },
+  {
+   "punto": "Cecaelia: il numero di attacchi è 1d6+2 a ogni turno, ma il campo att è obbligatorio.",
+   "scelta": "att = 3 (minimo del tiro) e attDadi = '1d6+2' con attDadiOgniTurno = true (diverso da attDadi di Caos, tirato una volta all'inizio dell'incontro)."
+  },
+  {
+   "punto": "Avatar di Tezany: il testo non dice se il bonus da boss finale (+1 PV, +1 ATT) si applica anche a lui; per il demone dei coboldi il manuale lo esclude esplicitamente.",
+   "scelta": "bossFinaleStatisticheInclusa = null: le statistiche indicate sono usate così come sono, senza aggiungere il bonus boss finale (decisione al programma)."
+  },
+  {
+   "punto": "Adepti del cerchio di evocazione: tesoro e morale non sono indicati; non si capisce se attacchino nel primo turno.",
+   "scelta": "tes = null, mor = null; vanno uccisi tutti nel primo turno."
+  },
+  {
+   "punto": "Kraken: non può mai essere errante, ma il testo non dice cosa fare se il tiro mostri erranti (evento 2, risultato 6) lo produce.",
+   "scelta": "maiErrante = true; il comportamento (ritirare sulla stessa tabella) non è nel testo."
+  },
+  {
+   "punto": "Forte corrente: 'l'ultimo personaggio nell'ordine di marcia' sbatte contro la porta; il testo non distingue tra chi ha fallito o meno.",
+   "scelta": "Registrato come scritto: portaDiMezzo.chi = ultimo-in-ordine-di-marcia, 1 PV."
+  },
+  {
+   "punto": "Vortice e lampo elettrico: per il lampo il tiro è di difesa, per il vortice è tiro salvezza contro il livello della trappola.",
+   "scelta": "Campo prova = 'difesa' o 'salvezza' nelle salvezze delle trappole."
+  },
+  {
+   "punto": "Maestria dello Spadaccino: il testo non dice se i punti si azzerano a fine avventura né se valgono per i tiri salvezza (solo attacco e difesa).",
+   "scelta": "maestria registra tetto, guadagno e spesa come scritto; nessun campo azzeramento. Non usabile per i tiri salvezza."
+  },
+  {
+   "punto": "Spadaccino: armi 'tutte tranne due mani e arco'.",
+   "scelta": "armi='tutte' con il nuovo campo armiEscluse=['due-mani','arco']; fionda e armi da lancio consentite."
+  },
+  {
+   "punto": "Idra di mare: l'attacco guadagnato per ferita è cumulativo? Si riazzera?",
+   "scelta": "attaccoCrescente.incremento=1 per ogni ferita subita, senza azzeramento."
+  },
+  {
+   "punto": "Prezzi degli oggetti magici acquatici: solo le alghe (40 p.o.) e il corno esaurito (2d6 p.o.) hanno un valore.",
+   "scelta": "prezzo = null per gli altri."
+  },
+  {
+   "punto": "Tabella mercante e gemme: il mercante è un evento di I Tre Anelli, ma la FAQ generalizza solo il prezzo pieno (+20% nano).",
+   "scelta": "Tabella mercante inserita come riusabile ma marcata ambito=avventura; regola generale nella FAQ q-faq-vendita-gemme."
+  },
+  {
+   "punto": "Il covo dei corsari (pp. 22-23, 21) ha tabelle proprie di mostri e ricerche.",
+   "scelta": "Non trascritte: appartengono al capitolo 1, quindi alla fase avventure."
+  }
+ ]
+}

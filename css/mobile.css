@@ -1,0 +1,133 @@
+/* Versione per telefono e tablet (schermi fino a 860 px): una scheda alla volta con barra in basso.
+   Tutto sta dentro la media query: sopra gli 860 px questo file non cambia nulla. */
+#barraSchede, #menuBtn, #espToggle { display: none; }
+
+@media (max-width: 860px) {
+  :root { --barra: 58px; }
+  html { overscroll-behavior: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  html, body { overscroll-behavior: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  body { height: 100vh; height: 100dvh; overflow: hidden; }
+  button, a, select, summary, label { -webkit-tap-highlight-color: transparent; }
+
+  /* ---- intestazione compatta + menu «⋯» ---- */
+  #top { position: relative; height: auto; min-height: 48px; padding: calc(env(safe-area-inset-top) + 4px) calc(10px + env(safe-area-inset-right)) 4px calc(10px + env(safe-area-inset-left)); }
+  .brand { min-width: 0; } .brand .logo { font-size: 22px; } .brand b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .brand small { display: none; }
+  .brand > div { min-width: 0; }
+  #menuBtn { display: block; flex: none; width: 44px; height: 44px; padding: 0; font-size: 24px; line-height: 1; }
+  body.menu-aperto #menuBtn { background: #4a3714; border-color: var(--amber); }
+  .camp { display: none; position: absolute; z-index: 45; top: 100%; left: 0; right: 0; padding: 12px calc(12px + env(safe-area-inset-right)) 14px calc(12px + env(safe-area-inset-left)); background: var(--panel); border-bottom: 1px solid var(--amber-d); box-shadow: 0 18px 34px #000c; max-height: calc(100dvh - 130px); overflow-y: auto; }
+  body.menu-aperto .camp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .camp label { grid-column: 1 / -1; flex-direction: column; align-items: stretch; gap: 3px; font-size: 13px; }
+  .camp label select { width: 100%; }
+  .camp button { min-height: 48px; }
+  .camp::after { content: 'Tieni premuto un pulsante o una sigla per leggerne la descrizione.'; grid-column: 1 / -1; color: var(--mute); font-size: 12px; }
+
+  /* ---- una scheda alla volta ---- */
+  #layout { display: block; position: relative; flex: 1; min-height: 0; }
+  #left, #stageWrap, #right { position: absolute; inset: 0; visibility: hidden; pointer-events: none; border: 0; max-height: none; }
+  body[data-scheda=gruppo] #left, body[data-scheda=mappa] #stageWrap, body[data-scheda=dungeon] #right { visibility: visible; pointer-events: auto; }
+  #left { padding: 12px calc(12px + env(safe-area-inset-right)) 18px calc(12px + env(safe-area-inset-left)); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  #panel { padding: 12px calc(12px + env(safe-area-inset-right)) 24px calc(12px + env(safe-area-inset-left)); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; overflow-wrap: anywhere; }
+  #left { overflow-wrap: anywhere; }
+  #tabs button { padding: 12px 2px; min-height: 48px; font-size: 13px; }
+
+  /* ---- barra in basso ---- */
+  #barraSchede { display: flex; flex: none; position: relative; z-index: 6; background: linear-gradient(#241c13, #1a140e); border-top: 1px solid var(--line); padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  #barraSchede button { flex: 1; min-width: 0; min-height: 56px; border: 0; border-radius: 0; background: transparent; color: var(--mute); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 11.5px; padding: 4px 2px; position: relative; border-top: 2px solid transparent; }
+  #barraSchede button .ic { display: block; height: 24px; line-height: 0; }
+  #barraSchede button .ic svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  #barraSchede button.on { color: var(--amber); background: #1d1812; border-top-color: var(--amber); }
+  #barraSchede .pallino { position: absolute; top: 5px; left: calc(50% + 9px); width: 10px; height: 10px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 2px #1a140e; animation: pulse 1.2s infinite; }
+
+  /* ---- mappa a tutto schermo, dadi in fondo alla scheda ---- */
+  #stageWrap { display: flex; flex-direction: column; }
+  #mapView { position: relative; inset: auto; flex: 1; min-height: 0; overflow: hidden; }
+  #stageTop { top: 8px; justify-content: flex-start; padding: 0 8px; gap: 6px; }
+  .seg { padding: 2px; }
+  .seg button { min-height: 44px; min-width: 44px; padding: 5px 12px; font-size: 15px; }
+  #espToggle { display: block; }
+  #stageTop:not(.esp-aperto) > .seg:nth-of-type(2) { display: none; }
+  #tileTools { flex: 0 1 100%; flex-wrap: wrap; justify-content: flex-start; }
+  #tileTools .tname { max-width: 100%; padding: 0 6px; }
+  #tileTools label.chk { min-height: 44px; }
+  #diceBar { position: relative; z-index: 4; left: auto; bottom: auto; transform: none; border: 0; border-top: 1px solid var(--line); border-radius: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px calc(10px + env(safe-area-inset-right)) 8px calc(10px + env(safe-area-inset-left)); backdrop-filter: none; background: #1d1812; }
+  #diceBar button { padding: 4px 2px; }
+  #diceBar input[type=text] { grid-column: 1 / 3; width: 100%; }
+  #diceBar #diceGo { grid-column: 3; }
+  #diceBar label.chk { grid-column: 4; margin: 0; flex-direction: column; justify-content: center; gap: 2px; text-align: center; font-size: 11.5px; line-height: 1.1; min-height: 44px; }
+  #rollLog { position: fixed; z-index: 7; left: calc(8px + env(safe-area-inset-left)); bottom: calc(var(--barra) + env(safe-area-inset-bottom) + 8px); max-width: calc(100% - 16px); }
+  body[data-scheda=mappa] #rollLog { bottom: calc(var(--barra) + env(safe-area-inset-bottom) + 118px); }
+  .roll { padding: 4px 10px; }
+  body:not([data-scheda=mappa]) #rollLog .roll.old { display: none; }   /* fuori dalla mappa restano solo i tiri recenti */
+
+  /* ---- finestre: foglio che sale dal basso ---- */
+  .backdrop { align-items: end; padding: 0; padding-top: calc(env(safe-area-inset-top) + 10px); }
+  .modal, .modal.wide { width: 100%; max-height: calc(100dvh - env(safe-area-inset-top) - 10px); border-radius: 16px 16px 0 0; border-bottom: 0; overflow: hidden; }
+  .modal-head { flex: none; padding: 4px 6px 4px 16px; min-height: 56px; background: var(--panel); position: relative; z-index: 1; box-shadow: 0 2px 10px #0008; }
+  .modal-head h3 { font-size: 18px; }
+  .modal-head .x { width: 48px; height: 48px; padding: 0; font-size: 32px; line-height: 1; flex: none; margin-left: 8px; }
+  .modal-body { padding: 14px calc(16px + env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left)); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-wrap: anywhere; }
+  .modal-body img, .modal-body canvas, .modal-body svg { max-width: 100%; }
+  .modal-body pre { overflow-x: auto; max-width: 100%; }
+
+  /* ---- controlli ---- */
+  button, select, input[type=text], input[type=number], input[type=search], textarea { min-height: 44px; }
+  button.mini { min-width: 44px; min-height: 44px; padding: 2px 8px; }
+  body input[type=text], body input[type=number], body input[type=search], body textarea, body select, body label input[type=text], body label input[type=number], body label select, body label textarea { font-size: 16px; }
+  input[type=checkbox], input[type=radio] { width: 22px; height: 22px; flex: none; }
+  label.chk { min-height: 44px; font-size: 14px; gap: 10px; }
+  .chk-row { gap: 4px 16px; }
+  summary { min-height: 44px; display: flex; align-items: center; }
+  .row { flex-wrap: wrap; }
+  .row > .grow { flex: 1 1 140px; }
+  .grid2 { grid-template-columns: 1fr; }
+  .tools { grid-template-columns: 1fr; }
+  .class-grid { gap: 8px; } .class-card { min-height: 78px; }
+  .swatch { width: 48px; height: 48px; }
+  .arow select { max-width: none; flex: 1 1 120px; }
+  .arow button { flex: 1 1 auto; }
+  img, canvas, video { max-width: 100%; }
+  .toast { max-width: calc(100vw - 24px); }
+  #toasts { top: calc(env(safe-area-inset-top) + 56px); }
+  .chat-dock { right: 8px; left: 8px; width: auto; bottom: calc(var(--barra) + env(safe-area-inset-bottom) + 8px); }
+
+  /* ---- gruppo ---- */
+  .panel-head h2 { font-size: 22px; }
+  .panel-head .btns button { min-height: 44px; }
+  .hero { padding: 12px; }
+  .hero-top { gap: 6px; }
+  .hero-name { flex: 1 1 0; min-width: 0; } .hero-name b { font-size: 17px; }
+  .upd { gap: 4px; }
+  .pos { width: 22px; height: 22px; }
+  .hpline { gap: 8px; } .hpbar { height: 30px; } .hpbar span { line-height: 28px; font-size: 14px; }
+  .gold { font-size: 14px; }
+  .hero-btns { gap: 8px; } .hero-btns button { padding: 8px 6px; font-size: 14px; min-height: 44px; }
+  .es-box button { min-height: 48px; }
+  .hero-pic { min-width: 46px; }
+  .stats b { font-size: 17px; } .stats small { font-size: 10px; }
+  .room { padding: 8px; min-height: 60px; }
+  .room.cur, .room { gap: 10px; }
+  .hero-cta label.chk.sel { max-width: none; }
+  .hero-cta h3 { font-size: 20px; }
+
+  /* ---- banner di acquisto in fondo alla scheda Gruppo ---- */
+  #left #banner { border: 1px solid var(--amber-d); border-radius: 10px; margin-top: 18px; padding: 10px 12px; flex-direction: column; text-align: center; gap: 10px; }
+  #left #banner .bn-btn { display: block; width: 100%; padding: 14px 12px; min-height: 48px; text-align: center; white-space: normal; }
+
+  /* ---- suggerimenti (title) letti al tocco ---- */
+  .mod { cursor: default; }
+}
+
+
+/* telefono in orizzontale: poca altezza, quindi barra più bassa e dadi su una riga */
+@media (max-width: 860px) and (max-height: 500px) {
+  :root { --barra: 46px; }
+  #top { min-height: 40px; } #menuBtn { height: 40px; }
+  #barraSchede button { min-height: 44px; flex-direction: row; gap: 6px; font-size: 12px; }
+  #barraSchede button .ic { height: 20px; } #barraSchede button .ic svg { width: 20px; height: 20px; }
+  #barraSchede .pallino { top: 6px; left: auto; right: 10px; }
+  #diceBar { grid-template-columns: repeat(4, auto) 1fr auto auto; padding-top: 4px; padding-bottom: 4px; }
+  #diceBar input[type=text], #diceBar #diceGo, #diceBar label.chk { grid-column: auto; }
+  #diceBar label.chk { flex-direction: row; min-width: 70px; }
+  body[data-scheda=mappa] #rollLog { bottom: calc(var(--barra) + env(safe-area-inset-bottom) + 64px); }
+}
