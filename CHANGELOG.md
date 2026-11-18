@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.16.1
+- **Tesoro a fine scontro:** quando uno scontro finisce e c'è un tesoro da prendere compare una finestra con «Saccheggia (tira il tesoro)» e «Più tardi», senza dover cercare il pulsante nelle schede. Non compare per mostri erranti o senza tesoro.
+
 ## 1.16.0
 - **Versione per telefono:** sotto gli 860 px di larghezza compare una barra in basso (Gruppo, Mappa, Dungeon, Impostazioni), con una sola area visibile alla volta; schede degli eroi e pannelli a tutta larghezza, finestre che salgono dal basso, intestazione ridotta a un menu «⋯», mappa a tutto schermo con pizzico per lo zoom e doppio tocco per «adatta», dadi 3D spenti di partenza sul telefono. Sul desktop non cambia nulla.
 - **App installabile (PWA) e salvataggio nel browser:** quando il gioco viene aperto senza il server di gioco, le campagne si salvano sul dispositivo (con Esporta e Importa nelle impostazioni) e l'app si installa dalla schermata Home e funziona offline. `tools/prepara-statico.js` prepara la cartella da pubblicare su un host statico. Con il server (PC, app desktop) tutto resta come prima.

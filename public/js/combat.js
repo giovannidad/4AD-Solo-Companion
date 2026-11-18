@@ -594,6 +594,16 @@ function vittoriaScontro(esito = 'sconfitti') {
   { const t = (S.adv.tessere || []).find(x => x.id === i.tessera); if (t && !coda.some(c => c.tessera === t.id)) t.ripulita = true; }   // stanza ripulita: ci si può riposare
   if (abissoAttivo()) A.fineIncontro(i, esito).catch(err => console.error(err));
   modificato();
+  proponiSaccheggio(i, esito).catch(err => console.error(err));
+}
+
+/** A fine scontro propone il saccheggio in una finestra, senza costringere a cercare il pulsante nelle schede. */
+async function proponiSaccheggio(i, esito) {
+  await new Promise(r => setTimeout(r, 400));   // lascia finire le finestre e i tiri automatici dei supplementi
+  if (inc() !== i || i.stato !== 'finito' || i.tesoroPreso || i.errante || i.reazione?.azione === 'fugge') return;
+  if (!['sconfitti', 'fuga'].includes(i.esito) || (i.tes === 'NO' && !i.oroFisso)) return;
+  const ok = await scelta('Tesoro da prendere', `${i.nome} ${esito === 'fuga' ? 'è fuggito' : 'è stato sconfitto'}: ci sono tesori da raccogliere. Vuoi saccheggiare ora (tiro sulla tabella dei tesori)?`, [[true, 'Saccheggia (tira il tesoro)'], [false, 'Più tardi']]);
+  if (ok && inc() === i && !i.tesoroPreso) await saccheggia();
 }
 
 export async function saccheggia() {
