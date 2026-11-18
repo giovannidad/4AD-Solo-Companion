@@ -1,5 +1,5 @@
 // Pannelli di destra: Dungeon, Incontro, Strumenti, Registro.
-import { R, S, log, modificato, emit, eroiVivi, eroiAttivi, eroePerId, ordineMarcia, livelloMax, inCampo } from './state.js';
+import { R, S, log, modificato, emit, onChange, eroiVivi, eroiAttivi, eroePerId, ordineMarcia, livelloMax, inCampo } from './state.js';
 import { h, modal, toast, confirmBox, scelta, uid } from './util.js';
 import * as K from './caos.js';
 import * as T from './tratti.js';
@@ -432,6 +432,47 @@ function dividiOro() {
   if (resto > 0) adv().bottino.push({ id: uid(), tipo: 'oro', testo: `${resto} pezzi d’oro (non portabili dal veterano)`, valore: resto });
   log(`Oro diviso tra tutti: ${tot - resto} p.o.`); T.controllaOro(); modificato();
 }
+
+// ---------------- finestra automatica del bottino ----------------
+// Ogni volta che nel bottino compare qualcosa di nuovo (da qualsiasi fonte: tesoro, trappola, evento, saccheggio) si apre una
+// finestra che chiede a chi darlo; «Più tardi» lascia tutto nel bottino, come prima.
+const bottinoVisto = new Set(); let bottinoTimer = null, bottinoRinfresca = null, bottinoCamp = null;
+function controllaBottino() { clearTimeout(bottinoTimer); bottinoTimer = setTimeout(provaBottino, 700); }
+function provaBottino() {
+  if (!S.camp || !S.adv || Coop.sonoOspite()) return;
+  const b = S.adv.bottino || [];
+  if (S.camp !== bottinoCamp) { bottinoCamp = S.camp; b.forEach(x => bottinoVisto.add(x.id)); return; }   // appena aperta la campagna: niente finestre per il bottino già presente
+  const nuovi = b.filter(x => !bottinoVisto.has(x.id));
+  if (!nuovi.length) return;
+  if (bottinoRinfresca) { nuovi.forEach(x => bottinoVisto.add(x.id)); bottinoRinfresca(); return; }   // la finestra è già aperta: si aggiorna
+  if (document.querySelector('.backdrop') || S.adv.incontro?.stato === 'combattimento') return controllaBottino();   // altra finestra aperta o scontro in corso: riprova dopo
+  nuovi.forEach(x => bottinoVisto.add(x.id));
+  apriBottino();
+}
+export function apriBottino() {
+  if (bottinoRinfresca || !(adv().bottino || []).length) return;
+  modal('Bottino da assegnare', (body, close) => {
+    const disegnaLista = () => {
+      const b = adv().bottino || [];
+      if (!b.length) { close(); return; }
+      const avidi = suppl() ? eroiVivi().filter(x => tratto(x, 'avido')) : [];
+      const lista = h('div', { class: 'loot' });
+      b.forEach(x => {
+        const sel = h('select', {}, S.party.eroi.filter(e => e.stato !== 'morto').map(e => h('option', { value: e.id }, e.nome)));
+        lista.append(h('div', { class: 'row' }, h('span', { class: 'grow' }, x.testo), sel,
+          btn(x.tipo === 'oro' ? 'Dai' : 'Prendi', async () => { await assegna(x, eroePerId(sel.value)); disegnaLista(); }, 'mini primary')));
+      });
+      if (b.some(x => x.tipo === 'oro')) lista.append(btn('Dividi l’oro tra tutti (almeno 1 a ogni nano)', () => { dividiOro(); disegnaLista(); }, 'accent'));
+      body.replaceChildren(
+        h('p', {}, 'Il gruppo ha trovato questo bottino: scegli a chi darlo oppure dividi l’oro.'),
+        avidi.length ? h('small', { class: 'hint' }, `${avidi.map(x => x.nome).join(', ')} ${avidi.length > 1 ? 'sono Avidi' : 'è Avido'}: deve ricevere la quota maggiore del tesoro o l’oggetto magico di maggior valore, altrimenti lascia il gruppo.`) : null,
+        lista,
+        h('div', { class: 'row end' }, btn('Più tardi (resta nel bottino)', () => close())));
+    };
+    bottinoRinfresca = disegnaLista; disegnaLista();
+  }, { onClose: () => { bottinoRinfresca = null; } });
+}
+onChange(controllaBottino);
 
 // =============================================================
 //  STRUMENTI

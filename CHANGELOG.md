@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.16.2
+- **Finestra «Bottino da assegnare»:** ogni volta che qualcosa entra nel bottino (tesoro, trappola, tesoro nascosto, saccheggio, eventi, oggetti e pergamene) si apre da sola una finestra per dare oro, gemme e oggetti agli eroi o dividere l'oro. «Più tardi» lascia tutto nel bottino. Non compare durante uno scontro o per l'ospite della cooperativa.
+
 ## 1.16.1
 - **Tesoro a fine scontro:** quando uno scontro finisce e c'è un tesoro da prendere compare una finestra con «Saccheggia (tira il tesoro)» e «Più tardi», senza dover cercare il pulsante nelle schede. Non compare per mostri erranti o senza tesoro.
 

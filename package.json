@@ -1,6 +1,6 @@
 {
   "name": "4ad-solo-mode",
-  "version": "1.16.1",
+  "version": "1.16.2",
   "description": "Four Against Darkness - assistente da tavolo in solitario con dadi 3D",
   "main": "electron/main.js",
   "scripts": {
