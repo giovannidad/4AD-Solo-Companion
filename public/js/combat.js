@@ -597,6 +597,9 @@ function vittoriaScontro(esito = 'sconfitti') {
   proponiSaccheggio(i, esito).catch(err => console.error(err));
 }
 
+/** Il mostro conta come sconfitto senza combattere (sfida magica vinta). */
+export function sconfittoSenzaCombattere() { return vittoriaScontro(); }
+
 /** A fine scontro propone il saccheggio in una finestra, senza costringere a cercare il pulsante nelle schede. */
 async function proponiSaccheggio(i, esito) {
   await new Promise(r => setTimeout(r, 400));   // lascia finire le finestre e i tiri automatici dei supplementi

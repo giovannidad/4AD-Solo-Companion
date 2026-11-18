@@ -235,8 +235,15 @@ export function renderIncontro(box) {
       if (i.reazione?.azione === 'patto-demoniaco') { box.append(Q.cartaPatto(i, btn)); break; }
       if (i.reazione?.azione === 'mercanti') { box.append(V.cartaMercanti(i, btn)); break; }
       if (i.reazione?.azione === 'enigma') { box.append(h('div', { class: 'card' }, h('p', {}, `${i.nome} propone un enigma: un solo tentativo, poi attacca per primo se fallisci.`), btn('Tenta l’enigma', () => V.enigma(i), 'primary'), btn('Combatti', () => { i.mostriPrima = true; V.attaccaPrima(i); return C.inizioScontro(); }, 'danger'), btn('Chiudi (il mostro se ne va)', () => C.chiudiIncontro()))); break; }
+      if (i.reazione?.azione === 'sfida') {
+        const maghi = eroiAttivi().filter(e => e.classe === 'mago');
+        box.append(h('div', { class: 'card' }, h('p', {}, `${i.nome} sfida un mago a un duello magico: tira 1d6 + livello del mago; se eguaglia o supera il LIV ${i.liv} il mostro si allontana, conta come sconfitto e puoi prendere il suo tesoro. Se il mago perde, perde anche 1 livello e il mostro combatte.`),
+          h('div', { class: 'row wrap' }, ...maghi.map(m => btn(`Sfida con ${m.nome} (livello ${m.livello})`, () => sfidaMagica(i, m), 'primary', { disabled: m.livello < 1 })),
+            btn('Combatti', () => { i.mostriPrima = true; return C.inizioScontro(); }, 'danger'), btn('Chiudi (il mostro se ne va)', () => C.chiudiIncontro()))));
+        break;
+      }
       box.append(h('div', { class: 'card' }, h('p', {}, i.reazione?.azione === 'pacifico' ? `${i.nome} è pacifico: puoi lasciarlo stare (nessun tesoro) oppure attaccarlo.` : i.reazione?.azione === 'amichevole' ? `${i.nome} è amichevole: ti lascia passare (nessun tesoro) oppure puoi attaccarlo.` : `Reazione speciale: ${i.reazione?.azione}. Risolvila a parole oppure combatti.`),
-        i.reazione?.azione === 'missione' ? btn(i.sv?.missione?.nome ? `Accetta la missione «${i.sv.missione.nome}»` : 'Accetta la missione (tira)', async () => { if (V.accettaMissione(i)) return; const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); C.nota(`Missione: ${row.nome} – ${row.testo}`); i.missione = row.nome; modificato('avventura'); }) : null,
+        i.reazione?.azione === 'missione' ? btn(i.sv?.missione?.nome ? `Accetta la missione «${i.sv.missione.nome}»` : 'Accetta la missione (tira)', async () => { if (V.accettaMissione(i)) return; const r = await dado('Missione (d6)'); const row = riga(R.tabelle.missioni, r.totale); C.nota(`Missione: ${row.nome} – ${row.testo}`); i.missione = row.nome; (adv().missioniMostro = adv().missioniMostro || []).push({ id: uid(), nome: row.nome, mostro: i.nome, snap: { minore: !!i.minore, tabella: i.tabella, xp: i.xp, errante: !!i.errante, sv: i.sv } }); modificato('avventura'); }) : null,
         btn('Combatti', () => { i.mostriPrima = true; return C.inizioScontro(); }, 'danger'),
         btn('Chiudi (il mostro se ne va)', () => { C.chiudiIncontro(); })));
       break;
@@ -402,8 +409,8 @@ async function assegna(x, e) {
   }
   if (x.tipo === 'oro') e.oro = (e.oro || 0) + x.valore;
   else if (x.tipo === 'cristallo') await K.usaCristallo(e);
-  else if (x.bonusDifesa) { e.bonusDifesa = Math.max(e.bonusDifesa || 0, x.bonusDifesa); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1 }); }
-  else if (x.bonusArma) { e.bonusMagico = Math.max(e.bonusMagico || 0, x.bonusArma); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1 }); }
+  else if (x.bonusDifesa) { e.bonusDifesa = Math.max(e.bonusDifesa || 0, x.bonusDifesa); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1, bonusDifesa: x.bonusDifesa }); }
+  else if (x.bonusArma) { e.bonusMagico = Math.max(e.bonusMagico || 0, x.bonusArma); (e.oggetti = e.oggetti || []).push({ nome: x.testo.split('.')[0], qta: 1, bonusArma: x.bonusArma }); }
   else if (x.cariche != null) (e.oggetti = e.oggetti || []).push({ nome: x.nome || x.testo, qta: 1, tipo: x.tipo, valore: x.valore, nota: x.testo, cariche: x.cariche, caricheMax: x.caricheMax ?? x.cariche, incantesimo: x.incantesimo, solo: x.solo, manuale: !!x.manuale, curativo: x.curativo });
   else if (x.tipo === 'pergamena' && x.incantesimo) (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: 1, tipo: 'pergamena', nota: x.testo, cariche: 1, caricheMax: 1, incantesimo: x.incantesimo, consuma: true });
   else (e.oggetti = e.oggetti || []).push({ nome: x.testo, qta: x.qta || 1, valore: x.valore, tipo: x.tipo, abi: x.abi, cariche: x.cariche, caricheMax: x.caricheMax, solo: x.solo });
@@ -431,6 +438,25 @@ function dividiOro() {
   adv().bottino = adv().bottino.filter(x => x.tipo !== 'oro');
   if (resto > 0) adv().bottino.push({ id: uid(), tipo: 'oro', testo: `${resto} pezzi d’oro (non portabili dal veterano)`, valore: resto });
   log(`Oro diviso tra tutti: ${tot - resto} p.o.`); T.controllaOro(); modificato();
+}
+
+/** Reazione «Sfida magica» (manuale base): 1d6 + livello del mago contro il LIV del mostro. */
+async function sfidaMagica(i, m) {
+  const r = await dado(`Sfida magica: ${m.nome} (1d6 + livello ${m.livello}) contro LIV ${i.liv}`);
+  const tot = r.totale + m.livello;
+  if (tot >= i.liv) { C.nota(`${m.nome} vince la sfida magica (${tot} contro ${i.liv}): ${i.nome} si allontana e conta come sconfitto.`); return C.sconfittoSenzaCombattere(); }
+  m.livello = Math.max(0, m.livello - 1); m.pvMax = Math.max(1, m.pvMax - 1); m.pv = Math.min(m.pv, m.pvMax);
+  C.nota(`${m.nome} perde la sfida magica (${tot} contro ${i.liv}) e scende al livello ${m.livello}${m.livello === 0 ? ' (non lancia incantesimi finché non supera un tiro ES: riesce con 2 o più)' : ''}. ${i.nome} attacca.`);
+  i.mostriPrima = true; return C.inizioScontro();
+}
+/** Missione di un mostro compiuta (manuale base): ricompensa epica, 1 tiro ES e il mostro conta come sconfitto. */
+async function missioneMostroCompiuta(x) {
+  const r = await dado('Ricompensa epica (d6)'); const row = riga(tabella('ricompense'), r.totale);
+  modalTesto(row.nome, row.testo); adv().ricompense = [...(adv().ricompense || []), row.nome];
+  adv().missioniMostro = (adv().missioniMostro || []).filter(y => y.id !== x.id);
+  G.aggiungiES(`Missione «${x.nome}» per ${x.mostro}`);
+  G.vittoria({ ...x.snap, nome: x.mostro });
+  log(`Missione «${x.nome}» compiuta per ${x.mostro}: ricompensa epica «${row.nome}», 1 tiro ES; il mostro conta come sconfitto.`); modificato();
 }
 
 // ---------------- finestra automatica del bottino ----------------
@@ -463,11 +489,11 @@ export function apriBottino() {
           btn(x.tipo === 'oro' ? 'Dai' : 'Prendi', async () => { await assegna(x, eroePerId(sel.value)); disegnaLista(); }, 'mini primary')));
       });
       if (b.some(x => x.tipo === 'oro')) lista.append(btn('Dividi l’oro tra tutti (almeno 1 a ogni nano)', () => { dividiOro(); disegnaLista(); }, 'accent'));
-      body.replaceChildren(
+      body.replaceChildren(...[
         h('p', {}, 'Il gruppo ha trovato questo bottino: scegli a chi darlo oppure dividi l’oro.'),
         avidi.length ? h('small', { class: 'hint' }, `${avidi.map(x => x.nome).join(', ')} ${avidi.length > 1 ? 'sono Avidi' : 'è Avido'}: deve ricevere la quota maggiore del tesoro o l’oggetto magico di maggior valore, altrimenti lascia il gruppo.`) : null,
         lista,
-        h('div', { class: 'row end' }, btn('Più tardi (resta nel bottino)', () => close())));
+        h('div', { class: 'row end' }, btn('Più tardi (resta nel bottino)', () => close()))].filter(Boolean));   // replaceChildren scriverebbe «null»
     };
     bottinoRinfresca = disegnaLista; disegnaLista();
   }, { onClose: () => { bottinoRinfresca = null; } });
@@ -501,6 +527,10 @@ export function renderStrumenti(box) {
       btn('Ricompensa epica', async () => { const r = await dado('Ricompensa epica (d6)'); const row = riga(tabella('ricompense'), r.totale); modalTesto(row.nome, row.testo); a.ricompense = [...(a.ricompense || []), row.nome]; log(`Ricompensa epica: ${row.nome}`); modificato(); }),
       btn('Riposa (stanza sicura)', async () => { if (profonditaAttiva() && P.riposoVietato()) return toast(P.riposoVietato(), 'warn'); if (!G.stanzaSicura(G.tileById(a.stanzaCorrente)) && !(await confirmBox('La stanza attuale non è vuota né ripulita (le stanze sicure sono evidenziate in verde). Riposare comunque?'))) return; riposa(); const m = await G.monstroErrante(); toast('Mentre riposi arrivano mostri erranti: prima tu se hai inchiodato le porte.'); G.avviaIncontro(m, G.tileById(a.stanzaCorrente)); }))));
 
+  if ((a.missioniMostro || []).length) box.append(h('div', { class: 'card' }, h('h3', {}, 'Missioni dei mostri'),
+    h('p', { class: 'hint' }, 'Quando torni dal mostro con la missione compiuta: ricompensa epica, 1 tiro ES e il mostro conta come sconfitto. Se torni senza averla compiuta, il mostro ti attacca.'),
+    ...a.missioniMostro.map(x => h('div', { class: 'row' }, h('span', { class: 'grow' }, `${x.nome} (${x.mostro})`),
+      btn('Compiuta', () => missioneMostroCompiuta(x), 'mini primary'), btn('Abbandona', () => { a.missioniMostro = a.missioniMostro.filter(y => y.id !== x.id); modificato(); }, 'mini')))));
   const ritorno = h('input', { type: 'number', min: 1, value: 1, style: 'width:64px' });
   box.append(h('div', { class: 'card' }, h('h3', {}, 'Ritorno sui passi / Usciamo da qui!'),
     h('p', { class: 'hint' }, 'Per ogni stanza già visitata che attraversi tira 1d6: con 1 attaccano i mostri erranti (alle spalle). Con un personaggio di pietra trascinato: 1-2.'),

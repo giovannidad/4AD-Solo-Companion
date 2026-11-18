@@ -693,7 +693,7 @@ export function eroePuoSalire(e) {
   if (P.bloccoGrado(e)) return false;              // al 9° livello serve il grado eroico, al 14° il leggendario
   const altri = eroiVivi().filter(x => x.id !== e.id && !x.merc);
   if (e.livello >= 5 && altri.some(x => x.livello < 5)) return false;
-  if (S.adv.ultimoLivello === e.id && altri.length && !altri.every(x => x.livello >= 5)) return false;
+  if (S.adv.ultimoLivello === e.id && !(altri.length && altri.every(x => x.livello >= 5))) return false;   // mai due volte di fila, nemmeno se è l'unico vivo (salvo che tutti i compagni siano al 5°)
   return true;
 }
 export async function tiroES(es, e, posta = { tipo: 'livello' }) {

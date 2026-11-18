@@ -332,7 +332,7 @@ export function scheda(id) {
           h('button', { class: 'mini', title: 'Una carica in più', onclick: () => { o.cariche = Math.min(o.caricheMax ?? 99, o.cariche + 1); ro(); modificato('party'); } }, '+'),
           o.manuale ? h('button', { class: 'mini', disabled: o.cariche <= 0, title: 'Usa una carica (registra nel diario)', onclick: () => { o.cariche--; log(`${e.nome} usa ${o.nome} (rimaste: ${o.cariche}).`); ro(); modificato('party'); } }, 'Usa') : null
         ] : [];
-        og.append(h('div', { class: 'row', title: o.nota || '' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}${o.valore ? ` (${o.valore} p.o.)` : ''}${o.afferrato ? ' — afferrato (non usabile)' : ''}`), ...car, equipaggiabile(o) ? h('button', { class: 'mini', title: 'Impugna come arma o indossa come armatura', onclick: async () => { if (await equipaggia(e, o)) { scheda(e.id); } } }, 'Equipaggia') : null, h('button', { class: 'mini', onclick: () => { e.oggetti.splice(k, 1); ro(); modificato('party'); } }, '×')));
+        og.append(h('div', { class: 'row', title: o.nota || '' }, h('span', { class: 'grow' }, `${o.nome}${o.qta > 1 ? ` ×${o.qta}` : ''}${o.valore ? ` (${o.valore} p.o.)` : ''}${o.afferrato ? ' — afferrato (non usabile)' : ''}`), ...car, h('button', { class: 'mini', title: 'Dai questo oggetto a un altro eroe', disabled: !!o.afferrato, onclick: async () => { if (await scambiaOggetto(e, o)) { ro(); } } }, 'Scambia'), equipaggiabile(o) ? h('button', { class: 'mini', title: 'Impugna come arma o indossa come armatura', onclick: async () => { if (await equipaggia(e, o)) { scheda(e.id); } } }, 'Equipaggia') : null, h('button', { class: 'mini', onclick: () => { e.oggetti.splice(k, 1); ro(); modificato('party'); } }, '×')));
       });
       if (!e.oggetti?.length) og.append(h('small', {}, 'Nessun oggetto.'));
     };
@@ -352,6 +352,27 @@ export function scheda(id) {
       h('button', { class: 'danger', onclick: async () => { if (await confirmBox(`Eliminare definitivamente ${e.nome}?`)) { S.party.eroi = S.party.eroi.filter(x => x.id !== e.id); S.party.ordine = S.party.ordine.filter(x => x !== e.id); if (S.ritratti?.[e.id]) { delete S.ritratti[e.id]; salva('ritratti'); } log(`${e.nome} lascia il gruppo.`); modificato('party'); close(); } } }, 'Elimina eroe'),
       h('button', { class: 'primary', onclick: close }, 'Chiudi')));
   }, { wide: true });
+}
+
+/** Passa un oggetto dello zaino di `da` a un altro eroe (con la quantità, se più di una) rispettando le restrizioni di classe. */
+async function scambiaOggetto(da, o) {
+  const altri = S.party.eroi.filter(x => x.id !== da.id && x.stato !== 'morto' && !x.png);
+  if (!altri.length) { toast('Non c’è nessun altro eroe a cui darlo.', 'warn'); return false; }
+  const k = await scelta('Scambia oggetto', `A chi dai «${o.nome}»?`, altri.map(x => [x.id, `${x.nome} (${nomeClasse(x)})`]));
+  const a = altri.find(x => x.id === k); if (!a) return false;
+  const magico = ['magico', 'pergamena'].includes(o.tipo) || o.noBarbaro || o.bonusArma || o.bonusDifesa;
+  if (a.classe === 'barbaro' && magico) { toast('I barbari non usano oggetti magici né pergamene.', 'warn'); return false; }
+  if (a.classe === 'elfo-fuoco' && o.tipo === 'pergamena') { toast('Gli elfi del fuoco sono ciechi: non leggono pergamene.', 'warn'); return false; }
+  let q = 1;
+  if ((o.qta || 1) > 1) { const n = await scelta('Quanti?', `${da.nome} ne ha ${o.qta}.`, [[1, 'Uno'], [o.qta, `Tutti (${o.qta})`]]); if (!n) return false; q = n; }
+  const copia = { ...o, qta: q };
+  const ex = (o.cariche == null) ? (a.oggetti = a.oggetti || []).find(x => x.nome === o.nome && x.cariche == null) : null;   // pozioni uguali si sommano
+  if (ex) ex.qta = (ex.qta || 1) + q; else (a.oggetti = a.oggetti || []).push(copia);
+  if (q >= (o.qta || 1)) da.oggetti = da.oggetti.filter(x => x !== o); else o.qta -= q;
+  if (o.bonusDifesa) { const resta = Math.max(0, ...(da.oggetti || []).map(x => x.bonusDifesa || 0)); da.bonusDifesa = Math.min(da.bonusDifesa || 0, resta) || resta; a.bonusDifesa = Math.max(a.bonusDifesa || 0, o.bonusDifesa); }
+  if (o.bonusArma) { const resta = Math.max(0, ...(da.oggetti || []).map(x => x.bonusArma || 0)); da.bonusMagico = Math.min(da.bonusMagico || 0, resta) || resta; a.bonusMagico = Math.max(a.bonusMagico || 0, o.bonusArma); }
+  log(`${da.nome} dà ${q > 1 ? q + '× ' : ''}${o.nome} a ${a.nome}.`); modificato('party');
+  return true;
 }
 function num2(e, label, k) {
   return h('label', {}, label, h('input', { type: 'number', min: 0, value: e.usi[k] || 0, onchange: ev => { e.usi[k] = +ev.target.value; modificato('party'); } }));
