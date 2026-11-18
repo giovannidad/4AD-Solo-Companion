@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.16.3
+- **Scambia oggetti:** nella scheda di ogni eroe, il pulsante «Scambia» passa un oggetto dello zaino a un altro eroe (con la quantità), rispettando le restrizioni di classe; i bonus magici seguono l'oggetto.
+- **Sfida magica** (manuale base): ora un mago può sfidare il mostro con 1d6 + livello; se vince il mostro conta come sconfitto, se perde il mago scende di un livello e il mostro attacca.
+- **Missioni dei mostri** (manuale base): scheda negli Strumenti con «Compiuta» (ricompensa epica, 1 tiro ES, mostro sconfitto) e «Abbandona».
+- **Tiri ES:** lo stesso eroe non sale due volte di fila nemmeno se è l'unico rimasto vivo.
+- **Correzione:** la finestra «Bottino da assegnare» non scrive più «null» quando nessun eroe è Avido.
+
 ## 1.16.2
 - **Finestra «Bottino da assegnare»:** ogni volta che qualcosa entra nel bottino (tesoro, trappola, tesoro nascosto, saccheggio, eventi, oggetti e pergamene) si apre da sola una finestra per dare oro, gemme e oggetti agli eroi o dividere l'oro. «Più tardi» lascia tutto nel bottino. Non compare durante uno scontro o per l'ospite della cooperativa.
 
