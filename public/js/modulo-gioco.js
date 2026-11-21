@@ -39,7 +39,7 @@ export function presenta(def, avvisi = []) {
   const l = def.livello, fuori = l && lv.length && (Math.max(...lv) < l.min || Math.min(...lv) > l.max);
   const nEroi = def.eroi && vivi.length && (vivi.length < def.eroi.min || vivi.length > def.eroi.max);
   modal(def.nome, (b, close) => {
-    b.append(
+    b.append(...[
       h('p', { class: 'hint' }, [def.autore ? `di ${def.autore}` : null, def.licenza ? `licenza: ${def.licenza}` : null].filter(Boolean).join(' · ')),
       def.descrizione ? h('p', {}, def.descrizione) : null,
       h('div', { class: 'stats' },
@@ -53,7 +53,7 @@ export function presenta(def, avvisi = []) {
       def.obiettivo ? h('p', {}, h('b', {}, 'Obiettivo: '), def.obiettivo) : null,
       h('div', { class: 'row end' },
         h('button', { onclick: close }, 'Annulla'),
-        h('button', { class: 'primary', onclick: async () => { close(); if (await G.iniziaAvventura(def)) table.setView('fit'); } }, 'Inizia l’avventura')));
+        h('button', { class: 'primary', onclick: async () => { close(); if (await G.iniziaAvventura(def)) table.setView('fit'); } }, 'Inizia l’avventura'))].filter(Boolean));   // append(null) scriverebbe «null»
   }, { wide: true });
 }
 
@@ -65,7 +65,7 @@ export function riquadroAvvio() {
     h('p', { class: 'hint' }, 'Un dungeon già disegnato, con stanze, mostri e tesori decisi dall’autore. Le regole restano quelle del gioco. Formato descritto in docs/MODULI.md.'));
   const apri = async testo => {
     const r = leggiModulo(testo);
-    if (!r.def) { modal('Avventura non valida', (b, close) => { b.append(h('p', { class: 'warn-box' }, 'Il file non si può usare:'), h('ul', {}, r.errori.slice(0, 15).map(e => h('li', {}, e))), r.errori.length > 15 ? h('small', {}, `…e altri ${r.errori.length - 15} errori.`) : null, h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Chiudi'))); }, { wide: true }); return; }
+    if (!r.def) { modal('Avventura non valida', (b, close) => { b.append(...[h('p', { class: 'warn-box' }, 'Il file non si può usare:'), h('ul', {}, r.errori.slice(0, 15).map(e => h('li', {}, e))), r.errori.length > 15 ? h('small', {}, `…e altri ${r.errori.length - 15} errori.`) : null, h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Chiudi')))].filter(Boolean)); }, { wide: true }); return; }
     presenta(r.def, r.avvisi);
   };
   fetch('assets/moduli/elenco.json').then(r => (r.ok ? r.json() : [])).then(async lista => {
@@ -122,11 +122,11 @@ export function introduzione(def, riletta = false) {
   if (!riletta) { testi.forEach(t => log(t)); if (def.obiettivo) log(`Obiettivo: ${def.obiettivo}`); }
   if (!testi.length && !def.obiettivo) return Promise.resolve();
   return new Promise(res => modal(def.nome, (b, close) => {
-    b.append(
+    b.append(...[
       def.serie ? h('p', { class: 'hint' }, `Capitolo ${def.serie.numero} di ${def.serie.di}`) : null,
       ...testi.map(t => h('p', { class: 'intro-epica' }, t)),
       def.obiettivo ? h('div', { class: 'card' }, h('h4', {}, 'Obiettivo'), h('p', {}, def.obiettivo)) : null,
-      h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, riletta ? 'Chiudi' : 'Entra nel dungeon')));
+      h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, riletta ? 'Chiudi' : 'Entra nel dungeon'))].filter(Boolean));
   }, { wide: true, onClose: () => res() }));
 }
 /** Finali a scelta: alla conclusione con successo il giocatore sceglie come finisce; la scelta resta nella campagna. */
@@ -276,7 +276,7 @@ export function cartaEsplora() {
   if (def().introduzione || def().obiettivo) box.append(h('div', { class: 'row' }, btn('Rileggi introduzione e obiettivo', () => introduzione(def(), true))));
   if (!cur?.stanzaModulo) { box.append(h('p', { class: 'hint' }, 'Seleziona una stanza dall’elenco della mappa esplorata.')); return box; }
   const s = stanzaDef(cur.stanzaModulo);
-  box.append(h('p', {}, h('b', {}, s.nome)), s.testo ? h('p', { class: 'hint' }, s.testo) : null);
+  box.append(...[h('p', {}, h('b', {}, s.nome)), s.testo ? h('p', { class: 'hint' }, s.testo) : null].filter(Boolean));
   const us = uscite();
   if (!us.length) box.append(h('p', { class: 'hint' }, 'Nessuna uscita visibile. Perquisire la stanza può rivelare una porta segreta.'));
   for (const u of us) {
