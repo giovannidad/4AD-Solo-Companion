@@ -495,7 +495,7 @@ const centriEtichetta = new Map();
 export function posEtichetta(d) {
   const m = metaDi(d);
   if (!m?.celle?.length) return [d.x, d.z];
-  const chiave = (d.tipo === 'ingresso' ? 'i' : 't') + d.n;
+  const chiave = d.geom ? d.id : (d.tipo === 'ingresso' ? 'i' : 't') + d.n;
   let loc = centriEtichetta.get(chiave);
   if (!loc) {
     const pad = m.ox / m.cx, cs = [...m.celle].sort((a, b) => a[1] - b[1] || a[0] - b[0]);
@@ -512,7 +512,7 @@ export function posEtichetta(d) {
 let TDATA = null, TSETS = {};
 export function setTileData(t, sets) { TDATA = t; TSETS = sets || {}; }
 /** Geometria (quadretti e porte) della tessera: ogni set tematico ha la propria, riconosciuta dalla cartella dell'immagine. */
-const metaDi = d => ((TSETS[/\/set-(\w+)\//.exec(d.src || '')?.[1]]) || TDATA)?.[d.tipo === 'ingresso' ? 'ingressi' : 'tiles']?.[d.n];
+const metaDi = d => d.geom || ((TSETS[/\/set-(\w+)\//.exec(d.src || '')?.[1]]) || TDATA)?.[d.tipo === 'ingresso' ? 'ingressi' : 'tiles']?.[d.n];   // le stanze delle avventure scritte portano la propria geometria (`geom`)
 const SENO = [0, 1, 0, -1], COSENO = [1, 0, -1, 0];
 /** Trasformazione locale → foglio di una tessera (rotazione, specchio, centro). */
 function trasf(d) {

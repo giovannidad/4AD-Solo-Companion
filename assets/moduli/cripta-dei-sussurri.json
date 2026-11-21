@@ -1,0 +1,70 @@
+{
+  "formato": "4ad-avventura",
+  "versione": 1,
+  "nome": "La cripta dei sussurri",
+  "autore": "Esempio incluso nel programma",
+  "licenza": "CC0 (pubblico dominio)",
+  "lingua": "it",
+  "descrizione": "Piccola cripta per un gruppo di livello 3-5: otto stanze, una porta segreta, un boss finale. Serve soprattutto da esempio del formato.",
+  "introduzione": "Un villaggio ai piedi della collina paga bene chi scende nella cripta del vecchio monastero: da settimane si sentono voci nelle notti senza vento, e due pastori non sono tornati.",
+  "conclusione": "Il sepolcro tace. Le voci, al villaggio, non si sentiranno più.",
+  "livello": { "min": 3, "max": 5 },
+  "eroi": { "min": 3, "max": 4 },
+  "set": "diabolici",
+  "fine": "boss",
+  "stanze": [
+    { "id": "atrio", "nome": "Atrio crollato", "tipo": "ingresso", "rettangolo": [0, 8, 3, 3],
+      "testo": "Una scalinata scende nel buio. Il soffitto è in parte caduto e dalla polvere spuntano i resti di un portale scolpito." },
+    { "id": "corr-urne", "nome": "Corridoio delle urne", "tipo": "corridoio", "rettangolo": [3, 9, 4, 1],
+      "testo": "Nicchie vuote lungo le pareti. Il pavimento è ricoperto di cenere recente.",
+      "contenuto": [ { "tipo": "trappola", "modello": "Dardo", "liv": 5, "testo": "Un dardo parte da una nicchia quando si calpesta la lastra centrale." } ] },
+    { "id": "ossario", "nome": "Sala degli ossari", "rettangolo": [7, 7, 5, 5],
+      "testo": "Cataste di ossa ordinate per tipo. Una di esse si muove.",
+      "contenuto": [ { "tipo": "mostri", "tabella": "seguaci", "id": "d-nani-posseduti", "quantita": 3 }, { "tipo": "tesoro", "tira": true } ] },
+    { "id": "corr-nord", "nome": "Corridoio nord", "tipo": "corridoio", "rettangolo": [9, 4, 1, 3],
+      "testo": "Un cunicolo stretto che sale. Si sente un mormorio basso, come di preghiera." },
+    { "id": "custode", "nome": "Cripta del custode", "rettangolo": [7, 0, 5, 4],
+      "testo": "Un sarcofago aperto, un lume ancora acceso. Qualcuno è stato qui da poco.",
+      "contenuto": [
+        { "tipo": "mostri", "nome": "Sacerdote scheletrico", "liv": 5, "att": 2, "pv": 4, "maggiore": true, "tag": ["non-morto"], "mor": "NO", "tes": 1,
+          "reazioni": [[1, 6, "morte"]], "immuneIncantesimi": ["Sonno"], "note": "Recita preghiere rovesciate: ogni turno i personaggi con un solo PV tirano un dado, con 1 perdono l'azione." }
+      ] },
+    { "id": "tesoreria", "nome": "Tesoreria nascosta", "rettangolo": [12, 1, 3, 2],
+      "testo": "Una nicchia murata, rimasta sigillata per secoli.",
+      "contenuto": [ { "tipo": "tesoro", "fisso": [
+        { "tipo": "oro", "valore": 60 },
+        { "tipo": "gemma", "valore": 40 },
+        { "tipo": "arma-magica", "testo": "Pugnale d'argento +1 all'attacco (colpisce i non-morti)", "bonusArma": 1, "armaTipo": "arma leggera da taglio" }
+      ] } ] },
+    { "id": "cappella", "nome": "Cappella profanata", "rettangolo": [12, 8, 4, 3],
+      "testo": "L'altare è stato rovesciato e sporcato con segni rossi. Quattro figure incappucciate si voltano insieme.",
+      "contenuto": [
+        { "tipo": "mostri", "nome": "Accoliti del sepolcro", "liv": 4, "att": 1, "pv": 1, "quantita": "1d3+2", "tag": ["umanoide", "caos"], "mor": 0, "tes": "NO",
+          "reazioni": [[1, 2, "fugge"], [3, 6, "combatte"]] },
+        { "tipo": "caratteristica", "tira": true }
+      ] },
+    { "id": "corr-sud", "nome": "Corridoio sud", "tipo": "corridoio", "rettangolo": [9, 12, 1, 2],
+      "testo": "Una rampa scende. L'aria è più fredda." },
+    { "id": "pozzo", "nome": "Pozzo dei lamenti", "rettangolo": [7, 14, 5, 4],
+      "testo": "Al centro un pozzo senza parapetto. Da sotto salgono voci che ripetono i nomi dei personaggi.",
+      "contenuto": [ { "tipo": "evento", "nome": "Le voci del pozzo", "testo": "Ogni personaggio tira 1d6: con 1 sente il proprio nome e perde 1 PV per lo spavento. Chi si affaccia al pozzo trova 1d6×10 pezzi d'oro sul fondo, ma deve superare una prova di salvezza di livello 5 o cade (2 PV)." }, { "tipo": "vuota" } ] },
+    { "id": "sepolcro", "nome": "Sala del sepolcro", "rettangolo": [16, 7, 5, 5],
+      "testo": "Al centro, un sarcofago di pietra nera. Il coperchio scivola lentamente di lato.",
+      "contenuto": [
+        { "tipo": "mostri", "nome": "Custode del sepolcro", "liv": 7, "att": 2, "pv": 8, "maggiore": true, "finale": true, "tag": ["non-morto"], "mor": "NO", "tes": "x2",
+          "reazioni": [[1, 6, "combatte-sempre"]], "immuneIncantesimi": ["Sonno"], "note": "È lui a parlare con le voci della cripta." },
+        { "tipo": "tesoro", "tira": true, "mod": 1 }
+      ] }
+  ],
+  "porte": [
+    { "da": "atrio", "a": "corr-urne", "x": 2, "y": 9, "lato": "e" },
+    { "da": "corr-urne", "a": "ossario", "x": 6, "y": 9, "lato": "e" },
+    { "da": "ossario", "a": "cappella", "x": 11, "y": 9, "lato": "e" },
+    { "da": "ossario", "a": "corr-nord", "x": 9, "y": 7, "lato": "n" },
+    { "da": "corr-nord", "a": "custode", "x": 9, "y": 4, "lato": "n" },
+    { "da": "custode", "a": "tesoreria", "x": 11, "y": 2, "lato": "e", "tipo": "segreta", "nota": "Dietro il sarcofago, una lastra che suona vuota." },
+    { "da": "ossario", "a": "corr-sud", "x": 9, "y": 11, "lato": "s" },
+    { "da": "corr-sud", "a": "pozzo", "x": 9, "y": 13, "lato": "s" },
+    { "da": "cappella", "a": "sepolcro", "x": 15, "y": 9, "lato": "e" }
+  ]
+}
