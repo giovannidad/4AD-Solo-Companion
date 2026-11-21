@@ -19,6 +19,8 @@ del regolamento automatizzate. Tutti i dati sono salvati in **file di testo** (J
   mostri erranti, boss finale, missioni e ricompense epiche.
 - **Incontri:** reazioni, attacco (con tutti i modificatori), incantesimi, difese, morale, ritirata/fuga, bottino,
   tiri esperienza, abilità speciali dei mostri.
+- **Avventure scritte:** oltre al dungeon a tessere casuali si può giocare un dungeon già pronto, caricato da un file (`.json`) o scelto fra quelli inclusi, per personaggi di qualsiasi livello.
+  Chiunque può scriverne di nuove: formato documentato in [docs/MODULI.md](docs/MODULI.md).
 - **Salvataggio:** una cartella per campagna con `party.json`, `avventura.json`, `registro.txt`.
 
 Cosa è automatico e cosa no è descritto in [docs/REGOLE.md](docs/REGOLE.md): l'app è un **assistente al tavolo**,

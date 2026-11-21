@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.17.0
+- **Avventure scritte (moduli):** un file `.json` descrive un dungeon già pronto (mappa a stanze con porte, anche segrete, mostri, tesori, trappole, eventi, descrizioni da leggere) per qualunque livello dei personaggi da 1 a 30, con le tabelle del set scelto dall'autore (manuale base, Nemici diabolici, Contro il Caos, Contro l'Abisso, Orrori dall'Aldilà, Contro le Profondità Dimenticate, Acque Oscure, Coboldi). Nel pannello Dungeon, riquadro «Avventura scritta»: **avventure incluse** oppure **Carica da file…**; funziona nel sito per telefono, nell'app per Mac e Windows e con il server. Le stanze sono disegnate sul foglio nello stile vettoriale del gioco; combattimenti, tesori, trappole, erranti, perquisizione, riposo e salvataggio seguono le regole di sempre, e l'avventura è salvata nella campagna insieme al modulo.
+- Mostri presi dalle tabelle (`tabella` + `id`) oppure scritti da zero con livello, attacchi, PV, morale, tesoro, reazioni e alcuni poteri automatici; boss finale; tesori fissi (oro, gemme, oggetti magici) o a tiro.
+- **Documentazione per gli autori:** `docs/MODULI.md`, elenco dei mostri richiamabili (`docs/MOSTRI-MODULI.md`, generato da `tools/elenco-mostri.js`), schema JSON per l'editor e controllo da riga di comando `node tools/valida-modulo.js file.json`. Due avventure d'esempio in `assets/moduli/`: «La cripta dei sussurri» (livelli 3-5) e «La fortezza di cenere» (livelli 6-8, Contro l'Abisso).
+- Non supportati nei moduli: Labirinti Silvani, missioni di Contro il Caos, mappa a esagoni dell'Aldilà. Provato nel browser (server e modalità locale) sulle due avventure d'esempio; non provato su un telefono vero né nell'app Electron.
+
 ## 1.16.3
 - **Scambia oggetti:** nella scheda di ogni eroe, il pulsante «Scambia» passa un oggetto dello zaino a un altro eroe (con la quantità), rispettando le restrizioni di classe; i bonus magici seguono l'oggetto.
 - **Sfida magica** (manuale base): ora un mago può sfidare il mostro con 1d6 + livello; se vince il mostro conta come sconfitto, se perde il mago scende di un livello e il mostro attacca.
