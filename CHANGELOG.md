@@ -1,6 +1,6 @@
 # Changelog
 
-## Non ancora pubblicato
+## 1.18.0
 - **Campagna «Il Cartografo dell'Oblio»:** cinque avventure collegate da una trama (livelli 1-2, 2-3, 3-4, 4-5, 5-6; 18-20 stanze ciascuna) con tabelle diverse per ogni capitolo: base, Acque Oscure, Nemici diabolici, Contro il Caos, Contro l'Abisso. Nell'elenco «Avventure incluse».
 - **Nebbia di guerra a raggio di luce:** la mappa è scura tranne attorno ai personaggi; chi porta la lanterna illumina di più. Si può spegnere dalle Impostazioni (Mappa).
 - **Introduzione e obiettivo:** all'inizio di un'avventura scritta si apre una finestra con l'introduzione e l'obiettivo (rileggibili dal pannello Dungeon).
