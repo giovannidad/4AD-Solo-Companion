@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.18.1
+- **Campagna «Il Cartografo dell'Oblio»:** l'autore delle avventure è ora «Giovanni D'Addabbo per 4AD Solo Companion» e la scheda di presentazione non mostra più la licenza.
+- **Correzione:** nelle finestre delle avventure scritte (presentazione, introduzione, Esplora, errori di un file) non compare più la scritta «null».
+- **Workflow dei pacchetti:** il passo di caricamento sulla release non risulta più fallito sul Mac.
+
 ## 1.18.0
 - **Campagna «Il Cartografo dell'Oblio»:** cinque avventure collegate da una trama (livelli 1-2, 2-3, 3-4, 4-5, 5-6; 18-20 stanze ciascuna) con tabelle diverse per ogni capitolo: base, Acque Oscure, Nemici diabolici, Contro il Caos, Contro l'Abisso. Nell'elenco «Avventure incluse».
 - **Nebbia di guerra a raggio di luce:** la mappa è scura tranne attorno ai personaggi; chi porta la lanterna illumina di più. Si può spegnere dalle Impostazioni (Mappa).
