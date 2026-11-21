@@ -103,19 +103,19 @@ async function risolviSet() {
   return S.party.set || 'base';
 }
 
-export async function iniziaAvventura() {
+export async function iniziaAvventura(modulo = null) {
   if (!eroiVivi().length) { toast('Crea prima almeno un eroe nel gruppo.', 'warn'); return false; }
-  const set = await risolviSet();
+  const set = modulo ? (modulo.set || 'base') : await risolviSet();   // l'avventura scritta sceglie da sola le tabelle
   if ((set === 'abisso' || S.party.supplAbisso) && !(await A.controlloIngresso())) return false;
   if ((set === 'profondita' || S.party.supplProfondita) && !(await P.controlloIngresso())) return false;
   if (set === 'silvani' && !(await V.controlloIngresso())) return false;
   if ((set === 'aldila' || S.party.supplAldila) && !(await AL.controlloIngresso())) return false;
   let missione = null;
-  if (set === 'caos') { missione = await K.scegliMissione(); }
-  Object.assign(S.adv, { set, missione, tema: S.party.tema || 'carta', eventiUsati: [],
+  if (set === 'caos' && !modulo) { missione = await K.scegliMissione(); }
+  Object.assign(S.adv, { set, missione, tema: S.party.tema || 'carta', eventiUsati: [], modulo: null,
     attiva: true, numero: (S.adv.numero || 0) + 1, stanze: 0, tessere: [], stanzaCorrente: null, incontro: null, coda: [],
     maggioriSconfitti: 0, incontriSeguaci: S.adv.incontriSeguaci || 0, acque: {}, esPendenti: S.party.supplProfondita ? (S.adv.esPendenti || []) : [], esTirati: false, bottino: [],   // con le Profondità i tiri ES non tirati restano: servono per passare di grado
-    fine: null, nomeDungeon: nomeDungeon(), bossFinaleUcciso: false, silvani: null,
+    fine: null, nomeDungeon: modulo ? modulo.nome : nomeDungeon(), bossFinaleUcciso: false, silvani: null,
     guaritoreVisto: false, alchimistaVisto: false, fontanaUsata: false, dama: false, maledizioniNote: [],
     fiume: null, sezione: null, cittadella: null, iscrizioni: [], allucinazioni: 0, stregheUccise: 0, agitazione: null, alluvione: null, missioneP: null, idoloFuggito: false, artefatto: null, setaTrovata: false
   });
@@ -135,6 +135,16 @@ export async function iniziaAvventura() {
   await AL.inizioAvventura();     // «Orrori dall'Aldilà»: classi, doni esecrandi, stati temporanei
   await K.dotazioniMissione();    // compagni e oggetti forniti dalla missione
   table.setTema(S.adv.tema); table.setTiles([]);
+  if (modulo) {   // avventura scritta: l'ingresso è quello del modulo, senza tiri
+    const MG = await import('./modulo-gioco.js');
+    const t = MG.avviaModulo(modulo);
+    table.setTiles(adv().tessere); table.selectTile(null); table.animate(t.id);
+    log(`Inizia l’avventura n. ${adv().numero}: «${adv().nomeDungeon}» (avventura scritta, ${SETS[set] || SETS.base}).`);
+    if (modulo.introduzione) log(modulo.introduzione);
+    toast(`${t.nome}: la stanza viene disegnata sul foglio.`);
+    modificato();
+    return true;
+  }
   const selva = set === 'silvani';   // nella selva l'ingresso è 1d6+60 sulla stessa tabella delle aree (tessere 61-66), non una tabella d'ingressi
   const r = await dado(selva ? 'Area d’ingresso (1d6+60: tessere 61-66)' : 'Stanza d’ingresso (d6)');
   const idx = selva ? r.totale + 60 : r.totale;
@@ -157,6 +167,7 @@ export async function iniziaAvventura() {
 export function terminaAvventura(esito) {
   adv().attiva = false; adv().fine = esito;
   log(`Avventura conclusa: ${esito}.`);
+  if (adv().modulo?.def?.conclusione && /^Missione compiuta/.test(esito)) log(adv().modulo.def.conclusione);
   if (adv().missione?.id === 'cuoco') K.congedaCuoco();
   T.fineAvventura().catch(err => console.error(err));
   A.fineAvventura(esito).catch(err => console.error(err));
@@ -170,6 +181,7 @@ export function terminaAvventura(esito) {
 // ---------------- generazione stanze ----------------
 export async function nuovaStanza(opzioni = {}) {
   if (!adv().attiva) { toast('Inizia prima un’avventura.', 'warn'); return null; }
+  if (adv().modulo) { toast('In un’avventura scritta le stanze sono quelle del modulo: scegli una porta dal pannello Dungeon.', 'warn'); return null; }
   if (adv().tessere.some(t => t.pending)) { toast('Posiziona prima la stanza in attesa.', 'warn'); return null; }
   const r = await d66('Nuova stanza (d66: rosso = decine)');
   let n = String(r.totale);
@@ -186,15 +198,15 @@ export async function nuovaStanza(opzioni = {}) {
   return t;
 }
 
-export async function confermaStanza(t, corridoio) {
+export async function confermaStanza(t, corridoio, generatore = null) {
   t.pending = false; t.corridoio = !!corridoio;
   adv().stanze++; t.idx = adv().stanze;
   for (const e of S.party.eroi) if (e.ondataForza > 0) { e.ondataForza--; if (!e.ondataForza) log(`L’Ondata di Forza su ${e.nome} svanisce.`); }
   muoviGruppo(adv().stanzaCorrente, t.id); adv().stanzaCorrente = t.id;
   table.upsertTile(t); table.selectTile(null); table.animate(t.id);
-  log(`Stanza ${t.n} posizionata (${corridoio ? 'corridoio' : 'stanza'}).`);
+  log(t.stanzaModulo ? `Il gruppo entra in «${t.nome}» (${corridoio ? 'corridoio' : 'stanza'}).` : `Stanza ${t.n} posizionata (${corridoio ? 'corridoio' : 'stanza'}).`);
   modificato();
-  await generaContenuto(t);
+  await (generatore ? generatore(t) : generaContenuto(t));   // avventura scritta: il contenuto viene dal modulo
   await K.dopoStanza(t);
   await A.dopoStanza();   // peste oscura: tiri degli infetti e contagio
   await P.dopoStanza(t);  // Profondità: eventi a più stanze, artefatti dei segreti, missioni
@@ -454,7 +466,7 @@ export async function caratteristica() {
   log(t); modificato(); return t;
 }
 
-async function evento(t) {
+export async function evento(t) {
   if (inCaos()) { const x = await K.eventoCaos(t); log(x); modificato(); return x; }
   if (inAbisso()) { const x = await A.evento(t); log(x); modificato(); return x; }
   if (inProfondita()) { const x = await P.evento(t); log(x); modificato(); return x; }

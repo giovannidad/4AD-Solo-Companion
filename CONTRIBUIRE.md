@@ -8,6 +8,8 @@ Grazie dell'interesse! Il progetto è piccolo e senza strumenti di build: basta 
 4. Controlla la sintassi dei moduli: `for f in public/js/*.js; do node --input-type=module --check < $f; done`.
 5. Descrivi nella pull request cosa cambia e come l'hai provato.
 
+Se tocchi `public/js/modulo.js`: `node tools/valida-modulo.js assets/moduli/*.json` deve restare senza errori; se cambi i dati dei mostri, rigenera `docs/MOSTRI-MODULI.md` con `node tools/elenco-mostri.js`.
+
 Idee utili: automatizzare i poteri dei mostri avanzati ancora solo descritti, uscite delle tessere per il posizionamento assistito,
 modalità cooperativa online, test automatici delle regole, traduzioni.
 

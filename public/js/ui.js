@@ -16,6 +16,7 @@ import { equipaggiabile, equipaggia } from './equip.js';
 import { nomeDungeon } from './nomi.js';
 import { dado, tira, d6Esplosivo, estremo } from './dice.js';
 import * as G from './game.js';
+import * as MG from './modulo-gioco.js';
 import * as C from './combat.js';
 import * as table from './map2d.js';
 import { descriviMostro, reazioniElenco, modAttacco, modDifesa, armaDi, nomeClasse, gruppoHaLanterna, haNano, riga, tabella, SETS, incantesimoACasoLista, suppl, tratto, haAbilita, abissoAttivo, inAbisso, maxFurie, profonditaAttiva, acqueAttive, silvaniAttivi, aldilaAttivo, inAldila } from './rules.js';
@@ -48,7 +49,8 @@ export function renderDungeon(box) {
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplAcque, onchange: ev => { S.party.supplAcque = ev.target.checked; modificato('party'); } }), 'Usa «Acque Oscure» e «Schiavisti Coboldi» (Spadaccino, acqua santa, flagello)'),
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplSilvani, onchange: ev => { S.party.supplSilvani = ev.target.checked; modificato('party'); } }), 'Usa «Labirinti Silvani» (druido, elfo silvano e altre 4 classi, compagni animali, cavalcature)'),
       h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: !!S.party.supplAldila, onchange: ev => { S.party.supplAldila = ev.target.checked; modificato('party'); } }), 'Usa «Orrori dall’Aldilà» (paladino, demonologo, cambione e altre 2 classi, cubi anima)'),
-      btn('Inizia una nuova avventura', async () => { if (await G.iniziaAvventura()) table.setView('fit'); }, 'primary big')));
+      btn('Inizia una nuova avventura', async () => { if (await G.iniziaAvventura()) table.setView('fit'); }, 'primary big'),
+      MG.riquadroAvvio()));
     return;
   }
   const pend = a.tessere.find(t => t.pending);
@@ -85,6 +87,8 @@ export function renderDungeon(box) {
         btn('Conferma e tira il contenuto', () => G.confermaStanza(pend, corr.checked), 'primary'),
         btn('Non entra: vicolo cieco', () => { pend.corridoio = corr.checked; return G.scartaStanza(pend); }),
         btn('Annulla', () => G.annullaStanza(pend), 'danger'))));
+  } else if (a.modulo) {
+    box.append(MG.cartaEsplora());   // avventura scritta: le stanze sono quelle del modulo
   } else {
     const fin = h('input', { type: 'checkbox' }), seg = h('input', { type: 'checkbox' });
     box.append(h('div', { class: 'card' },
@@ -118,7 +122,7 @@ export function renderDungeon(box) {
           if (!(await confirmBox('Concludere l’avventura con successo?'))) return;
           if (esplora && !a.missione.completata) await K.completaMissione();
           G.terminaAvventura(esplora ? 'Missione compiuta: mappa consegnata e uscita dal dungeon' : 'Missione compiuta: boss finale sconfitto e uscita dal dungeon');
-        }, 'primary', { disabled: !a.bossFinaleUcciso && !esplora, title: a.bossFinaleUcciso || esplora ? '' : 'Si attiva solo dopo aver sconfitto il boss finale' });
+        }, 'primary', { disabled: !a.bossFinaleUcciso && !esplora && a.modulo?.def?.fine !== 'libera', title: a.bossFinaleUcciso || esplora || a.modulo?.def?.fine === 'libera' ? '' : 'Si attiva solo dopo aver sconfitto il boss finale' });
       })(),
       btn('Ritirata dal dungeon', async () => { if (await confirmBox('Abbandonare il dungeon?')) G.terminaAvventura('Il gruppo ha abbandonato il dungeon'); }))));
 }
@@ -140,6 +144,7 @@ async function perquisisciUI(t) {
       b.append(...[h('p', { class: 'hint' }, res.solo ? `Scegli cosa trovi (solo ${res.solo === 'indizio' ? 'un indizio' : 'una porta segreta'}, per l’abilità usata):` : 'Scegli cosa trovi:'),
         res.solo === 'indizio' ? null : btn('Porta segreta', async () => {
           close(); await G.concludiPerquisizione(t, res);
+          if (adv().modulo) { await MG.portaSegreta(); return; }   // avventura scritta: le porte segrete le decide il modulo
           const sc = await G.portaSegreta();
           toast(sc ? 'Scorciatoia sicura verso l’uscita!' : 'Porta segreta: tira la stanza collegata.');
           await G.nuovaStanza({ segreta: true });

@@ -49,6 +49,8 @@ Browser / Electron  ──HTTP──▶  server.js  ──▶  data/campagne/<id
 | `game.js` | avventura, tessere, contenuto stanze, tesori, perquisire, esperienza, indizi |
 | `combat.js` | reazioni, attacchi, incantesimi, difese, morale, ritirata, bottino |
 | `party.js` | scheda eroe, creazione, negozio, riposo |
+| `modulo.js` | avventure scritte: formato del file, validazione e disegno SVG delle stanze (nessuna dipendenza dal DOM; lo usa anche `tools/valida-modulo.js`) |
+| `modulo-gioco.js` | avventure scritte nel gioco: presentazione e avvio, porte, porte segrete, esecuzione del contenuto delle stanze |
 | `ui.js` | pannelli Dungeon / Incontro / Strumenti / Registro |
 | `main.js` | avvio, campagne, barra dadi, segnalini |
 
@@ -62,6 +64,14 @@ Browser / Electron  ──HTTP──▶  server.js  ──▶  data/campagne/<id
   rot (0-3), flip, scale, pending, corridoio, idx, contenuto{testo, vuota}, perquisita`.
 - **Incontro**: creato da `rules.creaIncontro`; contiene livello, PV, numero di mostri, reazioni, stato
   (`nuovo → combattimento → finito`) e la cronaca.
+
+## Avventure scritte
+
+`iniziaAvventura(modulo)` salta la scelta del set e il tiro d'ingresso e chiama `modulo-gioco.avviaModulo`. Lo stato è in `avventura.json → modulo` (`{def, off, visitate[], rivelate[]}`: il modulo
+intero, lo scostamento sul foglio, le stanze visitate e le porte segrete scoperte). Ogni stanza è una tessera normale con in più `stanzaModulo` (id nel modulo) e `geom` (celle e porte nello
+stesso formato di `tiles.json`, che `map2d.metaDi` preferisce); l'immagine è un SVG incorporato (`data:`) generato da `modulo.costruisciTessera`. Entrare in una stanza passa per
+`confermaStanza(t, corridoio, generatore)` con il contenuto del modulo al posto del tiro 2d6, così restano attivi tutti i controlli dei supplementi (`K/A/P/V.dopoStanza`).
+`nuovaStanza` (d66) è disattivata durante un'avventura scritta. Il formato è in [MODULI.md](MODULI.md).
 
 ## Mappa
 
