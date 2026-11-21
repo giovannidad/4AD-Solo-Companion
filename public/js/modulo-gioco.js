@@ -65,7 +65,7 @@ export function riquadroAvvio() {
     h('p', { class: 'hint' }, 'Un dungeon già disegnato, con stanze, mostri e tesori decisi dall’autore. Le regole restano quelle del gioco. Formato descritto in docs/MODULI.md.'));
   const apri = async testo => {
     const r = leggiModulo(testo);
-    if (!r.def) { modal('Avventura non valida', (b, close) => { b.append(...[h('p', { class: 'warn-box' }, 'Il file non si può usare:'), h('ul', {}, r.errori.slice(0, 15).map(e => h('li', {}, e))), r.errori.length > 15 ? h('small', {}, `…e altri ${r.errori.length - 15} errori.`) : null, h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Chiudi')))].filter(Boolean)); }, { wide: true }); return; }
+    if (!r.def) { modal('Avventura non valida', (b, close) => { b.append(...[h('p', { class: 'warn-box' }, 'Il file non si può usare:'), h('ul', {}, r.errori.slice(0, 15).map(e => h('li', {}, e))), r.errori.length > 15 ? h('small', {}, `…e altri ${r.errori.length - 15} errori.`) : null, h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Chiudi'))].filter(Boolean)); }, { wide: true }); return; }
     presenta(r.def, r.avvisi);
   };
   fetch('assets/moduli/elenco.json').then(r => (r.ok ? r.json() : [])).then(async lista => {
