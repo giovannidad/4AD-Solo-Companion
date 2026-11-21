@@ -1,0 +1,660 @@
+{
+ "formato": "4ad-avventura",
+ "versione": 1,
+ "nome": "Le acque senza nome",
+ "autore": "Fable 5.2 e Claude Sonnet 5.5 per 4AD Solo Companion",
+ "licenza": "CC BY 4.0",
+ "lingua": "it",
+ "descrizione": "Capitolo 2 di 5 de «Il Cartografo dell'Oblio». Metà del porto fluviale di Lagonero è sparita sott'acqua: nessuno ricorda le sue vie, ma nelle profondità c'è ancora un quartiere intero.",
+ "introduzione": "Lagonero era un porto di venti moli. Stamattina ne ha quattordici. Le barche dei sei che mancano dondolano ancora, legate a niente, sopra una distesa d'acqua nera che prima era una piazza. I pescatori guardano l'acqua come si guarda un parente che non si riconosce più.\n\nUna donna con le dita macchiate d'inchiostro vi aspetta sull'ultima banchina rimasta. Si chiama Mirel Tamsin ed è l'ultima iscritta all'Ordine della Bussola che ancora ricordi a cosa serviva. «Il vostro lembo di pergamena brucia, vero?» dice. «Quello che ha cancellato Pietranera ha cancellato anche questo. Ma qui l'ha fatto con più fretta. Sotto l'acqua, il quartiere c'è ancora, come il fantasma di un arto.»\n\nNon verrà con voi: le sue ginocchia sono vecchie e il suo compito è restare a ricordare. Vi consegna una lanterna che arde sott'acqua e vi indica la scala che scende dove un tempo c'era la Taverna del Gabbiano. «Chi sta laggiù non è morto» avverte. «È soltanto stato dimenticato, e i dimenticati sono i più affamati.»",
+ "introduzioneSe": {
+  "1:restituisci": "A Pietranera hanno riavuto il pozzo grazie a voi, e la notizia è corsa lungo il fiume. Mirel vi riconosce subito: «Voi siete quelli del pozzo» dice, e per la prima volta da settimane le tremano meno le mani.",
+  "1:tieni": "Il lembo di pergamena nel vostro zaino batte come un cuore appena avete messo piede sul molo. Mirel lo guarda e capisce: «Non l'avete restituito. Avete fatto bene, forse. Ora vi dirà dove andare.»"
+ },
+ "obiettivo": "Scendi nel quartiere sommerso di Lagonero, sconfiggi chi lo ha preso in custodia e recupera il secondo Frammento della Mappa dell'Alba.",
+ "serie": {
+  "id": "cartografo",
+  "numero": 2,
+  "di": 5
+ },
+ "livello": {
+  "min": 2,
+  "max": 3
+ },
+ "eroi": {
+  "min": 3,
+  "max": 5
+ },
+ "set": "acque",
+ "fine": "boss",
+ "conclusione": "La lanterna di Mirel si spegne con un ultimo guizzo mentre risalite. Nelle vostre mani c'è un secondo lembo di pergamena, ancora bagnato, coperto di una calligrafia che sembra nuotare. In un angolo, sempre la stessa rosa dei venti. E, tra le righe, per la prima volta, una frase leggibile: «Non è il mondo che cancello. È ciò che lo guarda.»",
+ "finali": [
+  {
+   "id": "salva-porto",
+   "nome": "Restituire il porto",
+   "scelta": "Usi il frammento per riportare a galla i sei moli: Lagonero tornerà intera.",
+   "testo": "Stendete il frammento sulla superficie nera e l'acqua si ritira come una tenda. Sei moli risalgono dalle profondità, gocciolando, con le barche ancora ormeggiate e i pescatori in attesa. Lagonero ricorda tutto in un colpo, e il porto vi accoglie con campane e lanterne. Ma la pergamena, svuotata, si sfalda come sabbia: resterà soltanto ciò che avete già letto."
+  },
+  {
+   "id": "registri",
+   "nome": "Portare via i registri",
+   "scelta": "Lasci il quartiere sommerso com'è e porti con voi le carte di Ysmeril che hai trovato sul fondo.",
+   "testo": "Lasciate che l'acqua resti dov'è. Mirel piange in silenzio e vi benedice a modo suo: con un compasso d'ottone che punta oltre le montagne. Il frammento e i registri bagnati dicono lo stesso nome ovunque: Ysmeril Vael, l'ex capo cartografo, e un luogo dove ha lasciato la sua ultima carta, una biblioteca dove i corridoi non stanno mai fermi."
+  }
+ ],
+ "stanze": [
+  {
+   "id": "banchina",
+   "nome": "La banchina che finisce nel nulla",
+   "rettangolo": [
+    0,
+    0,
+    6,
+    5
+   ],
+   "tipo": "ingresso",
+   "testo": "Un molo di assi grigie si interrompe a metà, tagliato netto come con un coltello. Sotto, l'acqua è nera e immobile, e dal fondo sale una scala di pietra che non dovrebbe esserci."
+  },
+  {
+   "id": "molo",
+   "nome": "Molo sommerso",
+   "rettangolo": [
+    6,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "L'acqua ti arriva alle ginocchia, poi alla vita, ma respiri. Intorno a te passano barche fantasma, senza equipaggio, e le reti ancora ricamate di pesci.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "q-pesci-carnivori"
+    }
+   ]
+  },
+  {
+   "id": "magazzino",
+   "nome": "Magazzino delle reti",
+   "rettangolo": [
+    12,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Montagne di reti marcite pendono dal soffitto. Tra le maglie, qualcosa si agita, con molti tentacoli e nessuna fretta.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "q-piovre-giganti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "canale",
+   "nome": "Canale delle lanterne spente",
+   "rettangolo": [
+    18,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un lungo canale, con lanterne di ferro ai due lati. Si accendono una dopo l'altra al tuo passaggio, e ciascuna illumina per un istante un viso di donna che ti guarda.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "q-sirene"
+    }
+   ]
+  },
+  {
+   "id": "granchi",
+   "nome": "Grotta dei granchi",
+   "rettangolo": [
+    24,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una grotta di madreperla e di ossa, dove il sole non arriva da secoli. Chele grosse come ceste ti salutano, tutte insieme.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "q-granchi-giganti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "osteria",
+   "nome": "Taverna del Gabbiano",
+   "rettangolo": [
+    0,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Il camino acceso brucia sott'acqua, senza fumo. Venti avventori muti sono seduti ai tavoli con la birra ferma nei boccali. Nessuno si volta. Il banco è coperto di monete che nessuno ha mai speso.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oro",
+       "valore": 40
+      }
+     ]
+    },
+    {
+     "tipo": "evento",
+     "nome": "Gli avventori muti",
+     "testo": "Tutti gli avventori sono stati dimenticati dal mondo. Se un eroe offre da bere (1 pezzo d'oro), uno di loro gli dice un nome sottovoce: «Marrel»."
+    }
+   ]
+  },
+  {
+   "id": "cantieri",
+   "nome": "Scalo dei cantieri",
+   "rettangolo": [
+    6,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Scheletri di navi mai varate sorgono dal fondale come costole. Una carena a metà ha ancora l'ascia piantata nel legno e l'operaio, accanto, non l'ha mai ritirata.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "q-barracuda"
+    }
+   ]
+  },
+  {
+   "id": "cisterna",
+   "nome": "Cisterna dei pesci d'argento",
+   "rettangolo": [
+    12,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un acquario antico, tutto vetro e piombo. Pesci d'argento girano in tondo, pazienti, intorno a una teca vuota. Sul fondo, qualcosa luccica.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    },
+    {
+     "tipo": "caratteristica",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "registri",
+   "nome": "Sala dei registri bagnati",
+   "rettangolo": [
+    18,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Cataste di registri di bordo galleggiano a mezz'aria, con i fogli aperti. Ogni riga è cancellata, ma l'inchiostro non è sparito: si è raccolto in una sola goccia nera, sospesa, che pulsa.",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "nome": "La goccia d'inchiostro",
+     "testo": "Chi tocca la goccia vede, in un lampo, un uomo magro con una penna: Ysmeril Vael, giovane, che sorride a qualcuno fuori dall'inquadratura. Chi la tocca ottiene un indizio (aggiungilo a mano) ma perde 1 punto vita: l'inchiostro morde."
+    }
+   ]
+  },
+  {
+   "id": "corallo",
+   "nome": "Giardino di corallo",
+   "rettangolo": [
+    24,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un giardino di corallo bianco e rosso, curato da mani che non si vedono. Un golem di polipi, grande come una porta, pota con cura un ramo morto e non si accorge di te finché non ti metti a ridere.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "q-golem-di-corallo"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "scalinata",
+   "nome": "Scalinata del tempio",
+   "rettangolo": [
+    0,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Cento gradini scendono verso un portale d'alabastro. In cima a ogni gradino qualcuno ha posato una conchiglia: sono preghiere, ognuna con il nome di un marinaio.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Gas velenoso",
+     "liv": 4
+    }
+   ]
+  },
+  {
+   "id": "nave",
+   "nome": "La nave capovolta",
+   "rettangolo": [
+    6,
+    10,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una galea intera, con la chiglia in aria, funge da tempio. I banchi dei rematori sono panche per la preghiera. Sul pennone, appeso per i piedi, un cadavere con la bocca ancora aperta in una lode.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "q-zombi-annegati"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "sirene",
+   "nome": "Sala del canto",
+   "rettangolo": [
+    18,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una conca di perle riflette ogni suono mille volte. Una voce canta in una lingua che conosci e non hai mai udito. Davanti a te, sull'altare, una donna con la pelle di madreperla ti sorride e ti chiede un nome.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "q-cecaelia"
+    }
+   ]
+  },
+  {
+   "id": "gabbia",
+   "nome": "Gabbie dei prigionieri",
+   "rettangolo": [
+    24,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "File di gabbie di ferro corrose. In una, un uomo ancora vivo, con la barba bianca di sale, ti guarda e non parla. Nelle altre ci sono solo ossa e conchiglie.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "q-anguille-elettriche"
+    },
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Chiave di ferro corrosa (apre la cripta degli annegati)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cripta",
+   "nome": "Cripta degli annegati",
+   "rettangolo": [
+    0,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Mille nicchie scavate nel muro, ognuna con un annegato avvolto in alghe come in un lenzuolo. Uno solo ha gli occhi aperti, e li apre di più quando entri.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Megera della marea",
+     "liv": 4,
+     "att": 1,
+     "pv": 4,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "umanoide",
+      "acquatico"
+     ],
+     "note": "Quando è ferita, grida: ogni eroe tira 1d6, con 1 perde 1 punto vita (il richiamo delle onde)."
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    }
+   ]
+  },
+  {
+   "id": "maree",
+   "nome": "Camera delle maree",
+   "rettangolo": [
+    12,
+    15,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una stanza rotonda con una sola finestra sul fondale. Il livello dell'acqua sale e scende secondo un ritmo che sembra un respiro. Una leva arrugginita è incastrata nel muro.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Botola",
+     "liv": 4
+    },
+    {
+     "tipo": "evento",
+     "nome": "Il ritmo delle maree",
+     "testo": "Se un eroe sincronizza i passi con il respiro dell'acqua (tiro salvezza di livello 4), il gruppo attraversa senza essere sentito: i mostri di questa stanza dormono."
+    }
+   ]
+  },
+  {
+   "id": "trono",
+   "nome": "Il trono del capitano",
+   "rettangolo": [
+    18,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una cattedrale di coralli neri, con al centro un trono di remi spezzati. Il Capitano Marrel Dolorosa, l'annegato, siede con la spada in grembo e il Frammento nella mano libera. Ha l'aspetto di un uomo che aspetta da cento anni una nave che non tornerà.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "q-uomini-pesce",
+     "quantita": "1d3+1"
+    },
+    {
+     "tipo": "mostri",
+     "nome": "Capitano Marrel Dolorosa",
+     "liv": 5,
+     "att": 1,
+     "pv": 6,
+     "maggiore": true,
+     "tes": 2,
+     "tag": [
+      "non-morto",
+      "umanoide"
+     ],
+     "note": "Ha vissuto cento anni sott'acqua: quando perde l'ultimo punto vita, un'onda spazza la sala e ogni eroe tira 1d6, con 1 perde 1 punto vita.",
+     "finale": true
+    }
+   ]
+  },
+  {
+   "id": "reliquiario",
+   "nome": "Cabina del capitano",
+   "rettangolo": [
+    18,
+    20,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Dietro il trono, una cabina asciutta. Il Frammento è su una scrivania, chiuso in un boccale di vetro. Una finestra tonda mostra il fondo: laggiù, in lontananza, le luci di un altro quartiere sommerso che nessuno ricorda.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Frammento della Mappa dell'Alba (2 di 5): lembo di pergamena viva con una piccola rosa dei venti"
+      },
+      {
+       "tipo": "gemma",
+       "valore": 60
+      },
+      {
+       "tipo": "oro",
+       "valore": 80
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "porte": [
+  {
+   "da": "banchina",
+   "a": "molo",
+   "x": 5,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "molo",
+   "a": "magazzino",
+   "x": 11,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "magazzino",
+   "a": "canale",
+   "x": 17,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "canale",
+   "a": "granchi",
+   "x": 23,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "banchina",
+   "a": "osteria",
+   "x": 3,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "molo",
+   "a": "cantieri",
+   "x": 9,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "magazzino",
+   "a": "cisterna",
+   "x": 15,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "canale",
+   "a": "registri",
+   "x": 21,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "granchi",
+   "a": "corallo",
+   "x": 27,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "osteria",
+   "a": "cantieri",
+   "x": 5,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "cantieri",
+   "a": "cisterna",
+   "x": 11,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "cisterna",
+   "a": "registri",
+   "x": 17,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "registri",
+   "a": "corallo",
+   "x": 23,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "osteria",
+   "a": "scalinata",
+   "x": 3,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "cantieri",
+   "a": "nave",
+   "x": 9,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "registri",
+   "a": "sirene",
+   "x": 21,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "corallo",
+   "a": "gabbia",
+   "x": 27,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "scalinata",
+   "a": "nave",
+   "x": 5,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "nave",
+   "a": "sirene",
+   "x": 17,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "sirene",
+   "a": "gabbia",
+   "x": 23,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "scalinata",
+   "a": "cripta",
+   "x": 3,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "nave",
+   "a": "maree",
+   "x": 15,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "sirene",
+   "a": "trono",
+   "x": 21,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "gabbia",
+   "a": "trono",
+   "x": 27,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "cripta",
+   "a": "maree",
+   "x": 11,
+   "y": 17,
+   "lato": "e"
+  },
+  {
+   "da": "maree",
+   "a": "trono",
+   "x": 17,
+   "y": 17,
+   "lato": "e",
+   "tipo": "segreta",
+   "nota": "Una paratia di legno scivola: la stanza del capitano è davanti a voi."
+  },
+  {
+   "da": "trono",
+   "a": "reliquiario",
+   "x": 21,
+   "y": 19,
+   "lato": "s"
+  }
+ ]
+}

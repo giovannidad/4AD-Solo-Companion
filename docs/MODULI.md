@@ -53,7 +53,11 @@ L'avventura è salvata nella campagna insieme al modulo: per riprenderla non ser
 | `nome` | sì | titolo (max 60 caratteri); diventa il nome del dungeon |
 | `autore`, `licenza`, `lingua` | no | chi l'ha scritto, con quale licenza si può copiare, lingua del testo |
 | `descrizione` | no | riassunto mostrato nella scheda di presentazione |
-| `introduzione`, `conclusione` | no | testo scritto nel registro all'inizio e (se si vince) alla fine |
+| `introduzione`, `conclusione` | no | testo scritto nel registro all'inizio e (se si vince) alla fine; l'introduzione si mostra anche in una finestra (paragrafi separati da una riga vuota) e si può rileggere dal pannello Dungeon |
+| `obiettivo` | no | che cosa deve ottenere il gruppo: si mostra nella finestra di apertura, sotto l'introduzione |
+| `serie` | no | `{ "id": "nome-serie", "numero": n, "di": n }`: l'avventura è il capitolo n di una campagna |
+| `finali` | no | da 2 a 6 finali a scelta `{ "id", "nome", "scelta", "testo" }`: alla conclusione con successo il giocatore ne sceglie uno, che viene letto e ricordato nella campagna |
+| `introduzioneSe` | no | testi da aggiungere all'introduzione secondo il finale scelto in un capitolo precedente della stessa serie: chiave `"capitolo:id-finale"` (es. `"1:tieni"`) |
 | `livello` | consigliato | `{ "min": n, "max": n }`: livello dei personaggi per cui è pensata (1-30) |
 | `eroi` | no | `{ "min": n, "max": n }`: quanti personaggi |
 | `set` | no | tabelle da usare per i tiri casuali (vedi sotto); predefinito `"base"` |

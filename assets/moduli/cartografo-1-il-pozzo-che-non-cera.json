@@ -1,0 +1,595 @@
+{
+ "formato": "4ad-avventura",
+ "versione": 1,
+ "nome": "Il pozzo che non c'era",
+ "autore": "Fable 5.2 e Claude Sonnet 5.5 per 4AD Solo Companion",
+ "licenza": "CC BY 4.0",
+ "lingua": "it",
+ "descrizione": "Capitolo 1 di 5 de «Il Cartografo dell'Oblio». Il villaggio di Pietranera si è svegliato senza il suo pozzo, e nessuno ricorda che sia mai esistito. Sotto il vuoto che ha lasciato corre una rete di cisterne dimenticate.",
+ "introduzione": "A Pietranera il pozzo c'era da quattrocento anni. Ci si sedevano i vecchi, ci si baciavano gli innamorati, ci cadevano i secchi e le preghiere. Una mattina di nebbia, al suo posto, il villaggio ha trovato un cerchio di terra liscia, come se la terra stessa avesse deciso di non averlo mai ospitato.\n\nLa cosa peggiore non è il vuoto. È che nessuno lo rimpiange. La vecchia Orsolina continua a riempire il secchio di una sorgente che non esiste, e quando glielo fate notare sorride, gentile, come si sorride a chi parla una lingua perduta.\n\nSoltanto voi ricordate. Forse perché siete forestieri, forse perché siete testardi. Nel cerchio di terra liscia, sotto il lastrone dove il pozzo scendeva, qualcuno ha lasciato una scala di pietra che non porta in nessuna carta: i gradini sono consumati da piedi che non sono ancora passati. Giù, nel buio, qualcosa ha cominciato a scrivere il mondo al contrario.",
+ "obiettivo": "Scendi nella rete di cisterne sotto il pozzo scomparso, sconfiggi chi ne ha preso possesso e recupera il Frammento della Mappa dell'Alba che ha cancellato il pozzo.",
+ "serie": {
+  "id": "cartografo",
+  "numero": 1,
+  "di": 5
+ },
+ "livello": {
+  "min": 1,
+  "max": 2
+ },
+ "eroi": {
+  "min": 3,
+  "max": 5
+ },
+ "set": "base",
+ "fine": "boss",
+ "conclusione": "Il frammento è nelle vostre mani: un lembo di pergamena che respira, coperto di una calligrafia così fitta da far girare la testa. Sul bordo, una piccola rosa dei venti, e sotto, in inchiostro ancora fresco, un nome che non conoscete: Ysmeril Vael.",
+ "finali": [
+  {
+   "id": "restituisci",
+   "nome": "Restituire il pozzo a Pietranera",
+   "scelta": "Riporti il lembo di pergamena nel cerchio di terra liscia: il pozzo tornerà, e con esso i ricordi.",
+   "testo": "Posate il frammento sulla terra liscia e il suolo si apre come un respiro. Il pozzo risale con un sospiro di pietra, intero, con il secchio ancora appeso e l'acqua che canta. Orsolina lascia cadere il suo secchio vuoto e piange senza sapere perché. Pietranera ricorda: ricorda il pozzo, e ricorda voi. Ma il lembo di pergamena, ora che ha restituito ciò che teneva, è soltanto carta."
+  },
+  {
+   "id": "tieni",
+   "nome": "Tenere il frammento con voi",
+   "scelta": "Porti via la pergamena: ti servirà per seguire chi cancella il mondo. Pietranera resterà senza pozzo.",
+   "testo": "Avvolgete il frammento in un panno oliato. Pietranera non riavrà il suo pozzo: il vuoto resta vuoto, e la vecchia Orsolina continua a riempire il suo secchio con un sorriso gentile. Ma la pergamena nelle vostre mani pulsa come una bussola, e punta lontano, a nord e a ovest, verso un posto che non ha ancora perso il suo nome."
+  }
+ ],
+ "stanze": [
+  {
+   "id": "ingresso",
+   "nome": "La scala del pozzo scomparso",
+   "rettangolo": [
+    0,
+    0,
+    6,
+    5
+   ],
+   "tipo": "ingresso",
+   "testo": "Una scala a chiocciola scende nel buio là dove il pozzo non c'è più. Le pareti sono lisce come il vetro e odorano di acqua che non è mai scorsa."
+  },
+  {
+   "id": "cisterna",
+   "nome": "Cisterna asciutta",
+   "rettangolo": [
+    6,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Le linee dell'acqua salgono sulle pareti fino a due metri d'altezza, ma la pietra è asciutta da sempre. Dal soffitto pende una catena senza secchio.",
+   "contenuto": [
+    {
+     "tipo": "caratteristica",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "ratti",
+   "nome": "Galleria dei ratti",
+   "rettangolo": [
+    12,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un tunnel basso, tappezzato di peli e di ossicini. Qualcosa di grosso ha scavato la parete: ora è un nido, ed è sveglio.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "ratti"
+    }
+   ]
+  },
+  {
+   "id": "ruote",
+   "nome": "Sala delle ruote di pietra",
+   "rettangolo": [
+    18,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Dodici ruote dentate, grandi come carri, riempiono la sala e girano senza meta, senza rumore. Il pavimento tra una ruota e l'altra è una scacchiera di lastre troppo pulite.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Masso gigante",
+     "liv": 3
+    }
+   ]
+  },
+  {
+   "id": "magazzino",
+   "nome": "Magazzino dei rimasugli",
+   "rettangolo": [
+    24,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Casse sfondate, botti ammuffite, una barca capovolta che non ha mai toccato l'acqua. Tra le assi, occhi gialli ti guardano e ridacchiano.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "goblin"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "nomi",
+   "nome": "Cripta dei nomi dimenticati",
+   "rettangolo": [
+    0,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Mille targhe di bronzo coprono il soffitto, e tutte sono bianche. Quando entri, sul metallo compaiono per un istante lettere sbiadite: sono i nomi degli abitanti di Pietranera, uno per uno, che si cancellano mentre li leggi.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Targa di bronzo senza nome (vale 20 p.o. se venduta)",
+       "valore": 20
+      }
+     ]
+    },
+    {
+     "tipo": "caratteristica",
+     "nome": "Il nome di chi entra",
+     "testo": "Una targa, soltanto una, mostra a un eroe a caso il suo nome vero, scritto in modo che nessuno possa cancellarlo."
+    }
+   ]
+  },
+  {
+   "id": "archivio",
+   "nome": "Archivio della Bussola",
+   "rettangolo": [
+    6,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Scaffali di quercia, tutti vuoti, tranne uno. Sul piano un compasso d'ottone gira da solo e punta sempre verso il basso. Qualcuno ha portato via le carte con una fretta quasi gentile.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    }
+   ]
+  },
+  {
+   "id": "fungo",
+   "nome": "Serra dei fungoidi",
+   "rettangolo": [
+    12,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Funghi grossi come ombrelli crescono su una terra nera e ben concimata. Hanno braccia, e ti salutano con un fruscio di spore.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "fungoidi"
+    }
+   ]
+  },
+  {
+   "id": "pozza",
+   "nome": "La pozza che riflette un altro cielo",
+   "rettangolo": [
+    18,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Nel mezzo della sala c'è una pozza d'acqua nera. Chi vi si specchia vede un cielo che non è quello di oggi: stelle spostate, una luna di più. Un cartello, in una lingua antica, avvisa di non bere.",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "nome": "L'acqua che ricorda",
+     "testo": "Chi beve dalla pozza ricorda per un istante come era il villaggio un secolo fa, e tutto ciò che il pozzo ha visto. Chi lo fa recupera 1 punto vita, ma perde il turno successivo a sognare."
+    }
+   ]
+  },
+  {
+   "id": "dormitorio",
+   "nome": "Dormitorio dei goblin",
+   "rettangolo": [
+    24,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Giacigli di stracci, ossa di pollo, una pentola che ribolle senza fuoco. Gli sciamani goblin sono qui, e hanno già alzato le mani.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "goblin-sciamanti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "crollo",
+   "nome": "Scala crollata",
+   "rettangolo": [
+    0,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una seconda scala, un tempo, saliva verso il villaggio. Ora un cumulo di macerie la chiude. Tra le pietre, una mano scheletrica stringe ancora un secchio.",
+   "contenuto": [
+    {
+     "tipo": "vuota"
+    }
+   ]
+  },
+  {
+   "id": "grande",
+   "nome": "La grande cisterna",
+   "rettangolo": [
+    6,
+    10,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una cisterna tonda, alta come una chiesa, con un ponticello di pietra sopra il vuoto. Dalle volte pendono fili di ragnatela spessi come funi, e in mezzo, immobile, qualcosa guarda con otto occhi.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "ragno"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "cellacart",
+   "nome": "Cella del cartografo",
+   "rettangolo": [
+    18,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un tavolino, uno sgabello, una finestra dipinta sul muro: il mare, al tramonto. Qualcuno ha vissuto qui in segreto, e lo ha fatto bene. Sul tavolo, un fascio di fogli con un'unica linea, tracciata e cancellata mille volte.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "gemma",
+       "valore": 30
+      }
+     ]
+    },
+    {
+     "tipo": "evento",
+     "nome": "Il foglio cancellato",
+     "testo": "Su un foglio è rimasto un contorno: la sagoma esatta di un pozzo. Sotto, a matita, una nota: «Non ho avuto scelta»."
+    }
+   ]
+  },
+  {
+   "id": "taglie",
+   "nome": "Sala delle taglie",
+   "rettangolo": [
+    24,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Trofei di teste di topo, di rospo, di cavaliere. Un goblin enorme siede sul trono di botti e ti indica con un osso. «Siete venuti a prendere il pozzo?» ride. «Il pozzo è del Re.»",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Zannaruvida, capitano dei goblin",
+     "liv": 4,
+     "att": 1,
+     "pv": 4,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "umanoide"
+     ],
+     "note": "Si ritira ferito se l'ultimo suo goblin muore: i compagni devono inseguirlo o lasciarlo scappare (a scelta del giocatore)."
+    }
+   ]
+  },
+  {
+   "id": "pipistrelli",
+   "nome": "Tunnel dei pipistrelli",
+   "rettangolo": [
+    0,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Il soffitto del tunnel è una moquette nera e viva. L'aria vibra di piccoli squittii.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "pipistrelli"
+    }
+   ]
+  },
+  {
+   "id": "anticamera",
+   "nome": "Anticamera del Vuoto",
+   "rettangolo": [
+    12,
+    15,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Il pavimento è bianco come carta, senza giunture. A ogni passo senti il suono di un pennino che gratta la pergamena, molto lontano, sotto di te.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Lance",
+     "liv": 4
+    }
+   ]
+  },
+  {
+   "id": "trono",
+   "nome": "La Stanza dove il pozzo andava",
+   "rettangolo": [
+    18,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una sala immensa e nuda, in fondo alla quale l'acqua del pozzo scomparso ricade in un bacino nero dopo una caduta di mille metri. Sul bordo, con il Frammento in una mano e una lama d'inchiostro nell'altra, Re Grugnoscheggia ti aspetta. È un goblin come tutti, ma ha bevuto la mappa, e la mappa ha cominciato a scrivere dentro di lui.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "goblin",
+     "quantita": "1d3"
+    },
+    {
+     "tipo": "mostri",
+     "nome": "Re Grugnoscheggia, l'inchiostrato",
+     "liv": 5,
+     "att": 1,
+     "pv": 6,
+     "maggiore": true,
+     "tes": 2,
+     "tag": [
+      "umanoide"
+     ],
+     "note": "Colpito, sanguina inchiostro nero: chi lo attacca in mischia e fa 1 naturale perde 1 punto vita (macchie d'inchiostro che bruciano).",
+     "finale": true
+    }
+   ]
+  },
+  {
+   "id": "reliquiario",
+   "nome": "Reliquiario d'inchiostro",
+   "rettangolo": [
+    18,
+    20,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Dietro il trono, una nicchia protetta da un sigillo ormai rotto. Il Frammento riposa su un cuscino di muschio, e respira.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Frammento della Mappa dell'Alba (1 di 5): lembo di pergamena viva con una piccola rosa dei venti"
+      },
+      {
+       "tipo": "gemma",
+       "valore": 50
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "porte": [
+  {
+   "da": "ingresso",
+   "a": "cisterna",
+   "x": 5,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "cisterna",
+   "a": "ratti",
+   "x": 11,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "ratti",
+   "a": "ruote",
+   "x": 17,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "ruote",
+   "a": "magazzino",
+   "x": 23,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "ingresso",
+   "a": "nomi",
+   "x": 3,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "cisterna",
+   "a": "archivio",
+   "x": 9,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "ratti",
+   "a": "fungo",
+   "x": 15,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "ruote",
+   "a": "pozza",
+   "x": 21,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "magazzino",
+   "a": "dormitorio",
+   "x": 27,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "nomi",
+   "a": "crollo",
+   "x": 3,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "archivio",
+   "a": "grande",
+   "x": 9,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "fungo",
+   "a": "grande",
+   "x": 15,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "fungo",
+   "a": "pozza",
+   "x": 17,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "pozza",
+   "a": "cellacart",
+   "x": 21,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "dormitorio",
+   "a": "taglie",
+   "x": 27,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "crollo",
+   "a": "pipistrelli",
+   "x": 3,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "grande",
+   "a": "anticamera",
+   "x": 15,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "pipistrelli",
+   "a": "anticamera",
+   "x": 11,
+   "y": 17,
+   "lato": "e"
+  },
+  {
+   "da": "cellacart",
+   "a": "taglie",
+   "x": 23,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "taglie",
+   "a": "trono",
+   "x": 27,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "cellacart",
+   "a": "trono",
+   "x": 21,
+   "y": 14,
+   "lato": "s",
+   "tipo": "segreta",
+   "nota": "Una lastra gira su se stessa: scorciatoia verso il trono."
+  },
+  {
+   "da": "trono",
+   "a": "reliquiario",
+   "x": 21,
+   "y": 19,
+   "lato": "s"
+  }
+ ]
+}

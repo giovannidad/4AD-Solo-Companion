@@ -224,3 +224,5 @@ img.ritratto.grande { border-width: 3px; border-color: var(--amber-d); }
 
 /* poteri speciali dei mostri dell'Abisso: ben visibili nella scheda dell'incontro */
 .poteri { border-left: 3px solid var(--amber); background: rgba(212, 160, 60, .12); padding: 6px 8px; border-radius: 4px; font-size: 13px; margin: 6px 0; }
+
+.intro-epica { font-style: italic; line-height: 1.65; font-size: 1.04em; margin: 10px 0; }

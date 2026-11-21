@@ -61,7 +61,7 @@ function aggiornaSegnalini() {
   aggiornaSicure();
   const qui = S.adv.stanzaCorrente;
   const lista = ordineMarcia().map(e => ({
-    id: e.id, label: (e.nome || '?')[0].toUpperCase(), color: COLORI[e.classe] || '#555', stato: e.stato, tileId: e.posizione || qui,
+    id: e.id, label: (e.nome || '?')[0].toUpperCase(), color: COLORI[e.classe] || '#555', stato: e.stato, tileId: e.posizione || qui, luce: !!e.lanterna,
     img: Rit.urlRitratto(e), imgId: Rit.haRitrattoProprio(e) ? e.id + ':' + S.ritratti[e.id].length : 'd:' + e.classe + ':' + e.id
   }));
   const f = firma(lista.map(({ img, ...r }) => r)); if (f === firme.segnalini) return;   // segnalini invariati: niente ricalcolo

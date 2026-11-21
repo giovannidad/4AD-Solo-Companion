@@ -50,7 +50,7 @@ export function presenta(def, avvisi = []) {
       fuori ? h('p', { class: 'warn-box' }, `Il gruppo ha livello ${Math.min(...lv) === Math.max(...lv) ? Math.min(...lv) : `${Math.min(...lv)}-${Math.max(...lv)}`}, ma l'avventura è pensata per il livello ${l.min === l.max ? l.min : `${l.min}-${l.max}`}. Si può giocare lo stesso, ma sarà troppo facile o troppo difficile.`) : null,
       nEroi ? h('p', { class: 'warn-box' }, `L'avventura è pensata per ${def.eroi.min === def.eroi.max ? def.eroi.min : `${def.eroi.min}-${def.eroi.max}`} eroi; il gruppo ne ha ${vivi.length}.`) : null,
       avvisi.length ? h('details', {}, h('summary', {}, `${avvisi.length} avviso/i del controllo`), h('ul', {}, avvisi.map(a => h('li', {}, a)))) : null,
-      def.introduzione ? h('p', { class: 'hint' }, def.introduzione) : null,
+      def.obiettivo ? h('p', {}, h('b', {}, 'Obiettivo: '), def.obiettivo) : null,
       h('div', { class: 'row end' },
         h('button', { onclick: close }, 'Annulla'),
         h('button', { class: 'primary', onclick: async () => { close(); if (await G.iniziaAvventura(def)) table.setView('fit'); } }, 'Inizia l’avventura')));
@@ -105,6 +105,41 @@ export function avviaModulo(def) {
   adv().tessere.push(t); adv().stanzaCorrente = t.id;
   S.party.eroi.forEach(e => { e.posizione = t.id; });
   return t;
+}
+
+// ---------------- introduzione, obiettivo e finali ----------------
+const scelte = () => (S.party.scelteModuli = S.party.scelteModuli || {});
+const par = t => String(t || '').split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+/** Testi dell'introduzione: quella del modulo più le varianti dovute ai finali scelti nei capitoli precedenti della serie. */
+export function testiIntroduzione(def) {
+  const out = par(def.introduzione), sid = def.serie?.id;
+  if (sid && def.introduzioneSe) for (const [k, v] of Object.entries(def.introduzioneSe)) { const [cap, fin] = k.split(':'); if (scelte()[`${sid}:${cap}`] === fin) out.push(...par(v)); }
+  return out;
+}
+/** Finestra di apertura: introduzione epica e obiettivo. Si chiude con «Entra nel dungeon» (o con la X). Scrive il testo anche nel registro. */
+export function introduzione(def, riletta = false) {
+  const testi = testiIntroduzione(def);
+  if (!riletta) { testi.forEach(t => log(t)); if (def.obiettivo) log(`Obiettivo: ${def.obiettivo}`); }
+  if (!testi.length && !def.obiettivo) return Promise.resolve();
+  return new Promise(res => modal(def.nome, (b, close) => {
+    b.append(
+      def.serie ? h('p', { class: 'hint' }, `Capitolo ${def.serie.numero} di ${def.serie.di}`) : null,
+      ...testi.map(t => h('p', { class: 'intro-epica' }, t)),
+      def.obiettivo ? h('div', { class: 'card' }, h('h4', {}, 'Obiettivo'), h('p', {}, def.obiettivo)) : null,
+      h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, riletta ? 'Chiudi' : 'Entra nel dungeon')));
+  }, { wide: true, onClose: () => res() }));
+}
+/** Finali a scelta: alla conclusione con successo il giocatore sceglie come finisce; la scelta resta nella campagna. */
+export async function scegliFinale(def) {
+  if (!def.finali?.length) return null;
+  let k = null;
+  while (!k) k = await scelta('Come finisce?', def.conclusione || 'L’avventura è conclusa: scegli il finale.', def.finali.map(f => [f.id, f.nome, f.scelta || '']));   // chiudere la finestra non basta: il finale va scelto
+  const f = def.finali.find(x => x.id === k);
+  if (def.serie) scelte()[`${def.serie.id}:${def.serie.numero}`] = f.id;
+  log(`Finale — ${f.nome}: ${f.testo}`);
+  await new Promise(res => modal(f.nome, (b, close) => { b.append(...par(f.testo).map(t => h('p', { class: 'intro-epica' }, t)), h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Fine'))); }, { wide: true, onClose: () => res() }));
+  modificato('party');
+  return f;
 }
 
 // ---------------- esplorazione ----------------
@@ -238,6 +273,7 @@ async function eseguiContenuto(t, s) {
 export function cartaEsplora() {
   const a = adv(), cur = G.tileById(a.stanzaCorrente), box = h('div', { class: 'card' }), btn = (txt, fn, cls = '') => h('button', { class: cls, onclick: async ev => { const b = ev.currentTarget; b.disabled = true; try { await fn(); } catch (e) { console.error(e); toast(String(e.message || e), 'warn'); } finally { b.disabled = false; } } }, txt);
   box.append(h('h3', {}, 'Esplora'));
+  if (def().introduzione || def().obiettivo) box.append(h('div', { class: 'row' }, btn('Rileggi introduzione e obiettivo', () => introduzione(def(), true))));
   if (!cur?.stanzaModulo) { box.append(h('p', { class: 'hint' }, 'Seleziona una stanza dall’elenco della mappa esplorata.')); return box; }
   const s = stanzaDef(cur.stanzaModulo);
   box.append(h('p', {}, h('b', {}, s.nome)), s.testo ? h('p', { class: 'hint' }, s.testo) : null);

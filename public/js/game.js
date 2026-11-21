@@ -140,9 +140,9 @@ export async function iniziaAvventura(modulo = null) {
     const t = MG.avviaModulo(modulo);
     table.setTiles(adv().tessere); table.selectTile(null); table.animate(t.id);
     log(`Inizia l’avventura n. ${adv().numero}: «${adv().nomeDungeon}» (avventura scritta, ${SETS[set] || SETS.base}).`);
-    if (modulo.introduzione) log(modulo.introduzione);
-    toast(`${t.nome}: la stanza viene disegnata sul foglio.`);
     modificato();
+    await MG.introduzione(modulo);   // finestra con introduzione e obiettivo (scritti anche nel registro)
+    toast(`${t.nome}: la stanza viene disegnata sul foglio.`);
     return true;
   }
   const selva = set === 'silvani';   // nella selva l'ingresso è 1d6+60 sulla stessa tabella delle aree (tessere 61-66), non una tabella d'ingressi
@@ -168,6 +168,7 @@ export function terminaAvventura(esito) {
   adv().attiva = false; adv().fine = esito;
   log(`Avventura conclusa: ${esito}.`);
   if (adv().modulo?.def?.conclusione && /^Missione compiuta/.test(esito)) log(adv().modulo.def.conclusione);
+  if (adv().modulo?.def?.finali && /^Missione compiuta/.test(esito)) import('./modulo-gioco.js').then(MG => MG.scegliFinale(adv().modulo.def)).catch(err => console.error(err));
   if (adv().missione?.id === 'cuoco') K.congedaCuoco();
   T.fineAvventura().catch(err => console.error(err));
   A.fineAvventura(esito).catch(err => console.error(err));

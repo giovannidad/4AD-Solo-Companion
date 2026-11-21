@@ -49,6 +49,16 @@ export function valida(m, { cerca = null } = {}) {
   if (m.versione !== VERSIONE) E(`«versione» deve valere ${VERSIONE}.`);
   if (typeof m.nome !== 'string' || !m.nome.trim() || m.nome.length > 60) E('«nome» è obbligatorio (testo di al massimo 60 caratteri).');
   for (const k of ['autore', 'licenza', 'descrizione', 'introduzione', 'conclusione']) if (m[k] != null && (typeof m[k] !== 'string' || m[k].length > LIMITI.testo)) E(`«${k}» deve essere un testo.`);
+  if (m.obiettivo != null && !testoOk(m.obiettivo)) E('«obiettivo» deve essere un testo non vuoto.');
+  if (m.serie != null && (typeof m.serie !== 'object' || typeof m.serie.id !== 'string' || !reId.test(m.serie.id) || !intero(m.serie.numero) || !intero(m.serie.di) || m.serie.numero < 1 || m.serie.di < m.serie.numero)) E('«serie» deve essere {"id": "nome-serie", "numero": n, "di": n} (capitolo n di una campagna).');
+  if (m.introduzioneSe != null) {
+    if (typeof m.introduzioneSe !== 'object' || Array.isArray(m.introduzioneSe)) E('«introduzioneSe» deve essere un oggetto {"numero:finale": "testo"}.');
+    else for (const [k, v] of Object.entries(m.introduzioneSe)) { if (!/^\d+:[a-z0-9_-]+$/.test(k)) E(`«introduzioneSe»: la chiave «${k}» deve essere del tipo "1:finale" (capitolo e id del finale scelto).`); if (!testoOk(v)) E(`«introduzioneSe»: il testo di «${k}» deve essere un testo non vuoto.`); }
+  }
+  if (m.finali != null) {
+    if (!Array.isArray(m.finali) || m.finali.length < 2 || m.finali.length > 6) E('«finali» deve essere un elenco da 2 a 6 finali a scelta, ciascuno {"id", "nome", "testo"}.');
+    else { const visti = new Set(); m.finali.forEach((f, i) => { const d = `Finale n. ${i + 1}`; if (!f || typeof f.id !== 'string' || !reId.test(f.id)) E(`${d}: «id» obbligatorio (minuscole, cifre, - e _).`); else if (visti.has(f.id)) E(`${d}: «id» duplicato.`); else visti.add(f.id); if (!f || typeof f.nome !== 'string' || !f.nome.trim() || f.nome.length > 60) E(`${d}: «nome» obbligatorio (max 60 caratteri).`); if (!f || !testoOk(f.testo)) E(`${d}: «testo» obbligatorio.`); if (f?.scelta != null && !testoOk(f.scelta)) E(`${d}: «scelta» deve essere un testo (la domanda o la descrizione mostrata sul pulsante).`); }); }
+  }
   if (!m.autore) A('Manca «autore».');
   if (!m.descrizione) A('Manca «descrizione».');
   const set = m.set ?? 'base';

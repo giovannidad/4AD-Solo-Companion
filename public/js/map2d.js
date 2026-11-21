@@ -51,6 +51,29 @@ function align(d) {
 /** Opzioni del foglio: snap to grid (le linee della stanza coincidono con i quadretti del foglio). */
 export const opzioni = { snap: true, assist: true, matita: true };
 try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; const a = localStorage.getItem('fad-assist'); if (a !== null) opzioni.assist = a === '1'; const m = localStorage.getItem('fad-matita'); if (m !== null) opzioni.matita = m === '1'; } catch { /* predefinito */ }
+/** Nebbia di guerra a «raggio di luce»: la mappa è scura tranne attorno ai personaggi; chi porta la lanterna illumina di più. */
+export const nebbia = { attiva: true, raggio: 3.8, raggioLanterna: 6.5, buio: 0.8 };
+try { const n = localStorage.getItem('fad-nebbia'); if (n !== null) nebbia.attiva = n === '1'; } catch { /* ok */ }
+export function setNebbia(on) { nebbia.attiva = !!on; try { localStorage.setItem('fad-nebbia', on ? '1' : '0'); } catch { /* ok */ } invalidate(); }
+let nebbiaCanvas = null;
+function drawNebbia() {
+  if (!nebbia.attiva) return;
+  const fonti = tokens.filter(t => !t.hidden && t.x != null && t.stato !== 'morto');
+  if (!fonti.length) return;
+  const w = canvas.width, h = canvas.height;
+  if (!nebbiaCanvas || nebbiaCanvas.width !== w || nebbiaCanvas.height !== h) nebbiaCanvas = mk(w, h);
+  const g = nebbiaCanvas.getContext('2d');
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, w, h);
+  g.fillStyle = `rgba(8,6,14,${nebbia.buio})`; g.fillRect(0, 0, w, h);
+  g.globalCompositeOperation = 'destination-out';
+  for (const t of fonti) {
+    const [sx, sy] = toScreen(t.x, t.y), cx = sx * dpr, cy = sy * dpr, R = (t.luce ? nebbia.raggioLanterna : nebbia.raggio) * view.zoom * dpr;
+    const gr = g.createRadialGradient(cx, cy, R * 0.3, cx, cy, R);
+    gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.55, 'rgba(0,0,0,0.9)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+  }
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(nebbiaCanvas, 0, 0); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
 export function setMatita(on) { opzioni.matita = !!on; try { localStorage.setItem('fad-matita', on ? '1' : '0'); } catch { /* ok */ } }
 export function setAssist(on) { opzioni.assist = !!on; try { localStorage.setItem('fad-assist', on ? '1' : '0'); } catch { /* ok */ } }
 export function setSnap(on) { opzioni.snap = !!on; try { localStorage.setItem('fad-snap', on ? '1' : '0'); } catch { /* ok */ } }
@@ -247,7 +270,7 @@ function frame(now) {
   if (!_salta.tessere) for (const e of list) drawTile(e, now, pencils);
   drawUscite();
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const mov = stepTokens(); if (!_salta.segnalini) drawTokens(now);
+  const mov = stepTokens(); drawNebbia(); if (!_salta.segnalini) drawTokens(now);
   pencils.forEach(p => drawPencil(p[0], p[1], now));
   if (mov || [...tiles.values()].some(e => e.anim || e.wantAnim)) invalidate();
 }

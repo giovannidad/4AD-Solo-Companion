@@ -1,5 +1,11 @@
 # Changelog
 
+## Non ancora pubblicato
+- **Campagna «Il Cartografo dell'Oblio»:** cinque avventure collegate da una trama (livelli 1-2, 2-3, 3-4, 4-5, 5-6; 18-20 stanze ciascuna) con tabelle diverse per ogni capitolo: base, Acque Oscure, Nemici diabolici, Contro il Caos, Contro l'Abisso. Nell'elenco «Avventure incluse».
+- **Nebbia di guerra a raggio di luce:** la mappa è scura tranne attorno ai personaggi; chi porta la lanterna illumina di più. Si può spegnere dalle Impostazioni (Mappa).
+- **Introduzione e obiettivo:** all'inizio di un'avventura scritta si apre una finestra con l'introduzione e l'obiettivo (rileggibili dal pannello Dungeon).
+- **Finali a scelta:** alla conclusione l'avventura propone più finali; la scelta si ricorda nella campagna e cambia l'introduzione dei capitoli successivi (campi `finali`, `serie`, `introduzioneSe`, `obiettivo` in `docs/MODULI.md`).
+
 ## 1.17.0
 - **Avventure scritte (moduli):** un file `.json` descrive un dungeon già pronto (mappa a stanze con porte, anche segrete, mostri, tesori, trappole, eventi, descrizioni da leggere) per qualunque livello dei personaggi da 1 a 30, con le tabelle del set scelto dall'autore (manuale base, Nemici diabolici, Contro il Caos, Contro l'Abisso, Orrori dall'Aldilà, Contro le Profondità Dimenticate, Acque Oscure, Coboldi). Nel pannello Dungeon, riquadro «Avventura scritta»: **avventure incluse** oppure **Carica da file…**; funziona nel sito per telefono, nell'app per Mac e Windows e con il server. Le stanze sono disegnate sul foglio nello stile vettoriale del gioco; combattimenti, tesori, trappole, erranti, perquisizione, riposo e salvataggio seguono le regole di sempre, e l'avventura è salvata nella campagna insieme al modulo.
 - Mostri presi dalle tabelle (`tabella` + `id`) oppure scritti da zero con livello, attacchi, PV, morale, tesoro, reazioni e alcuni poteri automatici; boss finale; tesori fissi (oro, gemme, oggetti magici) o a tiro.

@@ -1,0 +1,664 @@
+{
+ "formato": "4ad-avventura",
+ "versione": 1,
+ "nome": "La biblioteca dei passi perduti",
+ "autore": "Fable 5.2 e Claude Sonnet 5.5 per 4AD Solo Companion",
+ "licenza": "CC BY 4.0",
+ "lingua": "it",
+ "descrizione": "Capitolo 3 di 5 de «Il Cartografo dell'Oblio». In un monastero sulle montagne i corridoi si riscrivono ogni notte. Nell'Indice, l'ultimo libro dell'Ordine, c'è il nome di chi cancella il mondo, e la ragione.",
+ "introduzione": "Il monastero di San Verbo sorge a duemila metri, dove l'aria è così sottile che le parole si sentono meglio dei passi. I monaci cartografi vi custodivano la Biblioteca dei Passi Perduti: ottomila volumi, ciascuno con la carta di un luogo che non sarebbe mai stato visitato. Da una settimana nessun monaco scende a valle. Da una settimana, di notte, la biblioteca cambia pianta.\n\nIl vecchio sacrestano che vi accoglie al portone non ha più la lingua, e scrive con il carbone sul pavimento: «Il bibliotecario ha letto troppo. Ora le stanze si ricordano da sole, e si dimenticano quando vogliono.» Mostra un portale di quercia da cui trapelano, come fumo, parole in tre alfabeti.\n\nQui, secondo il compasso, finisce un filo. Là dentro, da qualche parte, c'è l'Indice: il registro dei nomi di tutti i luoghi mai disegnati dall'Ordine. Chi vuole sapere perché Ysmeril Vael cancella il mondo deve leggerlo. Ma ogni pagina letta costa qualcosa, e il bibliotecario non ama i lettori che non restituiscono i libri.",
+ "introduzioneSe": {
+  "2:salva-porto": "Lagonero ha riavuto i suoi moli, e un battello di pescatori vi ha portato fin qui senza chiedere nulla: sul fondo della barca c'è una cesta di pane e un biglietto di Mirel, con una sola riga: «Leggete bene. Non fidatevi di ciò che sembra una porta.»",
+  "2:registri": "Le carte di Ysmeril, ancora umide, vi hanno condotto fin qui: la loro ultima pagina porta il disegno di questo monastero, con una X sull'ultimo scaffale. «Qui c'è la sua ultima carta» dice il sacrestano muto, scrivendo con il carbone, quasi con sollievo."
+ },
+ "obiettivo": "Attraversa la Biblioteca dei Passi Perduti, sconfiggi il Bibliotecario che l'ha corrotta e recupera il terzo Frammento della Mappa dell'Alba, con il Nome nell'Indice.",
+ "serie": {
+  "id": "cartografo",
+  "numero": 3,
+  "di": 5
+ },
+ "livello": {
+  "min": 3,
+  "max": 4
+ },
+ "eroi": {
+  "min": 3,
+  "max": 5
+ },
+ "set": "diabolici",
+ "fine": "boss",
+ "conclusione": "L'Indice si chiude con un tonfo di montagna. Il terzo lembo di pergamena si lascia sfilare dal dorso del libro come una lingua dalla bocca, e ora, finalmente, la calligrafia è leggibile: «Ysmeril Vael, capo cartografo dell'Ordine della Bussola, scrive questo ultimo atto prima di scendere dove nessuna mappa arriva. Ciò che sta sotto il mondo vede soltanto ciò che è disegnato. Se cancello abbastanza, dormirà.»",
+ "finali": [
+  {
+   "id": "leggi",
+   "nome": "Leggere l'ultima pagina",
+   "scelta": "Leggi tutta la pagina dell'Indice: saprai dove si trova Ysmeril, ma ricorderai per sempre ciò che c'è scritto.",
+   "testo": "Leggete l'ultima pagina fino all'ultima riga. Per un istante vedete il mondo com'è davvero: una mappa sottilissima stesa sopra un abisso, e dall'abisso un occhio che cerca. Quando la visione si ritira, sapete dove trovare Ysmeril, e sapete che ha ragione, almeno in parte. Il peso di questa verità vi accompagnerà. Il sacrestano vi bacia le mani, senza lingua."
+  },
+  {
+   "id": "brucia",
+   "nome": "Bruciare l'Indice",
+   "scelta": "Dai fuoco al libro: nessuno potrà più leggere il nome dei luoghi cancellati, nemmeno Ysmeril.",
+   "testo": "Date fuoco all'Indice con la lanterna. Le pagine bruciano di una luce blu, e per un istante tutta la biblioteca canta: ottomila luoghi che non esisteranno mai, liberati. Il monastero ricorda come respirare. Ma ciò che avete bruciato conteneva anche la via più breve verso Ysmeril, e ora dovrete cercarlo seguendo soltanto le cuciture del mondo."
+  }
+ ],
+ "stanze": [
+  {
+   "id": "portale",
+   "nome": "Il portale di quercia",
+   "rettangolo": [
+    0,
+    0,
+    6,
+    5
+   ],
+   "tipo": "ingresso",
+   "testo": "Un portale alto tre uomini, scolpito con le mappe di un mondo che forse non è mai esistito. Oltre la soglia, l'aria odora di colla, di polvere e di cera, e le parole ti sfiorano il viso come falene."
+  },
+  {
+   "id": "atrio",
+   "nome": "Atrio dei lettori",
+   "rettangolo": [
+    6,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Panche, leggii, una grande lanterna di vetro che oscilla appesa senza catena. Il pavimento è di lettere di legno, e ogni passo compone parole che non vuoi leggere.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-ragni"
+    }
+   ]
+  },
+  {
+   "id": "scrittorio",
+   "nome": "Scrittorio degli amanuensi",
+   "rettangolo": [
+    12,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Venti scrivanie, venti sedie spostate, venti calamai ancora pieni. Gli amanuensi sono ancora al lavoro: scheletri con la penna in mano, che copiano in silenzio lo stesso rigo, in eterno.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-scheletri-corazzati"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "galleria",
+   "nome": "Galleria dei corridoi mobili",
+   "rettangolo": [
+    18,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Tre corridoi identici partono dalla galleria. Dopo un passo, ti accorgi che stai già percorrendo il quarto. Le pareti si riscrivono sotto le dita.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Dardo",
+     "liv": 6
+    },
+    {
+     "tipo": "caratteristica",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "scala",
+   "nome": "Scala a chiocciola senza fine",
+   "rettangolo": [
+    24,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una scala che sale e scende, a volte nello stesso istante. Chi guarda in alto vede sé stesso scendere. Chi guarda in basso vede sé stesso salire.",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "nome": "L'altro che sale",
+     "testo": "Un eroe a caso (tira 1d6) incrocia sé stesso sulla scala: se tira 1-2, l'altro gli sussurra una frase e per questa avventura ha −1 al primo attacco di ogni scontro; con 5-6 impara qualcosa e ha +1 al primo tiro salvezza."
+    }
+   ]
+  },
+  {
+   "id": "refettorio",
+   "nome": "Refettorio dei monaci",
+   "rettangolo": [
+    0,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Lunghi tavoli apparecchiati per cento. La zuppa nei piatti è ancora tiepida. Seduti, immobili, ci sono monaci con la tonaca nera e il cappuccio calato, e ciascuno ha un solo occhio.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "d-nani-posseduti"
+    }
+   ]
+  },
+  {
+   "id": "copisteria",
+   "nome": "Copisteria delle penne d'oca",
+   "rettangolo": [
+    6,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Migliaia di penne d'oca ritte in vasi di coccio. Quando respiri, tutte vibrano insieme, come se ti ascoltassero. Alcune hanno lasciato una macchia nera sul soffitto.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-uccelli"
+    }
+   ]
+  },
+  {
+   "id": "rilegatura",
+   "nome": "Rilegatura",
+   "rettangolo": [
+    12,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Torchi, pelli di capra, colla bollente in un calderone che sobbolle da sola. Uno strano golem di cuoio e carta ricuce un volume con un ago d'osso, e nel farlo ride.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "d-golem"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    }
+   ]
+  },
+  {
+   "id": "scaffali",
+   "nome": "Scaffali alti",
+   "rettangolo": [
+    18,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Scaffali che si perdono nel buio dell'altezza. Scale a pioli salgono verso ripiani che non si vedono. Dall'alto piovono pagine, come foglie d'autunno.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-uomini-capra"
+    },
+    {
+     "tipo": "evento",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "giardino",
+   "nome": "Giardino della meditazione",
+   "rettangolo": [
+    24,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un chiostro a cielo aperto, con una fontana senza acqua e quattro aiuole di sabbia rastrellata in forma di carte geografiche. Un monaco di pietra sta seduto, immobile, con la mano tesa verso chi entra.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Rosario di perle d'ossidiana (vale 50 p.o. se venduto)",
+       "valore": 50
+      }
+     ]
+    },
+    {
+     "tipo": "caratteristica",
+     "nome": "La mano di pietra",
+     "testo": "Chi pone nella mano del monaco di pietra un pezzo d'oro riceve un presagio: al prossimo tiro salvezza fallito di questa avventura può ritirare il dado una volta."
+    }
+   ]
+  },
+  {
+   "id": "cripta",
+   "nome": "Cripta degli archivisti",
+   "rettangolo": [
+    0,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Sarcofagi con coperchi di pergamena cuciti come scatole. Ognuno ha scritto sul coperchio il nome di chi vi riposa e la data in cui è stato dimenticato.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-serpenti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "planisfero",
+   "nome": "Sala del planisfero",
+   "rettangolo": [
+    6,
+    10,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un planisfero di bronzo, enorme, gira lentamente al centro della sala. Dove un tempo c'erano mari e montagne, ora si aprono buchi lisci, come bruciature fatte con una brace. Davanti alla mappa, un uomo senza volto traccia con il dito un ultimo confine.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Cartografo senza volto",
+     "liv": 6,
+     "att": 2,
+     "pv": 5,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "umanoide",
+      "demone"
+     ],
+     "note": "Se non è ferito nel primo round, cancella un incantesimo preparato a scelta del giocatore (non lanciabile per l'incontro)."
+    }
+   ]
+  },
+  {
+   "id": "archivio",
+   "nome": "Archivio delle carte vive",
+   "rettangolo": [
+    18,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Cassetti infiniti, ciascuno con una mappa che si agita come un animale. Una carta ti morde la mano. Un'altra, più prudente, ti indica la direzione di un tesoro.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    },
+    {
+     "tipo": "trappola",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "indice",
+   "nome": "Anticamera dell'Indice",
+   "rettangolo": [
+    24,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un'anticamera spoglia, con un solo leggio vuoto. Sopra il leggio, scritto con il fuoco: «Chi legge ciò che non gli è dato, lascia in pegno la propria storia». Ai lati, quattro statue con i libri chiusi ti fissano.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Sentinella di libri",
+     "liv": 6,
+     "att": 1,
+     "pv": 5,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "costrutto"
+     ],
+     "note": "Se uccidi la sentinella in mischia, l'ultimo colpo fa cadere i libri che tiene sul petto: il colpitore tira 1d6 e con 1 perde 1 punto vita."
+    }
+   ]
+  },
+  {
+   "id": "rogo",
+   "nome": "Sala del rogo dimenticato",
+   "rettangolo": [
+    0,
+    15,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un camino enorme, con cenere ancora calda. Sul fondo, i resti di un rogo di libri: centinaia di volumi bruciati in una sola notte, da qualcuno che li amava.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "d-schiavisti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": -1
+    }
+   ]
+  },
+  {
+   "id": "passo",
+   "nome": "Il passo perduto",
+   "rettangolo": [
+    6,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un corridoio lunghissimo e stretto, che non finisce mai: ma ogni dieci passi, sul pavimento, ci sono impronte fresche, di piedi nudi, che vanno nella tua direzione.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Tagliola",
+     "liv": 6
+    },
+    {
+     "tipo": "evento",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "bibliotecario",
+   "nome": "L'ultimo scaffale",
+   "rettangolo": [
+    18,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una torre cava, con scaffali dal pavimento alle stelle. Al centro, sul leggio gigante, l'Indice: un libro grande come una porta, con le pagine aperte. Sopra, ricurvo, il Bibliotecario, con la lingua scritta sul palato e le dita nere come carboncino, legge ad alta voce un nome dopo l'altro. Ogni nome che pronuncia cancella un luogo.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "d-maestri-hobgoblin",
+     "quantita": "1d3"
+    },
+    {
+     "tipo": "mostri",
+     "nome": "Il Bibliotecario",
+     "liv": 7,
+     "att": 2,
+     "pv": 7,
+     "maggiore": true,
+     "tes": 2,
+     "tag": [
+      "non-morto",
+      "umanoide"
+     ],
+     "note": "Quando è ferito, grida un nome: un eroe a caso (tira 1d6) perde la memoria di una abilità per questo incontro con 1-2.",
+     "finale": true
+    }
+   ]
+  },
+  {
+   "id": "reliquiario",
+   "nome": "Sigillo dell'Ultimo Libro",
+   "rettangolo": [
+    18,
+    20,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un cubicolo con una finestra sul cielo. Sul davanzale, per terra, un lembo di pergamena viva, e accanto una rosa dei venti d'ottone, molto grande, incisa nella pietra.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Frammento della Mappa dell'Alba (3 di 5): lembo di pergamena viva con una piccola rosa dei venti"
+      },
+      {
+       "tipo": "gemma",
+       "valore": 80
+      },
+      {
+       "tipo": "oro",
+       "valore": 100
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "porte": [
+  {
+   "da": "portale",
+   "a": "atrio",
+   "x": 5,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "atrio",
+   "a": "scrittorio",
+   "x": 11,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "scrittorio",
+   "a": "galleria",
+   "x": 17,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "galleria",
+   "a": "scala",
+   "x": 23,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "portale",
+   "a": "refettorio",
+   "x": 3,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "atrio",
+   "a": "copisteria",
+   "x": 9,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "scrittorio",
+   "a": "rilegatura",
+   "x": 15,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "galleria",
+   "a": "scaffali",
+   "x": 21,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "scala",
+   "a": "giardino",
+   "x": 27,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "refettorio",
+   "a": "copisteria",
+   "x": 5,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "copisteria",
+   "a": "rilegatura",
+   "x": 11,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "rilegatura",
+   "a": "scaffali",
+   "x": 17,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "scaffali",
+   "a": "giardino",
+   "x": 23,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "refettorio",
+   "a": "cripta",
+   "x": 3,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "copisteria",
+   "a": "planisfero",
+   "x": 9,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "scaffali",
+   "a": "archivio",
+   "x": 21,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "giardino",
+   "a": "indice",
+   "x": 27,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "cripta",
+   "a": "planisfero",
+   "x": 5,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "planisfero",
+   "a": "archivio",
+   "x": 17,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "archivio",
+   "a": "indice",
+   "x": 23,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "cripta",
+   "a": "rogo",
+   "x": 3,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "planisfero",
+   "a": "passo",
+   "x": 12,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "archivio",
+   "a": "bibliotecario",
+   "x": 21,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "indice",
+   "a": "bibliotecario",
+   "x": 27,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "rogo",
+   "a": "passo",
+   "x": 5,
+   "y": 17,
+   "lato": "e"
+  },
+  {
+   "da": "passo",
+   "a": "bibliotecario",
+   "x": 17,
+   "y": 17,
+   "lato": "e",
+   "tipo": "segreta",
+   "nota": "Lo scaffale in fondo al corridoio gira su un perno: dietro, la torre."
+  },
+  {
+   "da": "bibliotecario",
+   "a": "reliquiario",
+   "x": 21,
+   "y": 19,
+   "lato": "s"
+  }
+ ]
+}

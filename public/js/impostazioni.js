@@ -34,6 +34,7 @@ export async function apriImpostazioni({ leggera } = {}) {
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.opzioni.snap, onchange: ev => mappa.setSnap(ev.target.checked) }), 'Snap to grid: le stanze si agganciano ai quadretti del foglio (tieni premuto Alt mentre trascini per muoverle liberamente)'));
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.opzioni.assist, onchange: ev => mappa.setAssist(ev.target.checked) }), 'Posizionamento assistito: la nuova stanza si appoggia a una porta libera della precedente (frecce arancioni; clicca una freccia per scegliere un’altra uscita)'));
     b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.opzioni.matita, onchange: ev => mappa.setMatita(ev.target.checked) }), 'Effetto scrittura a matita: le stanze vengono «disegnate» sul foglio (se disattivato compaiono subito)'));
+    b.append(h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: mappa.nebbia.attiva, onchange: ev => mappa.setNebbia(ev.target.checked) }), 'Nebbia di guerra: la mappa è scura tranne attorno ai personaggi; chi porta la lanterna illumina di più.'));
     b.append(h('h4', {}, 'Dadi'));
     const sw = h('div', { class: 'swatches' });
     const rSw = () => {

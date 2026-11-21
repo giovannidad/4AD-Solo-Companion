@@ -1,0 +1,689 @@
+{
+ "formato": "4ad-avventura",
+ "versione": 1,
+ "nome": "Il regno cucito",
+ "autore": "Fable 5.2 e Claude Sonnet 5.5 per 4AD Solo Companion",
+ "licenza": "CC BY 4.0",
+ "lingua": "it",
+ "descrizione": "Capitolo 4 di 5 de «Il Cartografo dell'Oblio». Una regione intera è stata cancellata e ricucita male dall'apprendista di Ysmeril: dalle cuciture sanguina il caos. Mirel Tamsin è prigioniera in fondo.",
+ "introduzione": "La strada finisce in un crinale, e oltre il crinale il paesaggio non finisce: è soltanto sbagliato. Una collina è cucita a un lago con filo nero. Un bosco ha le radici piantate nel cielo di un altro paese. Dove le toppe non combaciano, la realtà sanguina: un liquido scuro e dolce, che profuma di tutto ciò che hai perduto.\n\nQuesto era un regno. Aveva un nome, un re, una festa di primavera. Ysmeril lo ha cancellato in una notte, e il suo apprendista, spaventato dal vuoto, lo ha ricucito con ciò che aveva a portata di mano: caos, filo di ragno, ossa. Il risultato respira. Ogni cucitura ha un cuore, e ogni cuore ha fame.\n\nMirel Tamsin, l'archivista di Lagonero, vi ha seguiti da lontano, senza accompagnarvi, e questa notte è sparita: l'hanno presa e portata nel palazzo sul fondo del regno. Il vostro compasso batte più forte. Il quarto lembo di pergamena è là, vicino a chi l'ha cucito. Ma l'apprendista non è un nemico: è un ragazzo che ha avuto paura. Il che, dopo il caos, lo rende ancora più pericoloso.",
+ "introduzioneSe": {
+  "3:leggi": "Le righe dell'Indice che avete letto bruciano ancora dietro gli occhi: sapete che il mondo è un velo steso su un abisso, e che questo regno cucito è un tentativo disperato di rafforzare il velo. Non vi sentite più innocenti.",
+  "3:brucia": "L'Indice è cenere, e le sue ottomila mappe mai nate vi seguono come fantasmi felici lungo il crinale. Non vi indicano la via, ma ve la lasciano tracciare: dove camminate, per un istante, il terreno si ricorda di essere solido."
+ },
+ "obiettivo": "Attraversa il regno cucito, libera Mirel Tamsin, sconfiggi l'apprendista di Ysmeril e prendi il quarto Frammento della Mappa dell'Alba.",
+ "serie": {
+  "id": "cartografo",
+  "numero": 4,
+  "di": 5
+ },
+ "livello": {
+  "min": 4,
+  "max": 5
+ },
+ "eroi": {
+  "min": 3,
+  "max": 5
+ },
+ "set": "caos",
+ "fine": "boss",
+ "conclusione": "Quando l'ultimo filo si spezza, il regno ha un lungo respiro e si siede per terra come un bambino stanco. Mirel Tamsin, libera, vi stringe le mani con le dita macchiate d'inchiostro. «Non posso seguirvi» dice. «Ma so dove si va, adesso.» Il quarto lembo di pergamena brilla di una luce d'argento, e per la prima volta la rosa dei venti punta verso il basso, dritta, ferma, nell'unica direzione che nessuno vuole guardare.",
+ "finali": [
+  {
+   "id": "cuci",
+   "nome": "Ricucire il regno",
+   "scelta": "Con il filo d'argento di Mirel ricuci le toppe in modo che reggano: il regno sopravvive, ma sarà per sempre una terra di caos.",
+   "testo": "Mirel intreccia il suo filo d'argento con quello nero dell'apprendista e tutti insieme ricucite il paesaggio, toppa dopo toppa. Il regno trattiene il fiato, poi lo lascia andare: ora regge, e i suoi abitanti, dimenticati ma vivi, escono dalle case. Non ricordano il nome del re. Ma conoscono il vostro. E il caos, che prima sanguinava, ora scorre in canali precisi: una linfa, non una ferita."
+  },
+  {
+   "id": "libera",
+   "nome": "Tagliare i fili",
+   "scelta": "Con le forbici d'argento tagli tutti i fili: il regno si dissolve, ma gli abitanti, liberi, si disperdono nel mondo come ricordi.",
+   "testo": "Mirel vi porge le forbici d'argento. Tagliate un filo, poi un altro, poi cento. Il regno si scioglie come neve al sole, e al suo posto restano migliaia di piccole luci che salgono, leggere, nell'aria. Sono i suoi abitanti, finalmente liberi: si disperdono nel mondo e ognuno, da qualche parte, ricomincerà a esistere come un'idea. Il vuoto che lasciano è bellissimo e terribile."
+  }
+ ],
+ "stanze": [
+  {
+   "id": "crinale",
+   "nome": "La cucitura sul crinale",
+   "rettangolo": [
+    0,
+    0,
+    6,
+    5
+   ],
+   "tipo": "ingresso",
+   "testo": "Il sentiero si interrompe di colpo, cucito a un prato che non c'entra con filo nero grosso come una fune. Dalle cuciture sale un odore dolce di miele e di ferro."
+  },
+  {
+   "id": "sentiero",
+   "nome": "Sentiero a toppe",
+   "rettangolo": [
+    6,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Ogni dieci passi il terreno cambia: sabbia, neve, erba, cenere. Alcuni passi sono più lunghi di altri. Qualcosa striscia sotto le zolle.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "c-ratti"
+    }
+   ]
+  },
+  {
+   "id": "casa",
+   "nome": "Casa di tutti i paesi",
+   "rettangolo": [
+    12,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una casa fatta di metà di cinque case: una porta di quercia, una finestra di cristallo, un tetto di paglia, un camino di marmo. Dentro, una famiglia di bambole di stoffa ti guarda con occhi di bottoni, e canta.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "c-accoliti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "campo",
+   "nome": "Campo dei morti ricuciti",
+   "rettangolo": [
+    18,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Uno spaventapasseri alto come un albero, composto con i vestiti di cento persone diverse. Ai suoi piedi, il grano si piega come se qualcuno vi passasse in mezzo: non si vede nessuno.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "c-bestie"
+    }
+   ]
+  },
+  {
+   "id": "stalla",
+   "nome": "Stalla delle bestie unite",
+   "rettangolo": [
+    24,
+    0,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una stalla con cinquanta box, e in ognuno una creatura a metà: cavallo e lupo, cinghiale e cervo, bue e orso. Mugolano tutti insieme, sazie e affamate, senza smettere.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "c-chimera"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    }
+   ]
+  },
+  {
+   "id": "ponte",
+   "nome": "Ponte sul vuoto",
+   "rettangolo": [
+    0,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un ponte di corda e di ossa tra due pezzi di paesaggio che non sono mai stati vicini. Sotto, non c'è un burrone: c'è il bianco, il bianco di una pagina che aspetta di essere riempita.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Botola",
+     "liv": 7
+    },
+    {
+     "tipo": "caratteristica",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "mulino",
+   "nome": "Mulino che macina silenzio",
+   "rettangolo": [
+    6,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un mulino a vento senza vento, dove le pale girano lente. Il sacco di farina è pieno di parole spezzate: se lo afferri, sussurra nomi di persone che non sono mai nate.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "c-fanatici",
+     "quantita": "1d6+2"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "cicatrice",
+   "nome": "Il pozzo-cicatrice",
+   "rettangolo": [
+    12,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un pozzo dal bordo ricucito come una ferita. Dal fondo sale una voce di donna, che canta una ninna nanna a un bambino che non c'è. Dal bordo spunta un ciuffo di capelli neri.",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "nome": "La ninna nanna",
+     "testo": "Chi ascolta fino in fondo recupera 1 punto vita ma, subito dopo, deve superare un tiro salvezza di livello 5 o sviene per un turno (il canto lo culla). Chi vi si getta per cercare la donna viene rimandato indietro dal pozzo con 1 gemma da 50 p.o. in tasca, e un nome da ricordare."
+    }
+   ]
+  },
+  {
+   "id": "cimitero",
+   "nome": "Cimitero a gradoni",
+   "rettangolo": [
+    18,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un cimitero costruito a gradoni sul fianco di una collina cucita a un lago. Le lapidi non hanno nomi, ma date: la data in cui il defunto è stato dimenticato.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "c-serpenti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "torre",
+   "nome": "Torre dei fili",
+   "rettangolo": [
+    24,
+    5,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una torre altissima da cui partono mille fili, tesi come un'arpa mostruosa, verso tutte le direzioni del regno. Un ragno grosso come una carrozza ne tende uno con una zampa, e il regno trema.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Ragno-cucitore",
+     "liv": 5,
+     "att": 2,
+     "pv": 5,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "animale",
+      "caos"
+     ],
+     "note": "Ogni filo che tende cuce un nemico al terreno: un eroe a caso, se perde un tiro salvezza (L5), non può muoversi per un round."
+    }
+   ]
+  },
+  {
+   "id": "prigione",
+   "nome": "Cella di Mirel",
+   "rettangolo": [
+    0,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una stanza bianca, con un letto, un tavolo, una finestra dipinta. Mirel Tamsin è legata a una sedia di vimini con un filo d'inchiostro nero. Un carceriere, con la faccia coperta da una maschera di cuoio, si volta e fa un passo verso di te.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Carceriere di cuoio",
+     "liv": 5,
+     "att": 2,
+     "pv": 6,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "umanoide",
+      "caos"
+     ],
+     "note": "Dopo averlo sconfitto, Mirel è libera: non può seguire il gruppo, ma consegna il suo Compasso d'ottone: chi lo porta può ritirare un tiro per trovare porte segrete in questa avventura."
+    },
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Compasso d'ottone di Mirel (ritiro per porte segrete)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cappella",
+   "nome": "Cappella delle toppe",
+   "rettangolo": [
+    6,
+    10,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una cappella con volta di cielo notturno cucita su un soffitto di mattoni. All'altare, un sacerdote senza testa, con una candela al posto del collo, officia una messa per fedeli che non ci sono.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Campione cucito",
+     "liv": 4,
+     "att": 2,
+     "pv": 9,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "umanoide",
+      "caos"
+     ],
+     "note": "Ha una cucitura nera sul petto: se un eroe lo colpisce con un 6 naturale, i fili si spezzano e perde 2 punti vita in più."
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "fornace",
+   "nome": "Fornace dei fili",
+   "rettangolo": [
+    18,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un grande camino in cui brucia filo d'argento, di rame, d'oro, di nero. Le fiamme sono alte come case. Un mostro grigio, tutto muco, ci sguazza dentro e ti guarda con una sola pupilla.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "c-melma-grigia"
+    },
+    {
+     "tipo": "trappola",
+     "modello": "Gas velenoso",
+     "liv": 7
+    }
+   ]
+  },
+  {
+   "id": "laboratorio",
+   "nome": "Laboratorio dell'apprendista",
+   "rettangolo": [
+    24,
+    10,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Un laboratorio ordinato fino alla follia: aghi in fila per lunghezza, matasse di tutti i colori, un telaio con la trama del regno. Su una lavagna, un'equazione: «x + il nome di tutti = zero». Sotto, a gesso rosso: «Non volevo».",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "nome": "La lavagna dell'apprendista",
+     "testo": "L'apprendista ha scritto qui la verità: non ha ricucito per crudeltà, ma per salvare il regno dal vuoto. Chi legge ha +1 al primo attacco contro di lui, ma deve ricordare che lo sta combattendo per pietà."
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    }
+   ]
+  },
+  {
+   "id": "cunicoli",
+   "nome": "Cunicoli delle tarme",
+   "rettangolo": [
+    0,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Cunicoli larghi appena per un uomo, scavati da insetti grossi come cani. Le pareti sono fatte di pergamena divorata. Un coro di rosicchiamenti, ovunque.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "c-vespe"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "aghi",
+   "nome": "Sala degli aghi",
+   "rettangolo": [
+    12,
+    15,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Mille aghi sospesi nel vuoto, alla stessa altezza, puntati nella tua direzione. Uno si muove: cuce l'aria con un filo invisibile, e davanti a te si forma una linea scura, una cucitura nuova, che separa la sala in due.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Lance",
+     "liv": 7
+    },
+    {
+     "tipo": "evento",
+     "nome": "L'ago che cuce",
+     "testo": "Se un eroe supera un tiro salvezza (L6), può attraversare la cucitura senza ferite; chi lo fallisce perde 1 punto vita e ha il filo nero stretto al polso fino al prossimo riposo."
+    }
+   ]
+  },
+  {
+   "id": "trono",
+   "nome": "La sala dei telai",
+   "rettangolo": [
+    18,
+    15,
+    12,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Una sala immensa, piena di telai alti come case, che tessono tutti insieme il regno. Al centro, un ragazzo pallido con le mani scorticate dagli aghi, vestito di toppe, sta cucendo l'ultima cucitura. Non ti guarda. Ha le dita che sanguinano e il Frammento sul petto, come un cuore.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "c-ratti-uomini",
+     "quantita": "1d6"
+    },
+    {
+     "tipo": "mostri",
+     "nome": "Orlo Cucito, apprendista di Ysmeril",
+     "liv": 6,
+     "att": 2,
+     "pv": 9,
+     "maggiore": true,
+     "tes": 2,
+     "tag": [
+      "umanoide",
+      "caos"
+     ],
+     "note": "Ogni volta che perde punti vita, un frammento di regno si stacca: tira 1d6, con 1-2 un eroe a caso perde 1 punto vita (cuciture che cedono).",
+     "finale": true
+    }
+   ]
+  },
+  {
+   "id": "reliquiario",
+   "nome": "Il cuore del regno",
+   "rettangolo": [
+    18,
+    20,
+    6,
+    5
+   ],
+   "tipo": "stanza",
+   "testo": "Sotto i telai, una piccola stanza di velluto nero, con un cuscino. Sul cuscino, ancora caldo, il quarto Frammento. Nell'angolo, un paio di forbici d'argento e un ago d'oro, vecchi di secoli.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Frammento della Mappa dell'Alba (4 di 5): lembo di pergamena viva con una piccola rosa dei venti"
+      },
+      {
+       "tipo": "oggetto",
+       "testo": "Forbici d'argento e ago d'oro (valgono 150 p.o. insieme)",
+       "valore": 150
+      },
+      {
+       "tipo": "gemma",
+       "valore": 100
+      },
+      {
+       "tipo": "oro",
+       "valore": 120
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "porte": [
+  {
+   "da": "crinale",
+   "a": "sentiero",
+   "x": 5,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "sentiero",
+   "a": "casa",
+   "x": 11,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "casa",
+   "a": "campo",
+   "x": 17,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "campo",
+   "a": "stalla",
+   "x": 23,
+   "y": 2,
+   "lato": "e"
+  },
+  {
+   "da": "crinale",
+   "a": "ponte",
+   "x": 3,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "sentiero",
+   "a": "mulino",
+   "x": 9,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "casa",
+   "a": "cicatrice",
+   "x": 15,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "campo",
+   "a": "cimitero",
+   "x": 21,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "stalla",
+   "a": "torre",
+   "x": 27,
+   "y": 4,
+   "lato": "s"
+  },
+  {
+   "da": "ponte",
+   "a": "mulino",
+   "x": 5,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "mulino",
+   "a": "cicatrice",
+   "x": 11,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "cicatrice",
+   "a": "cimitero",
+   "x": 17,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "cimitero",
+   "a": "torre",
+   "x": 23,
+   "y": 7,
+   "lato": "e"
+  },
+  {
+   "da": "ponte",
+   "a": "prigione",
+   "x": 3,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "mulino",
+   "a": "cappella",
+   "x": 9,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "cicatrice",
+   "a": "cappella",
+   "x": 15,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "cimitero",
+   "a": "fornace",
+   "x": 21,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "torre",
+   "a": "laboratorio",
+   "x": 27,
+   "y": 9,
+   "lato": "s"
+  },
+  {
+   "da": "prigione",
+   "a": "cappella",
+   "x": 5,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "fornace",
+   "a": "laboratorio",
+   "x": 23,
+   "y": 12,
+   "lato": "e"
+  },
+  {
+   "da": "prigione",
+   "a": "cunicoli",
+   "x": 3,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "cappella",
+   "a": "aghi",
+   "x": 15,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "fornace",
+   "a": "trono",
+   "x": 21,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "laboratorio",
+   "a": "trono",
+   "x": 27,
+   "y": 14,
+   "lato": "s"
+  },
+  {
+   "da": "cunicoli",
+   "a": "aghi",
+   "x": 11,
+   "y": 17,
+   "lato": "e"
+  },
+  {
+   "da": "aghi",
+   "a": "trono",
+   "x": 17,
+   "y": 17,
+   "lato": "e",
+   "tipo": "segreta",
+   "nota": "Un ago d'argento punta a una porta cucita nella parete: la sala dei telai."
+  },
+  {
+   "da": "trono",
+   "a": "reliquiario",
+   "x": 21,
+   "y": 19,
+   "lato": "s"
+  }
+ ]
+}
