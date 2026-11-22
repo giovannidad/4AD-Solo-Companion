@@ -1,0 +1,23 @@
+[
+  {
+    "id": "cartografo",
+    "nome": "Il Cartografo dell'Oblio",
+    "descrizione": "Qualcuno sta cancellando il mondo dalle mappe, un luogo alla volta, e nessuno ricorda ciò che è stato tolto. Cinque capitoli epici, dal pozzo scomparso di Pietranera all'abisso sotto la mappa; i finali che scegli cambiano ciò che accade dopo.",
+    "avventure": [
+      "cartografo-1-il-pozzo-che-non-cera.json",
+      "cartografo-2-le-acque-senza-nome.json",
+      "cartografo-3-la-biblioteca-dei-passi-perduti.json",
+      "cartografo-4-il-regno-cucito.json",
+      "cartografo-5-labisso-sotto-la-mappa.json"
+    ]
+  },
+  {
+    "id": "singole",
+    "nome": "Avventure singole",
+    "descrizione": "Dungeon autonomi, senza trama in comune: si giocano in qualsiasi ordine.",
+    "avventure": [
+      "cripta-dei-sussurri.json",
+      "fortezza-di-cenere.json"
+    ]
+  }
+]

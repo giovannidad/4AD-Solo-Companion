@@ -24,7 +24,7 @@ function nomeLibero(base, escludiId = null, extra = []) {
   return b + ' ' + (usati.size + 1);
 }
 /** Nome casuale scelto tra quelli ancora liberi. */
-function nomeCasuale(extra = []) {
+export function nomeCasuale(extra = []) {
   const usati = new Set([...S.party.eroi.map(e => e.nome.trim().toLowerCase()), ...extra.map(n => n.toLowerCase())]);
   const liberi = NOMI.filter(n => !usati.has(n.toLowerCase()));
   return liberi.length ? liberi[Math.floor(Math.random() * liberi.length)] : nomeLibero(NOMI[Math.floor(Math.random() * NOMI.length)], null, extra);

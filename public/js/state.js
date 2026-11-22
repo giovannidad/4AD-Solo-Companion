@@ -35,6 +35,7 @@ export async function apriCampagna(id) {
   S.ritratti = (await api.leggi(id, 'ritratti').catch(() => null)) || {};
   localStorage.setItem('4ad-campagna', id);
   emit();
+  document.dispatchEvent(new CustomEvent('campagna-aperta', { detail: id }));
 }
 
 export function emit() { listeners.forEach(f => f()); }

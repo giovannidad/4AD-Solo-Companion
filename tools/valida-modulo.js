@@ -21,7 +21,7 @@ function cerca(set, tabella, id) {
 }
 
 (async () => {
-  const files = process.argv.slice(2).filter(f => path.basename(f) !== 'elenco.json' && !f.endsWith('.schema.json'));   // l'elenco delle avventure incluse e lo schema non sono avventure
+  const files = process.argv.slice(2).filter(f => path.basename(f) !== 'campagne.json' && !f.endsWith('.schema.json'));   // l'elenco delle campagne incluse e lo schema non sono avventure
   if (!files.length) { console.error('Uso: node tools/valida-modulo.js file.json [altro.json …]'); process.exit(2); }
   const M = await caricaModulo();
   let ko = 0;

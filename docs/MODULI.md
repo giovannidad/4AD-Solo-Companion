@@ -18,7 +18,7 @@ Nessuna installazione: basta il file.
 
 Pannello **Dungeon**, quando non c'è un'avventura in corso, riquadro **Avventura scritta**:
 
-- il menu **Avventure incluse** elenca i moduli che stanno nella cartella `assets/moduli/` del programma (vedi `elenco.json`);
+- **Campagne narrative…** apre l'elenco delle campagne incluse (file `assets/moduli/campagne.json`: `id`, `nome`, `descrizione` e l'elenco `avventure` dei file dei moduli; il livello coperto si ricava dalle avventure). Si sceglie la campagna, poi l'avventura e infine il gruppo: quello attuale, gli eroi copiati da un'altra partita salvata (di livello adeguato) oppure un gruppo nuovo portato al livello minimo richiesto. Gli ultimi due casi creano una nuova partita salvata;
 - **Carica da file…** apre un file `.json` dal dispositivo.
 
 Il gioco controlla il file e, se ci sono errori, li elenca senza avviare nulla. Se va bene, mostra una scheda con autore, livello consigliato,

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.19.0
+- **Campagne narrative:** nuovo pulsante «Campagne narrative…» nel pannello Dungeon. Si sceglie la campagna (con descrizione e livelli coperti), poi l'avventura e infine il gruppo: quello attuale, gli eroi copiati da un'altra partita salvata (di livello adeguato) oppure un gruppo nuovo portato al livello minimo richiesto. Gli ultimi due casi creano una nuova partita salvata.
+- Le avventure incluse sono ora descritte da `assets/moduli/campagne.json` (al posto di `elenco.json`); le avventure singole stanno nella campagna «Avventure singole».
+
 ## 1.18.1
 - **Campagna «Il Cartografo dell'Oblio»:** l'autore delle avventure è ora «Giovanni D'Addabbo per 4AD Solo Companion» e la scheda di presentazione non mostra più la licenza.
 - **Correzione:** nelle finestre delle avventure scritte (presentazione, introduzione, Esplora, errori di un file) non compare più la scritta «null».

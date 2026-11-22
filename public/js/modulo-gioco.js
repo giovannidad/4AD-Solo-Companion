@@ -59,29 +59,20 @@ export function presenta(def, avvisi = []) {
 
 /** Riquadro «Avventura scritta» del pannello Dungeon: moduli inclusi nel programma oppure un file scelto dal dispositivo. */
 export function riquadroAvvio() {
-  const sel = h('select', {}, h('option', { value: '' }, 'Avventure incluse…'));
   const box = h('div', { class: 'card' },
     h('h4', {}, 'Avventura scritta'),
-    h('p', { class: 'hint' }, 'Un dungeon già disegnato, con stanze, mostri e tesori decisi dall’autore. Le regole restano quelle del gioco. Formato descritto in docs/MODULI.md.'));
+    h('p', { class: 'hint' }, 'Un dungeon già disegnato, con stanze, mostri e tesori decisi dall’autore. Scegli una campagna, poi l’avventura e il gruppo. Le regole restano quelle del gioco. Formato descritto in docs/MODULI.md.'));
+  const apriC = h('button', { class: 'primary', onclick: () => import('./campagne-narrative.js').then(m => m.apri()).catch(e => toast('Non riesco ad aprire le campagne: ' + (e.message || e), 'warn')) }, 'Campagne narrative…');
   const apri = async testo => {
     const r = leggiModulo(testo);
     if (!r.def) { modal('Avventura non valida', (b, close) => { b.append(...[h('p', { class: 'warn-box' }, 'Il file non si può usare:'), h('ul', {}, r.errori.slice(0, 15).map(e => h('li', {}, e))), r.errori.length > 15 ? h('small', {}, `…e altri ${r.errori.length - 15} errori.`) : null, h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: close }, 'Chiudi'))].filter(Boolean)); }, { wide: true }); return; }
     presenta(r.def, r.avvisi);
   };
-  fetch('assets/moduli/elenco.json').then(r => (r.ok ? r.json() : [])).then(async lista => {
-    for (const x of lista) {
-      try { const d = await (await fetch(`assets/moduli/${x.file}`)).json(); sel.append(h('option', { value: x.file }, `${d.nome}${d.livello ? ` (lvl ${d.livello.min}-${d.livello.max})` : ''}`)); } catch { /* voce non leggibile: si salta */ }
-    }
-  }).catch(() => {});
-  sel.addEventListener('change', async () => {
-    const f = sel.value; sel.value = ''; if (!f) return;
-    try { await apri(await (await fetch(`assets/moduli/${f}`)).text()); } catch (e) { toast('Non riesco a leggere l’avventura: ' + (e.message || e), 'warn'); }
-  });
   const carica = h('button', { onclick: () => {
     const inp = h('input', { type: 'file', accept: '.json,application/json', onchange: async () => { if (inp.files[0]) await apri(await inp.files[0].text()); } });
     inp.click();
   } }, 'Carica da file…');
-  box.append(h('div', { class: 'row wrap' }, sel, carica));
+  box.append(h('div', { class: 'row wrap' }, apriC, carica));
   return box;
 }
 
