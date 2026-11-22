@@ -54,11 +54,39 @@ export async function apri() {
   schermataCampagne(lista);
 }
 
+const PER_PAGINA = 3;   // campagne mostrate per pagina
+let paginaCampagne = 0, ricercaCampagne = '';
+const senzaAccenti = t => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+/** Ricerca con un solo campo: le parole cercano nel nome della campagna o delle sue avventure; un numero («3») o un intervallo («2-4») cerca per livello. */
+function corrisponde(c, testo) {
+  const nomi = senzaAccenti([c.nome, ...c.av.map(a => a.def.nome)].join(' '));
+  return testo.split(/\s+/).filter(Boolean).every(t => {
+    const m = t.match(/^(?:liv(?:ello)?\.?)?(\d+)(?:-(\d+))?$/);
+    if (!m) return nomi.includes(senzaAccenti(t));
+    const da = +m[1], a = m[2] ? +m[2] : da;
+    return c.av.some(x => x.def.livello && x.def.livello.min <= Math.max(da, a) && x.def.livello.max >= Math.min(da, a));
+  });
+}
 function schermataCampagne(lista) {
   vai('Campagne narrative', (b, close) => {
-    b.append(h('p', { class: 'hint' }, 'Scegli una campagna, poi l’avventura da giocare e infine il gruppo.'),
-      h('div', { class: 'list' }, lista.map(c => pulsante(c.nome, [c.descrizione, `Livelli ${livelli(c.livello)} · ${c.av.length} ${c.av.length === 1 ? 'avventura' : 'avventure'}`], () => schermataAvventure(lista, c)))),
-      fine(h('button', { onclick: close }, 'Chiudi')));
+    const cerca = h('input', { type: 'search', placeholder: 'Cerca per nome o livello (es. «pozzo», «3», «2-4»)', value: ricercaCampagne, 'aria-label': 'Cerca campagne' });
+    const elencoEl = h('div', {}), navEl = h('div', {});
+    const disegna = () => {
+      const trovate = lista.filter(c => corrisponde(c, ricercaCampagne));
+      const pagine = Math.max(1, Math.ceil(trovate.length / PER_PAGINA));
+      paginaCampagne = Math.min(paginaCampagne, pagine - 1);
+      const p = paginaCampagne;
+      elencoEl.replaceChildren(trovate.length
+        ? h('div', { class: 'list' }, trovate.slice(p * PER_PAGINA, (p + 1) * PER_PAGINA).map(c => pulsante(c.nome, [c.descrizione, `Livelli ${livelli(c.livello)} · ${c.av.length} ${c.av.length === 1 ? 'avventura' : 'avventure'}`], () => schermataAvventure(lista, c))))
+        : h('p', { class: 'warn-box' }, 'Nessuna campagna corrisponde alla ricerca.'));
+      navEl.replaceChildren(...[pagine > 1 ? h('div', { class: 'row end' },
+        h('button', { disabled: p === 0, onclick: () => { paginaCampagne = p - 1; disegna(); } }, '‹ Precedenti'),
+        h('span', { class: 'hint' }, `Pagina ${p + 1} di ${pagine}`),
+        h('button', { disabled: p >= pagine - 1, onclick: () => { paginaCampagne = p + 1; disegna(); } }, 'Successive ›')) : null].filter(Boolean));
+    };
+    cerca.addEventListener('input', () => { ricercaCampagne = cerca.value.trim(); paginaCampagne = 0; disegna(); });
+    disegna();
+    b.append(h('p', { class: 'hint' }, 'Scegli una campagna, poi l’avventura da giocare e infine il gruppo.'), cerca, elencoEl, navEl, fine(h('button', { onclick: close }, 'Chiudi')));
   });
 }
 
