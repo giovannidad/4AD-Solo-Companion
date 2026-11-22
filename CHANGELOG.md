@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.19.2
+- **Numero di versione nelle Impostazioni:** sezione «Informazioni» con versione e build, visibile anche sul telefono dove l'intestazione non la mostra.
+
 ## 1.19.1
 - **Campagne narrative:** l'elenco delle campagne è paginato (3 per pagina) e ha un campo di ricerca unico: le parole cercano nel nome della campagna o delle sue avventure, un numero («3») o un intervallo («2-4») cerca per livello.
 

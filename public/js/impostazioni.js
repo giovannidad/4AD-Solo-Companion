@@ -58,6 +58,9 @@ export async function apriImpostazioni({ leggera } = {}) {
           h('button', { onclick: () => esportaCampagna().catch(e => toast(e.message, 'warn')) }, 'Esporta campagna'),
           h('button', { onclick: importaCampagna }, 'Importa campagna')));
     }
+    const ver = h('p', { class: 'hint' }, 'Versione: …');
+    b.append(h('h4', {}, 'Informazioni'), ver);
+    fetch('versione.json', { cache: 'no-store' }).then(r => r.json()).then(v => { ver.textContent = v.versione ? `Versione ${v.versione}${v.build ? ` (build ${v.build})` : ''}` : 'Versione non disponibile'; }).catch(() => { ver.textContent = 'Versione non disponibile'; });
     b.append(h('div', { class: 'row end' },
       h('button', { disabled: !!leggera, onclick: () => dice.tira('2d6', 'Prova dadi') }, 'Lancia due dadi di prova'),
       h('button', { class: 'primary', onclick: close }, 'Chiudi')));
