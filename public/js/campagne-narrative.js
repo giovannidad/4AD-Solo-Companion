@@ -98,7 +98,7 @@ function schermataAvventure(lista, c) {
       h('div', { class: 'list' }, c.av.map(a => {
         const d = a.def;
         return pulsante(`${d.serie ? `${d.serie.numero}. ` : ''}${d.nome}${conclusa(d) ? '  ✓' : ''}`,
-          [d.descrizione, `Livello ${livelli(d.livello)} · ${d.eroi ? `${livelli(d.eroi)} eroi · ` : ''}${d.stanze.length} stanze`], () => schermataGruppo(lista, c, a));
+          [d.descrizione, `Livello ${livelli(d.livello)} · ${d.eroi ? `${livelli(d.eroi)} eroi · ` : ''}${d.stanze.filter(s => s.tipo !== 'corridoio').length} stanze`], () => schermataGruppo(lista, c, a));
       })),
       fine(indietro('Campagne', () => schermataCampagne(lista)), h('button', { onclick: close }, 'Chiudi')));
   });

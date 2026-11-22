@@ -45,25 +45,137 @@
   {
    "id": "crinale",
    "nome": "La cucitura sul crinale",
-   "rettangolo": [
-    0,
-    0,
-    6,
-    5
-   ],
    "tipo": "ingresso",
+   "celle": [
+    [
+     33,
+     18
+    ],
+    [
+     34,
+     18
+    ],
+    [
+     35,
+     18
+    ],
+    [
+     36,
+     18
+    ],
+    [
+     33,
+     19
+    ],
+    [
+     34,
+     19
+    ],
+    [
+     35,
+     19
+    ],
+    [
+     36,
+     19
+    ],
+    [
+     33,
+     20
+    ],
+    [
+     34,
+     20
+    ],
+    [
+     33,
+     21
+    ],
+    [
+     34,
+     21
+    ],
+    [
+     33,
+     22
+    ],
+    [
+     34,
+     22
+    ]
+   ],
    "testo": "Il sentiero si interrompe di colpo, cucito a un prato che non c'entra con filo nero grosso come una fune. Dalle cuciture sale un odore dolce di miele e di ferro."
   },
   {
    "id": "sentiero",
    "nome": "Sentiero a toppe",
-   "rettangolo": [
-    6,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     28,
+     15
+    ],
+    [
+     29,
+     15
+    ],
+    [
+     30,
+     15
+    ],
+    [
+     28,
+     16
+    ],
+    [
+     29,
+     16
+    ],
+    [
+     30,
+     16
+    ],
+    [
+     27,
+     17
+    ],
+    [
+     28,
+     17
+    ],
+    [
+     29,
+     17
+    ],
+    [
+     30,
+     17
+    ],
+    [
+     26,
+     18
+    ],
+    [
+     27,
+     18
+    ],
+    [
+     28,
+     18
+    ],
+    [
+     29,
+     18
+    ],
+    [
+     30,
+     18
+    ],
+    [
+     30,
+     19
+    ]
+   ],
    "testo": "Ogni dieci passi il terreno cambia: sabbia, neve, erba, cenere. Alcuni passi sono più lunghi di altri. Qualcosa striscia sotto le zolle.",
    "contenuto": [
     {
@@ -76,13 +188,105 @@
   {
    "id": "casa",
    "nome": "Casa di tutti i paesi",
-   "rettangolo": [
-    12,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     33,
+     9
+    ],
+    [
+     34,
+     9
+    ],
+    [
+     35,
+     9
+    ],
+    [
+     36,
+     9
+    ],
+    [
+     37,
+     9
+    ],
+    [
+     38,
+     9
+    ],
+    [
+     33,
+     10
+    ],
+    [
+     34,
+     10
+    ],
+    [
+     35,
+     10
+    ],
+    [
+     36,
+     10
+    ],
+    [
+     37,
+     10
+    ],
+    [
+     38,
+     10
+    ],
+    [
+     33,
+     11
+    ],
+    [
+     34,
+     11
+    ],
+    [
+     35,
+     11
+    ],
+    [
+     36,
+     11
+    ],
+    [
+     37,
+     11
+    ],
+    [
+     38,
+     11
+    ],
+    [
+     35,
+     12
+    ],
+    [
+     36,
+     12
+    ],
+    [
+     35,
+     13
+    ],
+    [
+     36,
+     13
+    ],
+    [
+     35,
+     14
+    ],
+    [
+     36,
+     14
+    ]
+   ],
    "testo": "Una casa fatta di metà di cinque case: una porta di quercia, una finestra di cristallo, un tetto di paglia, un camino di marmo. Dentro, una famiglia di bambole di stoffa ti guarda con occhi di bottoni, e canta.",
    "contenuto": [
     {
@@ -99,13 +303,93 @@
   {
    "id": "campo",
    "nome": "Campo dei morti ricuciti",
-   "rettangolo": [
-    18,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     39,
+     11
+    ],
+    [
+     40,
+     11
+    ],
+    [
+     41,
+     11
+    ],
+    [
+     38,
+     12
+    ],
+    [
+     39,
+     12
+    ],
+    [
+     40,
+     12
+    ],
+    [
+     41,
+     12
+    ],
+    [
+     42,
+     12
+    ],
+    [
+     38,
+     13
+    ],
+    [
+     39,
+     13
+    ],
+    [
+     40,
+     13
+    ],
+    [
+     41,
+     13
+    ],
+    [
+     42,
+     13
+    ],
+    [
+     38,
+     14
+    ],
+    [
+     39,
+     14
+    ],
+    [
+     40,
+     14
+    ],
+    [
+     41,
+     14
+    ],
+    [
+     42,
+     14
+    ],
+    [
+     39,
+     15
+    ],
+    [
+     40,
+     15
+    ],
+    [
+     41,
+     15
+    ]
+   ],
    "testo": "Uno spaventapasseri alto come un albero, composto con i vestiti di cento persone diverse. Ai suoi piedi, il grano si piega come se qualcuno vi passasse in mezzo: non si vede nessuno.",
    "contenuto": [
     {
@@ -118,13 +402,73 @@
   {
    "id": "stalla",
    "nome": "Stalla delle bestie unite",
-   "rettangolo": [
-    24,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     44,
+     13
+    ],
+    [
+     45,
+     13
+    ],
+    [
+     46,
+     13
+    ],
+    [
+     44,
+     14
+    ],
+    [
+     45,
+     14
+    ],
+    [
+     46,
+     14
+    ],
+    [
+     44,
+     15
+    ],
+    [
+     45,
+     15
+    ],
+    [
+     46,
+     15
+    ],
+    [
+     47,
+     15
+    ],
+    [
+     48,
+     15
+    ],
+    [
+     44,
+     16
+    ],
+    [
+     45,
+     16
+    ],
+    [
+     46,
+     16
+    ],
+    [
+     47,
+     16
+    ],
+    [
+     48,
+     16
+    ]
+   ],
    "testo": "Una stalla con cinquanta box, e in ognuno una creatura a metà: cavallo e lupo, cinghiale e cervo, bue e orso. Mugolano tutti insieme, sazie e affamate, senza smettere.",
    "contenuto": [
     {
@@ -142,13 +486,137 @@
   {
    "id": "ponte",
    "nome": "Ponte sul vuoto",
-   "rettangolo": [
-    0,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     31,
+     23
+    ],
+    [
+     32,
+     23
+    ],
+    [
+     33,
+     23
+    ],
+    [
+     34,
+     23
+    ],
+    [
+     30,
+     24
+    ],
+    [
+     31,
+     24
+    ],
+    [
+     32,
+     24
+    ],
+    [
+     33,
+     24
+    ],
+    [
+     34,
+     24
+    ],
+    [
+     35,
+     24
+    ],
+    [
+     30,
+     25
+    ],
+    [
+     31,
+     25
+    ],
+    [
+     32,
+     25
+    ],
+    [
+     33,
+     25
+    ],
+    [
+     34,
+     25
+    ],
+    [
+     35,
+     25
+    ],
+    [
+     30,
+     26
+    ],
+    [
+     31,
+     26
+    ],
+    [
+     32,
+     26
+    ],
+    [
+     33,
+     26
+    ],
+    [
+     34,
+     26
+    ],
+    [
+     35,
+     26
+    ],
+    [
+     30,
+     27
+    ],
+    [
+     31,
+     27
+    ],
+    [
+     32,
+     27
+    ],
+    [
+     33,
+     27
+    ],
+    [
+     34,
+     27
+    ],
+    [
+     35,
+     27
+    ],
+    [
+     31,
+     28
+    ],
+    [
+     32,
+     28
+    ],
+    [
+     33,
+     28
+    ],
+    [
+     34,
+     28
+    ]
+   ],
    "testo": "Un ponte di corda e di ossa tra due pezzi di paesaggio che non sono mai stati vicini. Sotto, non c'è un burrone: c'è il bianco, il bianco di una pagina che aspetta di essere riempita.",
    "contenuto": [
     {
@@ -165,13 +633,57 @@
   {
    "id": "mulino",
    "nome": "Mulino che macina silenzio",
-   "rettangolo": [
-    6,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     21,
+     16
+    ],
+    [
+     22,
+     16
+    ],
+    [
+     23,
+     16
+    ],
+    [
+     21,
+     17
+    ],
+    [
+     22,
+     17
+    ],
+    [
+     23,
+     17
+    ],
+    [
+     21,
+     18
+    ],
+    [
+     22,
+     18
+    ],
+    [
+     23,
+     18
+    ],
+    [
+     24,
+     18
+    ],
+    [
+     22,
+     19
+    ],
+    [
+     23,
+     19
+    ]
+   ],
    "testo": "Un mulino a vento senza vento, dove le pale girano lente. Il sacco di farina è pieno di parole spezzate: se lo afferri, sussurra nomi di persone che non sono mai nate.",
    "contenuto": [
     {
@@ -189,13 +701,57 @@
   {
    "id": "cicatrice",
    "nome": "Il pozzo-cicatrice",
-   "rettangolo": [
-    12,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     23,
+     11
+    ],
+    [
+     24,
+     11
+    ],
+    [
+     25,
+     11
+    ],
+    [
+     23,
+     12
+    ],
+    [
+     24,
+     12
+    ],
+    [
+     25,
+     12
+    ],
+    [
+     23,
+     13
+    ],
+    [
+     24,
+     13
+    ],
+    [
+     25,
+     13
+    ],
+    [
+     23,
+     14
+    ],
+    [
+     24,
+     14
+    ],
+    [
+     25,
+     14
+    ]
+   ],
    "testo": "Un pozzo dal bordo ricucito come una ferita. Dal fondo sale una voce di donna, che canta una ninna nanna a un bambino che non c'è. Dal bordo spunta un ciuffo di capelli neri.",
    "contenuto": [
     {
@@ -208,13 +764,109 @@
   {
    "id": "cimitero",
    "nome": "Cimitero a gradoni",
-   "rettangolo": [
-    18,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     25,
+     3
+    ],
+    [
+     24,
+     4
+    ],
+    [
+     25,
+     4
+    ],
+    [
+     26,
+     4
+    ],
+    [
+     23,
+     5
+    ],
+    [
+     24,
+     5
+    ],
+    [
+     25,
+     5
+    ],
+    [
+     26,
+     5
+    ],
+    [
+     27,
+     5
+    ],
+    [
+     22,
+     6
+    ],
+    [
+     23,
+     6
+    ],
+    [
+     24,
+     6
+    ],
+    [
+     25,
+     6
+    ],
+    [
+     26,
+     6
+    ],
+    [
+     27,
+     6
+    ],
+    [
+     28,
+     6
+    ],
+    [
+     23,
+     7
+    ],
+    [
+     24,
+     7
+    ],
+    [
+     25,
+     7
+    ],
+    [
+     26,
+     7
+    ],
+    [
+     27,
+     7
+    ],
+    [
+     24,
+     8
+    ],
+    [
+     25,
+     8
+    ],
+    [
+     26,
+     8
+    ],
+    [
+     25,
+     9
+    ]
+   ],
    "testo": "Un cimitero costruito a gradoni sul fianco di una collina cucita a un lago. Le lapidi non hanno nomi, ma date: la data in cui il defunto è stato dimenticato.",
    "contenuto": [
     {
@@ -231,13 +883,73 @@
   {
    "id": "torre",
    "nome": "Torre dei fili",
-   "rettangolo": [
-    24,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     24,
+     0
+    ],
+    [
+     25,
+     0
+    ],
+    [
+     26,
+     0
+    ],
+    [
+     27,
+     0
+    ],
+    [
+     28,
+     0
+    ],
+    [
+     29,
+     0
+    ],
+    [
+     24,
+     1
+    ],
+    [
+     25,
+     1
+    ],
+    [
+     26,
+     1
+    ],
+    [
+     27,
+     1
+    ],
+    [
+     28,
+     1
+    ],
+    [
+     29,
+     1
+    ],
+    [
+     28,
+     2
+    ],
+    [
+     29,
+     2
+    ],
+    [
+     28,
+     3
+    ],
+    [
+     29,
+     3
+    ]
+   ],
    "testo": "Una torre altissima da cui partono mille fili, tesi come un'arpa mostruosa, verso tutte le direzioni del regno. Un ragno grosso come una carrozza ne tende uno con una zampa, e il regno trema.",
    "contenuto": [
     {
@@ -259,13 +971,73 @@
   {
    "id": "prigione",
    "nome": "Cella di Mirel",
-   "rettangolo": [
-    0,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     32,
+     29
+    ],
+    [
+     33,
+     29
+    ],
+    [
+     32,
+     30
+    ],
+    [
+     33,
+     30
+    ],
+    [
+     32,
+     31
+    ],
+    [
+     33,
+     31
+    ],
+    [
+     32,
+     32
+    ],
+    [
+     33,
+     32
+    ],
+    [
+     32,
+     33
+    ],
+    [
+     33,
+     33
+    ],
+    [
+     34,
+     33
+    ],
+    [
+     35,
+     33
+    ],
+    [
+     32,
+     34
+    ],
+    [
+     33,
+     34
+    ],
+    [
+     34,
+     34
+    ],
+    [
+     35,
+     34
+    ]
+   ],
    "testo": "Una stanza bianca, con un letto, un tavolo, una finestra dipinta. Mirel Tamsin è legata a una sedia di vimini con un filo d'inchiostro nero. Un carceriere, con la faccia coperta da una maschera di cuoio, si volta e fa un passo verso di te.",
    "contenuto": [
     {
@@ -296,13 +1068,137 @@
   {
    "id": "cappella",
    "nome": "Cappella delle toppe",
-   "rettangolo": [
-    6,
-    10,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     11,
+     18
+    ],
+    [
+     12,
+     18
+    ],
+    [
+     13,
+     18
+    ],
+    [
+     14,
+     18
+    ],
+    [
+     15,
+     18
+    ],
+    [
+     16,
+     18
+    ],
+    [
+     17,
+     18
+    ],
+    [
+     18,
+     18
+    ],
+    [
+     11,
+     19
+    ],
+    [
+     12,
+     19
+    ],
+    [
+     13,
+     19
+    ],
+    [
+     14,
+     19
+    ],
+    [
+     15,
+     19
+    ],
+    [
+     16,
+     19
+    ],
+    [
+     17,
+     19
+    ],
+    [
+     18,
+     19
+    ],
+    [
+     11,
+     20
+    ],
+    [
+     12,
+     20
+    ],
+    [
+     13,
+     20
+    ],
+    [
+     14,
+     20
+    ],
+    [
+     15,
+     20
+    ],
+    [
+     16,
+     20
+    ],
+    [
+     17,
+     20
+    ],
+    [
+     18,
+     20
+    ],
+    [
+     11,
+     21
+    ],
+    [
+     12,
+     21
+    ],
+    [
+     13,
+     21
+    ],
+    [
+     14,
+     21
+    ],
+    [
+     15,
+     21
+    ],
+    [
+     16,
+     21
+    ],
+    [
+     17,
+     21
+    ],
+    [
+     18,
+     21
+    ]
+   ],
    "testo": "Una cappella con volta di cielo notturno cucita su un soffitto di mattoni. All'altare, un sacerdote senza testa, con una candela al posto del collo, officia una messa per fedeli che non ci sono.",
    "contenuto": [
     {
@@ -328,13 +1224,45 @@
   {
    "id": "fornace",
    "nome": "Fornace dei fili",
-   "rettangolo": [
-    18,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     37,
+     41
+    ],
+    [
+     37,
+     42
+    ],
+    [
+     35,
+     43
+    ],
+    [
+     36,
+     43
+    ],
+    [
+     37,
+     43
+    ],
+    [
+     38,
+     43
+    ],
+    [
+     39,
+     43
+    ],
+    [
+     37,
+     44
+    ],
+    [
+     37,
+     45
+    ]
+   ],
    "testo": "Un grande camino in cui brucia filo d'argento, di rame, d'oro, di nero. Le fiamme sono alte come case. Un mostro grigio, tutto muco, ci sguazza dentro e ti guarda con una sola pupilla.",
    "contenuto": [
     {
@@ -352,13 +1280,73 @@
   {
    "id": "laboratorio",
    "nome": "Laboratorio dell'apprendista",
-   "rettangolo": [
-    24,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     34,
+     46
+    ],
+    [
+     35,
+     46
+    ],
+    [
+     36,
+     46
+    ],
+    [
+     37,
+     46
+    ],
+    [
+     34,
+     47
+    ],
+    [
+     35,
+     47
+    ],
+    [
+     36,
+     47
+    ],
+    [
+     37,
+     47
+    ],
+    [
+     34,
+     48
+    ],
+    [
+     35,
+     48
+    ],
+    [
+     36,
+     48
+    ],
+    [
+     37,
+     48
+    ],
+    [
+     34,
+     49
+    ],
+    [
+     35,
+     49
+    ],
+    [
+     36,
+     49
+    ],
+    [
+     37,
+     49
+    ]
+   ],
    "testo": "Un laboratorio ordinato fino alla follia: aghi in fila per lunghezza, matasse di tutti i colori, un telaio con la trama del regno. Su una lavagna, un'equazione: «x + il nome di tutti = zero». Sotto, a gesso rosso: «Non volevo».",
    "contenuto": [
     {
@@ -376,13 +1364,225 @@
   {
    "id": "cunicoli",
    "nome": "Cunicoli delle tarme",
-   "rettangolo": [
-    0,
-    15,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     22,
+     34
+    ],
+    [
+     23,
+     34
+    ],
+    [
+     24,
+     34
+    ],
+    [
+     25,
+     34
+    ],
+    [
+     26,
+     34
+    ],
+    [
+     27,
+     34
+    ],
+    [
+     28,
+     34
+    ],
+    [
+     29,
+     34
+    ],
+    [
+     30,
+     34
+    ],
+    [
+     22,
+     35
+    ],
+    [
+     23,
+     35
+    ],
+    [
+     24,
+     35
+    ],
+    [
+     25,
+     35
+    ],
+    [
+     26,
+     35
+    ],
+    [
+     27,
+     35
+    ],
+    [
+     28,
+     35
+    ],
+    [
+     29,
+     35
+    ],
+    [
+     30,
+     35
+    ],
+    [
+     22,
+     36
+    ],
+    [
+     23,
+     36
+    ],
+    [
+     24,
+     36
+    ],
+    [
+     25,
+     36
+    ],
+    [
+     26,
+     36
+    ],
+    [
+     27,
+     36
+    ],
+    [
+     28,
+     36
+    ],
+    [
+     29,
+     36
+    ],
+    [
+     30,
+     36
+    ],
+    [
+     22,
+     37
+    ],
+    [
+     23,
+     37
+    ],
+    [
+     24,
+     37
+    ],
+    [
+     25,
+     37
+    ],
+    [
+     26,
+     37
+    ],
+    [
+     27,
+     37
+    ],
+    [
+     28,
+     37
+    ],
+    [
+     29,
+     37
+    ],
+    [
+     30,
+     37
+    ],
+    [
+     22,
+     38
+    ],
+    [
+     23,
+     38
+    ],
+    [
+     24,
+     38
+    ],
+    [
+     25,
+     38
+    ],
+    [
+     26,
+     38
+    ],
+    [
+     27,
+     38
+    ],
+    [
+     28,
+     38
+    ],
+    [
+     29,
+     38
+    ],
+    [
+     30,
+     38
+    ],
+    [
+     22,
+     39
+    ],
+    [
+     23,
+     39
+    ],
+    [
+     24,
+     39
+    ],
+    [
+     25,
+     39
+    ],
+    [
+     26,
+     39
+    ],
+    [
+     27,
+     39
+    ],
+    [
+     28,
+     39
+    ],
+    [
+     29,
+     39
+    ],
+    [
+     30,
+     39
+    ]
+   ],
    "testo": "Cunicoli larghi appena per un uomo, scavati da insetti grossi come cani. Le pareti sono fatte di pergamena divorata. Un coro di rosicchiamenti, ovunque.",
    "contenuto": [
     {
@@ -399,13 +1599,141 @@
   {
    "id": "aghi",
    "nome": "Sala degli aghi",
-   "rettangolo": [
-    12,
-    15,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     5,
+     14
+    ],
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     14
+    ],
+    [
+     5,
+     15
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     3,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     5,
+     16
+    ],
+    [
+     6,
+     16
+    ],
+    [
+     7,
+     16
+    ],
+    [
+     8,
+     16
+    ],
+    [
+     9,
+     16
+    ],
+    [
+     3,
+     17
+    ],
+    [
+     4,
+     17
+    ],
+    [
+     5,
+     17
+    ],
+    [
+     6,
+     17
+    ],
+    [
+     7,
+     17
+    ],
+    [
+     8,
+     17
+    ],
+    [
+     9,
+     17
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     18
+    ],
+    [
+     5,
+     18
+    ],
+    [
+     6,
+     18
+    ],
+    [
+     7,
+     18
+    ],
+    [
+     8,
+     18
+    ],
+    [
+     9,
+     18
+    ],
+    [
+     5,
+     19
+    ],
+    [
+     6,
+     19
+    ],
+    [
+     7,
+     19
+    ],
+    [
+     5,
+     20
+    ],
+    [
+     6,
+     20
+    ],
+    [
+     7,
+     20
+    ]
+   ],
    "testo": "Mille aghi sospesi nel vuoto, alla stessa altezza, puntati nella tua direzione. Uno si muove: cuce l'aria con un filo invisibile, e davanti a te si forma una linea scura, una cucitura nuova, che separa la sala in due.",
    "contenuto": [
     {
@@ -423,13 +1751,173 @@
   {
    "id": "trono",
    "nome": "La sala dei telai",
-   "rettangolo": [
-    18,
-    15,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     14,
+     3
+    ],
+    [
+     13,
+     4
+    ],
+    [
+     14,
+     4
+    ],
+    [
+     15,
+     4
+    ],
+    [
+     12,
+     5
+    ],
+    [
+     13,
+     5
+    ],
+    [
+     14,
+     5
+    ],
+    [
+     15,
+     5
+    ],
+    [
+     16,
+     5
+    ],
+    [
+     11,
+     6
+    ],
+    [
+     12,
+     6
+    ],
+    [
+     13,
+     6
+    ],
+    [
+     14,
+     6
+    ],
+    [
+     15,
+     6
+    ],
+    [
+     16,
+     6
+    ],
+    [
+     17,
+     6
+    ],
+    [
+     10,
+     7
+    ],
+    [
+     11,
+     7
+    ],
+    [
+     12,
+     7
+    ],
+    [
+     13,
+     7
+    ],
+    [
+     14,
+     7
+    ],
+    [
+     15,
+     7
+    ],
+    [
+     16,
+     7
+    ],
+    [
+     17,
+     7
+    ],
+    [
+     18,
+     7
+    ],
+    [
+     11,
+     8
+    ],
+    [
+     12,
+     8
+    ],
+    [
+     13,
+     8
+    ],
+    [
+     14,
+     8
+    ],
+    [
+     15,
+     8
+    ],
+    [
+     16,
+     8
+    ],
+    [
+     17,
+     8
+    ],
+    [
+     12,
+     9
+    ],
+    [
+     13,
+     9
+    ],
+    [
+     14,
+     9
+    ],
+    [
+     15,
+     9
+    ],
+    [
+     16,
+     9
+    ],
+    [
+     13,
+     10
+    ],
+    [
+     14,
+     10
+    ],
+    [
+     15,
+     10
+    ],
+    [
+     14,
+     11
+    ]
+   ],
    "testo": "Una sala immensa, piena di telai alti come case, che tessono tutti insieme il regno. Al centro, un ragazzo pallido con le mani scorticate dagli aghi, vestito di toppe, sta cucendo l'ultima cucitura. Non ti guarda. Ha le dita che sanguinano e il Frammento sul petto, come un cuore.",
    "contenuto": [
     {
@@ -458,13 +1946,57 @@
   {
    "id": "reliquiario",
    "nome": "Il cuore del regno",
-   "rettangolo": [
-    18,
-    20,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     13
+    ],
+    [
+     14,
+     13
+    ],
+    [
+     15,
+     13
+    ],
+    [
+     16,
+     13
+    ],
+    [
+     13,
+     14
+    ],
+    [
+     14,
+     14
+    ],
+    [
+     15,
+     14
+    ],
+    [
+     16,
+     14
+    ],
+    [
+     13,
+     15
+    ],
+    [
+     14,
+     15
+    ],
+    [
+     13,
+     16
+    ],
+    [
+     14,
+     16
+    ]
+   ],
    "testo": "Sotto i telai, una piccola stanza di velluto nero, con un cuscino. Sul cuscino, ancora caldo, il quarto Frammento. Nell'angolo, un paio di forbici d'argento e un ago d'oro, vecchi di secoli.",
    "contenuto": [
     {
@@ -490,198 +2022,1287 @@
      ]
     }
    ]
+  },
+  {
+   "id": "x1",
+   "nome": "Magazzino delle toppe",
+   "tipo": "stanza",
+   "celle": [
+    [
+     0,
+     17
+    ],
+    [
+     1,
+     17
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     1,
+     18
+    ],
+    [
+     0,
+     19
+    ],
+    [
+     1,
+     19
+    ],
+    [
+     2,
+     19
+    ],
+    [
+     3,
+     19
+    ],
+    [
+     4,
+     19
+    ],
+    [
+     0,
+     20
+    ],
+    [
+     1,
+     20
+    ],
+    [
+     2,
+     20
+    ],
+    [
+     3,
+     20
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "testo": "Cumuli di pezze di ogni colore. Ciascuna ha la forma di qualcosa che è stato tolto al mondo.",
+   "contenuto": [
+    {
+     "tipo": "vuota"
+    }
+   ]
+  },
+  {
+   "id": "x2",
+   "nome": "Corridoio degli aghi",
+   "tipo": "stanza",
+   "celle": [
+    [
+     26,
+     10
+    ],
+    [
+     27,
+     10
+    ],
+    [
+     28,
+     10
+    ],
+    [
+     26,
+     11
+    ],
+    [
+     27,
+     11
+    ],
+    [
+     28,
+     11
+    ],
+    [
+     26,
+     12
+    ],
+    [
+     27,
+     12
+    ],
+    [
+     28,
+     12
+    ]
+   ],
+   "testo": "Aghi d'osso, d'argento, di vetro, conficcati nelle pareti come tarsie. Ognuno regge un filo, e ogni filo tira verso l'interno.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "c-serpenti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x3",
+   "nome": "Sala dei telai",
+   "tipo": "stanza",
+   "celle": [
+    [
+     17,
+     11
+    ],
+    [
+     18,
+     11
+    ],
+    [
+     19,
+     11
+    ],
+    [
+     20,
+     11
+    ],
+    [
+     17,
+     12
+    ],
+    [
+     18,
+     12
+    ],
+    [
+     19,
+     12
+    ],
+    [
+     20,
+     12
+    ],
+    [
+     17,
+     13
+    ],
+    [
+     18,
+     13
+    ],
+    [
+     17,
+     14
+    ],
+    [
+     18,
+     14
+    ],
+    [
+     17,
+     15
+    ],
+    [
+     18,
+     15
+    ],
+    [
+     17,
+     16
+    ],
+    [
+     18,
+     16
+    ]
+   ],
+   "testo": "Telai alti come alberi, tesi di fili che portano nomi. Una spola va e viene da sola, tessendo la stoffa dei giorni.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x4",
+   "nome": "Cucina dei fili",
+   "tipo": "stanza",
+   "celle": [
+    [
+     42,
+     18
+    ],
+    [
+     43,
+     18
+    ],
+    [
+     44,
+     18
+    ],
+    [
+     45,
+     18
+    ],
+    [
+     46,
+     18
+    ],
+    [
+     42,
+     19
+    ],
+    [
+     43,
+     19
+    ],
+    [
+     44,
+     19
+    ],
+    [
+     45,
+     19
+    ],
+    [
+     46,
+     19
+    ],
+    [
+     44,
+     20
+    ],
+    [
+     45,
+     20
+    ],
+    [
+     46,
+     20
+    ],
+    [
+     44,
+     21
+    ],
+    [
+     45,
+     21
+    ],
+    [
+     46,
+     21
+    ]
+   ],
+   "testo": "Pentoloni dove bolle filo di lana. Il vapore sa di lavanda e di sangue, e fa girare la testa.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "c-bestie"
+    }
+   ]
+  },
+  {
+   "id": "x5",
+   "nome": "Cappella delle cuciture",
+   "tipo": "stanza",
+   "celle": [
+    [
+     38,
+     35
+    ],
+    [
+     37,
+     36
+    ],
+    [
+     38,
+     36
+    ],
+    [
+     39,
+     36
+    ],
+    [
+     36,
+     37
+    ],
+    [
+     37,
+     37
+    ],
+    [
+     38,
+     37
+    ],
+    [
+     39,
+     37
+    ],
+    [
+     40,
+     37
+    ],
+    [
+     35,
+     38
+    ],
+    [
+     36,
+     38
+    ],
+    [
+     37,
+     38
+    ],
+    [
+     38,
+     38
+    ],
+    [
+     39,
+     38
+    ],
+    [
+     40,
+     38
+    ],
+    [
+     41,
+     38
+    ],
+    [
+     36,
+     39
+    ],
+    [
+     37,
+     39
+    ],
+    [
+     38,
+     39
+    ],
+    [
+     39,
+     39
+    ],
+    [
+     40,
+     39
+    ],
+    [
+     37,
+     40
+    ],
+    [
+     38,
+     40
+    ],
+    [
+     39,
+     40
+    ],
+    [
+     38,
+     41
+    ]
+   ],
+   "testo": "Un altare ricamato, un Cristo di stoffa senza volto. Le panche sono cucite al pavimento con punti minuscoli.",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x6",
+   "nome": "Sartoria dei re",
+   "tipo": "stanza",
+   "celle": [
+    [
+     23,
+     23
+    ],
+    [
+     24,
+     23
+    ],
+    [
+     25,
+     23
+    ],
+    [
+     26,
+     23
+    ],
+    [
+     27,
+     23
+    ],
+    [
+     28,
+     23
+    ],
+    [
+     23,
+     24
+    ],
+    [
+     24,
+     24
+    ],
+    [
+     25,
+     24
+    ],
+    [
+     26,
+     24
+    ],
+    [
+     27,
+     24
+    ],
+    [
+     28,
+     24
+    ],
+    [
+     23,
+     25
+    ],
+    [
+     24,
+     25
+    ],
+    [
+     25,
+     25
+    ],
+    [
+     26,
+     25
+    ],
+    [
+     23,
+     26
+    ],
+    [
+     24,
+     26
+    ],
+    [
+     25,
+     26
+    ],
+    [
+     26,
+     26
+    ],
+    [
+     23,
+     27
+    ],
+    [
+     24,
+     27
+    ],
+    [
+     25,
+     27
+    ],
+    [
+     26,
+     27
+    ]
+   ],
+   "testo": "Manichini vestiti con corone di lino. Sul più grande, una giacca ancora aperta, in attesa di un corpo.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "c-accoliti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "cor1",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     31,
+     17
+    ],
+    [
+     32,
+     17
+    ],
+    [
+     33,
+     17
+    ],
+    [
+     34,
+     17
+    ]
+   ]
+  },
+  {
+   "id": "cor2",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     36,
+     20
+    ],
+    [
+     36,
+     21
+    ],
+    [
+     36,
+     22
+    ],
+    [
+     35,
+     23
+    ],
+    [
+     36,
+     23
+    ]
+   ]
+  },
+  {
+   "id": "cor3",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     24,
+     17
+    ],
+    [
+     25,
+     17
+    ],
+    [
+     26,
+     17
+    ]
+   ]
+  },
+  {
+   "id": "cor4",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     28,
+     19
+    ],
+    [
+     28,
+     20
+    ],
+    [
+     28,
+     21
+    ],
+    [
+     28,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "cor5",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     30,
+     11
+    ],
+    [
+     31,
+     11
+    ],
+    [
+     32,
+     11
+    ],
+    [
+     30,
+     12
+    ],
+    [
+     30,
+     13
+    ],
+    [
+     30,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor6",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     19,
+     20
+    ],
+    [
+     20,
+     20
+    ],
+    [
+     21,
+     20
+    ],
+    [
+     22,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor7",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     23,
+     15
+    ]
+   ]
+  },
+  {
+   "id": "cor8",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     19,
+     16
+    ],
+    [
+     20,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "cor9",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     39,
+     10
+    ],
+    [
+     40,
+     10
+    ],
+    [
+     41,
+     10
+    ],
+    [
+     42,
+     10
+    ],
+    [
+     42,
+     11
+    ]
+   ]
+  },
+  {
+   "id": "cor10",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     35,
+     35
+    ],
+    [
+     35,
+     36
+    ],
+    [
+     35,
+     37
+    ]
+   ]
+  },
+  {
+   "id": "cor11",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     28,
+     30
+    ],
+    [
+     29,
+     30
+    ],
+    [
+     30,
+     30
+    ],
+    [
+     31,
+     30
+    ],
+    [
+     28,
+     31
+    ],
+    [
+     28,
+     32
+    ],
+    [
+     28,
+     33
+    ]
+   ]
+  },
+  {
+   "id": "cor12",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     9,
+     19
+    ],
+    [
+     9,
+     20
+    ],
+    [
+     10,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor13",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     23,
+     9
+    ],
+    [
+     24,
+     9
+    ],
+    [
+     23,
+     10
+    ]
+   ]
+  },
+  {
+   "id": "cor14",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     43,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor15",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     39,
+     16
+    ],
+    [
+     39,
+     17
+    ],
+    [
+     39,
+     18
+    ],
+    [
+     40,
+     18
+    ],
+    [
+     41,
+     18
+    ]
+   ]
+  },
+  {
+   "id": "cor16",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     36,
+     40
+    ],
+    [
+     36,
+     41
+    ],
+    [
+     36,
+     42
+    ]
+   ]
+  },
+  {
+   "id": "cor17",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     24,
+     2
+    ],
+    [
+     24,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "cor18",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     15,
+     11
+    ],
+    [
+     15,
+     12
+    ]
+   ]
+  },
+  {
+   "id": "cor19",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     36,
+     44
+    ],
+    [
+     36,
+     45
+    ]
+   ]
+  },
+  {
+   "id": "cor20",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     12,
+     10
+    ],
+    [
+     11,
+     11
+    ],
+    [
+     12,
+     11
+    ],
+    [
+     10,
+     12
+    ],
+    [
+     11,
+     12
+    ],
+    [
+     10,
+     13
+    ],
+    [
+     8,
+     14
+    ],
+    [
+     9,
+     14
+    ],
+    [
+     10,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor21",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     26,
+     9
+    ]
+   ]
   }
  ],
  "porte": [
   {
    "da": "crinale",
+   "a": "cor1",
+   "x": 34,
+   "y": 18,
+   "lato": "n"
+  },
+  {
+   "da": "cor1",
    "a": "sentiero",
-   "x": 5,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "sentiero",
-   "a": "casa",
-   "x": 11,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "casa",
-   "a": "campo",
-   "x": 17,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "campo",
-   "a": "stalla",
-   "x": 23,
-   "y": 2,
-   "lato": "e"
+   "x": 31,
+   "y": 17,
+   "lato": "o"
   },
   {
    "da": "crinale",
+   "a": "cor2",
+   "x": 36,
+   "y": 19,
+   "lato": "s"
+  },
+  {
+   "da": "cor2",
    "a": "ponte",
-   "x": 3,
-   "y": 4,
+   "x": 35,
+   "y": 23,
+   "lato": "o"
+  },
+  {
+   "da": "sentiero",
+   "a": "cor3",
+   "x": 26,
+   "y": 18,
+   "lato": "n"
+  },
+  {
+   "da": "cor3",
+   "a": "mulino",
+   "x": 24,
+   "y": 17,
+   "lato": "o"
+  },
+  {
+   "da": "sentiero",
+   "a": "cor4",
+   "x": 28,
+   "y": 18,
+   "lato": "s"
+  },
+  {
+   "da": "cor4",
+   "a": "x6",
+   "x": 28,
+   "y": 22,
    "lato": "s"
   },
   {
    "da": "sentiero",
-   "a": "mulino",
-   "x": 9,
-   "y": 4,
-   "lato": "s"
+   "a": "cor5",
+   "x": 30,
+   "y": 15,
+   "lato": "n"
   },
   {
-   "da": "casa",
-   "a": "cicatrice",
-   "x": 15,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "campo",
-   "a": "cimitero",
-   "x": 21,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "stalla",
-   "a": "torre",
-   "x": 27,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "ponte",
-   "a": "mulino",
-   "x": 5,
-   "y": 7,
-   "lato": "e"
-  },
-  {
-   "da": "mulino",
-   "a": "cicatrice",
-   "x": 11,
-   "y": 7,
-   "lato": "e"
-  },
-  {
-   "da": "cicatrice",
-   "a": "cimitero",
-   "x": 17,
-   "y": 7,
-   "lato": "e"
-  },
-  {
-   "da": "cimitero",
-   "a": "torre",
-   "x": 23,
-   "y": 7,
+   "da": "cor5",
+   "a": "casa",
+   "x": 32,
+   "y": 11,
    "lato": "e"
   },
   {
    "da": "ponte",
    "a": "prigione",
-   "x": 3,
-   "y": 9,
+   "x": 33,
+   "y": 28,
    "lato": "s"
   },
   {
    "da": "mulino",
+   "a": "cor6",
+   "x": 22,
+   "y": 19,
+   "lato": "s"
+  },
+  {
+   "da": "cor6",
    "a": "cappella",
-   "x": 9,
-   "y": 9,
-   "lato": "s"
+   "x": 19,
+   "y": 20,
+   "lato": "o"
   },
   {
-   "da": "cicatrice",
-   "a": "cappella",
-   "x": 15,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "cimitero",
-   "a": "fornace",
-   "x": 21,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "torre",
-   "a": "laboratorio",
-   "x": 27,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "prigione",
-   "a": "cappella",
-   "x": 5,
-   "y": 12,
-   "lato": "e"
-  },
-  {
-   "da": "fornace",
-   "a": "laboratorio",
+   "da": "mulino",
+   "a": "cor7",
    "x": 23,
-   "y": 12,
+   "y": 16,
+   "lato": "n"
+  },
+  {
+   "da": "cor7",
+   "a": "cicatrice",
+   "x": 23,
+   "y": 15,
+   "lato": "n"
+  },
+  {
+   "da": "mulino",
+   "a": "cor8",
+   "x": 21,
+   "y": 16,
+   "lato": "o"
+  },
+  {
+   "da": "cor8",
+   "a": "x3",
+   "x": 19,
+   "y": 16,
+   "lato": "o"
+  },
+  {
+   "da": "casa",
+   "a": "cor9",
+   "x": 38,
+   "y": 10,
    "lato": "e"
   },
   {
+   "da": "cor9",
+   "a": "campo",
+   "x": 42,
+   "y": 11,
+   "lato": "s"
+  },
+  {
    "da": "prigione",
+   "a": "cor10",
+   "x": 35,
+   "y": 34,
+   "lato": "s"
+  },
+  {
+   "da": "cor10",
+   "a": "x5",
+   "x": 35,
+   "y": 37,
+   "lato": "s"
+  },
+  {
+   "da": "prigione",
+   "a": "cor11",
+   "x": 32,
+   "y": 30,
+   "lato": "o"
+  },
+  {
+   "da": "cor11",
    "a": "cunicoli",
-   "x": 3,
-   "y": 14,
+   "x": 28,
+   "y": 33,
    "lato": "s"
   },
   {
    "da": "cappella",
-   "a": "aghi",
-   "x": 15,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "fornace",
-   "a": "trono",
-   "x": 21,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "laboratorio",
-   "a": "trono",
-   "x": 27,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "cunicoli",
-   "a": "aghi",
+   "a": "cor12",
    "x": 11,
-   "y": 17,
+   "y": 20,
+   "lato": "o"
+  },
+  {
+   "da": "cor12",
+   "a": "aghi",
+   "x": 9,
+   "y": 19,
+   "lato": "n"
+  },
+  {
+   "da": "cicatrice",
+   "a": "cor13",
+   "x": 23,
+   "y": 11,
+   "lato": "n"
+  },
+  {
+   "da": "cor13",
+   "a": "cimitero",
+   "x": 24,
+   "y": 9,
    "lato": "e"
   },
   {
-   "da": "aghi",
-   "a": "trono",
-   "x": 17,
-   "y": 17,
-   "lato": "e",
-   "tipo": "segreta",
-   "nota": "Un ago d'argento punta a una porta cucita nella parete: la sala dei telai."
+   "da": "cicatrice",
+   "a": "x2",
+   "x": 25,
+   "y": 11,
+   "lato": "e"
   },
   {
-   "da": "trono",
+   "da": "x3",
    "a": "reliquiario",
-   "x": 21,
-   "y": 19,
+   "x": 17,
+   "y": 13,
+   "lato": "o"
+  },
+  {
+   "da": "campo",
+   "a": "cor14",
+   "x": 42,
+   "y": 14,
+   "lato": "e"
+  },
+  {
+   "da": "cor14",
+   "a": "stalla",
+   "x": 43,
+   "y": 14,
+   "lato": "e"
+  },
+  {
+   "da": "campo",
+   "a": "cor15",
+   "x": 39,
+   "y": 15,
+   "lato": "s"
+  },
+  {
+   "da": "cor15",
+   "a": "x4",
+   "x": 41,
+   "y": 18,
+   "lato": "e"
+  },
+  {
+   "da": "x5",
+   "a": "cor16",
+   "x": 36,
+   "y": 39,
+   "lato": "s"
+  },
+  {
+   "da": "cor16",
+   "a": "fornace",
+   "x": 36,
+   "y": 42,
+   "lato": "s"
+  },
+  {
+   "da": "aghi",
+   "a": "x1",
+   "x": 5,
+   "y": 20,
+   "lato": "o"
+  },
+  {
+   "da": "cimitero",
+   "a": "cor17",
+   "x": 24,
+   "y": 4,
+   "lato": "n"
+  },
+  {
+   "da": "cor17",
+   "a": "torre",
+   "x": 24,
+   "y": 2,
+   "lato": "n"
+  },
+  {
+   "da": "reliquiario",
+   "a": "cor18",
+   "x": 15,
+   "y": 13,
+   "lato": "n"
+  },
+  {
+   "da": "cor18",
+   "a": "trono",
+   "x": 15,
+   "y": 11,
+   "lato": "n"
+  },
+  {
+   "da": "fornace",
+   "a": "cor19",
+   "x": 36,
+   "y": 43,
+   "lato": "s"
+  },
+  {
+   "da": "cor19",
+   "a": "laboratorio",
+   "x": 36,
+   "y": 45,
+   "lato": "s"
+  },
+  {
+   "da": "aghi",
+   "a": "cor20",
+   "x": 7,
+   "y": 14,
+   "lato": "e",
+   "tipo": "segreta"
+  },
+  {
+   "da": "cor20",
+   "a": "trono",
+   "x": 12,
+   "y": 10,
+   "lato": "n"
+  },
+  {
+   "da": "cimitero",
+   "a": "cor21",
+   "x": 26,
+   "y": 8,
+   "lato": "s"
+  },
+  {
+   "da": "cor21",
+   "a": "x2",
+   "x": 26,
+   "y": 9,
    "lato": "s"
   }
  ]

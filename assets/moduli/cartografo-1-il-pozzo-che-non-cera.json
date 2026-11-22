@@ -41,25 +41,105 @@
   {
    "id": "ingresso",
    "nome": "La scala del pozzo scomparso",
-   "rettangolo": [
-    0,
-    0,
-    6,
-    5
-   ],
    "tipo": "ingresso",
+   "celle": [
+    [
+     28,
+     28
+    ],
+    [
+     28,
+     29
+    ],
+    [
+     26,
+     30
+    ],
+    [
+     27,
+     30
+    ],
+    [
+     28,
+     30
+    ],
+    [
+     29,
+     30
+    ],
+    [
+     30,
+     30
+    ],
+    [
+     28,
+     31
+    ],
+    [
+     28,
+     32
+    ]
+   ],
    "testo": "Una scala a chiocciola scende nel buio là dove il pozzo non c'è più. Le pareti sono lisce come il vetro e odorano di acqua che non è mai scorsa."
   },
   {
    "id": "cisterna",
    "nome": "Cisterna asciutta",
-   "rettangolo": [
-    6,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     33,
+     28
+    ],
+    [
+     32,
+     29
+    ],
+    [
+     33,
+     29
+    ],
+    [
+     34,
+     29
+    ],
+    [
+     31,
+     30
+    ],
+    [
+     32,
+     30
+    ],
+    [
+     33,
+     30
+    ],
+    [
+     34,
+     30
+    ],
+    [
+     35,
+     30
+    ],
+    [
+     32,
+     31
+    ],
+    [
+     33,
+     31
+    ],
+    [
+     34,
+     31
+    ],
+    [
+     33,
+     32
+    ]
+   ],
    "testo": "Le linee dell'acqua salgono sulle pareti fino a due metri d'altezza, ma la pietra è asciutta da sempre. Dal soffitto pende una catena senza secchio.",
    "contenuto": [
     {
@@ -71,13 +151,133 @@
   {
    "id": "ratti",
    "nome": "Galleria dei ratti",
-   "rettangolo": [
-    12,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     39,
+     31
+    ],
+    [
+     40,
+     31
+    ],
+    [
+     41,
+     31
+    ],
+    [
+     42,
+     31
+    ],
+    [
+     43,
+     31
+    ],
+    [
+     38,
+     32
+    ],
+    [
+     39,
+     32
+    ],
+    [
+     40,
+     32
+    ],
+    [
+     41,
+     32
+    ],
+    [
+     42,
+     32
+    ],
+    [
+     43,
+     32
+    ],
+    [
+     44,
+     32
+    ],
+    [
+     38,
+     33
+    ],
+    [
+     39,
+     33
+    ],
+    [
+     40,
+     33
+    ],
+    [
+     41,
+     33
+    ],
+    [
+     42,
+     33
+    ],
+    [
+     43,
+     33
+    ],
+    [
+     44,
+     33
+    ],
+    [
+     38,
+     34
+    ],
+    [
+     39,
+     34
+    ],
+    [
+     40,
+     34
+    ],
+    [
+     41,
+     34
+    ],
+    [
+     42,
+     34
+    ],
+    [
+     43,
+     34
+    ],
+    [
+     44,
+     34
+    ],
+    [
+     39,
+     35
+    ],
+    [
+     40,
+     35
+    ],
+    [
+     41,
+     35
+    ],
+    [
+     42,
+     35
+    ],
+    [
+     43,
+     35
+    ]
+   ],
    "testo": "Un tunnel basso, tappezzato di peli e di ossicini. Qualcosa di grosso ha scavato la parete: ora è un nido, ed è sveglio.",
    "contenuto": [
     {
@@ -90,13 +290,141 @@
   {
    "id": "ruote",
    "nome": "Sala delle ruote di pietra",
-   "rettangolo": [
-    18,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     42,
+     22
+    ],
+    [
+     43,
+     22
+    ],
+    [
+     44,
+     22
+    ],
+    [
+     42,
+     23
+    ],
+    [
+     43,
+     23
+    ],
+    [
+     44,
+     23
+    ],
+    [
+     40,
+     24
+    ],
+    [
+     41,
+     24
+    ],
+    [
+     42,
+     24
+    ],
+    [
+     43,
+     24
+    ],
+    [
+     44,
+     24
+    ],
+    [
+     45,
+     24
+    ],
+    [
+     46,
+     24
+    ],
+    [
+     40,
+     25
+    ],
+    [
+     41,
+     25
+    ],
+    [
+     42,
+     25
+    ],
+    [
+     43,
+     25
+    ],
+    [
+     44,
+     25
+    ],
+    [
+     45,
+     25
+    ],
+    [
+     46,
+     25
+    ],
+    [
+     40,
+     26
+    ],
+    [
+     41,
+     26
+    ],
+    [
+     42,
+     26
+    ],
+    [
+     43,
+     26
+    ],
+    [
+     44,
+     26
+    ],
+    [
+     45,
+     26
+    ],
+    [
+     46,
+     26
+    ],
+    [
+     42,
+     27
+    ],
+    [
+     43,
+     27
+    ],
+    [
+     44,
+     27
+    ],
+    [
+     42,
+     28
+    ],
+    [
+     43,
+     28
+    ],
+    [
+     44,
+     28
+    ]
+   ],
    "testo": "Dodici ruote dentate, grandi come carri, riempiono la sala e girano senza meta, senza rumore. Il pavimento tra una ruota e l'altra è una scacchiera di lastre troppo pulite.",
    "contenuto": [
     {
@@ -109,13 +437,65 @@
   {
    "id": "magazzino",
    "nome": "Magazzino dei rimasugli",
-   "rettangolo": [
-    24,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     49,
+     21
+    ],
+    [
+     50,
+     21
+    ],
+    [
+     51,
+     21
+    ],
+    [
+     52,
+     21
+    ],
+    [
+     53,
+     21
+    ],
+    [
+     49,
+     22
+    ],
+    [
+     50,
+     22
+    ],
+    [
+     51,
+     22
+    ],
+    [
+     52,
+     22
+    ],
+    [
+     53,
+     22
+    ],
+    [
+     50,
+     23
+    ],
+    [
+     51,
+     23
+    ],
+    [
+     50,
+     24
+    ],
+    [
+     51,
+     24
+    ]
+   ],
    "testo": "Casse sfondate, botti ammuffite, una barca capovolta che non ha mai toccato l'acqua. Tra le assi, occhi gialli ti guardano e ridacchiano.",
    "contenuto": [
     {
@@ -132,13 +512,69 @@
   {
    "id": "nomi",
    "nome": "Cripta dei nomi dimenticati",
-   "rettangolo": [
-    0,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     26,
+     22
+    ],
+    [
+     27,
+     22
+    ],
+    [
+     28,
+     22
+    ],
+    [
+     29,
+     22
+    ],
+    [
+     30,
+     22
+    ],
+    [
+     26,
+     23
+    ],
+    [
+     27,
+     23
+    ],
+    [
+     28,
+     23
+    ],
+    [
+     29,
+     23
+    ],
+    [
+     30,
+     23
+    ],
+    [
+     26,
+     24
+    ],
+    [
+     27,
+     24
+    ],
+    [
+     28,
+     24
+    ],
+    [
+     29,
+     24
+    ],
+    [
+     30,
+     24
+    ]
+   ],
    "testo": "Mille targhe di bronzo coprono il soffitto, e tutte sono bianche. Quando entri, sul metallo compaiono per un istante lettere sbiadite: sono i nomi degli abitanti di Pietranera, uno per uno, che si cancellano mentre li leggi.",
    "contenuto": [
     {
@@ -161,13 +597,65 @@
   {
    "id": "archivio",
    "nome": "Archivio della Bussola",
-   "rettangolo": [
-    6,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     33,
+     21
+    ],
+    [
+     34,
+     21
+    ],
+    [
+     35,
+     21
+    ],
+    [
+     36,
+     21
+    ],
+    [
+     37,
+     21
+    ],
+    [
+     33,
+     22
+    ],
+    [
+     34,
+     22
+    ],
+    [
+     35,
+     22
+    ],
+    [
+     36,
+     22
+    ],
+    [
+     37,
+     22
+    ],
+    [
+     34,
+     23
+    ],
+    [
+     35,
+     23
+    ],
+    [
+     34,
+     24
+    ],
+    [
+     35,
+     24
+    ]
+   ],
    "testo": "Scaffali di quercia, tutti vuoti, tranne uno. Sul piano un compasso d'ottone gira da solo e punta sempre verso il basso. Qualcuno ha portato via le carte con una fretta quasi gentile.",
    "contenuto": [
     {
@@ -180,13 +668,93 @@
   {
    "id": "fungo",
    "nome": "Serra dei fungoidi",
-   "rettangolo": [
-    12,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     33,
+     34
+    ],
+    [
+     34,
+     34
+    ],
+    [
+     35,
+     34
+    ],
+    [
+     32,
+     35
+    ],
+    [
+     33,
+     35
+    ],
+    [
+     34,
+     35
+    ],
+    [
+     35,
+     35
+    ],
+    [
+     36,
+     35
+    ],
+    [
+     32,
+     36
+    ],
+    [
+     33,
+     36
+    ],
+    [
+     34,
+     36
+    ],
+    [
+     35,
+     36
+    ],
+    [
+     36,
+     36
+    ],
+    [
+     32,
+     37
+    ],
+    [
+     33,
+     37
+    ],
+    [
+     34,
+     37
+    ],
+    [
+     35,
+     37
+    ],
+    [
+     36,
+     37
+    ],
+    [
+     33,
+     38
+    ],
+    [
+     34,
+     38
+    ],
+    [
+     35,
+     38
+    ]
+   ],
    "testo": "Funghi grossi come ombrelli crescono su una terra nera e ben concimata. Hanno braccia, e ti salutano con un fruscio di spore.",
    "contenuto": [
     {
@@ -199,13 +767,93 @@
   {
    "id": "pozza",
    "nome": "La pozza che riflette un altro cielo",
-   "rettangolo": [
-    18,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     43,
+     14
+    ],
+    [
+     44,
+     14
+    ],
+    [
+     45,
+     14
+    ],
+    [
+     42,
+     15
+    ],
+    [
+     43,
+     15
+    ],
+    [
+     44,
+     15
+    ],
+    [
+     45,
+     15
+    ],
+    [
+     46,
+     15
+    ],
+    [
+     42,
+     16
+    ],
+    [
+     43,
+     16
+    ],
+    [
+     44,
+     16
+    ],
+    [
+     45,
+     16
+    ],
+    [
+     46,
+     16
+    ],
+    [
+     42,
+     17
+    ],
+    [
+     43,
+     17
+    ],
+    [
+     44,
+     17
+    ],
+    [
+     45,
+     17
+    ],
+    [
+     46,
+     17
+    ],
+    [
+     43,
+     18
+    ],
+    [
+     44,
+     18
+    ],
+    [
+     45,
+     18
+    ]
+   ],
    "testo": "Nel mezzo della sala c'è una pozza d'acqua nera. Chi vi si specchia vede un cielo che non è quello di oggi: stelle spostate, una luna di più. Un cartello, in una lingua antica, avvisa di non bere.",
    "contenuto": [
     {
@@ -218,13 +866,57 @@
   {
    "id": "dormitorio",
    "nome": "Dormitorio dei goblin",
-   "rettangolo": [
-    24,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     58,
+     21
+    ],
+    [
+     59,
+     21
+    ],
+    [
+     60,
+     21
+    ],
+    [
+     61,
+     21
+    ],
+    [
+     58,
+     22
+    ],
+    [
+     59,
+     22
+    ],
+    [
+     60,
+     22
+    ],
+    [
+     61,
+     22
+    ],
+    [
+     58,
+     23
+    ],
+    [
+     59,
+     23
+    ],
+    [
+     60,
+     23
+    ],
+    [
+     61,
+     23
+    ]
+   ],
    "testo": "Giacigli di stracci, ossa di pollo, una pentola che ribolle senza fuoco. Gli sciamani goblin sono qui, e hanno già alzato le mani.",
    "contenuto": [
     {
@@ -241,13 +933,57 @@
   {
    "id": "crollo",
    "nome": "Scala crollata",
-   "rettangolo": [
-    0,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     22,
+     20
+    ],
+    [
+     23,
+     20
+    ],
+    [
+     24,
+     20
+    ],
+    [
+     25,
+     20
+    ],
+    [
+     22,
+     21
+    ],
+    [
+     23,
+     21
+    ],
+    [
+     24,
+     21
+    ],
+    [
+     25,
+     21
+    ],
+    [
+     22,
+     22
+    ],
+    [
+     23,
+     22
+    ],
+    [
+     24,
+     22
+    ],
+    [
+     25,
+     22
+    ]
+   ],
    "testo": "Una seconda scala, un tempo, saliva verso il villaggio. Ora un cumulo di macerie la chiude. Tra le pietre, una mano scheletrica stringe ancora un secchio.",
    "contenuto": [
     {
@@ -258,13 +994,153 @@
   {
    "id": "grande",
    "nome": "La grande cisterna",
-   "rettangolo": [
-    6,
-    10,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     29,
+     14
+    ],
+    [
+     30,
+     14
+    ],
+    [
+     31,
+     14
+    ],
+    [
+     32,
+     14
+    ],
+    [
+     33,
+     14
+    ],
+    [
+     34,
+     14
+    ],
+    [
+     35,
+     14
+    ],
+    [
+     36,
+     14
+    ],
+    [
+     37,
+     14
+    ],
+    [
+     29,
+     15
+    ],
+    [
+     30,
+     15
+    ],
+    [
+     31,
+     15
+    ],
+    [
+     32,
+     15
+    ],
+    [
+     33,
+     15
+    ],
+    [
+     34,
+     15
+    ],
+    [
+     35,
+     15
+    ],
+    [
+     36,
+     15
+    ],
+    [
+     37,
+     15
+    ],
+    [
+     29,
+     16
+    ],
+    [
+     30,
+     16
+    ],
+    [
+     31,
+     16
+    ],
+    [
+     32,
+     16
+    ],
+    [
+     33,
+     16
+    ],
+    [
+     34,
+     16
+    ],
+    [
+     35,
+     16
+    ],
+    [
+     36,
+     16
+    ],
+    [
+     37,
+     16
+    ],
+    [
+     29,
+     17
+    ],
+    [
+     30,
+     17
+    ],
+    [
+     31,
+     17
+    ],
+    [
+     32,
+     17
+    ],
+    [
+     33,
+     17
+    ],
+    [
+     34,
+     17
+    ],
+    [
+     35,
+     17
+    ],
+    [
+     36,
+     17
+    ],
+    [
+     37,
+     17
+    ]
+   ],
    "testo": "Una cisterna tonda, alta come una chiesa, con un ponticello di pietra sopra il vuoto. Dalle volte pendono fili di ragnatela spessi come funi, e in mezzo, immobile, qualcosa guarda con otto occhi.",
    "contenuto": [
     {
@@ -281,13 +1157,157 @@
   {
    "id": "cellacart",
    "nome": "Cella del cartografo",
-   "rettangolo": [
-    18,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     49,
+     12
+    ],
+    [
+     50,
+     12
+    ],
+    [
+     51,
+     12
+    ],
+    [
+     48,
+     13
+    ],
+    [
+     49,
+     13
+    ],
+    [
+     50,
+     13
+    ],
+    [
+     51,
+     13
+    ],
+    [
+     52,
+     13
+    ],
+    [
+     47,
+     14
+    ],
+    [
+     48,
+     14
+    ],
+    [
+     49,
+     14
+    ],
+    [
+     50,
+     14
+    ],
+    [
+     51,
+     14
+    ],
+    [
+     52,
+     14
+    ],
+    [
+     53,
+     14
+    ],
+    [
+     47,
+     15
+    ],
+    [
+     48,
+     15
+    ],
+    [
+     49,
+     15
+    ],
+    [
+     50,
+     15
+    ],
+    [
+     51,
+     15
+    ],
+    [
+     52,
+     15
+    ],
+    [
+     53,
+     15
+    ],
+    [
+     47,
+     16
+    ],
+    [
+     48,
+     16
+    ],
+    [
+     49,
+     16
+    ],
+    [
+     50,
+     16
+    ],
+    [
+     51,
+     16
+    ],
+    [
+     52,
+     16
+    ],
+    [
+     53,
+     16
+    ],
+    [
+     48,
+     17
+    ],
+    [
+     49,
+     17
+    ],
+    [
+     50,
+     17
+    ],
+    [
+     51,
+     17
+    ],
+    [
+     52,
+     17
+    ],
+    [
+     49,
+     18
+    ],
+    [
+     50,
+     18
+    ],
+    [
+     51,
+     18
+    ]
+   ],
    "testo": "Un tavolino, uno sgabello, una finestra dipinta sul muro: il mare, al tramonto. Qualcuno ha vissuto qui in segreto, e lo ha fatto bene. Sul tavolo, un fascio di fogli con un'unica linea, tracciata e cancellata mille volte.",
    "contenuto": [
     {
@@ -309,13 +1329,133 @@
   {
    "id": "taglie",
    "nome": "Sala delle taglie",
-   "rettangolo": [
-    24,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     56,
+     15
+    ],
+    [
+     57,
+     15
+    ],
+    [
+     58,
+     15
+    ],
+    [
+     59,
+     15
+    ],
+    [
+     60,
+     15
+    ],
+    [
+     55,
+     16
+    ],
+    [
+     56,
+     16
+    ],
+    [
+     57,
+     16
+    ],
+    [
+     58,
+     16
+    ],
+    [
+     59,
+     16
+    ],
+    [
+     60,
+     16
+    ],
+    [
+     61,
+     16
+    ],
+    [
+     55,
+     17
+    ],
+    [
+     56,
+     17
+    ],
+    [
+     57,
+     17
+    ],
+    [
+     58,
+     17
+    ],
+    [
+     59,
+     17
+    ],
+    [
+     60,
+     17
+    ],
+    [
+     61,
+     17
+    ],
+    [
+     55,
+     18
+    ],
+    [
+     56,
+     18
+    ],
+    [
+     57,
+     18
+    ],
+    [
+     58,
+     18
+    ],
+    [
+     59,
+     18
+    ],
+    [
+     60,
+     18
+    ],
+    [
+     61,
+     18
+    ],
+    [
+     56,
+     19
+    ],
+    [
+     57,
+     19
+    ],
+    [
+     58,
+     19
+    ],
+    [
+     59,
+     19
+    ],
+    [
+     60,
+     19
+    ]
+   ],
    "testo": "Trofei di teste di topo, di rospo, di cavaliere. Un goblin enorme siede sul trono di botti e ti indica con un osso. «Siete venuti a prendere il pozzo?» ride. «Il pozzo è del Re.»",
    "contenuto": [
     {
@@ -336,13 +1476,101 @@
   {
    "id": "pipistrelli",
    "nome": "Tunnel dei pipistrelli",
-   "rettangolo": [
-    0,
-    15,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     15,
+     19
+    ],
+    [
+     16,
+     19
+    ],
+    [
+     17,
+     19
+    ],
+    [
+     18,
+     19
+    ],
+    [
+     19,
+     19
+    ],
+    [
+     20,
+     19
+    ],
+    [
+     21,
+     19
+    ],
+    [
+     15,
+     20
+    ],
+    [
+     16,
+     20
+    ],
+    [
+     17,
+     20
+    ],
+    [
+     18,
+     20
+    ],
+    [
+     19,
+     20
+    ],
+    [
+     20,
+     20
+    ],
+    [
+     21,
+     20
+    ],
+    [
+     15,
+     21
+    ],
+    [
+     16,
+     21
+    ],
+    [
+     17,
+     21
+    ],
+    [
+     15,
+     22
+    ],
+    [
+     16,
+     22
+    ],
+    [
+     17,
+     22
+    ],
+    [
+     15,
+     23
+    ],
+    [
+     16,
+     23
+    ],
+    [
+     17,
+     23
+    ]
+   ],
    "testo": "Il soffitto del tunnel è una moquette nera e viva. L'aria vibra di piccoli squittii.",
    "contenuto": [
     {
@@ -355,13 +1583,57 @@
   {
    "id": "anticamera",
    "nome": "Anticamera del Vuoto",
-   "rettangolo": [
-    12,
-    15,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     14,
+     12
+    ],
+    [
+     15,
+     12
+    ],
+    [
+     16,
+     12
+    ],
+    [
+     14,
+     13
+    ],
+    [
+     15,
+     13
+    ],
+    [
+     16,
+     13
+    ],
+    [
+     17,
+     13
+    ],
+    [
+     14,
+     14
+    ],
+    [
+     15,
+     14
+    ],
+    [
+     16,
+     14
+    ],
+    [
+     17,
+     14
+    ],
+    [
+     16,
+     15
+    ]
+   ],
    "testo": "Il pavimento è bianco come carta, senza giunture. A ogni passo senti il suono di un pennino che gratta la pergamena, molto lontano, sotto di te.",
    "contenuto": [
     {
@@ -374,13 +1646,237 @@
   {
    "id": "trono",
    "nome": "La Stanza dove il pozzo andava",
-   "rettangolo": [
-    18,
-    15,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     56,
+     5
+    ],
+    [
+     57,
+     5
+    ],
+    [
+     58,
+     5
+    ],
+    [
+     55,
+     6
+    ],
+    [
+     56,
+     6
+    ],
+    [
+     57,
+     6
+    ],
+    [
+     58,
+     6
+    ],
+    [
+     59,
+     6
+    ],
+    [
+     54,
+     7
+    ],
+    [
+     55,
+     7
+    ],
+    [
+     56,
+     7
+    ],
+    [
+     57,
+     7
+    ],
+    [
+     58,
+     7
+    ],
+    [
+     59,
+     7
+    ],
+    [
+     60,
+     7
+    ],
+    [
+     53,
+     8
+    ],
+    [
+     54,
+     8
+    ],
+    [
+     55,
+     8
+    ],
+    [
+     56,
+     8
+    ],
+    [
+     57,
+     8
+    ],
+    [
+     58,
+     8
+    ],
+    [
+     59,
+     8
+    ],
+    [
+     60,
+     8
+    ],
+    [
+     61,
+     8
+    ],
+    [
+     53,
+     9
+    ],
+    [
+     54,
+     9
+    ],
+    [
+     55,
+     9
+    ],
+    [
+     56,
+     9
+    ],
+    [
+     57,
+     9
+    ],
+    [
+     58,
+     9
+    ],
+    [
+     59,
+     9
+    ],
+    [
+     60,
+     9
+    ],
+    [
+     61,
+     9
+    ],
+    [
+     53,
+     10
+    ],
+    [
+     54,
+     10
+    ],
+    [
+     55,
+     10
+    ],
+    [
+     56,
+     10
+    ],
+    [
+     57,
+     10
+    ],
+    [
+     58,
+     10
+    ],
+    [
+     59,
+     10
+    ],
+    [
+     60,
+     10
+    ],
+    [
+     61,
+     10
+    ],
+    [
+     54,
+     11
+    ],
+    [
+     55,
+     11
+    ],
+    [
+     56,
+     11
+    ],
+    [
+     57,
+     11
+    ],
+    [
+     58,
+     11
+    ],
+    [
+     59,
+     11
+    ],
+    [
+     60,
+     11
+    ],
+    [
+     55,
+     12
+    ],
+    [
+     56,
+     12
+    ],
+    [
+     57,
+     12
+    ],
+    [
+     58,
+     12
+    ],
+    [
+     59,
+     12
+    ],
+    [
+     56,
+     13
+    ],
+    [
+     57,
+     13
+    ],
+    [
+     58,
+     13
+    ]
+   ],
    "testo": "Una sala immensa e nuda, in fondo alla quale l'acqua del pozzo scomparso ricade in un bacino nero dopo una caduta di mille metri. Sul bordo, con il Frammento in una mano e una lama d'inchiostro nell'altra, Re Grugnoscheggia ti aspetta. È un goblin come tutti, ma ha bevuto la mappa, e la mappa ha cominciato a scrivere dentro di lui.",
    "contenuto": [
     {
@@ -408,13 +1904,89 @@
   {
    "id": "reliquiario",
    "nome": "Reliquiario d'inchiostro",
-   "rettangolo": [
-    18,
-    20,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     55,
+     0
+    ],
+    [
+     56,
+     0
+    ],
+    [
+     57,
+     0
+    ],
+    [
+     58,
+     0
+    ],
+    [
+     55,
+     1
+    ],
+    [
+     56,
+     1
+    ],
+    [
+     57,
+     1
+    ],
+    [
+     58,
+     1
+    ],
+    [
+     55,
+     2
+    ],
+    [
+     56,
+     2
+    ],
+    [
+     57,
+     2
+    ],
+    [
+     58,
+     2
+    ],
+    [
+     55,
+     3
+    ],
+    [
+     56,
+     3
+    ],
+    [
+     57,
+     3
+    ],
+    [
+     58,
+     3
+    ],
+    [
+     55,
+     4
+    ],
+    [
+     56,
+     4
+    ],
+    [
+     57,
+     4
+    ],
+    [
+     58,
+     4
+    ]
+   ],
    "testo": "Dietro il trono, una nicchia protetta da un sigillo ormai rotto. Il Frammento riposa su un cuscino di muschio, e respira.",
    "contenuto": [
     {
@@ -431,164 +2003,1502 @@
      ]
     }
    ]
+  },
+  {
+   "id": "x1",
+   "nome": "Nicchia delle preghiere",
+   "tipo": "stanza",
+   "celle": [
+    [
+     66,
+     19
+    ],
+    [
+     67,
+     19
+    ],
+    [
+     68,
+     19
+    ],
+    [
+     66,
+     20
+    ],
+    [
+     67,
+     20
+    ],
+    [
+     68,
+     20
+    ],
+    [
+     64,
+     21
+    ],
+    [
+     65,
+     21
+    ],
+    [
+     66,
+     21
+    ],
+    [
+     67,
+     21
+    ],
+    [
+     68,
+     21
+    ],
+    [
+     69,
+     21
+    ],
+    [
+     70,
+     21
+    ],
+    [
+     64,
+     22
+    ],
+    [
+     65,
+     22
+    ],
+    [
+     66,
+     22
+    ],
+    [
+     67,
+     22
+    ],
+    [
+     68,
+     22
+    ],
+    [
+     69,
+     22
+    ],
+    [
+     70,
+     22
+    ],
+    [
+     64,
+     23
+    ],
+    [
+     65,
+     23
+    ],
+    [
+     66,
+     23
+    ],
+    [
+     67,
+     23
+    ],
+    [
+     68,
+     23
+    ],
+    [
+     69,
+     23
+    ],
+    [
+     70,
+     23
+    ],
+    [
+     66,
+     24
+    ],
+    [
+     67,
+     24
+    ],
+    [
+     68,
+     24
+    ],
+    [
+     66,
+     25
+    ],
+    [
+     67,
+     25
+    ],
+    [
+     68,
+     25
+    ]
+   ],
+   "testo": "Mille biglietti di carta, ripiegati e inzuppati, infilati nelle fessure: preghiere per un pozzo che nessuno ricorda.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "ratti"
+    }
+   ]
+  },
+  {
+   "id": "x2",
+   "nome": "Galleria dei pipistrelli muti",
+   "tipo": "stanza",
+   "celle": [
+    [
+     9,
+     21
+    ],
+    [
+     10,
+     21
+    ],
+    [
+     11,
+     21
+    ],
+    [
+     12,
+     21
+    ],
+    [
+     9,
+     22
+    ],
+    [
+     10,
+     22
+    ],
+    [
+     11,
+     22
+    ],
+    [
+     12,
+     22
+    ],
+    [
+     9,
+     23
+    ],
+    [
+     10,
+     23
+    ],
+    [
+     11,
+     23
+    ],
+    [
+     12,
+     23
+    ]
+   ],
+   "testo": "I pipistrelli appesi alla volta aprono la bocca e non emettono suono. L'aria pesa sulle orecchie come acqua profonda.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x3",
+   "nome": "Pozzo secondario",
+   "tipo": "stanza",
+   "celle": [
+    [
+     53,
+     41
+    ],
+    [
+     52,
+     42
+    ],
+    [
+     53,
+     42
+    ],
+    [
+     54,
+     42
+    ],
+    [
+     51,
+     43
+    ],
+    [
+     52,
+     43
+    ],
+    [
+     53,
+     43
+    ],
+    [
+     54,
+     43
+    ],
+    [
+     55,
+     43
+    ],
+    [
+     52,
+     44
+    ],
+    [
+     53,
+     44
+    ],
+    [
+     54,
+     44
+    ],
+    [
+     53,
+     45
+    ]
+   ],
+   "testo": "Un secondo pozzo, più piccolo, con la vera di pietra spaccata a metà. Si affaccia su un buio che ha il sapore della terra bagnata.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "ratti"
+    }
+   ]
+  },
+  {
+   "id": "x4",
+   "nome": "Cisterna bassa",
+   "tipo": "stanza",
+   "celle": [
+    [
+     43,
+     40
+    ],
+    [
+     44,
+     40
+    ],
+    [
+     43,
+     41
+    ],
+    [
+     44,
+     41
+    ],
+    [
+     43,
+     42
+    ],
+    [
+     44,
+     42
+    ],
+    [
+     45,
+     42
+    ],
+    [
+     46,
+     42
+    ],
+    [
+     43,
+     43
+    ],
+    [
+     44,
+     43
+    ],
+    [
+     45,
+     43
+    ],
+    [
+     46,
+     43
+    ],
+    [
+     43,
+     44
+    ],
+    [
+     44,
+     44
+    ],
+    [
+     45,
+     44
+    ],
+    [
+     46,
+     44
+    ]
+   ],
+   "testo": "L'acqua qui non c'è mai stata, ma le pareti sudano. Ogni goccia cade verso l'alto e svanisce a mezz'aria.",
+   "contenuto": [
+    {
+     "tipo": "vuota"
+    }
+   ]
+  },
+  {
+   "id": "x5",
+   "nome": "Officina delle carrucole",
+   "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     25
+    ],
+    [
+     14,
+     25
+    ],
+    [
+     15,
+     25
+    ],
+    [
+     16,
+     25
+    ],
+    [
+     13,
+     26
+    ],
+    [
+     14,
+     26
+    ],
+    [
+     15,
+     26
+    ],
+    [
+     16,
+     26
+    ],
+    [
+     13,
+     27
+    ],
+    [
+     14,
+     27
+    ],
+    [
+     15,
+     27
+    ],
+    [
+     16,
+     27
+    ],
+    [
+     13,
+     28
+    ],
+    [
+     14,
+     28
+    ],
+    [
+     15,
+     28
+    ],
+    [
+     16,
+     28
+    ],
+    [
+     13,
+     29
+    ],
+    [
+     14,
+     29
+    ],
+    [
+     15,
+     29
+    ],
+    [
+     16,
+     29
+    ]
+   ],
+   "testo": "Argani senza corda, ruote che girano al contrario. Qualcuno ha cercato di tirare su qualcosa di molto pesante e molto assente.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "goblin"
+    }
+   ]
+  },
+  {
+   "id": "x6",
+   "nome": "Sala dei secchi",
+   "tipo": "stanza",
+   "celle": [
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     14
+    ],
+    [
+     8,
+     14
+    ],
+    [
+     9,
+     14
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     8,
+     15
+    ],
+    [
+     9,
+     15
+    ],
+    [
+     6,
+     16
+    ],
+    [
+     7,
+     16
+    ],
+    [
+     8,
+     16
+    ],
+    [
+     9,
+     16
+    ],
+    [
+     6,
+     17
+    ],
+    [
+     7,
+     17
+    ],
+    [
+     8,
+     17
+    ],
+    [
+     9,
+     17
+    ]
+   ],
+   "testo": "File di secchi di legno pendono dal soffitto, tutti asciutti, tutti pieni di un silenzio che tintinna quando urtano la pietra.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "goblin",
+     "quantita": "1d3"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x7",
+   "nome": "Sala dei sassolini",
+   "tipo": "stanza",
+   "celle": [
+    [
+     0,
+     14
+    ],
+    [
+     1,
+     14
+    ],
+    [
+     0,
+     15
+    ],
+    [
+     1,
+     15
+    ],
+    [
+     0,
+     16
+    ],
+    [
+     1,
+     16
+    ],
+    [
+     0,
+     17
+    ],
+    [
+     1,
+     17
+    ],
+    [
+     2,
+     17
+    ],
+    [
+     3,
+     17
+    ],
+    [
+     4,
+     17
+    ],
+    [
+     5,
+     17
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     1,
+     18
+    ],
+    [
+     2,
+     18
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     18
+    ],
+    [
+     5,
+     18
+    ],
+    [
+     0,
+     19
+    ],
+    [
+     1,
+     19
+    ],
+    [
+     2,
+     19
+    ],
+    [
+     3,
+     19
+    ],
+    [
+     4,
+     19
+    ],
+    [
+     5,
+     19
+    ]
+   ],
+   "testo": "Il pavimento è un mosaico di sassi di fiume, disposti a spirale. Chi li calpesta sente, per un istante, il rumore di un ruscello.",
+   "contenuto": [
+    {
+     "tipo": "caratteristica",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "cor1",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     26,
+     25
+    ],
+    [
+     26,
+     26
+    ],
+    [
+     26,
+     27
+    ],
+    [
+     26,
+     28
+    ],
+    [
+     27,
+     28
+    ]
+   ]
+  },
+  {
+   "id": "cor2",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     29,
+     28
+    ],
+    [
+     30,
+     28
+    ],
+    [
+     31,
+     28
+    ],
+    [
+     32,
+     28
+    ]
+   ]
+  },
+  {
+   "id": "cor3",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     35,
+     31
+    ],
+    [
+     36,
+     31
+    ],
+    [
+     37,
+     31
+    ],
+    [
+     38,
+     31
+    ]
+   ]
+  },
+  {
+   "id": "cor4",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     34,
+     25
+    ],
+    [
+     34,
+     26
+    ],
+    [
+     34,
+     27
+    ],
+    [
+     34,
+     28
+    ]
+   ]
+  },
+  {
+   "id": "cor5",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     41,
+     27
+    ],
+    [
+     41,
+     28
+    ],
+    [
+     41,
+     29
+    ],
+    [
+     41,
+     30
+    ]
+   ]
+  },
+  {
+   "id": "cor6",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     43,
+     36
+    ],
+    [
+     43,
+     37
+    ],
+    [
+     43,
+     38
+    ],
+    [
+     43,
+     39
+    ]
+   ]
+  },
+  {
+   "id": "cor7",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     40,
+     36
+    ],
+    [
+     37,
+     37
+    ],
+    [
+     38,
+     37
+    ],
+    [
+     39,
+     37
+    ],
+    [
+     40,
+     37
+    ]
+   ]
+  },
+  {
+   "id": "cor8",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     34,
+     18
+    ],
+    [
+     34,
+     19
+    ],
+    [
+     34,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor9",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     17,
+     15
+    ],
+    [
+     17,
+     16
+    ],
+    [
+     17,
+     17
+    ],
+    [
+     17,
+     18
+    ]
+   ]
+  },
+  {
+   "id": "cor10",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     16,
+     24
+    ]
+   ]
+  },
+  {
+   "id": "cor11",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     13,
+     22
+    ],
+    [
+     14,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "cor12",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     49,
+     23
+    ],
+    [
+     49,
+     24
+    ],
+    [
+     49,
+     25
+    ],
+    [
+     47,
+     26
+    ],
+    [
+     48,
+     26
+    ],
+    [
+     49,
+     26
+    ]
+   ]
+  },
+  {
+   "id": "cor13",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     44,
+     19
+    ],
+    [
+     44,
+     20
+    ],
+    [
+     44,
+     21
+    ]
+   ]
+  },
+  {
+   "id": "cor14",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     47,
+     43
+    ],
+    [
+     48,
+     43
+    ],
+    [
+     49,
+     43
+    ],
+    [
+     50,
+     43
+    ]
+   ]
+  },
+  {
+   "id": "cor15",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     9,
+     18
+    ],
+    [
+     9,
+     19
+    ],
+    [
+     9,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor16",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     54,
+     21
+    ],
+    [
+     55,
+     21
+    ],
+    [
+     56,
+     21
+    ],
+    [
+     57,
+     21
+    ]
+   ]
+  },
+  {
+   "id": "cor17",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     2,
+     15
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     15
+    ],
+    [
+     5,
+     15
+    ]
+   ]
+  },
+  {
+   "id": "cor18",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     59,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor19",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     62,
+     22
+    ],
+    [
+     63,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "cor20",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     60,
+     12
+    ],
+    [
+     60,
+     13
+    ],
+    [
+     60,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor21",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     18,
+     14
+    ],
+    [
+     19,
+     14
+    ],
+    [
+     20,
+     14
+    ],
+    [
+     21,
+     14
+    ],
+    [
+     22,
+     14
+    ],
+    [
+     23,
+     14
+    ],
+    [
+     24,
+     14
+    ],
+    [
+     25,
+     14
+    ],
+    [
+     26,
+     14
+    ],
+    [
+     27,
+     14
+    ],
+    [
+     28,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor22",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     54,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "cor23",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     53,
+     13
+    ],
+    [
+     54,
+     13
+    ],
+    [
+     55,
+     13
+    ]
+   ]
   }
  ],
  "porte": [
   {
    "da": "ingresso",
-   "a": "cisterna",
-   "x": 5,
-   "y": 2,
-   "lato": "e"
+   "a": "cor1",
+   "x": 28,
+   "y": 28,
+   "lato": "o"
   },
   {
-   "da": "cisterna",
-   "a": "ratti",
-   "x": 11,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "ratti",
-   "a": "ruote",
-   "x": 17,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "ruote",
-   "a": "magazzino",
-   "x": 23,
-   "y": 2,
-   "lato": "e"
+   "da": "cor1",
+   "a": "nomi",
+   "x": 26,
+   "y": 25,
+   "lato": "n"
   },
   {
    "da": "ingresso",
-   "a": "nomi",
-   "x": 3,
-   "y": 4,
-   "lato": "s"
+   "a": "cor2",
+   "x": 28,
+   "y": 28,
+   "lato": "e"
   },
   {
-   "da": "cisterna",
-   "a": "archivio",
-   "x": 9,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "ratti",
-   "a": "fungo",
-   "x": 15,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "ruote",
-   "a": "pozza",
-   "x": 21,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "magazzino",
-   "a": "dormitorio",
-   "x": 27,
-   "y": 4,
-   "lato": "s"
+   "da": "cor2",
+   "a": "cisterna",
+   "x": 32,
+   "y": 28,
+   "lato": "e"
   },
   {
    "da": "nomi",
    "a": "crollo",
-   "x": 3,
-   "y": 9,
+   "x": 26,
+   "y": 22,
+   "lato": "o"
+  },
+  {
+   "da": "cisterna",
+   "a": "cor3",
+   "x": 34,
+   "y": 31,
+   "lato": "e"
+  },
+  {
+   "da": "cor3",
+   "a": "ratti",
+   "x": 38,
+   "y": 31,
+   "lato": "e"
+  },
+  {
+   "da": "cisterna",
+   "a": "cor4",
+   "x": 34,
+   "y": 29,
+   "lato": "n"
+  },
+  {
+   "da": "cor4",
+   "a": "archivio",
+   "x": 34,
+   "y": 25,
+   "lato": "n"
+  },
+  {
+   "da": "crollo",
+   "a": "pipistrelli",
+   "x": 22,
+   "y": 20,
+   "lato": "o"
+  },
+  {
+   "da": "ratti",
+   "a": "cor5",
+   "x": 41,
+   "y": 31,
+   "lato": "n"
+  },
+  {
+   "da": "cor5",
+   "a": "ruote",
+   "x": 41,
+   "y": 27,
+   "lato": "n"
+  },
+  {
+   "da": "ratti",
+   "a": "cor6",
+   "x": 43,
+   "y": 35,
    "lato": "s"
+  },
+  {
+   "da": "cor6",
+   "a": "x4",
+   "x": 43,
+   "y": 39,
+   "lato": "s"
+  },
+  {
+   "da": "ratti",
+   "a": "cor7",
+   "x": 40,
+   "y": 35,
+   "lato": "s"
+  },
+  {
+   "da": "cor7",
+   "a": "fungo",
+   "x": 37,
+   "y": 37,
+   "lato": "o"
   },
   {
    "da": "archivio",
-   "a": "grande",
-   "x": 9,
-   "y": 9,
-   "lato": "s"
+   "a": "cor8",
+   "x": 34,
+   "y": 21,
+   "lato": "n"
   },
   {
-   "da": "fungo",
+   "da": "cor8",
    "a": "grande",
-   "x": 15,
-   "y": 9,
-   "lato": "s"
+   "x": 34,
+   "y": 18,
+   "lato": "n"
   },
   {
-   "da": "fungo",
-   "a": "pozza",
+   "da": "pipistrelli",
+   "a": "cor9",
    "x": 17,
-   "y": 7,
+   "y": 19,
+   "lato": "n"
+  },
+  {
+   "da": "cor9",
+   "a": "anticamera",
+   "x": 17,
+   "y": 15,
+   "lato": "n"
+  },
+  {
+   "da": "pipistrelli",
+   "a": "cor10",
+   "x": 16,
+   "y": 23,
+   "lato": "s"
+  },
+  {
+   "da": "cor10",
+   "a": "x5",
+   "x": 16,
+   "y": 24,
+   "lato": "s"
+  },
+  {
+   "da": "pipistrelli",
+   "a": "cor11",
+   "x": 15,
+   "y": 22,
+   "lato": "o"
+  },
+  {
+   "da": "cor11",
+   "a": "x2",
+   "x": 13,
+   "y": 22,
+   "lato": "o"
+  },
+  {
+   "da": "ruote",
+   "a": "cor12",
+   "x": 46,
+   "y": 26,
+   "lato": "e"
+  },
+  {
+   "da": "cor12",
+   "a": "magazzino",
+   "x": 49,
+   "y": 23,
+   "lato": "n"
+  },
+  {
+   "da": "ruote",
+   "a": "cor13",
+   "x": 44,
+   "y": 22,
+   "lato": "n"
+  },
+  {
+   "da": "cor13",
+   "a": "pozza",
+   "x": 44,
+   "y": 19,
+   "lato": "n"
+  },
+  {
+   "da": "x4",
+   "a": "cor14",
+   "x": 46,
+   "y": 43,
+   "lato": "e"
+  },
+  {
+   "da": "cor14",
+   "a": "x3",
+   "x": 50,
+   "y": 43,
+   "lato": "e"
+  },
+  {
+   "da": "x2",
+   "a": "cor15",
+   "x": 9,
+   "y": 21,
+   "lato": "n"
+  },
+  {
+   "da": "cor15",
+   "a": "x6",
+   "x": 9,
+   "y": 18,
+   "lato": "n"
+  },
+  {
+   "da": "magazzino",
+   "a": "cor16",
+   "x": 53,
+   "y": 21,
+   "lato": "e"
+  },
+  {
+   "da": "cor16",
+   "a": "dormitorio",
+   "x": 57,
+   "y": 21,
    "lato": "e"
   },
   {
    "da": "pozza",
    "a": "cellacart",
-   "x": 21,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "dormitorio",
-   "a": "taglie",
-   "x": 27,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "crollo",
-   "a": "pipistrelli",
-   "x": 3,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "grande",
-   "a": "anticamera",
-   "x": 15,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "pipistrelli",
-   "a": "anticamera",
-   "x": 11,
-   "y": 17,
+   "x": 46,
+   "y": 15,
    "lato": "e"
   },
   {
-   "da": "cellacart",
+   "da": "x6",
+   "a": "cor17",
+   "x": 6,
+   "y": 15,
+   "lato": "o"
+  },
+  {
+   "da": "cor17",
+   "a": "x7",
+   "x": 2,
+   "y": 15,
+   "lato": "o"
+  },
+  {
+   "da": "dormitorio",
+   "a": "cor18",
+   "x": 59,
+   "y": 21,
+   "lato": "n"
+  },
+  {
+   "da": "cor18",
    "a": "taglie",
-   "x": 23,
-   "y": 12,
+   "x": 59,
+   "y": 20,
+   "lato": "n"
+  },
+  {
+   "da": "dormitorio",
+   "a": "cor19",
+   "x": 61,
+   "y": 22,
+   "lato": "e"
+  },
+  {
+   "da": "cor19",
+   "a": "x1",
+   "x": 63,
+   "y": 22,
    "lato": "e"
   },
   {
    "da": "taglie",
-   "a": "trono",
-   "x": 27,
-   "y": 14,
-   "lato": "s"
+   "a": "cor20",
+   "x": 60,
+   "y": 15,
+   "lato": "n"
   },
   {
-   "da": "cellacart",
+   "da": "cor20",
    "a": "trono",
-   "x": 21,
-   "y": 14,
-   "lato": "s",
-   "tipo": "segreta",
-   "nota": "Una lastra gira su se stessa: scorciatoia verso il trono."
+   "x": 60,
+   "y": 12,
+   "lato": "n"
   },
   {
    "da": "trono",
    "a": "reliquiario",
-   "x": 21,
-   "y": 19,
-   "lato": "s"
+   "x": 56,
+   "y": 5,
+   "lato": "n"
+  },
+  {
+   "da": "grande",
+   "a": "cor21",
+   "x": 29,
+   "y": 14,
+   "lato": "o"
+  },
+  {
+   "da": "cor21",
+   "a": "anticamera",
+   "x": 18,
+   "y": 14,
+   "lato": "o"
+  },
+  {
+   "da": "cellacart",
+   "a": "cor22",
+   "x": 53,
+   "y": 16,
+   "lato": "e"
+  },
+  {
+   "da": "cor22",
+   "a": "taglie",
+   "x": 54,
+   "y": 16,
+   "lato": "e"
+  },
+  {
+   "da": "cellacart",
+   "a": "cor23",
+   "x": 52,
+   "y": 13,
+   "lato": "e",
+   "tipo": "segreta"
+  },
+  {
+   "da": "cor23",
+   "a": "trono",
+   "x": 55,
+   "y": 13,
+   "lato": "n"
   }
  ]
 }

@@ -52,7 +52,7 @@ function align(d) {
 export const opzioni = { snap: true, assist: true, matita: true };
 try { const v = localStorage.getItem('fad-snap'); if (v !== null) opzioni.snap = v === '1'; const a = localStorage.getItem('fad-assist'); if (a !== null) opzioni.assist = a === '1'; const m = localStorage.getItem('fad-matita'); if (m !== null) opzioni.matita = m === '1'; } catch { /* predefinito */ }
 /** Nebbia di guerra a «raggio di luce»: la mappa è scura tranne attorno ai personaggi; chi porta la lanterna illumina di più. */
-export const nebbia = { attiva: true, raggio: 3.8, raggioLanterna: 6.5, buio: 0.8 };
+export const nebbia = { attiva: true, raggio: 3.8, raggioLanterna: 5, buio: 0.8 };
 try { const n = localStorage.getItem('fad-nebbia'); if (n !== null) nebbia.attiva = n === '1'; } catch { /* ok */ }
 export function setNebbia(on) { nebbia.attiva = !!on; try { localStorage.setItem('fad-nebbia', on ? '1' : '0'); } catch { /* ok */ } invalidate(); }
 let nebbiaCanvas = null;

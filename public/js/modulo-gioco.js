@@ -45,7 +45,7 @@ export function presenta(def, avvisi = []) {
       h('div', { class: 'stats' },
         h('div', {}, h('b', {}, l ? (l.min === l.max ? l.min : `${l.min}-${l.max}`) : '?'), h('small', {}, 'livello')),
         h('div', {}, h('b', {}, def.eroi ? (def.eroi.min === def.eroi.max ? def.eroi.min : `${def.eroi.min}-${def.eroi.max}`) : '?'), h('small', {}, 'eroi')),
-        h('div', {}, h('b', {}, def.stanze.length), h('small', {}, 'stanze'))),
+        h('div', {}, h('b', {}, def.stanze.filter(s => s.tipo !== 'corridoio').length), h('small', {}, 'stanze'))),
       h('p', { class: 'hint' }, `Tabelle: ${SETS[def.set || 'base']}.`),
       fuori ? h('p', { class: 'warn-box' }, `Il gruppo ha livello ${Math.min(...lv) === Math.max(...lv) ? Math.min(...lv) : `${Math.min(...lv)}-${Math.max(...lv)}`}, ma l'avventura è pensata per il livello ${l.min === l.max ? l.min : `${l.min}-${l.max}`}. Si può giocare lo stesso, ma sarà troppo facile o troppo difficile.`) : null,
       nEroi ? h('p', { class: 'warn-box' }, `L'avventura è pensata per ${def.eroi.min === def.eroi.max ? def.eroi.min : `${def.eroi.min}-${def.eroi.max}`} eroi; il gruppo ne ha ${vivi.length}.`) : null,

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.20.0
+- **Dungeon della campagna «Il Cartografo dell'Oblio» rigenerati:** ogni avventura ha ora stanze di forma libera (rettangoli, L, T, croci, ottagoni, cerchi, rombi, forme irregolari), collegate da corridoi anche con curve. Il numero di stanze varia da 15 a 25 per avventura (25, 15, 23, 24 e 22); i corridoi non contano come stanze. Trama, mostri, tesori e finali restano quelli scritti; le stanze in più hanno contenuto estratto dalle tabelle.
+- **Lanterna:** il raggio di luce della lanterna nella nebbia di guerra è più corto.
+- Le schede delle avventure contano solo le stanze, non i corridoi.
+
 ## 1.19.2
 - **Numero di versione nelle Impostazioni:** sezione «Informazioni» con versione e build, visibile anche sul telefono dove l'intestazione non la mostra.
 

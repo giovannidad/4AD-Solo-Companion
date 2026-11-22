@@ -45,25 +45,177 @@
   {
    "id": "banchina",
    "nome": "La banchina che finisce nel nulla",
-   "rettangolo": [
-    0,
-    0,
-    6,
-    5
-   ],
    "tipo": "ingresso",
+   "celle": [
+    [
+     20,
+     23
+    ],
+    [
+     19,
+     24
+    ],
+    [
+     20,
+     24
+    ],
+    [
+     21,
+     24
+    ],
+    [
+     18,
+     25
+    ],
+    [
+     19,
+     25
+    ],
+    [
+     20,
+     25
+    ],
+    [
+     21,
+     25
+    ],
+    [
+     22,
+     25
+    ],
+    [
+     17,
+     26
+    ],
+    [
+     18,
+     26
+    ],
+    [
+     19,
+     26
+    ],
+    [
+     20,
+     26
+    ],
+    [
+     21,
+     26
+    ],
+    [
+     22,
+     26
+    ],
+    [
+     23,
+     26
+    ],
+    [
+     18,
+     27
+    ],
+    [
+     19,
+     27
+    ],
+    [
+     20,
+     27
+    ],
+    [
+     21,
+     27
+    ],
+    [
+     22,
+     27
+    ],
+    [
+     19,
+     28
+    ],
+    [
+     20,
+     28
+    ],
+    [
+     21,
+     28
+    ],
+    [
+     20,
+     29
+    ]
+   ],
    "testo": "Un molo di assi grigie si interrompe a metà, tagliato netto come con un coltello. Sotto, l'acqua è nera e immobile, e dal fondo sale una scala di pietra che non dovrebbe esserci."
   },
   {
    "id": "molo",
    "nome": "Molo sommerso",
-   "rettangolo": [
-    6,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     22
+    ],
+    [
+     14,
+     22
+    ],
+    [
+     15,
+     22
+    ],
+    [
+     16,
+     22
+    ],
+    [
+     17,
+     22
+    ],
+    [
+     13,
+     23
+    ],
+    [
+     14,
+     23
+    ],
+    [
+     15,
+     23
+    ],
+    [
+     16,
+     23
+    ],
+    [
+     17,
+     23
+    ],
+    [
+     13,
+     24
+    ],
+    [
+     14,
+     24
+    ],
+    [
+     15,
+     24
+    ],
+    [
+     16,
+     24
+    ],
+    [
+     17,
+     24
+    ]
+   ],
    "testo": "L'acqua ti arriva alle ginocchia, poi alla vita, ma respiri. Intorno a te passano barche fantasma, senza equipaggio, e le reti ancora ricamate di pesci.",
    "contenuto": [
     {
@@ -76,13 +228,57 @@
   {
    "id": "magazzino",
    "nome": "Magazzino delle reti",
-   "rettangolo": [
-    12,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     15,
+     19
+    ],
+    [
+     16,
+     19
+    ],
+    [
+     17,
+     19
+    ],
+    [
+     18,
+     19
+    ],
+    [
+     15,
+     20
+    ],
+    [
+     16,
+     20
+    ],
+    [
+     17,
+     20
+    ],
+    [
+     18,
+     20
+    ],
+    [
+     16,
+     21
+    ],
+    [
+     17,
+     21
+    ],
+    [
+     18,
+     21
+    ],
+    [
+     18,
+     22
+    ]
+   ],
    "testo": "Montagne di reti marcite pendono dal soffitto. Tra le maglie, qualcosa si agita, con molti tentacoli e nessuna fretta.",
    "contenuto": [
     {
@@ -99,13 +295,61 @@
   {
    "id": "canale",
    "nome": "Canale delle lanterne spente",
-   "rettangolo": [
-    18,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     18,
+     13
+    ],
+    [
+     16,
+     14
+    ],
+    [
+     17,
+     14
+    ],
+    [
+     18,
+     14
+    ],
+    [
+     19,
+     14
+    ],
+    [
+     16,
+     15
+    ],
+    [
+     17,
+     15
+    ],
+    [
+     18,
+     15
+    ],
+    [
+     19,
+     15
+    ],
+    [
+     16,
+     16
+    ],
+    [
+     17,
+     16
+    ],
+    [
+     18,
+     16
+    ],
+    [
+     19,
+     16
+    ]
+   ],
    "testo": "Un lungo canale, con lanterne di ferro ai due lati. Si accendono una dopo l'altra al tuo passaggio, e ciascuna illumina per un istante un viso di donna che ti guarda.",
    "contenuto": [
     {
@@ -118,13 +362,69 @@
   {
    "id": "granchi",
    "nome": "Grotta dei granchi",
-   "rettangolo": [
-    24,
-    0,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     19,
+     9
+    ],
+    [
+     20,
+     9
+    ],
+    [
+     21,
+     9
+    ],
+    [
+     19,
+     10
+    ],
+    [
+     20,
+     10
+    ],
+    [
+     21,
+     10
+    ],
+    [
+     19,
+     11
+    ],
+    [
+     20,
+     11
+    ],
+    [
+     21,
+     11
+    ],
+    [
+     19,
+     12
+    ],
+    [
+     20,
+     12
+    ],
+    [
+     21,
+     12
+    ],
+    [
+     19,
+     13
+    ],
+    [
+     20,
+     13
+    ],
+    [
+     21,
+     13
+    ]
+   ],
    "testo": "Una grotta di madreperla e di ossa, dove il sole non arriva da secoli. Chele grosse come ceste ti salutano, tutte insieme.",
    "contenuto": [
     {
@@ -141,13 +441,65 @@
   {
    "id": "osteria",
    "nome": "Taverna del Gabbiano",
-   "rettangolo": [
-    0,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     27
+    ],
+    [
+     14,
+     27
+    ],
+    [
+     15,
+     27
+    ],
+    [
+     16,
+     27
+    ],
+    [
+     17,
+     27
+    ],
+    [
+     13,
+     28
+    ],
+    [
+     14,
+     28
+    ],
+    [
+     15,
+     28
+    ],
+    [
+     16,
+     28
+    ],
+    [
+     17,
+     28
+    ],
+    [
+     14,
+     29
+    ],
+    [
+     15,
+     29
+    ],
+    [
+     14,
+     30
+    ],
+    [
+     15,
+     30
+    ]
+   ],
    "testo": "Il camino acceso brucia sott'acqua, senza fumo. Venti avventori muti sono seduti ai tavoli con la birra ferma nei boccali. Nessuno si volta. Il banco è coperto di monete che nessuno ha mai speso.",
    "contenuto": [
     {
@@ -167,34 +519,143 @@
    ]
   },
   {
-   "id": "cantieri",
-   "nome": "Scalo dei cantieri",
-   "rettangolo": [
-    6,
-    5,
-    6,
-    5
-   ],
-   "tipo": "stanza",
-   "testo": "Scheletri di navi mai varate sorgono dal fondale come costole. Una carena a metà ha ancora l'ascia piantata nel legno e l'operaio, accanto, non l'ha mai ritirata.",
-   "contenuto": [
-    {
-     "tipo": "mostri",
-     "tabella": "seguaci",
-     "id": "q-barracuda"
-    }
-   ]
-  },
-  {
    "id": "cisterna",
    "nome": "Cisterna dei pesci d'argento",
-   "rettangolo": [
-    12,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     24,
+     18
+    ],
+    [
+     25,
+     18
+    ],
+    [
+     26,
+     18
+    ],
+    [
+     24,
+     19
+    ],
+    [
+     25,
+     19
+    ],
+    [
+     26,
+     19
+    ],
+    [
+     22,
+     20
+    ],
+    [
+     23,
+     20
+    ],
+    [
+     24,
+     20
+    ],
+    [
+     25,
+     20
+    ],
+    [
+     26,
+     20
+    ],
+    [
+     27,
+     20
+    ],
+    [
+     28,
+     20
+    ],
+    [
+     22,
+     21
+    ],
+    [
+     23,
+     21
+    ],
+    [
+     24,
+     21
+    ],
+    [
+     25,
+     21
+    ],
+    [
+     26,
+     21
+    ],
+    [
+     27,
+     21
+    ],
+    [
+     28,
+     21
+    ],
+    [
+     22,
+     22
+    ],
+    [
+     23,
+     22
+    ],
+    [
+     24,
+     22
+    ],
+    [
+     25,
+     22
+    ],
+    [
+     26,
+     22
+    ],
+    [
+     27,
+     22
+    ],
+    [
+     28,
+     22
+    ],
+    [
+     24,
+     23
+    ],
+    [
+     25,
+     23
+    ],
+    [
+     26,
+     23
+    ],
+    [
+     24,
+     24
+    ],
+    [
+     25,
+     24
+    ],
+    [
+     26,
+     24
+    ]
+   ],
    "testo": "Un acquario antico, tutto vetro e piombo. Pesci d'argento girano in tondo, pazienti, intorno a una teca vuota. Sul fondo, qualcosa luccica.",
    "contenuto": [
     {
@@ -211,13 +672,97 @@
   {
    "id": "registri",
    "nome": "Sala dei registri bagnati",
-   "rettangolo": [
-    18,
-    5,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     9,
+     11
+    ],
+    [
+     10,
+     11
+    ],
+    [
+     11,
+     11
+    ],
+    [
+     12,
+     11
+    ],
+    [
+     13,
+     11
+    ],
+    [
+     14,
+     11
+    ],
+    [
+     9,
+     12
+    ],
+    [
+     10,
+     12
+    ],
+    [
+     11,
+     12
+    ],
+    [
+     12,
+     12
+    ],
+    [
+     13,
+     12
+    ],
+    [
+     14,
+     12
+    ],
+    [
+     9,
+     13
+    ],
+    [
+     10,
+     13
+    ],
+    [
+     11,
+     13
+    ],
+    [
+     12,
+     13
+    ],
+    [
+     13,
+     13
+    ],
+    [
+     14,
+     13
+    ],
+    [
+     11,
+     14
+    ],
+    [
+     12,
+     14
+    ],
+    [
+     11,
+     15
+    ],
+    [
+     12,
+     15
+    ]
+   ],
    "testo": "Cataste di registri di bordo galleggiano a mezz'aria, con i fogli aperti. Ogni riga è cancellata, ma l'inchiostro non è sparito: si è raccolto in una sola goccia nera, sospesa, che pulsa.",
    "contenuto": [
     {
@@ -228,38 +773,59 @@
    ]
   },
   {
-   "id": "corallo",
-   "nome": "Giardino di corallo",
-   "rettangolo": [
-    24,
-    5,
-    6,
-    5
-   ],
-   "tipo": "stanza",
-   "testo": "Un giardino di corallo bianco e rosso, curato da mani che non si vedono. Un golem di polipi, grande come una porta, pota con cura un ramo morto e non si accorge di te finché non ti metti a ridere.",
-   "contenuto": [
-    {
-     "tipo": "mostri",
-     "tabella": "aberranti",
-     "id": "q-golem-di-corallo"
-    },
-    {
-     "tipo": "tesoro",
-     "tira": true
-    }
-   ]
-  },
-  {
    "id": "scalinata",
    "nome": "Scalinata del tempio",
-   "rettangolo": [
-    0,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     31
+    ],
+    [
+     14,
+     31
+    ],
+    [
+     15,
+     31
+    ],
+    [
+     16,
+     31
+    ],
+    [
+     13,
+     32
+    ],
+    [
+     14,
+     32
+    ],
+    [
+     15,
+     32
+    ],
+    [
+     16,
+     32
+    ],
+    [
+     13,
+     33
+    ],
+    [
+     14,
+     33
+    ],
+    [
+     15,
+     33
+    ],
+    [
+     16,
+     33
+    ]
+   ],
    "testo": "Cento gradini scendono verso un portale d'alabastro. In cima a ogni gradino qualcuno ha posato una conchiglia: sono preghiere, ognuna con il nome di un marinaio.",
    "contenuto": [
     {
@@ -270,38 +836,95 @@
    ]
   },
   {
-   "id": "nave",
-   "nome": "La nave capovolta",
-   "rettangolo": [
-    6,
-    10,
-    12,
-    5
-   ],
-   "tipo": "stanza",
-   "testo": "Una galea intera, con la chiglia in aria, funge da tempio. I banchi dei rematori sono panche per la preghiera. Sul pennone, appeso per i piedi, un cadavere con la bocca ancora aperta in una lode.",
-   "contenuto": [
-    {
-     "tipo": "mostri",
-     "tabella": "seguaci",
-     "id": "q-zombi-annegati"
-    },
-    {
-     "tipo": "tesoro",
-     "tira": true
-    }
-   ]
-  },
-  {
    "id": "sirene",
    "nome": "Sala del canto",
-   "rettangolo": [
-    18,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     5,
+     10
+    ],
+    [
+     6,
+     10
+    ],
+    [
+     7,
+     10
+    ],
+    [
+     4,
+     11
+    ],
+    [
+     5,
+     11
+    ],
+    [
+     6,
+     11
+    ],
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     11
+    ],
+    [
+     4,
+     12
+    ],
+    [
+     5,
+     12
+    ],
+    [
+     6,
+     12
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     8,
+     12
+    ],
+    [
+     4,
+     13
+    ],
+    [
+     5,
+     13
+    ],
+    [
+     6,
+     13
+    ],
+    [
+     7,
+     13
+    ],
+    [
+     8,
+     13
+    ],
+    [
+     5,
+     14
+    ],
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     14
+    ]
+   ],
    "testo": "Una conca di perle riflette ogni suono mille volte. Una voce canta in una lingua che conosci e non hai mai udito. Davanti a te, sull'altare, una donna con la pelle di madreperla ti sorride e ti chiede un nome.",
    "contenuto": [
     {
@@ -314,13 +937,73 @@
   {
    "id": "gabbia",
    "nome": "Gabbie dei prigionieri",
-   "rettangolo": [
-    24,
-    10,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     6,
+     17
+    ],
+    [
+     7,
+     17
+    ],
+    [
+     8,
+     17
+    ],
+    [
+     9,
+     17
+    ],
+    [
+     10,
+     17
+    ],
+    [
+     6,
+     18
+    ],
+    [
+     7,
+     18
+    ],
+    [
+     8,
+     18
+    ],
+    [
+     9,
+     18
+    ],
+    [
+     10,
+     18
+    ],
+    [
+     6,
+     19
+    ],
+    [
+     7,
+     19
+    ],
+    [
+     6,
+     20
+    ],
+    [
+     7,
+     20
+    ],
+    [
+     6,
+     21
+    ],
+    [
+     7,
+     21
+    ]
+   ],
    "testo": "File di gabbie di ferro corrose. In una, un uomo ancora vivo, con la barba bianca di sale, ti guarda e non parla. Nelle altre ci sono solo ossa e conchiglie.",
    "contenuto": [
     {
@@ -342,13 +1025,141 @@
   {
    "id": "cripta",
    "nome": "Cripta degli annegati",
-   "rettangolo": [
-    0,
-    15,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     10,
+     32
+    ],
+    [
+     11,
+     32
+    ],
+    [
+     12,
+     32
+    ],
+    [
+     10,
+     33
+    ],
+    [
+     11,
+     33
+    ],
+    [
+     12,
+     33
+    ],
+    [
+     8,
+     34
+    ],
+    [
+     9,
+     34
+    ],
+    [
+     10,
+     34
+    ],
+    [
+     11,
+     34
+    ],
+    [
+     12,
+     34
+    ],
+    [
+     13,
+     34
+    ],
+    [
+     14,
+     34
+    ],
+    [
+     8,
+     35
+    ],
+    [
+     9,
+     35
+    ],
+    [
+     10,
+     35
+    ],
+    [
+     11,
+     35
+    ],
+    [
+     12,
+     35
+    ],
+    [
+     13,
+     35
+    ],
+    [
+     14,
+     35
+    ],
+    [
+     8,
+     36
+    ],
+    [
+     9,
+     36
+    ],
+    [
+     10,
+     36
+    ],
+    [
+     11,
+     36
+    ],
+    [
+     12,
+     36
+    ],
+    [
+     13,
+     36
+    ],
+    [
+     14,
+     36
+    ],
+    [
+     10,
+     37
+    ],
+    [
+     11,
+     37
+    ],
+    [
+     12,
+     37
+    ],
+    [
+     10,
+     38
+    ],
+    [
+     11,
+     38
+    ],
+    [
+     12,
+     38
+    ]
+   ],
    "testo": "Mille nicchie scavate nel muro, ognuna con un annegato avvolto in alghe come in un lenzuolo. Uno solo ha gli occhi aperti, e li apre di più quando entri.",
    "contenuto": [
     {
@@ -375,13 +1186,85 @@
   {
    "id": "maree",
    "nome": "Camera delle maree",
-   "rettangolo": [
-    12,
-    15,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     0,
+     26
+    ],
+    [
+     0,
+     27
+    ],
+    [
+     1,
+     27
+    ],
+    [
+     2,
+     27
+    ],
+    [
+     3,
+     27
+    ],
+    [
+     4,
+     27
+    ],
+    [
+     0,
+     28
+    ],
+    [
+     1,
+     28
+    ],
+    [
+     2,
+     28
+    ],
+    [
+     3,
+     28
+    ],
+    [
+     4,
+     28
+    ],
+    [
+     0,
+     29
+    ],
+    [
+     1,
+     29
+    ],
+    [
+     2,
+     29
+    ],
+    [
+     3,
+     29
+    ],
+    [
+     4,
+     29
+    ],
+    [
+     2,
+     30
+    ],
+    [
+     3,
+     30
+    ],
+    [
+     4,
+     30
+    ]
+   ],
    "testo": "Una stanza rotonda con una sola finestra sul fondale. Il livello dell'acqua sale e scende secondo un ritmo che sembra un respiro. Una leva arrugginita è incastrata nel muro.",
    "contenuto": [
     {
@@ -399,13 +1282,137 @@
   {
    "id": "trono",
    "nome": "Il trono del capitano",
-   "rettangolo": [
-    18,
-    15,
-    12,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     8,
+     6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     7,
+     7
+    ],
+    [
+     8,
+     7
+    ]
+   ],
    "testo": "Una cattedrale di coralli neri, con al centro un trono di remi spezzati. Il Capitano Marrel Dolorosa, l'annegato, siede con la spada in grembo e il Frammento nella mano libera. Ha l'aspetto di un uomo che aspetta da cento anni una nave che non tornerà.",
    "contenuto": [
     {
@@ -434,13 +1441,65 @@
   {
    "id": "reliquiario",
    "nome": "Cabina del capitano",
-   "rettangolo": [
-    18,
-    20,
-    6,
-    5
-   ],
    "tipo": "stanza",
+   "celle": [
+    [
+     5,
+     0
+    ],
+    [
+     6,
+     0
+    ],
+    [
+     7,
+     0
+    ],
+    [
+     8,
+     0
+    ],
+    [
+     9,
+     0
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     7,
+     1
+    ],
+    [
+     8,
+     1
+    ],
+    [
+     9,
+     1
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     6,
+     3
+    ]
+   ],
    "testo": "Dietro il trono, una cabina asciutta. Il Frammento è su una scrivania, chiuso in un boccale di vetro. Una finestra tonda mostra il fondo: laggiù, in lontananza, le luci di un altro quartiere sommerso che nessuno ricorda.",
    "contenuto": [
     {
@@ -461,199 +1520,519 @@
      ]
     }
    ]
+  },
+  {
+   "id": "cor1",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     16,
+     29
+    ],
+    [
+     17,
+     29
+    ],
+    [
+     18,
+     29
+    ],
+    [
+     19,
+     29
+    ]
+   ]
+  },
+  {
+   "id": "cor2",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     18,
+     24
+    ]
+   ]
+  },
+  {
+   "id": "cor3",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     18,
+     17
+    ],
+    [
+     18,
+     18
+    ]
+   ]
+  },
+  {
+   "id": "cor4",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     19,
+     20
+    ],
+    [
+     20,
+     20
+    ],
+    [
+     21,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor5",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     5,
+     30
+    ],
+    [
+     6,
+     30
+    ],
+    [
+     7,
+     30
+    ],
+    [
+     8,
+     30
+    ],
+    [
+     8,
+     31
+    ],
+    [
+     8,
+     32
+    ],
+    [
+     8,
+     33
+    ]
+   ]
+  },
+  {
+   "id": "cor6",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     15,
+     13
+    ],
+    [
+     16,
+     13
+    ],
+    [
+     17,
+     13
+    ]
+   ]
+  },
+  {
+   "id": "cor7",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ]
+   ]
+  },
+  {
+   "id": "cor8",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     8,
+     14
+    ],
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     16
+    ]
+   ]
+  },
+  {
+   "id": "cor9",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     8,
+     2
+    ],
+    [
+     8,
+     3
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     8,
+     5
+    ]
+   ]
+  },
+  {
+   "id": "cor10",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     2,
+     8
+    ],
+    [
+     2,
+     9
+    ],
+    [
+     2,
+     10
+    ],
+    [
+     2,
+     11
+    ],
+    [
+     2,
+     12
+    ],
+    [
+     2,
+     13
+    ],
+    [
+     2,
+     14
+    ],
+    [
+     2,
+     15
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     15
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     4,
+     17
+    ],
+    [
+     5,
+     17
+    ]
+   ]
+  },
+  {
+   "id": "cor11",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     0,
+     7
+    ],
+    [
+     0,
+     8
+    ],
+    [
+     0,
+     9
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     0,
+     11
+    ],
+    [
+     0,
+     12
+    ],
+    [
+     0,
+     13
+    ],
+    [
+     0,
+     14
+    ],
+    [
+     0,
+     15
+    ],
+    [
+     0,
+     16
+    ],
+    [
+     0,
+     17
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     0,
+     19
+    ],
+    [
+     0,
+     20
+    ],
+    [
+     0,
+     21
+    ],
+    [
+     0,
+     22
+    ],
+    [
+     0,
+     23
+    ],
+    [
+     0,
+     24
+    ],
+    [
+     0,
+     25
+    ]
+   ]
   }
  ],
  "porte": [
   {
    "da": "banchina",
-   "a": "molo",
-   "x": 5,
-   "y": 2,
-   "lato": "e"
+   "a": "cor1",
+   "x": 20,
+   "y": 29,
+   "lato": "o"
   },
   {
-   "da": "molo",
-   "a": "magazzino",
-   "x": 11,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "magazzino",
-   "a": "canale",
-   "x": 17,
-   "y": 2,
-   "lato": "e"
-  },
-  {
-   "da": "canale",
-   "a": "granchi",
-   "x": 23,
-   "y": 2,
-   "lato": "e"
+   "da": "cor1",
+   "a": "osteria",
+   "x": 16,
+   "y": 29,
+   "lato": "o"
   },
   {
    "da": "banchina",
-   "a": "osteria",
-   "x": 3,
-   "y": 4,
-   "lato": "s"
+   "a": "cor2",
+   "x": 19,
+   "y": 24,
+   "lato": "o"
   },
   {
-   "da": "molo",
-   "a": "cantieri",
-   "x": 9,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "magazzino",
-   "a": "cisterna",
-   "x": 15,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "canale",
-   "a": "registri",
-   "x": 21,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "granchi",
-   "a": "corallo",
-   "x": 27,
-   "y": 4,
-   "lato": "s"
-  },
-  {
-   "da": "osteria",
-   "a": "cantieri",
-   "x": 5,
-   "y": 7,
-   "lato": "e"
-  },
-  {
-   "da": "cantieri",
-   "a": "cisterna",
-   "x": 11,
-   "y": 7,
-   "lato": "e"
-  },
-  {
-   "da": "cisterna",
-   "a": "registri",
-   "x": 17,
-   "y": 7,
-   "lato": "e"
-  },
-  {
-   "da": "registri",
-   "a": "corallo",
-   "x": 23,
-   "y": 7,
-   "lato": "e"
+   "da": "cor2",
+   "a": "molo",
+   "x": 18,
+   "y": 24,
+   "lato": "o"
   },
   {
    "da": "osteria",
    "a": "scalinata",
-   "x": 3,
-   "y": 9,
+   "x": 14,
+   "y": 30,
    "lato": "s"
   },
   {
-   "da": "cantieri",
-   "a": "nave",
-   "x": 9,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "registri",
-   "a": "sirene",
-   "x": 21,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "corallo",
-   "a": "gabbia",
-   "x": 27,
-   "y": 9,
-   "lato": "s"
-  },
-  {
-   "da": "scalinata",
-   "a": "nave",
-   "x": 5,
-   "y": 12,
-   "lato": "e"
-  },
-  {
-   "da": "nave",
-   "a": "sirene",
+   "da": "molo",
+   "a": "magazzino",
    "x": 17,
-   "y": 12,
-   "lato": "e"
-  },
-  {
-   "da": "sirene",
-   "a": "gabbia",
-   "x": 23,
-   "y": 12,
+   "y": 22,
    "lato": "e"
   },
   {
    "da": "scalinata",
    "a": "cripta",
-   "x": 3,
-   "y": 14,
-   "lato": "s"
+   "x": 13,
+   "y": 32,
+   "lato": "o"
   },
   {
-   "da": "nave",
-   "a": "maree",
-   "x": 15,
-   "y": 14,
-   "lato": "s"
+   "da": "magazzino",
+   "a": "cor3",
+   "x": 18,
+   "y": 19,
+   "lato": "n"
   },
   {
-   "da": "sirene",
-   "a": "trono",
-   "x": 21,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "gabbia",
-   "a": "trono",
-   "x": 27,
-   "y": 14,
-   "lato": "s"
-  },
-  {
-   "da": "cripta",
-   "a": "maree",
-   "x": 11,
+   "da": "cor3",
+   "a": "canale",
+   "x": 18,
    "y": 17,
+   "lato": "n"
+  },
+  {
+   "da": "magazzino",
+   "a": "cor4",
+   "x": 18,
+   "y": 20,
    "lato": "e"
   },
   {
-   "da": "maree",
-   "a": "trono",
+   "da": "cor4",
+   "a": "cisterna",
+   "x": 21,
+   "y": 20,
+   "lato": "e"
+  },
+  {
+   "da": "cripta",
+   "a": "cor5",
+   "x": 8,
+   "y": 34,
+   "lato": "n"
+  },
+  {
+   "da": "cor5",
+   "a": "maree",
+   "x": 5,
+   "y": 30,
+   "lato": "o"
+  },
+  {
+   "da": "canale",
+   "a": "granchi",
+   "x": 19,
+   "y": 14,
+   "lato": "n"
+  },
+  {
+   "da": "canale",
+   "a": "cor6",
    "x": 17,
-   "y": 17,
-   "lato": "e",
-   "tipo": "segreta",
-   "nota": "Una paratia di legno scivola: la stanza del capitano è davanti a voi."
+   "y": 14,
+   "lato": "n"
+  },
+  {
+   "da": "cor6",
+   "a": "registri",
+   "x": 15,
+   "y": 13,
+   "lato": "o"
+  },
+  {
+   "da": "registri",
+   "a": "sirene",
+   "x": 9,
+   "y": 13,
+   "lato": "o"
+  },
+  {
+   "da": "sirene",
+   "a": "cor7",
+   "x": 6,
+   "y": 10,
+   "lato": "n"
+  },
+  {
+   "da": "cor7",
+   "a": "trono",
+   "x": 6,
+   "y": 8,
+   "lato": "n"
+  },
+  {
+   "da": "sirene",
+   "a": "cor8",
+   "x": 8,
+   "y": 13,
+   "lato": "s"
+  },
+  {
+   "da": "cor8",
+   "a": "gabbia",
+   "x": 8,
+   "y": 16,
+   "lato": "s"
   },
   {
    "da": "trono",
+   "a": "cor9",
+   "x": 8,
+   "y": 6,
+   "lato": "n"
+  },
+  {
+   "da": "cor9",
    "a": "reliquiario",
-   "x": 21,
-   "y": 19,
-   "lato": "s"
+   "x": 8,
+   "y": 2,
+   "lato": "n"
+  },
+  {
+   "da": "gabbia",
+   "a": "cor10",
+   "x": 6,
+   "y": 17,
+   "lato": "o"
+  },
+  {
+   "da": "cor10",
+   "a": "trono",
+   "x": 2,
+   "y": 8,
+   "lato": "n"
+  },
+  {
+   "da": "maree",
+   "a": "cor11",
+   "x": 0,
+   "y": 26,
+   "lato": "n",
+   "tipo": "segreta"
+  },
+  {
+   "da": "cor11",
+   "a": "trono",
+   "x": 0,
+   "y": 7,
+   "lato": "e"
   }
  ]
 }
