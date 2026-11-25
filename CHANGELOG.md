@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.20.1
+- **Correzione:** nel pannello dell'incontro non compare più la scritta «null» sopra «Turno del gruppo» quando il mostro non ha un leader.
+
 ## 1.20.0
 - **Dungeon della campagna «Il Cartografo dell'Oblio» rigenerati:** ogni avventura ha ora stanze di forma libera (rettangoli, L, T, croci, ottagoni, cerchi, rombi, forme irregolari), collegate da corridoi anche con curve. Il numero di stanze varia da 15 a 25 per avventura (25, 15, 23, 24 e 22); i corridoi non contano come stanze. Trama, mostri, tesori e finali restano quelli scritti; le stanze in più hanno contenuto estratto dalle tabelle.
 - **Lanterna:** il raggio di luce della lanterna nella nebbia di guerra è più corto.

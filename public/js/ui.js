@@ -319,7 +319,7 @@ function renderCombattimento(box, i) {
         ...azioniMagiche(e, pronti), ...(suppl() ? azioniSupplemento(e, i) : []), ...(abissoAttivo() ? A.azioniCombattimento(e, i, azione) : []), ...(profonditaAttiva() ? P.azioniCombattimento(e, i, azione) : []), ...(acqueAttive() ? Q.azioniCombattimento(e, i, azione, btn) : []), ...(aldilaAttivo() ? AL.azioniCombattimento(e, i, azione) : []), ...(silvaniAttivi() ? [...V.azioniCombattimento(e, i, azione, btn), ...V.azioniClasse(e, i, azione)] : [])));
     eroiBox.append(rowEl);
   });
-  const sezGruppo = [h('h4', {}, 'Turno del gruppo'), A.cartaLeader(i, btn), eroiBox];
+  const sezGruppo = [h('h4', {}, 'Turno del gruppo'), A.cartaLeader(i, btn), eroiBox].filter(Boolean);
 
   // mostri
   const key = `${i.id}-${i.turno}-${i.n}-${i.pv}-${gruppo.map(g => g.id).join('')}-${i.sorpresa}`;
