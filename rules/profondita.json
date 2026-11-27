@@ -1,0 +1,7144 @@
+{
+ "_nota": "Supplemento «Contro le Profondità Dimenticate» (MS Edizioni, ed. digitale maggio 2023, Andrea Sfiligoi), livelli 10-19: p. 5-72. Pagine 4, 38, 46, 52 solo illustrazioni. Convenzioni come abisso.json: mor/tes 0 = ST, \"NO\" = assente, \"x2\" doppio (tesMolt), tes numerico = modificatore al tiro Tesori (es. 2 = TES +2, -1 = TES -1); reazioni [da, a, tipo, parametro?, \"totale\"?] con tipo in combatte | combatte-sempre (\"Combatte sempre\") | morte (\"Combatte fino alla morte\") | fugge | pacifico | corruzione | tenzone | offre-riposo; un parametro numerico di corruzione = p.o. a mostro, una stringa = costo testuale (sempre a mostro salvo \"totale\"). id con prefisso p-. CAMPI NUOVI rispetto ad abisso.json: livFormula (testo originale es. \"LMP+2\"), liv = numero oppure \"LMP\" e livMod = scarto intero da sommare a LMP; stessa convenzione per pv/pvFormula/pvMod (pvTetto = massimo, pvMinimo = minimo) e rm/rmFormula/rmMod (Resistenza alla magia; se rm assente il mostro non ne ha); dannoFormula \"GR\" con dannoMod (danno = GR + dannoMod) e attacchiDettaglio (elenco di {n, danno|dannoFormula, nome}); attPerBersaglio true + attPerBersaglioN (attacchi per ogni membro del gruppo, orde); raffica (attacco a distanza prima della mischia); sorpresaProb (n su d6, 0/assente = nessuna); rigenerazione; risorge; livSenzaFeriti; livAMetaPV; nonRiduceLivMetaPv; tesOro/tesExtra per tesori specifici. GR = numero del grado (base 1, esperto 2, eroico 3, leggendario 4, epico 5). LMP = livello massimo dei personaggi del gruppo (manuale base p.6). Dove tabella e testo del manuale si contraddicono si veda ambiguita.",
+ "livelli": {
+  "min": 10,
+  "max": 19,
+  "sottotitolo": "per giocare i livelli dal 10° al 19°",
+  "gradoEroico": [
+   10,
+   14
+  ],
+  "gradoLeggendario": [
+   15,
+   19
+  ],
+  "ingressoEroico": {
+   "livelloPG": 9,
+   "pagina": 6
+  },
+  "ingressoLeggendario": {
+   "livelloPG": 14,
+   "pagina": 7
+  },
+  "nonOpzionaleLivello10": "Un PG di livello 9 non può fare il tiro ES per il livello 10 finché non ha il grado eroico (p.6).",
+  "livelloEpicoDa": 20,
+  "epicoRimando": "Eroi Epici di Norindaal (volume futuro)"
+ },
+ "gradi": [
+  {
+   "id": "base",
+   "nome": "Base",
+   "livelli": [
+    1,
+    4
+   ],
+   "gr": 1,
+   "dado": "d6",
+   "facce": 6,
+   "esplosioneDa": 6,
+   "fallimentoAutomatico": 1,
+   "tiroES": {
+    "livello": "1d6",
+    "abilitaEsperte": null,
+    "abilitaEroiche": null,
+    "abilitaLeggendarie": null
+   },
+   "costoGrado": {
+    "po": 0,
+    "tiriES": 0
+   },
+   "moltiplicatoreIncantesimi": 1,
+   "segreti": {
+    "indizi": 3,
+    "tiroES": 1
+   },
+   "volume": "Four Against Darkness",
+   "pagina": 9
+  },
+  {
+   "id": "esperto",
+   "nome": "Esperto",
+   "livelli": [
+    5,
+    9
+   ],
+   "gr": 2,
+   "dado": "d8",
+   "facce": 8,
+   "esplosioneDa": 7,
+   "fallimentoAutomatico": 1,
+   "tiroES": {
+    "livello": "1d8+2",
+    "abilitaEsperte": "1d8+2",
+    "abilitaEroiche": null,
+    "abilitaLeggendarie": null
+   },
+   "costoGrado": {
+    "po": 500,
+    "tiriES": 1,
+    "oppure": true
+   },
+   "moltiplicatoreIncantesimi": 1,
+   "segreti": {
+    "indizi": 4,
+    "tiroES": 1
+   },
+   "volume": "Contro l'Abisso",
+   "pagina": 9
+  },
+  {
+   "id": "eroico",
+   "nome": "Eroico",
+   "livelli": [
+    10,
+    14
+   ],
+   "gr": 3,
+   "dado": "d10",
+   "facce": 10,
+   "esplosioneDa": 8,
+   "fallimentoAutomatico": 1,
+   "tiroES": {
+    "livello": "1d10+4",
+    "abilitaEsperte": "1d10+5",
+    "abilitaEroiche": "1d10+4",
+    "abilitaLeggendarie": null
+   },
+   "costoGrado": {
+    "po": 1000,
+    "tiriES": 2,
+    "oppure": false,
+    "nonSiTirano": true,
+    "pagatoInUnaSolutaPerTutti": true,
+    "traUnAvventuraEL'Altra": true
+   },
+   "requisitoPassaggio": {
+    "livelloPG": 9,
+    "tiriESPerPG": 2,
+    "poPerPG": 1000,
+    "doveQuando": "tra un'avventura e l'altra, tutti i PG insieme"
+   },
+   "moltiplicatoreIncantesimi": 2,
+   "segreti": {
+    "indizi": 5,
+    "tiroES": 0
+   },
+   "volume": "Contro le Profondità Dimenticate",
+   "pagina": 9
+  },
+  {
+   "id": "leggendario",
+   "nome": "Leggendario",
+   "livelli": [
+    15,
+    19
+   ],
+   "gr": 4,
+   "dado": "d12",
+   "facce": 12,
+   "esplosioneDa": 9,
+   "fallimentoAutomatico": 1,
+   "tiroES": {
+    "livello": "1d12+8",
+    "abilitaEsperte": "1d12+10",
+    "abilitaEroiche": "1d12+9",
+    "abilitaLeggendarie": "1d12+8"
+   },
+   "costoGrado": {
+    "po": 2000,
+    "tiriES": 3,
+    "oppure": false,
+    "nonSiTirano": true
+   },
+   "requisitoPassaggio": {
+    "livelloPG": 14,
+    "tiriESPerPG": 3,
+    "poPerPG": 2000,
+    "doveQuando": "fuori da un dungeon, in una scuola/gilda sotto un eroe leggendario; tutti i PG insieme",
+    "mettibileDaParte": true
+   },
+   "moltiplicatoreIncantesimi": 3,
+   "segreti": {
+    "indizi": 6,
+    "tiroES": 0
+   },
+   "volume": "Contro le Profondità Dimenticate",
+   "pagina": 9,
+   "testoAlternativo": {
+    "pagina": 7,
+    "esplosioneDa": 8,
+    "tiroESLivello": "1d12+7",
+    "tiroESAbilitaLeggendarie": "1d12+7",
+    "tiroESAbilitaEroiche": "1d12+8",
+    "tiroESAbilitaEsperte": "1d12+9"
+   }
+  },
+  {
+   "id": "epico",
+   "nome": "Epico",
+   "livelli": [
+    20,
+    null
+   ],
+   "gr": 5,
+   "dado": "d20",
+   "facce": 20,
+   "esplosioneDa": 10,
+   "fallimentoAutomatico": 1,
+   "tiroES": {
+    "livello": "1d20+10",
+    "abilitaEsperte": "1d20+13",
+    "abilitaEroiche": "1d20+12",
+    "abilitaLeggendarie": "1d20+11",
+    "abilitaEpiche": "1d20+10"
+   },
+   "costoGrado": {
+    "po": 4000,
+    "tiriES": 5
+   },
+   "moltiplicatoreIncantesimi": 4,
+   "segreti": {
+    "indizi": 7,
+    "tiroES": 0
+   },
+   "volume": "Eroi Epici di Norindaal",
+   "pagina": 9,
+   "nonGiocabile": true,
+   "nota": "Colonna epica della tabella p.9 ricostruita per posizione; fuori dall'ambito di questo supplemento."
+  }
+ ],
+ "dadi": {
+  "contenuto": "2d6",
+  "contenutoRovine": "2d6",
+  "trappole": "1d6",
+  "allucinazioni": "1d6",
+  "eventi": "1d10",
+  "tesori": "1d10",
+  "tesoriMagiciEroici": "1d6",
+  "tesoriMagiciLeggendari": "1d10",
+  "infestanti": "1d6",
+  "seguaci": "1d6",
+  "orde": "1d6",
+  "aberranti": "1d6",
+  "aberrantiCittadella": "1d6",
+  "boss": "1d6",
+  "incontriFluviali": "1d6",
+  "missioni": "1d6",
+  "cittadelle": "1d6",
+  "idoli": "1d6",
+  "pericoliFluviali": "1d6",
+  "incantesimoEroicoCaso": "1d6",
+  "incantesimoLeggendarioCaso": "1d6",
+  "naturaFiume": "1d6",
+  "caratteristicaTratto": "1d6",
+  "tipoCaratteristica": "1d6",
+  "barcaiolo": "1d6",
+  "mappaTratti": "d66",
+  "mappaForme": "d66",
+  "armaLeggendariaTipo": "1d6",
+  "armaturaLeggendariaTipo": "1d6",
+  "aberranteOrigine": "1d6",
+  "cittadellaMagicaIdoloAltare": "1d6",
+  "idoloStatua": "1d6"
+ },
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "p-pipistrelli-ombra",
+    "nome": "Pipistrelli-ombra delle profondità",
+    "conta": "3d6",
+    "tag": [
+     "volante"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": "NO",
+    "xp": true,
+    "sorpresaProb": 2,
+    "note": "Volanti; 2 su 1d6 di sorprendere il gruppo.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 53
+   },
+   {
+    "id": "p-ematovermi",
+    "nome": "Ematovermi",
+    "conta": "2d6+2",
+    "tag": [],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "livSenzaFeriti": {
+     "liv": "LMP",
+     "livMod": 1,
+     "livFormula": "LMP+1",
+     "condizione": "nessun membro del gruppo è ferito"
+    },
+    "note": "Se nessun membro del gruppo è ferito scendono a LIV LMP+1.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      3,
+      "fugge"
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 53
+   },
+   {
+    "id": "p-sporagni",
+    "nome": "Sporagni",
+    "conta": "1d6+3",
+    "tag": [],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "sorpresaProb": 4,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "spore": {
+     "probInizialeSu6": 1,
+     "cumulativa": true,
+     "perOgniUccisioneInMischia": true,
+     "dannoFineIncontro": 1,
+     "evitataDa": "qualsiasi guarigione magica sul personaggio prima della fine dell'incontro",
+     "seTuttiTossiscono": {
+      "errantiProbSu6": "GR"
+     }
+    },
+    "note": "4 su 1d6 di sorprendere; immuni a Sonno. Ogni sporagno ucciso in mischia: 1 su 1d6 (cumulativa) che l'attaccante prenda 1 PV a fine incontro per la tosse; la guarigione magica lo evita. Se tutti tossiscono, GR su 1d6 che arrivino erranti.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 53
+   },
+   {
+    "id": "p-litolumache",
+    "nome": "Litolumache",
+    "conta": "2d6",
+    "tag": [],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "rimbalzoArmiNonMagiche": {
+     "probSu6": 3,
+     "probSu6ArmiPerfette": 1
+    },
+    "note": "Ogni colpo di arma non magica rimbalza con 3 su 1d6 (1 su 1d6 con armi perfette).",
+    "reazioni": [
+     [
+      1,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 53
+   },
+   {
+    "id": "p-piovre-terricole",
+    "nome": "Piovre terricole minuscole",
+    "conta": "1d6+3",
+    "tag": [],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "veleno": {
+     "chi": "ogni personaggio ferito",
+     "quando": "dopo essere stato ferito",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "barbaro": "L",
+      "mezzuomo": "L",
+      "grandi": "L",
+      "altri": "1/2L"
+     },
+     "effetto": "-1 ai tiri di perquisire e per lanciare incantesimi fino a fine avventura",
+     "modPerquisire": -1,
+     "modIncantesimi": -1,
+     "durata": "fine avventura",
+     "rimozione": [
+      "Benedizione"
+     ]
+    },
+    "note": "Chi è ferito salva contro il veleno LMP (barbari, mezzuomini e grandi come troll/ogre/minotauri +L, altri +1/2L) o ha -1 a perquisire e lanciare incantesimi fino a fine avventura; la Benedizione toglie le penalità.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      "1 razione di cibo"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 53
+   },
+   {
+    "id": "p-ragni-caverne",
+    "nome": "Ragni delle caverne profonde",
+    "conta": "2d6+1",
+    "tag": [
+     "ragno"
+    ],
+    "liv": "LMP",
+    "livMod": 0,
+    "livFormula": "LMP",
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": "NO",
+    "xp": true,
+    "livPerDueUccisi": {
+     "mod": -1,
+     "livMinimo": 3
+    },
+    "uccisoGeneraRagni": {
+     "conta": "2d6",
+     "nonResuscitabile": true
+    },
+    "note": "Ogni 2 ragni uccisi il LIV cala di 1 (minimo 3). Un personaggio ucciso da loro genera subito altri 2d6 ragni e non è resuscitabile.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 53
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "p-troll-profondita",
+    "nome": "Troll delle profondità",
+    "conta": "2d6+1",
+    "tag": [
+     "troll"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "risorge": {
+     "quando": "fine del turno dei troll",
+     "n": 1,
+     "attaccaTurnoSuccessivo": true,
+     "impeditoDa": [
+      "un personaggio spende 1 turno a fare a pezzi i troll uccisi",
+      "attacco basato sul fuoco nel turno del gruppo"
+     ]
+    },
+    "note": "A fine turno 1 troll torna in vita e attacca nel turno successivo, a meno che un PG spenda 1 turno a farli a pezzi o usi il fuoco.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      "1 gemma di qualsiasi valore"
+     ],
+     [
+      5,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 54
+   },
+   {
+    "id": "p-hobgoblin-profondita",
+    "nome": "Hobgoblin delle profondità",
+    "conta": "2d6+2",
+    "tag": [
+     "hobgoblin"
+    ],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": "x2",
+    "tesMolt": 2,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      300
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 54
+   },
+   {
+    "id": "p-accoliti-caos",
+    "nome": "Accoliti del caos",
+    "conta": "1d6+3",
+    "tag": [
+     "caos"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "20 razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 54
+   },
+   {
+    "id": "p-balestrieri-elfi-oscuri",
+    "nome": "Balestrieri elfi oscuri",
+    "conta": "1d6+4",
+    "tag": [
+     "elfo-oscuro"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "raffica": {
+     "quando": "prima della mischia",
+     "numero": 1,
+     "numeroLeggendario": 2,
+     "tipo": "dardi di balestra a una mano",
+     "seUccideAlmenoUnPG": {
+      "moraleMod": 1,
+      "durata": "fine incontro"
+     }
+    },
+    "note": "Prima della mischia scagliano una raffica (due al grado leggendario); se uccide almeno 1 PG avranno MOR +1 per l'incontro.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      200
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 54
+   },
+   {
+    "id": "p-uomini-lucertola-profondita",
+    "nome": "Uomini lucertola delle profondità",
+    "conta": "2d6",
+    "tag": [
+     "uomo-lucertola"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "veleno": {
+     "chi": "ogni personaggio ferito",
+     "quando": "fine di ogni turno",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "barbaro": "L",
+      "mezzuomo": "L",
+      "grandi": "L",
+      "altri": "1/2L"
+     },
+     "effetto": "-1 cumulativo ai tiri di attacco fino a fine incontro",
+     "modAttacco": -1,
+     "cumulativo": true,
+     "durata": "fine incontro",
+     "rimozione": [
+      "Benedizione"
+     ]
+    },
+    "note": "A fine turno ogni PG ferito salva contro il veleno LMP (barbari, mezzuomini, grandi +L; altri +1/2L) o ha -1 cumulativo agli attacchi fino a fine incontro; la Benedizione toglie le penalità.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      "100 p.o. o 10 razioni di cibo"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 54
+   },
+   {
+    "id": "p-goblin-profondita",
+    "nome": "Goblin delle profondità",
+    "conta": "2d6+1",
+    "tag": [
+     "goblin"
+    ],
+    "liv": "LMP",
+    "livMod": 0,
+    "livFormula": "LMP",
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": 0,
+    "tesOro": "2d6",
+    "xp": true,
+    "raffica": {
+     "quando": "prima della mischia",
+     "numero": 1,
+     "tipo": "giavellotti",
+     "dannoCiascuno": 1,
+     "metaAlPGConPVPiuAlti": true,
+     "arrotondamento": "per difetto"
+    },
+    "livAMetaPV": {
+     "liv": "LMP",
+     "livMod": -2,
+     "livFormula": "LMP-2",
+     "condizione": "almeno metà dei goblin eliminati"
+    },
+    "modReazioniSeGoblinNelGruppo": -1,
+    "note": "Prima della mischia lanciano giavellotti (1 danno ciascuno; metà al PG con più PV attuali). Con almeno metà eliminati scendono a LIV LMP-2. Reazioni a -1 se nel gruppo c'è un goblin.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      80
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 54
+   }
+  ],
+  "orde": [
+   {
+    "id": "p-orda-troll",
+    "nome": "Orda di troll delle profondità",
+    "conta": "1",
+    "tag": [
+     "troll",
+     "orda"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 1,
+    "pv": "LMP",
+    "pvMod": 2,
+    "pvFormula": "LMP+2",
+    "mor": 0,
+    "tes": 0,
+    "orda": true,
+    "contaComeMaggiore": true,
+    "xp": true,
+    "rigenerazione": {
+     "pv": 1,
+     "quando": "fine del turno dell'orda"
+    },
+    "note": "Alla fine del suo turno l'orda rigenera 1 PV.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "200 p.o. o 1 gemma di qualsiasi valore"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 55
+   },
+   {
+    "id": "p-orda-hobgoblin",
+    "nome": "Orda di hobgoblin delle profondità",
+    "conta": "1",
+    "tag": [
+     "hobgoblin",
+     "orda"
+    ],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 1,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": 1,
+    "tes": "x2",
+    "tesMolt": 2,
+    "orda": true,
+    "contaComeMaggiore": true,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      300
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 55
+   },
+   {
+    "id": "p-orda-accoliti-caos",
+    "nome": "Orda di accoliti del caos",
+    "conta": "1",
+    "tag": [
+     "caos",
+     "orda"
+    ],
+    "liv": "LMP",
+    "livMod": 0,
+    "livFormula": "LMP",
+    "att": 1,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": "NO",
+    "orda": true,
+    "contaComeMaggiore": true,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "20 razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 55
+   },
+   {
+    "id": "p-orda-balestrieri-elfi-oscuri",
+    "nome": "Orda di balestrieri elfi oscuri",
+    "conta": "1",
+    "tag": [
+     "elfo-oscuro",
+     "orda"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 1,
+    "pv": 10,
+    "mor": 0,
+    "tes": 0,
+    "orda": true,
+    "contaComeMaggiore": true,
+    "xp": true,
+    "raffica": {
+     "quando": "prima della mischia",
+     "tiriDifesaPerPG": 2,
+     "tiriDifesaPerPGLeggendario": 3,
+     "dannoPerFallimento": 1,
+     "seUccideAlmenoUnPG": {
+      "moraleMod": 1,
+      "durata": "fine incontro"
+     }
+    },
+    "note": "Prima della mischia ogni PG fa 2 tiri di difesa (3 al grado leggendario) o subisce 1 PV per fallimento; se la raffica uccide un PG, MOR +1.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      200
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 55
+   },
+   {
+    "id": "p-orda-uomini-lucertola",
+    "nome": "Orda di uomini lucertola delle profondità",
+    "conta": "1",
+    "tag": [
+     "uomo-lucertola",
+     "orda"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 2,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 2,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": 0,
+    "tes": 0,
+    "orda": true,
+    "contaComeMaggiore": true,
+    "xp": true,
+    "veleno": {
+     "chi": "un personaggio a caso tra i feriti nel turno",
+     "quando": "fine di ogni turno",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "barbaro": "L",
+      "mezzuomo": "L",
+      "grandi": "L",
+      "altri": "1/2L"
+     },
+     "effetto": "-1 cumulativo ai tiri di attacco fino a fine incontro",
+     "modAttacco": -1,
+     "cumulativo": true,
+     "durata": "fine incontro",
+     "rimozione": [
+      "Benedizione"
+     ]
+    },
+    "note": "2 attacchi per PG. A fine turno un PG a caso tra i feriti salva contro il veleno LMP o ha -1 cumulativo agli attacchi; Benedizione la rimuove.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      "100 p.o. o 10 razioni di cibo"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 55
+   },
+   {
+    "id": "p-orda-goblin",
+    "nome": "Orda di goblin delle profondità",
+    "conta": "1",
+    "tag": [
+     "goblin",
+     "orda"
+    ],
+    "liv": "LMP",
+    "livMod": 0,
+    "livFormula": "LMP",
+    "att": 1,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 1,
+    "pv": "LMP",
+    "pvMod": -1,
+    "pvFormula": "LMP-1",
+    "mor": -1,
+    "tes": 0,
+    "tesOro": "2d6",
+    "orda": true,
+    "contaComeMaggiore": true,
+    "xp": true,
+    "raffica": {
+     "quando": "prima della mischia",
+     "tipo": "giavellotti",
+     "tiriDifesaPerPG": 1,
+     "tiriDifesaPGConPVPiuAlti": 2,
+     "dannoPerFallimento": 1
+    },
+    "livAMetaPV": {
+     "liv": "LMP",
+     "livMod": -2,
+     "livFormula": "LMP-2",
+     "condizione": "orda a metà PV (non -1 come per i maggiori)"
+    },
+    "note": "Prima della mischia ogni PG fa 1 tiro di difesa (2 il PG con più PV) o subisce 1 PV. A metà PV l'orda è LIV LMP-2.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      80
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 55
+   }
+  ],
+  "aberranti": [
+   {
+    "id": "p-falena-bestiale",
+    "nome": "Falena bestiale del caos",
+    "conta": "1",
+    "tag": [
+     "caos",
+     "aberrante"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 6,
+    "pv": "LMP",
+    "pvMod": 2,
+    "pvFormula": "LMP+2",
+    "mor": 0,
+    "tes": 2,
+    "xp": true,
+    "sorpresaProb": 1,
+    "attaccoConcentrato": true,
+    "modAttaccoADistanzaContro": 3,
+    "fuocoAmico": {
+     "probSu6": 3,
+     "bersaglio": "membro del gruppo a caso",
+     "difesaPossibile": false,
+     "contro": "attacchi a distanza diretti alla creatura"
+    },
+    "note": "Falena con testa di gatto grande come un cavallo. Usa tutti i 6 attacchi su un solo bersaglio casuale per turno. Colpita a +3 dagli attacchi a distanza, ma ogni attacco a distanza ha 3 su 1d6 di colpire invece un membro del gruppo a caso (nessuna difesa).",
+    "reazioni": [
+     [
+      1,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      3,
+      "corruzione",
+      "1 animale vivo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 56
+   },
+   {
+    "id": "p-leviatano-profondita",
+    "nome": "Leviatano delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante"
+    ],
+    "liv": "LMP",
+    "livMod": 4,
+    "livFormula": "LMP+4",
+    "att": 3,
+    "pv": "LMP",
+    "pvMod": 5,
+    "pvFormula": "LMP+5",
+    "mor": 1,
+    "tes": "x2",
+    "tesMolt": 2,
+    "xp": true,
+    "raffica": {
+     "quando": "prima della mischia",
+     "attacchi": 2,
+     "bersagli": "2 bersagli casuali diversi",
+     "tipo": "esplosione di energia",
+     "ignoraScudiEArmatureNonMagiche": true
+    },
+    "nonRiduceLivMetaPv": true,
+    "note": "Prima della mischia 2 attacchi a distanza (esplosione di energia) su 2 bersagli casuali diversi, che ignorano scudi e armature non magiche. A metà PV non perde LIV.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "1 animale vivo"
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 56
+   },
+   {
+    "id": "p-uccello-agnas",
+    "nome": "Uccello agnas",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "maledetto"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 5,
+    "attacchiDettaglio": [
+     {
+      "n": 4,
+      "nome": "artigli",
+      "danno": 1
+     },
+     {
+      "n": 1,
+      "nome": "morso",
+      "dannoFormula": "GR",
+      "dannoMod": 0
+     }
+    ],
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": 0,
+    "tes": null,
+    "tesExtra": "Piume da componenti alchemici del valore di 5d6x10 p.o.",
+    "tesOro": "5d6x10",
+    "xp": true,
+    "illusione": {
+     "quando": "inizio del combattimento",
+     "chi": "chiunque fallisca",
+     "tipo": "illusioni",
+     "liv": "LMP",
+     "livMod": 2,
+     "bonus": {
+      "mago": "L",
+      "gnomo": "L",
+      "mezzuomo": 1
+     },
+     "effetto": "tira sulla tabella Allucinazioni"
+    },
+    "segretoCorrelato": "p-seg-agnas",
+    "note": "Donna trasformata in arpia da una maledizione. 4 artigli per 1 danno e 1 morso per GR danni. A inizio combattimento chi fallisce il TS contro illusioni (LMP+2; maghi e gnomi +L, mezzuomini +1) tira su Allucinazioni. Le piume valgono 5d6x10 p.o. come componenti alchemici. Il segreto dell'agnas spezza la maledizione.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      4,
+      "corruzione",
+      "1 cristallo ronzante"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 56
+   },
+   {
+    "id": "p-verme-profondita",
+    "nome": "Verme delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "verme"
+    ],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 4,
+    "pv": "LMP",
+    "pvMod": 2,
+    "pvFormula": "LMP+2",
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "immuneVista": true,
+    "noEsplosioneFinoAMetaPV": {
+     "incantesimiIgnorano": true
+    },
+    "note": "Immune a veleno, Sonno e attacchi che agiscono sulla vista (è cieco). Finché non è a metà PV gli attacchi contro di lui non esplodono (gli incantesimi sì).",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "10 razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 56
+   },
+   {
+    "id": "p-pedinatore-profondita",
+    "nome": "Pedinatore delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "pvTetto": 12,
+    "mor": -1,
+    "tes": 0,
+    "xp": true,
+    "sorpresaProb": 4,
+    "primoAttaccoSeSorpresa": {
+     "attacchi": 4,
+     "attacchiSeSestoSenso": 2,
+     "stessoBersaglio": true
+    },
+    "note": "4 su 1d6 di sorprendere. Se riesce la sorpresa, il primo attacco sono 4 colpi sullo stesso bersaglio (2 se nel gruppo c'è Sesto senso); poi 1 attacco per turno. PV = LMP con massimo 12.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "pagina": 57
+   },
+   {
+    "id": "p-fanghiglia-fungina",
+    "nome": "Fanghiglia fungina delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "fungo"
+    ],
+    "liv": "LMP",
+    "livMod": 4,
+    "livFormula": "LMP+4",
+    "att": 0,
+    "nonAttacca": true,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "veleno": {
+     "chi": "tutti i personaggi",
+     "quando": "ogni turno",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "barbaro": "L",
+      "mezzuomo": "L",
+      "troll": "L",
+      "ogre": "L",
+      "altri": "1/2L"
+     },
+     "dannoFormula": "GR",
+     "dannoMod": 0,
+     "immuni": [
+      "non-morti",
+      "artificiali"
+     ]
+    },
+    "fugaSoloAbbandonandoTutto": true,
+    "note": "Non attacca: ogni turno tutti salvano contro veleno LMP (barbari, mezzuomini, troll, ogre +L; altri +1/2L; non-morti e artificiali immuni) o subiscono GR danni. Si fugge solo abbandonando tutto l'equipaggiamento.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 57
+   }
+  ],
+  "aberrantiCittadella": [
+   {
+    "id": "p-regina-falene",
+    "nome": "Regina delle falene bestiali del caos",
+    "conta": "1",
+    "tag": [
+     "caos",
+     "aberrante"
+    ],
+    "liv": "LMP",
+    "livMod": 6,
+    "livFormula": "LMP+6",
+    "att": 6,
+    "pv": "LMP",
+    "pvMod": 6,
+    "pvFormula": "LMP+6",
+    "mor": 0,
+    "tes": 1,
+    "tesMolt": 2,
+    "xp": true,
+    "sorpresaProb": 3,
+    "attaccoConcentrato": true,
+    "modAttaccoADistanzaContro": 3,
+    "fuocoAmico": {
+     "probSu6": 3,
+     "bersaglio": "membro del gruppo a caso",
+     "difesaPossibile": false,
+     "contro": "attacchi a distanza diretti alla creatura"
+    },
+    "note": "Come la falena bestiale ma più forte: 3 su 1d6 di sorprendere, 6 attacchi su un solo bersaglio casuale, +3 agli attacchi a distanza contro di lei con 3 su 1d6 di fuoco amico.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      3,
+      "corruzione",
+      "1 animale vivo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 58
+   },
+   {
+    "id": "p-leviatano-non-morto",
+    "nome": "Leviatano delle profondità non-morto",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "non-morto"
+    ],
+    "liv": "LMP",
+    "livMod": 5,
+    "livFormula": "LMP+5",
+    "att": 3,
+    "attacchiDettaglio": [
+     {
+      "n": 1,
+      "nome": "morso",
+      "dannoFormula": "GR",
+      "dannoMod": 0
+     },
+     {
+      "n": 2,
+      "nome": "tenaglie",
+      "danno": 1
+     }
+    ],
+    "pv": "LMP",
+    "pvMod": 6,
+    "pvFormula": "LMP+6",
+    "mor": 1,
+    "tes": "x2",
+    "tesMolt": 2,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "acquaSanta": {
+     "dannoPerFiala": 2
+    },
+    "raffica": {
+     "quando": "prima della mischia",
+     "attacchi": 2,
+     "bersagli": "2 bersagli casuali diversi",
+     "tipo": "raggio energetico",
+     "ignoraScudiEArmatureNonMagiche": true
+    },
+    "nonRiduceLivMetaPv": true,
+    "note": "Immune a veleno e Sonno; una fiala di acqua santa gli infligge 2 danni. Prima della mischia 2 raggi su 2 bersagli casuali che ignorano scudi e armature non magiche. Morso GR, 2 tenaglie da 1. A metà PV non perde LIV.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "1 animale vivo"
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 58
+   },
+   {
+    "id": "p-testadizucca",
+    "nome": "Testadizucca delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante"
+    ],
+    "liv": "LMP",
+    "livMod": 5,
+    "livFormula": "LMP+5",
+    "att": 3,
+    "attacchiDettaglio": [
+     {
+      "n": 2,
+      "nome": "morsi",
+      "dannoFormula": "GR",
+      "dannoMod": 0
+     },
+     {
+      "n": 1,
+      "nome": "sputo di semi",
+      "danno": 1
+     }
+    ],
+    "pv": "LMP",
+    "pvMod": 3,
+    "pvFormula": "LMP+3",
+    "mor": 0,
+    "tes": -1,
+    "tesMolt": 2,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "rm": "LMP",
+    "rmMod": 1,
+    "rmFormula": "LMP+1",
+    "semi": {
+     "danno": 1,
+     "salvezza": {
+      "tipo": "confusione",
+      "bonus": {
+       "mago": "L",
+       "salvaComeMago": "L",
+       "altri": "1/2L"
+      }
+     },
+     "fallimento": "nessuna azione nel turno successivo"
+    },
+    "note": "Immune a veleno e Sonno; RM LMP+1. Lo sputo di semi infligge 1 PV e il bersaglio salva contro confusione (maghi e chi salva come i maghi +L, altri +1/2L) o salta il prossimo turno.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "1 pergamena o 1 oggetto magico"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 58
+   },
+   {
+    "id": "p-verme-colossale",
+    "nome": "Verme colossale delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "verme"
+    ],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 4,
+    "attacchiDettaglio": [
+     {
+      "n": 4,
+      "nome": "tentacoli",
+      "danno": 2
+     }
+    ],
+    "danno": 2,
+    "pv": "LMP",
+    "pvMod": 6,
+    "pvFormula": "LMP+6",
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "immuneVista": true,
+    "noEsplosioneFinoAMetaPV": {
+     "incantesimiIgnorano": true
+    },
+    "note": "Come il verme delle profondità ma con tentacoli da 2 danni e PV LMP+6: immune a veleno, Sonno e vista; finché non è a metà PV gli attacchi contro di lui non esplodono (incantesimi esclusi).",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "10 razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 58
+   },
+   {
+    "id": "p-pedinatore-selvaggio",
+    "nome": "Pedinatore selvaggio delle profondità",
+    "conta": "1",
+    "tag": [
+     "aberrante"
+    ],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 1,
+    "pvFormula": "LMP+1",
+    "pvMinimo": 10,
+    "pvTetto": 12,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "rm": "LMP",
+    "rmMod": 0,
+    "rmFormula": "LMP",
+    "sorpresaProb": 4,
+    "primoAttaccoSeSorpresa": {
+     "attacchi": 4,
+     "attacchiSeSestoSenso": 2,
+     "stessoBersaglio": true
+    },
+    "note": "Come il pedinatore ma con RM LMP, LIV LMP+3 e PV LMP+1 (minimo 10, massimo 12). 4 su 1d6 di sorprendere; il primo attacco a sorpresa sono 4 colpi (2 se c'è Sesto senso).",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "pagina": 59
+   },
+   {
+    "id": "p-fanghiglia-gigante",
+    "nome": "Fanghiglia fungina delle profondità gigante",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "fungo"
+    ],
+    "liv": "LMP",
+    "livMod": 4,
+    "livFormula": "LMP+4",
+    "att": 0,
+    "nonAttacca": true,
+    "pv": "LMP",
+    "pvMod": 6,
+    "pvFormula": "LMP+6",
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "veleno": {
+     "chi": "tutti i personaggi",
+     "quando": "ogni turno",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "barbaro": "L",
+      "mezzuomo": "L",
+      "troll": "L",
+      "ogre": "L",
+      "altri": "1/2L"
+     },
+     "dannoFormula": "GR",
+     "dannoMod": 0,
+     "immuni": [
+      "non-morti",
+      "artificiali"
+     ]
+    },
+    "fugaSoloAbbandonandoTutto": true,
+    "note": "Come la fanghiglia fungina ma con PV LMP+6: ogni turno tutti salvano contro veleno LMP o subiscono GR danni; si fugge solo abbandonando tutto.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 59
+   }
+  ],
+  "boss": [
+   {
+    "id": "p-troll-corazzato",
+    "nome": "Troll corazzato delle profondità",
+    "conta": "1",
+    "tag": [
+     "troll"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 4,
+    "pv": "LMP",
+    "pvMod": 2,
+    "pvFormula": "LMP+2",
+    "mor": 0,
+    "tes": 2,
+    "xp": true,
+    "rm": "LMP",
+    "rmMod": -1,
+    "rmFormula": "LMP-1",
+    "deviaColpiNonMagici": {
+     "probSu6": 4
+    },
+    "note": "RM LMP-1. Ogni colpo non magico ha 4 su 1d6 di essere deviato da armatura e pelle.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "200 p.o. o 1 gemma di qualsiasi valore"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 60
+   },
+   {
+    "id": "p-campione-hobgoblin",
+    "nome": "Campione degli hobgoblin delle profondità",
+    "conta": "1",
+    "tag": [
+     "hobgoblin"
+    ],
+    "liv": "LMP",
+    "livMod": 4,
+    "livFormula": "LMP+4",
+    "att": 3,
+    "pv": 7,
+    "mor": 2,
+    "tes": "x2",
+    "tesMolt": 2,
+    "xp": true,
+    "ignoraBonusScudi": true,
+    "note": "Il flagello ignora il bonus di difesa degli scudi, anche magici.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "corruzione",
+      300
+     ],
+     [
+      3,
+      4,
+      "tenzone"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 60
+   },
+   {
+    "id": "p-campione-uomini-leone",
+    "nome": "Campione degli uomini leone del caos",
+    "conta": "1",
+    "tag": [
+     "caos",
+     "uomo-leone"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 3,
+    "attacchiDettaglio": [
+     {
+      "n": 1,
+      "nome": "artiglio",
+      "danno": 1
+     },
+     {
+      "n": 1,
+      "nome": "morso",
+      "danno": 2
+     },
+     {
+      "n": 1,
+      "nome": "ascia",
+      "danno": 2
+     }
+    ],
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": 1,
+    "tes": 2,
+    "xp": true,
+    "ruggito": {
+     "quando": "prima del combattimento",
+     "salvezza": {
+      "tipo": "paura",
+      "liv": "LMP",
+      "livMod": 2,
+      "bonus": {
+       "tutti": "1/2L"
+      },
+      "immuni": [
+       "paladino",
+       "cavaliere-errante"
+      ]
+     },
+     "fallimento": "non può tirare per attaccare l'uomo leone fino a fine incontro",
+     "rimozione": [
+      "Benedizione"
+     ]
+    },
+    "note": "Adoratore bandito di Xichtul. Prima del combattimento ruggisce: TS contro paura LMP+2 (tutti +1/2L; paladini e cavalieri erranti immuni) o niente tiri di attacco contro di lui; la Benedizione rimuove l'effetto.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      "1 cristallo ronzante"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 60
+   },
+   {
+    "id": "p-maestro-psionico",
+    "nome": "Maestro psionico delle caverne",
+    "conta": "1",
+    "tag": [],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 2,
+    "attacchiDettaglio": [
+     {
+      "n": 1,
+      "nome": "esplosione psionica",
+      "danno": 2
+     },
+     {
+      "n": 1,
+      "nome": "mazza",
+      "danno": null
+     }
+    ],
+    "pv": 10,
+    "mor": 0,
+    "tes": 0,
+    "tesExtra": "1d6 cristalli ronzanti",
+    "tesCristalli": "1d6",
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "rm": "LMP",
+    "rmMod": -2,
+    "rmFormula": "LMP-2",
+    "esplosionePsionica": {
+     "ognuTurno": true,
+     "bersaglio": "personaggio con più cristalli ronzanti (a caso se nessuno)",
+     "dannoAutomatico": 2,
+     "senzaDifesa": true,
+     "salvezza": {
+      "tipo": "poteri psionici",
+      "liv": "LMP",
+      "livMod": 3,
+      "bonus": {
+       "monaco": "L",
+       "mistico-marziale": "L",
+       "chierico": "1/2L",
+       "mago": "1/2L"
+      },
+      "successo": "danno ridotto a 1",
+      "immuni": [
+       "non-viventi",
+       "golem",
+       "kukla",
+       "non-morti"
+      ]
+     }
+    },
+    "note": "Immune a Sonno, RM LMP-2. Ogni turno un'esplosione psionica sul PG con più cristalli ronzanti (bersaglio casuale se nessuno): 2 danni automatici senza difesa, ridotti a 1 con TS contro poteri psionici LMP+3 (monaci e mistici marziali +L; chierici e maghi +1/2L; non viventi immuni). Porta 1d6 cristalli ronzanti.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "2 cristalli ronzanti"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 60
+   },
+   {
+    "id": "p-strega-elfa-oscura",
+    "nome": "Strega elfa oscura",
+    "conta": "1",
+    "tag": [
+     "elfo-oscuro"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 12,
+    "mor": 0,
+    "tes": 0,
+    "tesExtra": "1 indizio",
+    "tesIndizi": 1,
+    "xp": true,
+    "sorpresaProb": 2,
+    "odiaElfi": true,
+    "rinforzi": {
+     "turno": 3,
+     "soloQuestoTurno": true,
+     "probSu6": 4,
+     "conta": "2d6",
+     "creatura": "p-balestrieri-elfi-oscuri",
+     "nonSeUccisaPrima": true
+    },
+    "esplosioneForzaOscura": {
+     "ognuTurno": true,
+     "tiroDifesaTutti": true,
+     "dannoSeFallisce": 2,
+     "incantatoriPossonoPerdereIncantesimoInvece": true
+    },
+    "note": "2 su 1d6 di sorprendere; odia gli elfi. Al 3° turno (solo allora) 4 su 1d6 che arrivino 2d6 balestrieri elfi oscuri (non se è morta prima). Ogni turno esplosione di forza oscura: tutti fanno un tiro di difesa o perdono 2 PV (un incantatore può perdere un incantesimo memorizzato invece).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      4,
+      "corruzione",
+      "2 indizi o 2 pergamene o 1 oggetto magico del valore di 200+ p.o."
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 61
+   },
+   {
+    "id": "p-stregone-elfo-oscuro",
+    "nome": "Stregone elfo oscuro",
+    "conta": "1",
+    "tag": [
+     "elfo-oscuro"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 2,
+    "attacchiDettaglio": [
+     {
+      "n": 1,
+      "nome": "bastonata",
+      "danno": 1
+     },
+     {
+      "n": 1,
+      "nome": "esplosione di ghiaccio",
+      "danno": 2
+     }
+    ],
+    "pv": 12,
+    "mor": 0,
+    "tes": 2,
+    "xp": true,
+    "odiaFemmine": true,
+    "raggioCongelante": {
+     "ognuTurno": true,
+     "tiroDifesa": {
+      "bonus": {
+       "barbaro": "1/2L",
+       "relazioneConGhiaccio": "1/2L"
+      }
+     },
+     "dannoSeFallisce": 2,
+     "scudiContano": true,
+     "armaturaIgnorata": true
+    },
+    "modReazioniPerStregaUccisa": -1,
+    "note": "Odia le femmine, priorità a elfe e incantatrici. Ogni turno: bastonata (1 danno) e raggio congelante: tiro di difesa (barbari e legati al ghiaccio +1/2L) o 2 PV; contano gli scudi, non l'armatura (salvo difesa dal freddo). Reazioni a -1 per ogni strega elfa oscura uccisa nell'avventura.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      4,
+      "corruzione",
+      "1 pergamena o 1 oggetto magico del valore di 200+ p.o."
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 61
+   }
+  ],
+  "incontriFluviali": [
+   {
+    "id": "p-troll-fiume",
+    "nome": "Troll di fiume",
+    "conta": "2d6+1",
+    "tag": [
+     "troll",
+     "seguace"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "rinforzi": {
+     "quando": "fine di ogni turno dei troll",
+     "probSu6": 3,
+     "effetto": "un altro troll si unisce alla mischia"
+    },
+    "note": "A fine di ogni loro turno 3 su 1d6 che un altro troll arrivi e si unisca.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      "200 p.o. o 1 gemma di qualsiasi valore"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 68
+   },
+   {
+    "id": "p-hobgoblin-zombi",
+    "nome": "Hobgoblin zombi",
+    "conta": "2d6+6",
+    "tag": [
+     "seguace",
+     "hobgoblin",
+     "non-morto"
+    ],
+    "liv": "LMP",
+    "livMod": 1,
+    "livFormula": "LMP+1",
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 69
+   },
+   {
+    "id": "p-cubo-caos",
+    "nome": "Cubo del caos",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "caos"
+    ],
+    "liv": "LMP",
+    "livMod": 5,
+    "livFormula": "LMP+5",
+    "att": 1,
+    "attPerBersaglio": true,
+    "attPerBersaglioN": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "vulnerabileFulmine": {
+     "bonus": "GR",
+     "contro": "incantesimi di fulmine e attacchi elettrici"
+    },
+    "note": "1 attacco per personaggio. Immune a Sonno; fulmine e attacchi elettrici ricevono +GR contro di lui.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      "20 razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 69
+   },
+   {
+    "id": "p-balestrieri-fiume",
+    "nome": "Balestrieri elfi oscuri (fiume)",
+    "conta": "1d6+4",
+    "tag": [
+     "seguace",
+     "elfo-oscuro"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "raffica": {
+     "quando": "prima della mischia",
+     "numero": 1,
+     "tipo": "dardi di balestra a una mano",
+     "seUccideAlmenoUnPG": {
+      "moraleMod": 1,
+      "livMod": 1,
+      "durata": "fine combattimento"
+     }
+    },
+    "note": "Prima della mischia una raffica di dardi; se uccide almeno 1 PG hanno MOR +1 e LIV +1 fino a fine combattimento.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "corruzione",
+      200
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 69
+   },
+   {
+    "id": "p-uomini-rana",
+    "nome": "Uomini rana degli abissi",
+    "conta": "2d6",
+    "tag": [
+     "seguace"
+    ],
+    "liv": "LMP",
+    "livMod": 2,
+    "livFormula": "LMP+2",
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "veleno": {
+     "chi": "un personaggio a caso tra i feriti nel turno",
+     "quando": "fine di un qualsiasi turno del gruppo, se un PG è stato ferito",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "barbaro": "L",
+      "mezzuomo": "L",
+      "grandi": "L",
+      "altri": "1/2L"
+     },
+     "effetto": "-GR ai tiri di attacco",
+     "modAttaccoFormula": "-GR",
+     "cumulativo": false,
+     "rimozione": [
+      "Benedizione"
+     ]
+    },
+    "note": "Immuni a Sonno. A fine turno del gruppo, se qualcuno è ferito, un ferito a caso salva contro veleno LMP (barbari, mezzuomini, grandi +L; altri +1/2L) o ha -GR agli attacchi (non cumulativo); la Benedizione rimuove la penalità.",
+    "reazioni": [
+     [
+      1,
+      4,
+      "corruzione",
+      "100 p.o. o la barca del gruppo"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "pagina": 69
+   },
+   {
+    "id": "p-goblin-mutato-maggiore",
+    "nome": "Goblin mutato maggiore",
+    "conta": "1",
+    "tag": [
+     "caos",
+     "goblin",
+     "boss"
+    ],
+    "liv": "LMP",
+    "livMod": 3,
+    "livFormula": "LMP+3",
+    "att": 1,
+    "dannoFormula": "GR",
+    "dannoMod": 0,
+    "pv": "LMP",
+    "pvMod": 3,
+    "pvFormula": "LMP+3",
+    "mor": 1,
+    "tes": 0,
+    "tesOro": "5d6",
+    "tesExtra": "2d6 gemme piccole da 25 p.o.; 1 arma da taglio a una mano perfetta del valore di 1d6+4x5 p.o.",
+    "xp": true,
+    "muco": {
+     "quando": "prima della mischia",
+     "bersaglio": "un personaggio a caso",
+     "tiroDifesaContro": {
+      "liv": "LMP",
+      "livMod": 4,
+      "formula": "LIV+1 del goblin"
+     },
+     "effetto": {
+      "nonPuoFuggire": true,
+      "dannoPerTurno": 1,
+      "modDifesa": -2
+     },
+     "rimozione": [
+      "Benedizione",
+      "morte del goblin"
+     ]
+    },
+    "modReazioniSeGoblinNelGruppo": -1,
+    "note": "1 attacco da GR danni. Prima della mischia sputa muco corrosivo su un PG a caso (difesa contro LIV+1): chi è colpito non può fuggire, perde 1 PV/turno e ha -2 in difesa finché non arriva una Benedizione o il goblin muore. Reazioni a -1 se nel gruppo c'è un goblin.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "offre-riposo"
+     ],
+     [
+      2,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      3,
+      "corruzione",
+      50
+     ],
+     [
+      4,
+      5,
+      "combatte"
+     ],
+     [
+      6,
+      6,
+      "morte"
+     ]
+    ],
+    "pagina": 69
+   }
+  ],
+  "creatureExtra": [
+   {
+    "id": "p-idolo-che-cammina",
+    "nome": "Idolo che cammina",
+    "conta": "1",
+    "tag": [
+     "aberrante",
+     "artificiale"
+    ],
+    "liv": "LMP",
+    "livMod": 4,
+    "livFormula": "LMP+4",
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 4,
+    "pvFormula": "LMP+4",
+    "mor": 2,
+    "tes": "NO",
+    "xp": true,
+    "categoria": "aberranti",
+    "dove": "tabelle.idoli[2]",
+    "pagina": 66,
+    "immuneVeleno": true,
+    "immuneTuttiIncantesimi": true,
+    "eccezioneIncantesimo": {
+     "nome": "Distruggi la Non-vita",
+     "classe": "druido",
+     "dannoFormula": "GR",
+     "dannoMod": 2
+    },
+    "rimbalzoArmiNonMagiche": {
+     "probSu6": 3
+    },
+    "effettoSeFugge": "nei successivi tiri sulla tabella Idoli ciclopici dell'avventura il risultato 1 conta come 2",
+    "note": "Immune a veleno e a tutti gli incantesimi tranne Distruggi la Non-vita del druido (GR+2 danni). Le armi non magiche rimbalzano con 3 su 1d6. Se il gruppo fugge, nei futuri tiri su Idoli ciclopici dell'avventura l'1 vale 2.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ]
+   },
+   {
+    "id": "p-barcaiolo-umano",
+    "nome": "Barcaiolo umano",
+    "conta": "1",
+    "tag": [
+     "boss",
+     "barcaiolo"
+    ],
+    "liv": 9,
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "categoria": "boss",
+    "dove": "tabelle.barcaiolo[1]",
+    "pagina": 35,
+    "servizio": {
+     "costoPoPerPGPerViaggio": 20
+    },
+    "nonCombatteSeNonAttaccato": true,
+    "note": "Combatte solo se attaccato. Servizio: 20 p.o. a viaggio per personaggio.",
+    "reazioni": []
+   },
+   {
+    "id": "p-traghettatore-scheletrico",
+    "nome": "Traghettatore non-morto scheletrico",
+    "conta": "1",
+    "tag": [
+     "boss",
+     "barcaiolo",
+     "non-morto"
+    ],
+    "liv": 9,
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "categoria": "boss",
+    "dove": "tabelle.barcaiolo[3]",
+    "pagina": 35,
+    "servizio": {
+     "costoPoPerPGPerViaggio": 20
+    },
+    "nonCombatteSeNonAttaccato": true,
+    "note": "Combatte solo se attaccato. Servizio: 20 p.o. a viaggio per personaggio.",
+    "reazioni": []
+   },
+   {
+    "id": "p-barcaiolo-automa",
+    "nome": "Barcaiolo automa metallico",
+    "conta": "1",
+    "tag": [
+     "boss",
+     "barcaiolo",
+     "artificiale"
+    ],
+    "liv": 9,
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "categoria": "boss",
+    "dove": "tabelle.barcaiolo[4]",
+    "pagina": 35,
+    "servizio": {
+     "costoPoPerPGPerViaggio": 20
+    },
+    "abilitaBarcaiolo": true,
+    "nonCombatteSeNonAttaccato": true,
+    "note": "Equivale all'abilità eroica Barcaiolo: può ripetere qualsiasi tiro su Pericoli fluviali e scegliere. Servizio: 20 p.o.",
+    "reazioni": []
+   },
+   {
+    "id": "p-barcaiolo-elfo-oscuro",
+    "nome": "Barcaiolo elfo oscuro",
+    "conta": "1",
+    "tag": [
+     "boss",
+     "barcaiolo",
+     "elfo-oscuro"
+    ],
+    "liv": 9,
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 0,
+    "pvFormula": "LMP",
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "categoria": "boss",
+    "dove": "tabelle.barcaiolo[5]",
+    "pagina": 35,
+    "servizio": {
+     "costoPoPerPGPerViaggio": 20
+    },
+    "rifiutaSeGruppoHaAltriElfi": true,
+    "nonCombatteSeNonAttaccato": true,
+    "note": "Non offre il servizio se nel gruppo c'è un altro tipo di elfo. Servizio: 20 p.o.",
+    "reazioni": []
+   },
+   {
+    "id": "p-barcaiolo-hobgoblin",
+    "nome": "Barcaiolo hobgoblin delle profondità",
+    "conta": "1",
+    "tag": [
+     "boss",
+     "barcaiolo",
+     "hobgoblin"
+    ],
+    "liv": 9,
+    "att": 1,
+    "pv": "LMP",
+    "pvMod": 1,
+    "pvFormula": "LMP+1",
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "categoria": "boss",
+    "dove": "tabelle.barcaiolo[6]",
+    "pagina": 35,
+    "servizio": {
+     "costoPoPerPGPerViaggio": 30
+    },
+    "nonCombatteSeNonAttaccato": true,
+    "note": "Razza avida: servizio 30 p.o. a viaggio per personaggio. Combatte solo se attaccato.",
+    "reazioni": []
+   }
+  ]
+ },
+ "tabelle": {
+  "contenuto": [
+   {
+    "da": 2,
+    "a": 3,
+    "azione": "macchinario",
+    "nome": "Macchinario",
+    "testo": "Macchinario: tentativo di capire come funziona (LMP+2); successo = 1 indizio o 1d6 razioni; fallimento = danni GR.",
+    "difficolta": {
+     "liv": "LMP",
+     "livMod": 2,
+     "livFormula": "LMP+2"
+    },
+    "bonus": {
+     "gnomo": "L",
+     "artificiere": "L",
+     "mago": "1/2L"
+    },
+    "fallimento": {
+     "dannoFormula": "GR",
+     "dannoMod": 0
+    },
+    "successo": [
+     {
+      "indizi": 1
+     },
+     {
+      "razioni": "1d6"
+     }
+    ],
+    "tentativiPerPG": 1,
+    "soloPrimaVisita": true
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "allucinazione",
+    "nome": "Allucinazione",
+    "testo": "Un personaggio a caso ha un'allucinazione (tabella Allucinazioni). Dopo 2 volte nell'avventura, i risultati successivi si tirano su Eventi speciali.",
+    "tabella": "allucinazioni",
+    "bersaglio": "un PG a caso",
+    "maxPerAvventura": 2,
+    "poi": "eventi"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "infestanti",
+    "nome": "Infestanti",
+    "testo": "Mostri infestanti.",
+    "tabella": "infestanti"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "seguaci",
+    "nome": "Seguaci",
+    "testo": "Mostri seguaci.",
+    "tabella": "seguaci"
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "azione": "trappola-tesoro",
+    "nome": "Trappola",
+    "testo": "Trappola (tabella Trappole). In una stanza 2 su 1d6 che ci sia anche un tesoro; risolta la trappola si raccoglie e si può perquisire. In corridoio nessun tesoro, perquisire a -1.",
+    "tabella": "trappole",
+    "trappola": true,
+    "tesoroStanza": {
+     "probSu6": 2,
+     "tabella": "tesori"
+    },
+    "corridoio": {
+     "tesoro": false,
+     "perquisireMod": -1
+    }
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "azione": "boss",
+    "nome": "Boss",
+    "testo": "Mostro boss; può essere il boss finale (regole del manuale base).",
+    "tabella": "boss",
+    "bossFinalePossibile": true
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "azione": "aberrante",
+    "nome": "Aberrante",
+    "testo": "Mostro aberrante: 1-3 tabella Aberranti, 4-6 Aberranti della Cittadella; può essere il boss finale.",
+    "tabella": "aberranti",
+    "origine": {
+     "dado": "1d6",
+     "tabelle": [
+      {
+       "da": 1,
+       "a": 3,
+       "tabella": "aberranti"
+      },
+      {
+       "da": 4,
+       "a": 6,
+       "tabella": "aberrantiCittadella"
+      }
+     ]
+    },
+    "bossFinalePossibile": true
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "azione": "vuota",
+    "nome": "Stanza vuota",
+    "testo": "Stanza vuota; si può perquisire (in corridoio a -1).",
+    "perquisire": true,
+    "corridoio": {
+     "perquisireMod": -1
+    }
+   },
+   {
+    "da": 11,
+    "a": 11,
+    "azione": "evento",
+    "nome": "Evento",
+    "testo": "Evento speciale.",
+    "tabella": "eventi"
+   },
+   {
+    "da": 12,
+    "a": 12,
+    "azione": "orda",
+    "nome": "Orda",
+    "testo": "Orda.",
+    "tabella": "orde"
+   }
+  ],
+  "contenutoRovine": [
+   {
+    "da": 2,
+    "a": 3,
+    "azione": "macchinario",
+    "nome": "Macchinario complesso",
+    "testo": "Macchinario complesso: difficoltà LMP+4; successo = 1 indizio; fallimento = danni GR.",
+    "difficolta": {
+     "liv": "LMP",
+     "livMod": 4,
+     "livFormula": "LMP+4"
+    },
+    "bonus": {
+     "gnomo": "L",
+     "artificiere": "L",
+     "mago": "1/2L"
+    },
+    "fallimento": {
+     "dannoFormula": "GR",
+     "dannoMod": 0
+    },
+    "successo": [
+     {
+      "indizi": 1
+     }
+    ],
+    "tentativiPerPG": 1,
+    "soloPrimaVisita": true
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "seguaci",
+    "nome": "Seguaci",
+    "testo": "Mostri seguaci.",
+    "tabella": "seguaci"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "seguaci-piu",
+    "nome": "Altri seguaci",
+    "testo": "Mostri seguaci, ma +2 al numero di mostri risultante.",
+    "tabella": "seguaci",
+    "contaExtra": 2
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "residui-psichici",
+    "nome": "Sala infestata da residui psichici",
+    "testo": "Tutti salvano contro l'attacco psichico (LMP+3; maghi, demonologi, cacciatori di streghe +L, altri +1/2L). Chi fallisce sceglie: 3 PV, 1 follia o perdere 2 incantesimi memorizzati fino a fine avventura. Chi riesce ha +3 a questo TS per il resto dell'avventura.",
+    "salvezza": {
+     "tipo": "attacco psichico",
+     "liv": "LMP",
+     "livMod": 3,
+     "livFormula": "LMP+3",
+     "bonus": {
+      "mago": "L",
+      "demonologo": "L",
+      "cacciatore-streghe": "L",
+      "altri": "1/2L"
+     }
+    },
+    "fallimentoScelta": [
+     {
+      "pv": 3
+     },
+     {
+      "follia": 1
+     },
+     {
+      "incantesimiPersi": 2,
+      "durata": "fine avventura"
+     }
+    ],
+    "bonusDopoSuccesso": 3
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "azione": "trappola-tesoro",
+    "nome": "Trappola",
+    "testo": "Trappola (tabella Trappole); in una stanza 2 su 1d6 che ci sia un tesoro; in corridoio nessun tesoro, perquisire a -1.",
+    "tabella": "trappole",
+    "trappola": true,
+    "tesoroStanza": {
+     "probSu6": 2,
+     "tabella": "tesori"
+    },
+    "corridoio": {
+     "tesoro": false,
+     "perquisireMod": -1
+    }
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "azione": "boss",
+    "nome": "Boss",
+    "testo": "Mostro boss; non può essere il boss finale ma conta per il numero di maggiori incontrati.",
+    "tabella": "boss",
+    "bossFinalePossibile": false,
+    "contaComeMaggiore": true
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "azione": "aberrante",
+    "nome": "Aberrante",
+    "testo": "Mostro aberrante (tabella Aberranti).",
+    "tabella": "aberranti"
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "azione": "vuota",
+    "nome": "Stanza vuota",
+    "testo": "Stanza vuota; si può perquisire (in corridoio a -1).",
+    "perquisire": true,
+    "corridoio": {
+     "perquisireMod": -1
+    }
+   },
+   {
+    "da": 11,
+    "a": 11,
+    "azione": "evento",
+    "nome": "Evento",
+    "testo": "Evento speciale.",
+    "tabella": "eventi"
+   },
+   {
+    "da": 12,
+    "a": 12,
+    "azione": "passaggio-segreto",
+    "nome": "Passaggio segreto",
+    "testo": "Si può scoprire un passaggio segreto (dungeon dell'Abisso, esagono dell'Aldilà o Cittadella). Per trovarlo: 3 indizi, oppure disattivare 3 trappole LMP+3 (danni GR a TS fallito), oppure sconfiggere 2 aberranti (senza tesori, reazione unica Combatte fino alla morte; uno alla volta o insieme).",
+    "destinazioni": [
+     {
+      "n": 1,
+      "luogo": "dungeon nell'Abisso",
+      "rimando": "Contro l'Abisso"
+     },
+     {
+      "n": 2,
+      "luogo": "esagono casuale sulla mappa dell'Aldilà",
+      "rimando": "Orrori dall'Aldilà"
+     },
+     {
+      "n": 3,
+      "luogo": "Cittadella",
+      "tabella": "cittadelle"
+     }
+    ],
+    "opzioniPerTrovarlo": [
+     {
+      "id": "indizi",
+      "indizi": 3
+     },
+     {
+      "id": "trappole",
+      "trappole": 3,
+      "liv": "LMP",
+      "livMod": 3,
+      "livFormula": "LMP+3",
+      "dannoFormula": "GR",
+      "dannoMod": 0
+     },
+     {
+      "id": "aberranti",
+      "mostri": 2,
+      "tabella": "aberranti",
+      "senzaTesoro": true,
+      "reazione": "morte"
+     }
+    ]
+   }
+  ],
+  "trappole": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-trap-liquido",
+    "nome": "Liquido resistente alla magia",
+    "liv": "LMP",
+    "livMod": 2,
+    "livGR": true,
+    "livFormula": "LMP+GR+2",
+    "bersaglio": "un membro a caso",
+    "salvezza": {
+     "bonus": {
+      "mago": "L",
+      "elfo": 1
+     }
+    },
+    "effetto": "incantesimi e preghiere impossibili (anche da pergamene o oggetti)",
+    "durata": "1 ora/6 stanze",
+    "testo": "Un PG a caso salva (maghi +L, elfi +1) o è schizzato da liquido che gli impedisce ogni incantesimo o preghiera per 1 ora/6 stanze."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-trap-botola-oblio",
+    "nome": "Botola dell'oblio",
+    "liv": "LMP",
+    "livMod": 2,
+    "livGR": true,
+    "livFormula": "LMP+GR+2",
+    "bersaglio": "il primo dell'ordine di marcia",
+    "salvezza": {
+     "bonus": {
+      "furfante": "L"
+     }
+    },
+    "dannoCaduta": 1,
+    "secondaSalvezza": {
+     "chi": "tutti gli altri",
+     "contro": "livello della trappola (il testo dice \"L della botola\")",
+     "fallimento": "dimenticano il compagno caduto"
+    },
+    "persoPerSempreSeNessunoRicorda": true,
+    "fuga": [
+     "aiuto di un compagno",
+     "viaggio dimensionale",
+     "Desiderio"
+    ],
+    "testo": "Il primo PG salva (furfanti +L) o cade nella botola (1 danno); gli altri salvano o dimenticano che sia mai esistito; se nessuno ricorda, PG ed equipaggiamento sono persi per sempre."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-trap-disco-ossidiana",
+    "nome": "Disco di ossidiana",
+    "liv": "LMP",
+    "livMod": 2,
+    "livGR": true,
+    "livFormula": "LMP+GR+2",
+    "bersaglio": "tutti",
+    "salvezza": {
+     "bonus": {
+      "furfante": "L",
+      "altri": "bonus di armatura e scudo"
+     }
+    },
+    "dannoFormula": "GR",
+    "dannoMod": 2,
+    "frammenti": {
+     "dado": "1d6",
+     "diventanoColtelli": true,
+     "coltello": {
+      "tipo": "arma da taglio leggera perfetta",
+      "siRompeConTiroDi": 1,
+      "modEsplosione": 1,
+      "valorePo": 10
+     }
+    },
+    "testo": "Disco affilato lanciato dal muro: tutti salvano (ladri +L, altri bonus armatura e scudo) o subiscono GR+2 danni; si frantuma in 1d6 pezzi usabili come coltelli perfetti fragili da 10 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-trap-gabbia-bestia",
+    "nome": "Gabbia della bestia",
+    "liv": "LMP",
+    "livMod": 2,
+    "livGR": true,
+    "livFormula": "LMP+GR+2",
+    "bersaglio": "il primo dell'ordine di marcia",
+    "fallimento": {
+     "tabella": "aberranti",
+     "sorpresa": true,
+     "senzaTesoro": true,
+     "nonBossFinale": true
+    },
+    "testo": "Se il primo PG fallisce il TS, un aberrante a caso attacca con sorpresa; senza tesoro e non può essere boss finale."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-trap-anima",
+    "nome": "Trappola dell'anima",
+    "liv": "LMP",
+    "livMod": 2,
+    "livGR": true,
+    "livFormula": "LMP+GR+2",
+    "bersaglio": "l'ultimo dell'ordine di marcia",
+    "effetto": {
+     "legatoAllaStanza": true,
+     "costoPerAreaDiDistanza": [
+      {
+       "pv": 1
+      },
+      {
+       "follia": 1
+      }
+     ],
+     "scelta": "a tua scelta",
+     "liberazione": "Benedizione",
+     "nonDisturbatoDaErrantiSeSolo": true
+    },
+    "immuni": [
+     "condannati",
+     "personaggi artificiali (costrutti, kukla, pupazzi arcani, golem)"
+    ],
+    "nonImmuni": [
+     "elementali"
+    ],
+    "testo": "L'ultimo PG salva o è legato alla stanza: perde 1 PV o prende 1 follia (a scelta) per ogni area di distanza finché una Benedizione non lo libera."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-trap-esplosione",
+    "nome": "Esplosione disintegrante",
+    "liv": "LMP",
+    "livMod": 2,
+    "livGR": true,
+    "livFormula": "LMP+GR+2",
+    "bersaglio": "un PG a caso",
+    "salvezza": {
+     "mezzuominoRipeteESceglieMigliore": true
+    },
+    "fallimento": "incenerito",
+    "sacrificioOggetto": {
+     "oggetto": "magico permanente (non pozioni né pergamene)",
+     "dannoFormula": "GR",
+     "dannoMod": 1
+    },
+    "testo": "Un PG a caso salva (mezzuomini ripetono) o è incenerito; può far disintegrare al suo posto un oggetto magico permanente, subendo GR+1 danni."
+   }
+  ],
+  "allucinazioni": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-all-circondato",
+    "nome": "Sono circondato da nemici",
+    "testo": "Il PG attacca i compagni come un BOSS di pari LIV e PV (LIV dimezzato se non ha bonus di livello) per 1d3+1 turni; la Benedizione interrompe.",
+    "durataTurni": "1d3+1",
+    "comeBoss": {
+     "livDimezzatoSeNessunBonusAttacco": true
+    },
+    "interrotta": [
+     "Benedizione"
+    ],
+    "versioneNemico": "Il nemico è un guerriero controllato dal gruppo e attacca gli altri nemici; se non ce ne sono, spreca 1 turno e l'effetto termina."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-all-dita-vermi",
+    "nome": "Le mie dita sono vermi",
+    "testo": "Il PG fissa le dita e lascia cadere ciò che ha in mano; dura un incontro (10 min) o finché non riceve una Benedizione o danni.",
+    "durata": "un incontro (10 minuti)",
+    "interrotta": [
+     "Benedizione",
+     "danni subiti"
+    ],
+    "versioneNemico": "Il nemico non attacca né si difende (attacchi e difese contro di lui riescono in automatico) finché non subisce danni; il gruppo può fuggire senza attacchi."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-all-nessun-pericolo",
+    "nome": "Non c'è pericolo qui",
+    "testo": "Il PG ignora la prossima fonte di pericolo: fallisce in automatico il TS o non si difende; l'effetto cessa dopo un evento dannoso.",
+    "terminaDopoDanno": true,
+    "versioneNemico": "Il nemico è colpito in automatico dal prossimo attacco, anche da un incantesimo senza tiro (salvo Resistenza alla magia)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-all-orrore-aldila",
+    "nome": "Orrore dall'Aldilà",
+    "testo": "Il PG riceve punti follia pari a GR.",
+    "follia": "GR",
+    "versioneNemico": "Un minore sviene, un maggiore scappa; nessun effetto su boss finali e mostri che non tirano il morale."
+   },
+   {
+    "da": 5,
+    "a": 6,
+    "id": "p-all-rivelazioni",
+    "nome": "Rivelazioni",
+    "testo": "Il PG riceve 1 follia e può scegliere una volta: annullare un'imboscata, difendersi in automatico da un attacco, riuscire in un TS, riuscire in un tiro di perquisire, oppure conoscere il contenuto della stanza prima di entrare.",
+    "follia": 1,
+    "scelte": [
+     "annulla-imboscata",
+     "difesa-automatica",
+     "salvezza-automatica",
+     "perquisire-automatico",
+     "contenuto-stanza"
+    ],
+    "versioneNemico": "Il prossimo attacco o tiro per lanciare incantesimi contro di lui fallisce in automatico, ma il suo LIV scende di 1."
+   }
+  ],
+  "eventi": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-ev-dama-grigio",
+    "nome": "Dama in grigio",
+    "azione": "missione",
+    "tabella": "missioni",
+    "testo": "Incontri la Dama in grigio, che ti affida una missione (tabella Missioni)."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-ev-venti-disperazione",
+    "nome": "Venti di disperazione",
+    "azione": "follia-o-pv",
+    "aTutti": true,
+    "scelta": [
+     {
+      "follia": 1
+     },
+     {
+      "pv": 2
+     }
+    ],
+    "testo": "Ogni PG sceglie: 1 punto follia oppure perdere 2 PV."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-ev-qualcosa-si-agita",
+    "nome": "Qualcosa si agita nell'oscurità",
+    "azione": "errante-vuote",
+    "durata": "6 stanze/aree/60 minuti",
+    "stanzeVuoteProbSu6": 3,
+    "tabella": "incontriFluviali",
+    "sorpresaProbSu6": 1,
+    "annullataDa": "Benedizione subito",
+    "testo": "Per 6 stanze/aree, ogni stanza vuota ha 3 su 1d6 di un incontro con Incontri fluviali; quei mostri hanno 1 su 1d6 di sorprendere (a meno di una Benedizione subito)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-ev-metamorfosi",
+    "nome": "Metamorfosi",
+    "azione": "ritira-forme",
+    "stanze": 5,
+    "testo": "Ritira le forme (non i contenuti) delle ultime 5 stanze visitate."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-ev-alluvione",
+    "nome": "Alluvione",
+    "azione": "alluvione",
+    "salvezze": {
+     "numero": 3,
+     "tipo": "nuotare",
+     "liv": 6
+    },
+    "dannoPerFallimento": 1,
+    "pergamene": {
+     "distruzioneProbSu6": 2
+    },
+    "archi": {
+     "modAttacco": -2,
+     "durata": "12 stanze (2 ore)"
+    },
+    "testo": "Tutti fanno 3 TS di nuotare LIV 6 (1 PV per fallimento); pergamene distrutte con 2 su 1d6; archi a -2 per 12 stanze."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-ev-terremoto",
+    "nome": "Terremoto",
+    "azione": "terremoto",
+    "salvezza": {
+     "contro": "1d3 pietre",
+     "liv": "LMP",
+     "livMod": 0
+    },
+    "dannoPerFallimento": 1,
+    "testo": "Ogni membro salva contro 1d3 pietre LMP, perdendo 1 PV per ogni fallimento."
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "id": "p-ev-nebbia-incubo",
+    "nome": "Nebbia da incubo",
+    "azione": "nebbia",
+    "salvezza": {
+     "tipo": "allucinazioni",
+     "liv": "LMP",
+     "livMod": 2,
+     "livFormula": "LMP+2",
+     "solo": "personaggi viventi"
+    },
+    "immuni": [
+     "maschere di Thar-Tizan"
+    ],
+    "fallimento": {
+     "tabella": "allucinazioni"
+    },
+    "testo": "Tutti i viventi salvano contro le allucinazioni (LMP+2; chi porta le maschere di Thar-Tizan è immune) o tirano su Allucinazioni."
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "id": "p-ev-passaggio",
+    "nome": "Il passaggio",
+    "azione": "cittadella",
+    "tabella": "cittadelle",
+    "trappolaCorridoioProbSu6": "GR",
+    "trappolaTabella": "trappole",
+    "testo": "Porta segreta verso una Cittadella a caso (tabella Cittadelle); GR su 1d6 che il corridoio sia protetto da una trappola."
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "id": "p-ev-portale",
+    "nome": "Il portale",
+    "azione": "portale",
+    "destinazioni": [
+     {
+      "n": 1,
+      "luogo": "dimensione dell'Aldilà",
+      "rimando": "Orrori dall'Aldilà"
+     },
+     {
+      "n": 2,
+      "luogo": "stanza a caso (non la prima) di un dungeon dell'Abisso o di un dungeon caotico",
+      "rimando": "Contro l'Abisso / Contro il Caos"
+     }
+    ],
+    "costoPerAttraversamento": {
+     "pv": 1
+    },
+    "testo": "Portale verso l'Aldilà o un dungeon dell'Abisso/caotico; ogni personaggio che lo attraversa perde 1 PV."
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "id": "p-ev-camera-tesoro",
+    "nome": "La camera del tesoro nascosta",
+    "azione": "camera-tesoro",
+    "tesoriMagici": 3,
+    "tabellaPerGrado": {
+     "eroico": "tesoriMagiciEroici",
+     "leggendario": "tesoriMagiciLeggendari"
+    },
+    "guardiano": {
+     "tabella": "aberranti",
+     "pvMod": 4,
+     "reazione": "morte"
+    },
+    "testo": "Camera segreta con 3 tesori magici adatti al GR, custoditi da un aberrante con PV +4 e unica reazione Combatte fino alla morte."
+   }
+  ],
+  "tesori": [
+   {
+    "da": -99,
+    "a": 0,
+    "id": "p-tes-0",
+    "azione": "cibo-vino",
+    "nome": "Razioni e vino",
+    "razioni": "1d6x10",
+    "bottiglieVino": "1d6",
+    "valoreBottigliaPo": 10,
+    "testo": "1d6x10 razioni di cibo e 1d6 bottiglie di vino pregiato (10 p.o. ciascuna)."
+   },
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-tes-1",
+    "azione": "attrezzature",
+    "nome": "Attrezzature",
+    "valoreMaxPo": 50,
+    "testo": "Attrezzature comuni fino a 50 p.o. da qualsiasi tabella di equipaggiamento."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-tes-2",
+    "azione": "oro",
+    "nome": "Rotolo di seta preziosa",
+    "dadi": "1d20+20",
+    "unaVoltaPerAvventura": true,
+    "ritiraSeGiaTrovato": true,
+    "testo": "Rotolo di seta del valore di 1d20+20 p.o.; solo 1 volta per avventura (altrimenti ritira)."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-tes-3",
+    "azione": "scelta",
+    "nome": "Oro o arma perfetta",
+    "opzioni": [
+     {
+      "azione": "oro",
+      "dadi": "10d6+10",
+      "testo": "10d6+10 p.o."
+     },
+     {
+      "azione": "arma-perfetta",
+      "testo": "1 arma perfetta a scelta"
+     }
+    ],
+    "testo": "10d6+10 p.o. oppure 1 arma perfetta a scelta."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-tes-4",
+    "azione": "gemma",
+    "nome": "Gemma",
+    "dadi": "5d6x5",
+    "testo": "1 gemma del valore di 5d6x5 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-tes-5",
+    "azione": "gioiello",
+    "nome": "Gioiello",
+    "dadi": "5d6x6",
+    "testo": "1 gioiello del valore di 5d6x6 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-tes-6",
+    "azione": "maschere",
+    "nome": "Maschere di Thar-Tizan",
+    "n": "1d6",
+    "oggetto": "p-maschera-thar-tizan",
+    "testo": "1d6 maschere di Thar-Tizan (50 p.o. ciascuna)."
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "id": "p-tes-7",
+    "azione": "scelta",
+    "nome": "Argento, frecce leggendarie o arco perfetto",
+    "opzioni": [
+     {
+      "azione": "armi-argento",
+      "n": 10,
+      "valorePo": 20,
+      "testo": "10 armi da mischia d'argento a scelta (20 p.o. ciascuna)"
+     },
+     {
+      "azione": "frecce-leggendarie",
+      "n": 5,
+      "oggetto": "p-frecce-leggendarie",
+      "valorePo": 15,
+      "testo": "5 frecce o dardi magici leggendari (+GR all'attacco, monouso, 15 p.o. ciascuno)"
+     },
+     {
+      "azione": "arco-perfetto",
+      "frecceArgento": 24,
+      "valorePo": 150,
+      "testo": "1 arco perfetto con 24 frecce a punta d'argento (150 p.o.)"
+     }
+    ],
+    "testo": "10 armi d'argento, oppure 5 frecce/dardi leggendari, oppure 1 arco perfetto con 24 frecce d'argento."
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "id": "p-tes-8",
+    "azione": "scelta",
+    "nome": "Pozioni o pergamene",
+    "opzioni": [
+     {
+      "azione": "pozioni-guarigione",
+      "n": 2,
+      "testo": "2 pozioni di guarigione"
+     },
+     {
+      "azione": "pergamene-caso",
+      "n": 2,
+      "tabellaPerGrado": {
+       "eroico": "incantesimoEroicoCaso",
+       "leggendario": "incantesimoLeggendarioCaso"
+      },
+      "testo": "2 pergamene con un incantesimo a caso adatto al GR"
+     }
+    ],
+    "testo": "2 pozioni di guarigione oppure 2 pergamene con un incantesimo a caso adatto al GR."
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "id": "p-tes-9",
+    "azione": "scelta",
+    "nome": "Informazioni segrete o tesoro magico",
+    "opzioni": [
+     {
+      "azione": "indizi",
+      "n": 2,
+      "testo": "pergamena con informazioni segrete: 2 indizi"
+     },
+     {
+      "azione": "tesoro-magico",
+      "n": 1,
+      "tabellaPerGrado": {
+       "eroico": "tesoriMagiciEroici",
+       "leggendario": "tesoriMagiciLeggendari"
+      },
+      "testo": "1 tesoro magico adatto al GR"
+     }
+    ],
+    "testo": "Pergamena con 2 indizi oppure 1 tesoro magico adatto al GR."
+   },
+   {
+    "da": 10,
+    "a": 99,
+    "id": "p-tes-10",
+    "azione": "ritira",
+    "nome": "Tira ancora",
+    "scelta": [
+     {
+      "ritiri": 2
+     },
+     {
+      "ritiri": 4,
+      "erranti": {
+       "probSu6": 4,
+       "sorpresa": true
+      }
+     }
+    ],
+    "testo": "Tira 2 volte su questa tabella, oppure 4 volte ma con 4 su 1d6 di mostri erranti che sorprendono gli eroi mentre raccolgono."
+   }
+  ],
+  "tesoriMagiciEroici": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-barca-fortunata",
+    "nome": "Barca fortunata",
+    "testo": "Barca da 6 persone con 3 cariche di Fortuna del Barcaiolo; si ricarica con 1 cristallo ronzante o 1 cubo anima; funziona solo con a bordo uno gnomo o un incantatore. Vale 120 p.o. +20 per carica."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-veste-nuotatore",
+    "nome": "Veste del nuotatore",
+    "testo": "+3 ai tiri salvezza di nuotare, cumulabile con Nuotatore eroico. Vale 80 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-balestra-ripetizione",
+    "nome": "Balestra a ripetizione",
+    "testo": "Balestra meccanica a due mani: attacchi a distanza a +1 (2 attacchi con Doppio colpo); con un 1 si perde 1 turno per ricaricare. Lama inclusa. Vale 60 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-flagellatore-profondita",
+    "nome": "Flagellatore delle profondità",
+    "testo": "Randello magico leggero: +4 contro nemici di questo volume o creature con «profondità/profondo» nel nome per maghi, druidi, veterani, gnomi, naturalisti, negromanti; +1/2L ai TS contro di loro. Vale 300 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-guanti-ombra-fulmine",
+    "nome": "Guanti dell'ombra e del fulmine",
+    "testo": "Per chi usa armature pesanti: +1 difesa, non disarmabile; 1 volta per avventura muro d'ombra (fuga) o lampo accecante (+3 alle difese contro l'accecato). Vale 200 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-cristalli-ronzanti-1d3",
+    "nome": "Cristalli ronzanti (1d3)",
+    "n": "1d3",
+    "testo": "1d3 cristalli viola che ricaricano un oggetto monouso o salvano una pergamena dalla distruzione. Valgono 90+2d10 p.o. ciascuno."
+   }
+  ],
+  "tesoriMagiciLeggendari": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-scudo-leggendario",
+    "nome": "Scudo leggendario",
+    "testo": "+GR ai tiri di difesa; indistruttibile (si lascia solo cadere). Vale 500 p.o."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-bastone-leggendario",
+    "nome": "Bastone da mago leggendario",
+    "testo": "+GR ai tiri per lanciare incantesimi; richiede la mano libera; arma contundente leggera +GR (-1 perché leggera). Vale 600 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-arma-leggendaria",
+    "nome": "Arma leggendaria",
+    "testo": "+GR ai tiri di attacco; tipo con 1d6 (1-2 arco/fionda, 3 leggera, 4-5 una mano, 6 due mani). Vale GRx100 p.o. (-50 se leggera)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-armatura-leggendaria",
+    "nome": "Armatura leggendaria",
+    "testo": "+GR ai tiri di difesa oltre al normale bonus (leggera +1, pesante +2); tipo con 1d6 (1-4 leggera, 5-6 pesante); 2 su 1d6 non metallica. Vale 500 (leggera) o 700 (pesante) p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-amuleto-leggendario",
+    "nome": "Amuleto leggendario",
+    "testo": "+GR ai tiri salvezza di chi lo indossa; inefficace con un mostro con RM 15+. Vale 700 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-abito-leggendario",
+    "nome": "Abito leggendario",
+    "testo": "+GR ai tiri per amoreggiare; non con armature; dopo una mischia 1 su 1d10 di sporcarsi e non funzionare finché non è lavato (20 minuti). Vale 400 p.o."
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "id": "p-calderone-leggendario",
+    "nome": "Calderone curativo leggendario",
+    "testo": "1 volta per avventura, durante il riposo, produce GR pozioni di guarigione da usare subito (perdono efficacia dopo 30 minuti). Vale 1.000 p.o."
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "id": "p-talismano-leggendario",
+    "nome": "Talismano leggendario",
+    "testo": "Chi lo indossa ha GR punti fortuna come il mezzuomo. Vale 900 p.o."
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "id": "p-utensili-cucina-leggendari",
+    "nome": "Utensili da cucina leggendari",
+    "testo": "Solo mezzuomo o ogre vivandiere: il mezzuomo prepara GR pasti rifocillanti in più per avventura; l'ogre raddoppia le razioni di Macellazione."
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "id": "p-cristalli-ronzanti-1d6",
+    "nome": "Cristalli ronzanti (1d6)",
+    "n": "1d6",
+    "testo": "1d6 cristalli ronzanti (vedi tesori magici eroici)."
+   }
+  ],
+  "missioni": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-mis-servitore",
+    "nome": "Riportatemi il mio servitore fuggito",
+    "testo": "Tira su Seguaci per il servitore fuggito. Per trovarlo: 2 indizi (lo trovi nella prossima stanza/area; lo catturi con Sonno o con un attacco in mischia non letale a -1) oppure 1 su 1d6 che sia prigioniero nella tana di un maggiore (da sconfiggere). Ricompensa: 1 tiro ES e 1 tesoro magico adatto al GR.",
+    "tabellaServitore": "seguaci",
+    "metodi": [
+     {
+      "indizi": 2,
+      "cattura": [
+       "Sonno",
+       "attacco in mischia non letale a -1"
+      ],
+      "modAttaccoNonLetale": -1,
+      "dove": "prossima stanza/area"
+     },
+     {
+      "probSu6": 1,
+      "dove": "tana di un mostro maggiore incontrato",
+      "richiedeSconfiggere": true
+     }
+    ],
+    "ricompensa": {
+     "tiroES": 1,
+     "tesoroMagico": true,
+     "tabellaPerGrado": {
+      "eroico": "tesoriMagiciEroici",
+      "leggendario": "tesoriMagiciLeggendari"
+     }
+    }
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-mis-nemico",
+    "nome": "Sconfiggete il mio nemico",
+    "testo": "Un maggiore a caso (a scelta tra Aberranti e Boss) viene incontrato automaticamente dopo 5 stanze/aree o subito spendendo 1 indizio. Tornato dal mandante: 1 tiro ES e 1 tesoro magico adatto al GR.",
+    "tabelleMostro": [
+     "aberranti",
+     "boss"
+    ],
+    "incontroDopoStanze": 5,
+    "incontroSubitoConIndizi": 1,
+    "ricompensa": {
+     "tiroES": 1,
+     "tesoroMagico": true,
+     "tabellaPerGrado": {
+      "eroico": "tesoriMagiciEroici",
+      "leggendario": "tesoriMagiciLeggendari"
+     }
+    }
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-mis-pagine",
+    "nome": "Trovate le pagine perdute del mio tomo",
+    "testo": "Quattro pagine sono state rubate: ogni volta che trovi una pergamena puoi dichiarare di aver recuperato una pagina. Restituite le pagine: 1 tiro ES e 1 tesoro magico adatto al GR.",
+    "pagine": 4,
+    "sostituisce": "una pergamena trovata",
+    "ricompensa": {
+     "tiroES": 1,
+     "tesoroMagico": true,
+     "tabellaPerGrado": {
+      "eroico": "tesoriMagiciEroici",
+      "leggendario": "tesoriMagiciLeggendari"
+     }
+    }
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-mis-tre-oggetti",
+    "nome": "Ho bisogno di tre oggetti speciali",
+    "testo": "Procurati 3 oggetti magici (anche pergamene), diversi da quelli già posseduti, e portali al mandante. Ricompensa: 3 indizi e 1 tiro ES.",
+    "oggettiMagici": 3,
+    "diversiDaQuelliPosseduti": true,
+    "ricompensa": {
+     "indizi": 3,
+     "tiroES": 1
+    }
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-mis-idoli",
+    "nome": "Pellegrinaggio agli idoli",
+    "testo": "Visita 3 idoli (tira su Idoli ciclopici a ogni visita) e torna a raccontare. Ricompensa a scelta: 1 tiro ES a testa per tutti i PG oppure 1 tesoro magico eroico.",
+    "idoli": 3,
+    "tabella": "idoli",
+    "ricompensa": {
+     "scelta": [
+      {
+       "tiroESPerPG": 1
+      },
+      {
+       "tesoroMagico": true,
+       "tabella": "tesoriMagiciEroici"
+      }
+     ]
+    }
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-mis-fosse",
+    "nome": "Ripulite le fosse oscure",
+    "testo": "Genera un dungeon di 1d6+3 stanze con la tabella Contenuti della stanza ed elimina tutti gli occupanti; se non ce ne sono, l'ultima stanza ha 1 aberrante con PV +50% (per eccesso). Ricompensa: 1 tiro ES e 1 pergamena con un incantesimo a scelta (base, esperto, eroico o leggendario).",
+    "stanze": "1d6+3",
+    "tabellaContenuto": "contenuto",
+    "seNessunOccupante": {
+     "ultimaStanza": "aberranti",
+     "pvPercentuale": 150,
+     "arrotondamento": "per eccesso"
+    },
+    "ricompensa": {
+     "tiroES": 1,
+     "pergamenaScelta": true
+    }
+   }
+  ],
+  "cittadelle": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-cit-fantasma",
+    "nome": "Cittadella fantasma",
+    "testo": "All'ingresso tutti ottengono 1 follia e salvano contro la magia (LMP+6; tutti +1/2L, maghi +1) o tirano su Allucinazioni. Dungeon di 3d6 stanze molto grandi (5 volte; i corridoi contano come stanze). L'ultima stanza ha un aberrante della Cittadella che è il boss finale.",
+    "stanze": "3d6",
+    "ingresso": {
+     "follia": 1,
+     "salvezza": {
+      "tipo": "magia",
+      "liv": "LMP",
+      "livMod": 6,
+      "livFormula": "LMP+6",
+      "bonus": {
+       "tutti": "1/2L",
+       "mago": 1
+      },
+      "fallimento": {
+       "tabella": "allucinazioni"
+      }
+     }
+    },
+    "dimensioneStanze": 5,
+    "corridoiContanoComeStanze": true,
+    "ultimaStanza": {
+     "tabella": "aberrantiCittadella",
+     "bossFinale": true
+    }
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-cit-affollata",
+    "nome": "Cittadella affollata",
+    "testo": "Dungeon di 4d6 stanze. Il numero di seguaci incontrati è doppio; gli abitanti sono più civilizzati: -1 ai tiri di reazione.",
+    "stanze": "4d6",
+    "moltSeguaci": 2,
+    "modReazioni": -1
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-cit-trappole",
+    "nome": "Cittadella delle trappole",
+    "testo": "10+2d6 stanze. Se il contenuto è Seguaci o Orda, 4 su 1d6 che ci sia invece una trappola (niente seguaci/orde). Ogni stanza con trappola ha 3 su 1d6 di avere un tesoro.",
+    "stanze": "10+2d6",
+    "sostituzioneSeguaciOrde": {
+     "probSu6": 4,
+     "con": "trappole"
+    },
+    "tesoroSuTrappola": {
+     "probSu6": 3,
+     "tabella": "tesori"
+    }
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-cit-prigionieri",
+    "nome": "Prigionieri della Cittadella",
+    "testo": "3d6 stanze. I cancelli si chiudono alle spalle: l'uscita segreta si trova spendendo 4 indizi (nella stanza successiva; se tutte esplorate, nella prima). Se vuoi, ogni maggiore sconfitto dà 1 indizio invece del tesoro.",
+    "stanze": "3d6",
+    "cancelliChiusi": true,
+    "uscita": {
+     "indizi": 4,
+     "dove": "stanza successiva",
+     "seTutteEsplorate": "prima stanza"
+    },
+    "maggioreDaIndizioInveceDelTesoro": true
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-cit-cose-morte",
+    "nome": "Cittadella delle cose morte",
+    "testo": "2d6+6 stanze. Nessuna cura possibile tranne le bende. Un chierico di un dio della morte, un negromante o un non-morto ottengono 1 tiro ES se visitano tutte le stanze.",
+    "stanze": "2d6+6",
+    "cureVietate": true,
+    "eccezioneCure": [
+     "bende"
+    ],
+    "bonusES": {
+     "chi": [
+      "chierico di un dio della morte",
+      "negromante",
+      "personaggio non-morto"
+     ],
+     "tiroES": 1,
+     "condizione": "visitano tutte le stanze"
+    }
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-cit-magica",
+    "nome": "Cittadella magica",
+    "testo": "3d6 stanze. La Resistenza alla magia è sospesa. In ogni stanza 1 su 1d6 (opzionale) di idolo o altare (1-3 idolo, 4-6 altare); l'idolo è una statua (1-3) o va tirato su Idoli ciclopici (4-6); l'altare ha un incantesimo eroico inciso (un mago lo impara con 1 tiro ES senza cancellarlo). L'ultima stanza ha un idolo ciclopico con un aberrante della Cittadella (PV +1, immune agli incantesimi trovati nella Cittadella); sconfitto, tira su Idoli ciclopici.",
+    "stanze": "3d6",
+    "rmSospesa": true,
+    "idoloAltare": {
+     "probSu6": 1,
+     "opzionale": true,
+     "tabella": "cittadellaMagicaIdoloAltare"
+    },
+    "altare": {
+     "incantesimo": "incantesimoEroicoCaso",
+     "tiroESPerImparare": 1,
+     "nonCancellato": true
+    },
+    "ultimaStanza": {
+     "idoloCiclopico": true,
+     "guardiano": {
+      "tabella": "aberrantiCittadella",
+      "pvMod": 1,
+      "immuneIncantesimiDellaCittadella": true
+     },
+     "dopoSconfitta": "idoli"
+    }
+   }
+  ],
+  "idoli": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-idolo-gemme",
+    "nome": "Idolo delle gemme",
+    "testo": "Si può scalare l'idolo: TS di arrampicarsi LMP+1 (furfanti +L, barbari e mezzuomini +1/2L, armatura pesante -2); con un 1 si cade e si perdono 2 PV. In testa 3 su 1d6 di trovare 1d3 gemme da 1d6x20 p.o. ciascuna; ogni gemma ha 1 su 1d6 di trappola magica LMP+1 (danni GR a TS fallito, poi altro TS o caduta con 2 danni).",
+    "salvezzaArrampicata": {
+     "liv": "LMP",
+     "livMod": 1,
+     "bonus": {
+      "furfante": "L",
+      "barbaro": "1/2L",
+      "mezzuomo": "1/2L",
+      "armaturaPesante": -2
+     },
+     "caduta": {
+      "conTiroDi": 1,
+      "pv": 2
+     }
+    },
+    "testa": {
+     "probSu6": 3,
+     "gemme": "1d3",
+     "valoreGemma": "1d6x20",
+     "trappolaProbSu6": 1,
+     "trappola": {
+      "liv": "LMP",
+      "livMod": 1,
+      "dannoFormula": "GR",
+      "dannoMod": 0,
+      "secondaSalvezzaOCade": {
+       "danno": 2
+      }
+     }
+    }
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-idolo-cammina",
+    "nome": "Idolo che cammina",
+    "testo": "L'idolo si muove per attaccarti (vedi creatura Idolo che cammina).",
+    "creatura": "p-idolo-che-cammina",
+    "azione": "combattimento"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-idolo-segreto",
+    "nome": "Idolo segreto",
+    "testo": "Il piedistallo ha una porta segreta (1 indizio o perquisire senza limiti di tentativi, ma ogni 1 attira erranti). Oltre: dungeon di 1d6+3 stanze con forme del manuale base e contenuti di questo volume; nell'ultima stanza, a scelta, 1 tesoro o 1 incantesimo eroico inciso.",
+    "portaSegreta": {
+     "indizi": 1,
+     "oPerquisire": true,
+     "erranteConTiroDi": 1
+    },
+    "dungeon": {
+     "stanze": "1d6+3",
+     "forme": "manuale base",
+     "tabellaContenuto": "contenuto"
+    },
+    "ultimaStanza": {
+     "scelta": [
+      {
+       "tabella": "tesori"
+      },
+      {
+       "tabella": "incantesimoEroicoCaso",
+       "inciso": true
+      }
+     ]
+    }
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-idolo-allucinante",
+    "nome": "Idolo allucinante",
+    "testo": "Tutti gli eroi (non artificiali né non-morti) perdono 1 PV; chi subisce danni ha 1 su 1d6 di ottenere 1 indizio dalle visioni.",
+    "dannoATutti": 1,
+    "esclusi": [
+     "artificiali",
+     "non-morti"
+    ],
+    "indizioProbSu6": 1
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-idolo-profezia",
+    "nome": "Idolo della profezia",
+    "testo": "Una dama in nero (oracolo oscuro) ti permette una domanda: sacrificando 1 tesoro magico eroico guadagni 1 indizio. Puoi anche tirare su Missioni, ma allora un PG a caso muore senza resurrezione a fine avventura se la missione non è completata. Se la attacchi, l'amoreggi o le lanci un incantesimo scompare.",
+    "oracolo": {
+     "sacrificio": "1 tesoro magico eroico",
+     "indizi": 1,
+     "missione": {
+      "tabella": "missioni",
+      "penalita": "un PG a caso muore senza resurrezione a fine avventura se la missione non è completata"
+     },
+     "scomparsaSe": [
+      "attacco",
+      "amoreggiare",
+      "incantesimo"
+     ]
+    }
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-idolo-magia",
+    "nome": "Idolo della magia",
+    "testo": "Un incantesimo eroico casuale è inciso sul bassorilievo del piedistallo; un mago lo impara con 1 tiro ES e lo copia senza cancellare l'originale.",
+    "incantesimo": "incantesimoEroicoCaso",
+    "tiroESPerImparare": 1,
+    "nonCancellato": true
+   }
+  ],
+  "pericoliFluviali": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "p-per-perdita-tempo",
+    "nome": "Perdita di tempo",
+    "azione": "tempo",
+    "minuti": 20,
+    "aree": 2,
+    "erranti": 1,
+    "testo": "Il gruppo perde 20 minuti (2 aree) su questo tratto; 1 tiro per i mostri erranti."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "p-per-barca-danneggiata",
+    "nome": "Barca danneggiata",
+    "azione": "barca-danneggiata",
+    "secondaVoltaDistrutta": true,
+    "testo": "La barca è danneggiata; se esce una seconda volta è distrutta e il gruppo prosegue a piedi."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "p-per-imboscata",
+    "nome": "Imboscata",
+    "azione": "imboscata",
+    "tabella": "incontriFluviali",
+    "sorpresa": true,
+    "testo": "Creature fluviali attaccano a sorpresa (tabella Incontri fluviali)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "p-per-fantasmi",
+    "nome": "Fantasmi del fiume",
+    "azione": "fantasmi",
+    "salvezza": {
+     "tipo": "paura",
+     "liv": "LMP",
+     "livMod": 0,
+     "bonus": {
+      "salvaComeChierico": "L",
+      "altri": "1/2L"
+     },
+     "immuni": [
+      "paladino",
+      "cavaliere-errante",
+      "non-morti",
+      "negromante"
+     ]
+    },
+    "fallimento": {
+     "scelta": [
+      {
+       "follia": 1
+      },
+      {
+       "pv": 2
+      }
+     ]
+    },
+    "testo": "Tutti salvano contro paura LMP (chi salva come i chierici +L, altri +1/2L; paladini, cavalieri erranti, non-morti e negromanti immuni) o prendono 1 follia o perdono 2 PV (a scelta)."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "p-per-teletrasporto",
+    "nome": "Teletrasporto",
+    "azione": "teletrasporto",
+    "destinazione": "altro tratto di fiume sulla mappa (a caso se più)",
+    "salvezzaBarcaiolo": {
+     "liv": 8,
+     "bonus": {
+      "barcaiolo": "L"
+     },
+     "fallimento": "barca-danneggiata"
+    },
+    "testo": "Se esiste un altro tratto sulla mappa la barca vi è teletrasportata; il barcaiolo salva L8 (+L) o la barca è danneggiata."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "p-per-caratteristica",
+    "nome": "Caratteristica speciale",
+    "azione": "caratteristica-scelta",
+    "scelta": [
+     "ingresso Cittadella",
+     "ponte",
+     "tumulo"
+    ],
+    "ignorabile": true,
+    "testo": "Anche se non è sulla mappa, il tratto ha a scelta un ingresso di Cittadella, un ponte o un tumulo (o si ignora)."
+   }
+  ],
+  "incantesimoEroicoCaso": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Benedizione di Massa",
+    "id": "p-benedizione-massa"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Fortuna del Barcaiolo",
+    "id": "p-fortuna-barcaiolo"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Fuoco della Verità",
+    "id": "p-fuoco-verita"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Invisibilità di Massa",
+    "id": "p-invisibilita-massa"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Pugno Arcano",
+    "id": "p-pugno-arcano"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Teletrasportare il Nemico",
+    "id": "p-teletrasportare-nemico"
+   }
+  ],
+  "incantesimoLeggendarioCaso": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Contattare un Dio Dimenticato",
+    "id": "p-contattare-dio"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Distrazioni Illusorie",
+    "id": "p-distrazioni-illusorie"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Distruggi Nemico Invincibile",
+    "id": "p-distruggi-invincibile"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Fornace dell'Amuleto",
+    "id": "p-fornace-amuleto"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Fulmine Accecante",
+    "id": "p-fulmine-accecante"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Tempesta Arcana",
+    "id": "p-tempesta-arcana"
+   }
+  ],
+  "naturaFiume": [
+   {
+    "da": 1,
+    "a": 1,
+    "fiume": "p-rivo-evocazione",
+    "nome": "Rivo dell'Evocazione"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "fiume": "p-rivo-fiamma",
+    "nome": "Rivo della Fiamma"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "fiume": "p-rivo-lacrime",
+    "nome": "Rivo delle Lacrime"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "fiume": "p-rivo-morte",
+    "nome": "Rivo della Morte"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "fiume": "p-rivo-oblio",
+    "nome": "Rivo dell'Oblio"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "fiume": "p-rivo-serpe",
+    "nome": "Rivo Serpe"
+   }
+  ],
+  "caratteristicaTratto": [
+   {
+    "da": 1,
+    "a": 4,
+    "azione": "niente",
+    "testo": "Nulla di notevole."
+   },
+   {
+    "da": 5,
+    "a": 6,
+    "azione": "caratteristica",
+    "tabella": "tipoCaratteristica",
+    "testo": "Il tratto ha una caratteristica insolita: tira ancora."
+   }
+  ],
+  "tipoCaratteristica": [
+   {
+    "da": 1,
+    "a": 2,
+    "codice": "P",
+    "nome": "Ponte"
+   },
+   {
+    "da": 3,
+    "a": 4,
+    "codice": "R",
+    "nome": "Rovine"
+   },
+   {
+    "da": 5,
+    "a": 6,
+    "codice": "T",
+    "nome": "Tumulo"
+   }
+  ],
+  "barcaiolo": [
+   {
+    "da": 1,
+    "a": 2,
+    "creatura": "p-barcaiolo-umano",
+    "nome": "Barcaiolo umano"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "creatura": "p-traghettatore-scheletrico",
+    "nome": "Traghettatore non-morto scheletrico"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "creatura": "p-barcaiolo-automa",
+    "nome": "Barcaiolo automa metallico"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "creatura": "p-barcaiolo-elfo-oscuro",
+    "nome": "Barcaiolo elfo oscuro",
+    "rifiutaSeGruppoHaAltriElfi": true
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "creatura": "p-barcaiolo-hobgoblin",
+    "nome": "Barcaiolo hobgoblin delle profondità"
+   }
+  ],
+  "armaLeggendariaTipo": [
+   {
+    "da": 1,
+    "a": 2,
+    "tipo": "arco o fionda (a scelta)"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "tipo": "arma leggera (contundente o da taglio, a scelta)"
+   },
+   {
+    "da": 4,
+    "a": 5,
+    "tipo": "arma a una mano (contundente o da taglio, a scelta)"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "tipo": "arma a due mani (contundente o da taglio, a scelta)"
+   }
+  ],
+  "armaturaLeggendariaTipo": [
+   {
+    "da": 1,
+    "a": 4,
+    "tipo": "armatura leggera",
+    "prezzo": 500
+   },
+   {
+    "da": 5,
+    "a": 6,
+    "tipo": "armatura pesante",
+    "prezzo": 700
+   }
+  ],
+  "aberranteOrigine": [
+   {
+    "da": 1,
+    "a": 3,
+    "tabella": "aberranti"
+   },
+   {
+    "da": 4,
+    "a": 6,
+    "tabella": "aberrantiCittadella"
+   }
+  ],
+  "cittadellaMagicaIdoloAltare": [
+   {
+    "da": 1,
+    "a": 3,
+    "tipo": "idolo",
+    "poi": "idoloStatua"
+   },
+   {
+    "da": 4,
+    "a": 6,
+    "tipo": "altare",
+    "testo": "Incantesimo eroico casuale inciso sul piedistallo."
+   }
+  ],
+  "idoloStatua": [
+   {
+    "da": 1,
+    "a": 3,
+    "azione": "niente",
+    "testo": "È solo una statua."
+   },
+   {
+    "da": 4,
+    "a": 6,
+    "azione": "tabella",
+    "tabella": "idoli"
+   }
+  ]
+ },
+ "abilita": [
+  {
+   "id": "p-add-balistico",
+   "nome": "Addestramento balistico",
+   "grado": "eroico",
+   "pagina": 12,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "nessun bonus di livello agli attacchi dato dalla classe"
+   ],
+   "effetto": "+1/3L (per difetto) ai tiri di attacco con armi a distanza.",
+   "bonusAttaccoFraz": "1/3L",
+   "applicaA": "distanza",
+   "soloSenzaBonusAttaccoClasse": true
+  },
+  {
+   "id": "p-add-marziale",
+   "nome": "Addestramento marziale",
+   "grado": "eroico",
+   "pagina": 12,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "nessun bonus di livello agli attacchi dato dalla classe"
+   ],
+   "effetto": "+1/3L (per difetto) ai tiri di attacco con armi da mischia.",
+   "bonusAttaccoFraz": "1/3L",
+   "applicaA": "mischia",
+   "soloSenzaBonusAttaccoClasse": true
+  },
+  {
+   "id": "p-add-mirato",
+   "nome": "Addestramento mirato",
+   "grado": "eroico",
+   "pagina": 12,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+2 ai tiri ES per imparare nuove abilità (non per salire di livello).",
+   "bonusES": {
+    "abilita": 2,
+    "livello": 0
+   }
+  },
+  {
+   "id": "p-affondo",
+   "nome": "Affondo",
+   "grado": "eroico",
+   "pagina": 12,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Un attacco in mischia a segno con numero pari sul dado infligge 1 PV aggiuntivo.",
+   "condizione": "attacco in mischia a segno con risultato del dado pari",
+   "ferite": 1,
+   "applicaA": "mischia"
+  },
+  {
+   "id": "p-aiuto-incantesimi",
+   "nome": "Aiuto per lanciare incantesimi",
+   "grado": "eroico",
+   "pagina": 12,
+   "livelloMin": 10,
+   "classi": [
+    "mago"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Spendendo 1 turno il mago dà +3 al prossimo tiro per lanciare incantesimi di un alleato (anche non mago, anche da pergamena/oggetto), nello stesso turno.",
+   "costoTurni": 1,
+   "modLancio": 3,
+   "bersaglio": "un alleato incantatore"
+  },
+  {
+   "id": "p-ambizione",
+   "nome": "Ambizione",
+   "grado": "eroico",
+   "pagina": 12,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+3 ai tiri ES per salire di livello (non per le abilità).",
+   "bonusES": {
+    "livello": 3,
+    "abilita": 0
+   }
+  },
+  {
+   "id": "p-atterraggio-felino",
+   "nome": "Atterraggio felino",
+   "grado": "eroico",
+   "pagina": 13,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "nessuna armatura o armatura non pesante (lo scudo è ammesso)"
+   ],
+   "effetto": "Riduce i danni da caduta di 1d3 PV (fino a 0), solo la parte da caduta.",
+   "riduzioneCaduta": "1d3",
+   "armaturaPesanteVietata": true
+  },
+  {
+   "id": "p-banchetto-eroe",
+   "nome": "Banchetto dell'eroe",
+   "grado": "eroico",
+   "pagina": 13,
+   "livelloMin": 10,
+   "classi": [
+    "mezzuomo"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Il pasto rifocillante usa il doppio delle razioni e cura 2 PV a ciascuno; richiede 1 ora (6 stanze) ma 1 solo tiro per gli erranti.",
+   "curaPasto": 2,
+   "moltRazioni": 2,
+   "durata": "1 ora/6 stanze",
+   "tiriErranti": 1
+  },
+  {
+   "id": "p-barcaiolo",
+   "nome": "Barcaiolo",
+   "grado": "eroico",
+   "pagina": 13,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+3 ai tiri di navigazione; sui Pericoli fluviali si tira 2 volte (3 con due o più barcaioli) e si sceglie.",
+   "modNavigazione": 3,
+   "ripetizioniPericoliFluviali": 2,
+   "ripetizioniPericoliFluvialiConDueOPiu": 3
+  },
+  {
+   "id": "p-benedizione-condivisa",
+   "nome": "Benedizione condivisa",
+   "grado": "eroico",
+   "pagina": 13,
+   "livelloMin": 10,
+   "classi": [
+    "chierico"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "La Benedizione si applica a tutti i membri e agli alleati; contro RM il tiro è separato per ciascuno.",
+   "bersagli": "tutto il gruppo e gli alleati",
+   "tiroSeparatoConRM": true
+  },
+  {
+   "id": "p-canzone-elidra",
+   "nome": "Canzone di Elidra",
+   "grado": "eroico",
+   "pagina": 14,
+   "livelloMin": 10,
+   "classi": [
+    "elfo",
+    "elfo-fuoco",
+    "bardo",
+    "trovatore"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Una volta per avventura/capitolo cura 1d3 PV a sé e agli alleati (tiro separato); chi è toccato dal caos o dalla follia invece rimuove 1 effetto duraturo o 1 punto follia; immunità alla paralisi dei ghoul per 6 stanze/aree/1 ora.",
+   "usi": "1 per partita/avventura o capitolo",
+   "cura": "1d3",
+   "rimuoviEffettiCaos": 1,
+   "rimuoviFollia": 1,
+   "immunitaParalisiGhoul": "6 stanze/6 aree/1 ora",
+   "nota": "Anche altre classi musicali."
+  },
+  {
+   "id": "p-carneficina",
+   "nome": "Carneficina",
+   "grado": "eroico",
+   "pagina": 14,
+   "livelloMin": 10,
+   "classi": [
+    "barbaro"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "1 volta per combattimento, se il gruppo non è sorpreso, 1 turno d'attacco distrugge in automatico 1d6 minori di LIV pari o inferiore a metà livello del barbaro; contro le orde 1d6 danni.",
+   "usi": "1 per combattimento",
+   "condizione": "gruppo non sorpreso",
+   "distruggeMinori": "1d6",
+   "livMaxMinori": "1/2L",
+   "dannoOrda": "1d6"
+  },
+  {
+   "id": "p-circolo-protezione",
+   "nome": "Circolo di protezione",
+   "grado": "eroico",
+   "pagina": 14,
+   "livelloMin": 10,
+   "classi": [
+    "chierico"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "1 volta per incontro un PG a scelta (anche il chierico) ha +2 a tutti i tiri di difesa; con un 1 in difesa il circolo cessa; richiede 1 turno, 5 p.o. di erbe sacre ed è soggetto a RM.",
+   "usi": "1 per incontro",
+   "modDifesa": 2,
+   "costoTurni": 1,
+   "costoPo": 5,
+   "cessaConTiroDi": 1,
+   "soggettoRM": true
+  },
+  {
+   "id": "p-colpo-maestro",
+   "nome": "Colpo da maestro",
+   "grado": "eroico",
+   "pagina": 14,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Con una singola arma scelta la probabilità di esplosione aumenta di 1 (cumulabile con l'arma perfetta).",
+   "modEsplosione": 1,
+   "cumulabileConArmaPerfetta": true
+  },
+  {
+   "id": "p-colpo-scudo-eroico",
+   "nome": "Colpo di scudo eroico",
+   "grado": "eroico",
+   "pagina": 15,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "Colpo di scudo (Contro l'Abisso)",
+    "scudo"
+   ],
+   "effetto": "Un tiro di difesa esplosivo conta anche come attacco con arma contundente a una mano (non cumulabile con Colpo di scudo); serve uno scudo; lo scudo chiodato dà +1 (6 p.o.).",
+   "condizione": "risultato esplosivo nel tiro di difesa",
+   "attaccoGratuito": true,
+   "tipoArma": "contundente",
+   "bonusScudoChiodato": 1,
+   "costoScudoChiodatoPo": 6,
+   "rimando": "Contro l'Abisso p.21",
+   "richiede": "colpo-di-scudo"
+  },
+  {
+   "id": "p-comando-animale",
+   "nome": "Comando animale",
+   "grado": "eroico",
+   "pagina": 15,
+   "livelloMin": 10,
+   "classi": [
+    "signore-bestie"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "+2 ai tiri di attacco e di difesa di un compagno animale (scelto a ogni turno se più d'uno).",
+   "modAttaccoCompagno": 2,
+   "modDifesaCompagno": 2
+  },
+  {
+   "id": "p-conservare-cadavere",
+   "nome": "Conservare il cadavere",
+   "grado": "eroico",
+   "pagina": 15,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Tratta un cadavere perché non marcisca e possa essere resuscitato anche molto tempo dopo.",
+   "rituale": true
+  },
+  {
+   "id": "p-conservazione-yogica",
+   "nome": "Conservazione yogica",
+   "grado": "eroico",
+   "pagina": 15,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "non demoni",
+    "non rigeneranti",
+    "non non-morti, artificiali, elementali o meccanici"
+   ],
+   "effetto": "Quando il PG muore il corpo non marcisce e può essere resuscitato in qualsiasi momento (non se il corpo è distrutto); non per demoni, rigeneranti e non viventi."
+  },
+  {
+   "id": "p-copiare-grimorio",
+   "nome": "Copiare il grimorio",
+   "grado": "eroico",
+   "pagina": 15,
+   "livelloMin": 10,
+   "classi": [
+    "mago"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Se muore un altro mago e prendi il suo grimorio, copi gli incantesimi che non conosci, fuori dal combattimento: 1 ora ciascuno (30 minuti per base ed esperti).",
+   "tempoPerIncantesimoMinuti": 60,
+   "tempoBaseEsperti": 30
+  },
+  {
+   "id": "p-coraggio-eroico",
+   "nome": "Coraggio eroico",
+   "grado": "eroico",
+   "pagina": 16,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+4 ai tiri salvezza contro la paura, cumulativo con simili.",
+   "modTSPaura": 4
+  },
+  {
+   "id": "p-doppio-colpo",
+   "nome": "Doppio colpo",
+   "grado": "eroico",
+   "pagina": 16,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "2 attacchi a distanza per turno, sullo stesso bersaglio o su due; non per armi che si ricaricano, armi da fuoco, balestre (sì archi, fionde, balestre a ripetizione); nessun vantaggio a chi ha già il doppio attacco.",
+   "attacchiPerTurno": 2,
+   "applicaA": "distanza",
+   "escluse": [
+    "armi magiche a ricarica",
+    "armi da fuoco",
+    "balestre"
+   ]
+  },
+  {
+   "id": "p-fendente",
+   "nome": "Fendente",
+   "grado": "eroico",
+   "pagina": 16,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Gli attacchi in mischia con arma da taglio a due mani infliggono 1 PV aggiuntivo; contro minori da 1 PV uccidi un nemico in più.",
+   "ferite": 1,
+   "minoriExtra": 1,
+   "tipoArma": "taglio a due mani"
+  },
+  {
+   "id": "p-ferita-profonda",
+   "nome": "Ferita profonda",
+   "grado": "eroico",
+   "pagina": 16,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "1 volta per combattimento infligge 1 PV aggiuntivo con un'arma leggera, solo se l'attacco va a segno.",
+   "usi": "1 per combattimento",
+   "ferite": 1,
+   "tipoArma": "leggera",
+   "soloSeColpisce": true
+  },
+  {
+   "id": "p-formazione-druidica",
+   "nome": "Formazione druidica",
+   "grado": "eroico",
+   "pagina": 16,
+   "livelloMin": 10,
+   "classi": [
+    "mago"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Il mago può imparare incantesimi druidici dalle pergamene."
+  },
+  {
+   "id": "p-forza-arcana",
+   "nome": "Forza arcana",
+   "grado": "eroico",
+   "pagina": 16,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "1 volta per avventura +1d3 danni a un singolo incantesimo (anche da pergamena/oggetto); non gli incantesimi senza danni in PV; non costa azione.",
+   "usi": "1 per avventura",
+   "dannoExtra": "1d3",
+   "nonCostaAzione": true
+  },
+  {
+   "id": "p-interrompere-carica",
+   "nome": "Interrompere la carica",
+   "grado": "eroico",
+   "pagina": 17,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Annulla il bonus di LIV di una carica o del primo attacco/turno; se colpisci col primo attacco subito dopo infliggi danni doppi; devi essere in mischia con chi carica.",
+   "dannoMolt": 2,
+   "annullaBonusCarica": true
+  },
+  {
+   "id": "p-ira-berserker",
+   "nome": "Ira del berserker",
+   "grado": "eroico",
+   "pagina": 17,
+   "livelloMin": 10,
+   "classi": [
+    "barbaro"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Un uso gratuito in più di attacco furioso per ogni incontro di combattimento (non accumulabile).",
+   "furieExtra": 1,
+   "nonAccumulabile": true
+  },
+  {
+   "id": "p-maestro-coltello",
+   "nome": "Maestro di coltello",
+   "grado": "eroico",
+   "pagina": 17,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Ignora il -1 delle armi da taglio leggere; con coltello/pugnale può aggiungere +1/2L ai tiri d'attacco esplosivi invece di ritirare il dado.",
+   "modArmiLeggere": 0,
+   "bonusEsplosioneFraz": "1/2L",
+   "armi": [
+    "coltello",
+    "pugnale"
+   ]
+  },
+  {
+   "id": "p-magia-esplosiva",
+   "nome": "Magia esplosiva",
+   "grado": "eroico",
+   "pagina": 17,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Tutti i tiri per lanciare incantesimi esplodono con 1 punto in meno (anche per non incantatori con pergamene/oggetti).",
+   "modEsplosioneIncantesimi": 1
+  },
+  {
+   "id": "p-memoria-prodigiosa",
+   "nome": "Memoria prodigiosa",
+   "grado": "eroico",
+   "pagina": 17,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Conta come 2 livelli superiori per il numero di incantesimi memorizzabili.",
+   "modLivelloIncantesimi": 2
+  },
+  {
+   "id": "p-mente-stabile",
+   "nome": "Mente stabile",
+   "grado": "eroico",
+   "pagina": 18,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Conta come 3 livelli superiori per le regole sulla follia; tra un'avventura e l'altra guarisce 2 punti follia.",
+   "modLivelloFollia": 3,
+   "guarigioneFolliaTraAvventure": 2
+  },
+  {
+   "id": "p-mira-arcana",
+   "nome": "Mira arcana",
+   "grado": "eroico",
+   "pagina": 18,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+3 agli attacchi a distanza con incantesimi che infliggono danni (anche con RM); non per incantesimi senza danni o senza tiro.",
+   "modAttaccoIncantesimi": 3,
+   "soloIncantesimiDanni": true
+  },
+  {
+   "id": "p-nuotatore-eroico",
+   "nome": "Nuotatore eroico",
+   "grado": "eroico",
+   "pagina": 18,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+3 a tutti i tiri di nuotare.",
+   "modNuotare": 3
+  },
+  {
+   "id": "p-postura-aggressiva",
+   "nome": "Postura aggressiva",
+   "grado": "eroico",
+   "pagina": 18,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Ci si impone una penalità (fino al proprio bonus di difesa totale) a un tiro di difesa; nel turno successivo il primo attacco riceve la metà (per difetto) del valore. Cumulabile, usabile quante volte si vuole.",
+   "penalitaDifesaMax": "bonus di difesa totale",
+   "bonusAttaccoFraz": "1/2 penalità",
+   "primoAttaccoSuccessivo": true
+  },
+  {
+   "id": "p-postura-difensiva",
+   "nome": "Postura difensiva",
+   "grado": "eroico",
+   "pagina": 19,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "1 volta per incontro, in mischia, sottrae da un attacco fino a metà livello e lo aggiunge a un singolo tiro di difesa del turno successivo (almeno un attacco nemico deve essere diretto al PG).",
+   "usi": "1 per incontro",
+   "sottraeMax": "1/2L",
+   "bonusDifesaUnSoloAttacco": true
+  },
+  {
+   "id": "p-precisione-eroica",
+   "nome": "Precisione eroica",
+   "grado": "eroico",
+   "pagina": 19,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "1 volta per incontro +3 a un attacco a distanza su bersaglio singolo; contro un maggiore può infliggere più danni; contro orde/minori uccide una sola creatura.",
+   "usi": "1 per incontro",
+   "modAttaccoDistanza": 3,
+   "bersaglio": "singolo"
+  },
+  {
+   "id": "p-protetto-destino",
+   "nome": "Protetto dal destino",
+   "grado": "eroico",
+   "pagina": 19,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+2 ai tiri salvezza in cui fallire significa danni o condizioni (veleno, sonno, paralisi, pietra, disarmo...).",
+   "modTSDanniCondizioni": 2
+  },
+  {
+   "id": "p-protetto-forze-divine",
+   "nome": "Protetto dalle forze divine",
+   "grado": "eroico",
+   "pagina": 19,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+2 a tutti i TS; con Protetto dal destino +4 ai TS contro danni/condizioni e +2 agli altri; con Coraggio eroico +6 contro la paura.",
+   "modTSTutti": 2,
+   "conDestino": {
+    "modTSDanniCondizioni": 4,
+    "altri": 2
+   },
+   "conCoraggioEroico": {
+    "modTSPaura": 6
+   }
+  },
+  {
+   "id": "p-pugnalata-mortale",
+   "nome": "Pugnalata mortale",
+   "grado": "eroico",
+   "pagina": 20,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "In un corridoio stretto con un'arma da taglio leggera il PG aggiunge +L al primo attacco; chi ha addestramento militare sceglie tra il suo bonus e questo (non cumulabili).",
+   "modPrimoAttaccoFormula": "L",
+   "condizione": "corridoio stretto con arma da taglio leggera",
+   "nonCumulabileConBonusClasse": true
+  },
+  {
+   "id": "p-riposo-eroe",
+   "nome": "Riposo dell'eroe",
+   "grado": "eroico",
+   "pagina": 20,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "Quando il gruppo riposa (o durante un pasto rifocillante/Banchetto dell'eroe) recupera metà dei PV totali (per difetto); 1 volta per avventura/capitolo.",
+   "usi": "1 per avventura o capitolo",
+   "curaFrazionePVTotali": "1/2"
+  },
+  {
+   "id": "p-ripristino-fisico",
+   "nome": "Ripristino fisico",
+   "grado": "eroico",
+   "pagina": 21,
+   "livelloMin": 10,
+   "classi": [
+    "mago",
+    "chierico",
+    "druido",
+    "elfo"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "Benedizione o Guarigione possono ridare una parte del corpo persa o guarire cicatrici/mutazioni del caos o rimuovere 1 effetto duraturo di «Toccato dal caos» (1 per PG per avventura); ogni uso sacrifica un pacchetto di ingredienti rari (50 p.o.).",
+   "costoPo": 50,
+   "costo": "1 pacchetto di ingredienti rari",
+   "rimuoviEffettiCaosPerPGPerAvventura": 1,
+   "nota": "Per incantatori e chierici in genere."
+  },
+  {
+   "id": "p-ripristino-mentale",
+   "nome": "Ripristino mentale",
+   "grado": "eroico",
+   "pagina": 21,
+   "livelloMin": 10,
+   "classi": [
+    "mago",
+    "elfo",
+    "druido"
+   ],
+   "qualsiasiClasse": false,
+   "requisiti": [],
+   "effetto": "1 volta per avventura, in 10 minuti (1 tiro erranti), restituisce lo spazio mentale di 1 incantesimo a un membro del gruppo (non a sé).",
+   "usi": "1 per avventura",
+   "durataMinuti": 10,
+   "tiriErranti": 1,
+   "nonSuSeStesso": true,
+   "nota": "Per gli incantatori in genere."
+  },
+  {
+   "id": "p-risposta",
+   "nome": "Risposta",
+   "grado": "eroico",
+   "pagina": 21,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "1 volta per incontro il PG segna i danni subiti da un singolo maggiore; su un attacco in mischia contro di lui ottiene un bonus pari al doppio dei danni subiti.",
+   "usi": "1 per incontro",
+   "moltDanniSubiti": 2
+  },
+  {
+   "id": "p-scalatore-eroico",
+   "nome": "Scalatore eroico",
+   "grado": "eroico",
+   "pagina": 21,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+3 ai tiri salvezza per arrampicarsi.",
+   "modArrampicata": 3
+  },
+  {
+   "id": "p-schivata-eroica",
+   "nome": "Schivata eroica",
+   "grado": "eroico",
+   "pagina": 21,
+   "livelloMin": 10,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [],
+   "effetto": "+3 ai tiri di difesa (cumulativo); non per classi che aggiungono +1/2L o +L alla difesa.",
+   "modDifesa": 3,
+   "nonPerClassiConBonusDifesaLivello": true
+  },
+  {
+   "id": "p-add-balistico-l",
+   "nome": "Addestramento balistico leggendario",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-add-balistico"
+   ],
+   "richiede": "p-add-balistico",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Addestramento balistico ma +1/2L invece di +1/3L.",
+   "bonusAttaccoFraz": "1/2L",
+   "applicaA": "distanza"
+  },
+  {
+   "id": "p-add-marziale-l",
+   "nome": "Addestramento marziale leggendario",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-add-marziale"
+   ],
+   "richiede": "p-add-marziale",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Addestramento marziale ma +1/2L invece di +1/3L.",
+   "bonusAttaccoFraz": "1/2L",
+   "applicaA": "mischia"
+  },
+  {
+   "id": "p-add-mirato-l",
+   "nome": "Addestramento mirato leggendario",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-add-mirato"
+   ],
+   "richiede": "p-add-mirato",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Addestramento mirato ma +5 invece di +2.",
+   "bonusES": {
+    "abilita": 5,
+    "livello": 0
+   }
+  },
+  {
+   "id": "p-affondo-l",
+   "nome": "Affondo leggendario",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-affondo"
+   ],
+   "richiede": "p-affondo",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Affondo ma 2 PV aggiuntivi con risultato pari.",
+   "ferite": 2
+  },
+  {
+   "id": "p-ambizione-l",
+   "nome": "Ambizione leggendaria",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-ambizione"
+   ],
+   "richiede": "p-ambizione",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Ambizione ma +5 invece di +3.",
+   "bonusES": {
+    "livello": 5,
+    "abilita": 0
+   }
+  },
+  {
+   "id": "p-canzone-elidra-l",
+   "nome": "Canzone di Elidra leggendaria",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-canzone-elidra"
+   ],
+   "richiede": "p-canzone-elidra",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Canzone di Elidra ma cura 1d6 PV, rimuove 2 effetti duraturi o 2 punti follia, e l'immunità alla paralisi dei ghoul dura fino a fine avventura.",
+   "cura": "1d6",
+   "rimuoviEffettiCaos": 2,
+   "rimuoviFollia": 2,
+   "immunitaParalisiGhoul": "fino alla fine dell'avventura",
+   "classiAbilitaBase": [
+    "elfo",
+    "elfo-fuoco",
+    "bardo",
+    "trovatore"
+   ]
+  },
+  {
+   "id": "p-carneficina-l",
+   "nome": "Carneficina leggendaria",
+   "grado": "leggendario",
+   "pagina": 22,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-carneficina"
+   ],
+   "richiede": "p-carneficina",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Carneficina ma distrugge automaticamente 1d8 minori invece di 1d6.",
+   "distruggeMinori": "1d8",
+   "nota": "Il manuale cita solo i minori; per le orde si assume 1d8 (vedi ambiguita)."
+  },
+  {
+   "id": "p-circolo-protezione-l",
+   "nome": "Circolo di protezione leggendario",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-circolo-protezione"
+   ],
+   "richiede": "p-circolo-protezione",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Circolo di protezione ma +4 invece di +2.",
+   "modDifesa": 4
+  },
+  {
+   "id": "p-comando-animale-l",
+   "nome": "Comando animale leggendario",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-comando-animale"
+   ],
+   "richiede": "p-comando-animale",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Comando animale ma +4 invece di +2.",
+   "modAttaccoCompagno": 4,
+   "modDifesaCompagno": 4
+  },
+  {
+   "id": "p-coraggio-l",
+   "nome": "Coraggio leggendario",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-coraggio-eroico"
+   ],
+   "richiede": "p-coraggio-eroico",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Coraggio eroico ma +6 invece di +4.",
+   "modTSPaura": 6
+  },
+  {
+   "id": "p-fendente-l",
+   "nome": "Fendente leggendario",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-fendente"
+   ],
+   "richiede": "p-fendente",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Fendente ma 2 PV aggiuntivi / 3 minori invece di 1 PV / 2 minori.",
+   "ferite": 2,
+   "minoriExtra": 2
+  },
+  {
+   "id": "p-ferita-profonda-l",
+   "nome": "Ferita profonda leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-ferita-profonda"
+   ],
+   "richiede": "p-ferita-profonda",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Ferita profonda ma 2 PV aggiuntivi con arma leggera.",
+   "ferite": 2
+  },
+  {
+   "id": "p-ira-berserker-l",
+   "nome": "Ira del berserker leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-ira-berserker"
+   ],
+   "richiede": "p-ira-berserker",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Ira del berserker ma 2 usi gratuiti in più di attacco furioso.",
+   "furieExtra": 2
+  },
+  {
+   "id": "p-memoria-l",
+   "nome": "Memoria leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-memoria-prodigiosa"
+   ],
+   "richiede": "p-memoria-prodigiosa",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Memoria prodigiosa ma conta come 4 livelli superiori.",
+   "modLivelloIncantesimi": 4
+  },
+  {
+   "id": "p-mente-stabile-l",
+   "nome": "Mente stabile leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-mente-stabile"
+   ],
+   "richiede": "p-mente-stabile",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Mente stabile ma 6 livelli superiori per la follia e guarisce 3 punti follia tra le avventure.",
+   "modLivelloFollia": 6,
+   "guarigioneFolliaTraAvventure": 3
+  },
+  {
+   "id": "p-mira-arcana-l",
+   "nome": "Mira arcana leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-mira-arcana"
+   ],
+   "richiede": "p-mira-arcana",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Mira arcana ma +5 invece di +3.",
+   "modAttaccoIncantesimi": 5
+  },
+  {
+   "id": "p-nuotatore-l",
+   "nome": "Nuotatore leggendario",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-nuotatore-eroico"
+   ],
+   "richiede": "p-nuotatore-eroico",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Nuotatore eroico ma +5 invece di +3.",
+   "modNuotare": 5
+  },
+  {
+   "id": "p-precisione-l",
+   "nome": "Precisione leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-precisione-eroica"
+   ],
+   "richiede": "p-precisione-eroica",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Precisione eroica ma +5 invece di +3.",
+   "modAttaccoDistanza": 5
+  },
+  {
+   "id": "p-risposta-l",
+   "nome": "Risposta leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-risposta"
+   ],
+   "richiede": "p-risposta",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Risposta ma bonus pari al triplo dei danni subiti.",
+   "moltDanniSubiti": 3
+  },
+  {
+   "id": "p-scalatore-l",
+   "nome": "Scalatore leggendario",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-scalatore-eroico"
+   ],
+   "richiede": "p-scalatore-eroico",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Scalatore eroico ma +5 invece di +3.",
+   "modArrampicata": 5
+  },
+  {
+   "id": "p-schivata-l",
+   "nome": "Schivata leggendaria",
+   "grado": "leggendario",
+   "pagina": 23,
+   "livelloMin": 15,
+   "classi": [],
+   "qualsiasiClasse": true,
+   "requisiti": [
+    "p-schivata-eroica"
+   ],
+   "richiede": "p-schivata-eroica",
+   "nonCumulabileConEroica": true,
+   "effetto": "Come Schivata eroica ma +5 invece di +3.",
+   "modDifesa": 5
+  }
+ ],
+ "incantesimiRegole": {
+  "classi": [
+   "mago"
+  ],
+  "classiEccezioni": "solo se la descrizione dell'incantesimo lo dice (es. druidi, elfi, gnomi, piromanti)",
+  "acquisizione": {
+   "da": [
+    "pergamena",
+    "iscrizione",
+    "insegnante (missioni eroiche)"
+   ],
+   "tiroES": true,
+   "fallimento": "l'incantatore non impara e pergamena/iscrizione è distrutta o inutilizzabile",
+   "pergamenaCancellataDopoLoStudio": true,
+   "iscrizioneNonCancellata": true,
+   "leggendariMaiInsegnati": true,
+   "leggendariSuStatueEGolem": "si studiano solo dopo aver sconfitto la creatura"
+  },
+  "costoMemoria": {
+   "eroico": 2,
+   "leggendario": 3
+  },
+  "nonMemorizzabileAlVoloSeMemoriaPiena": true,
+  "esempi": {
+   "mago10Eroici": {
+    "livello": 10,
+    "incantesimi": 12,
+    "eroiciMax": 6
+   },
+   "mago16": {
+    "livello": 16,
+    "incantesimi": 18,
+    "leggendariMax": 6
+   }
+  },
+  "tabellaTrovati": "pergamene (tabelle degli incantesimi a caso) e iscrizioni (Cittadelle, eventi, idoli)",
+  "pagina": 24
+ },
+ "incantesimi": [
+  {
+   "id": "p-benedizione-massa",
+   "nome": "Benedizione di Massa",
+   "grado": "eroico",
+   "pagina": 26,
+   "costoMemoria": 2,
+   "classi": [
+    "mago"
+   ],
+   "nonImparabileDa": [
+    "elfo"
+   ],
+   "lanciabileDaPergamenaElfi": true,
+   "effetto": "Come Benedizione ma su tutto il gruppo, alleati e compagni animali compresi; l'incantatore perde 1 PV per ogni bersaglio oltre il primo e 1 PV per ogni condizione rimossa (a sua scelta quali).",
+   "bersaglio": "tutto il gruppo e gli alleati",
+   "costoPVPerBersaglioOltreIlPrimo": 1,
+   "costoPVPerCondizioneRimossa": 1,
+   "comeIncantesimo": "Benedizione"
+  },
+  {
+   "id": "p-fortuna-barcaiolo",
+   "nome": "Fortuna del Barcaiolo",
+   "grado": "eroico",
+   "pagina": 26,
+   "costoMemoria": 2,
+   "classi": [
+    "mago",
+    "druido"
+   ],
+   "effetto": "Lanciato su una barca: il gruppo evita il primo pericolo fluviale; se era un attacco, non è sorpreso e ha +GR a tutti gli attacchi e difese contro quelle creature; poi si dissolve. Rende la barca ignifuga per il Rivo della Fiamma.",
+   "evitaPrimoPericoloFluviale": true,
+   "bonusAttaccoDifesaSeAttacco": "GR",
+   "barcaIgnifuga": true,
+   "durata": "fino al termine del primo pericolo fluviale (ignifuga: viaggio)"
+  },
+  {
+   "id": "p-fuoco-verita",
+   "nome": "Fuoco della Verità",
+   "grado": "eroico",
+   "pagina": 26,
+   "costoMemoria": 2,
+   "classi": [
+    "mago",
+    "druido",
+    "piromante"
+   ],
+   "effetto": "Come Palla di Fuoco, ma non contro non-viventi (artificiali, elementali, non-morti) e +1 contro le creature del caos. Il mago può tirare un TS contro il LIV del bersaglio (+L): se riesce guadagna 1 indizio; con un 1 naturale tiro erranti.",
+   "comeIncantesimo": "Palla di Fuoco",
+   "nonContro": [
+    "non-viventi"
+   ],
+   "modControCaos": 1,
+   "indizioSeTSRiesce": 1,
+   "erranteConUnoNaturale": true,
+   "tipo": "fuoco"
+  },
+  {
+   "id": "p-invisibilita-massa",
+   "nome": "Invisibilità di Massa",
+   "grado": "eroico",
+   "pagina": 27,
+   "costoMemoria": 2,
+   "classi": [
+    "mago",
+    "elfo",
+    "gnomo"
+   ],
+   "effetto": "Con un tiro per lanciare riuscito contro il LIV del bersaglio il gruppo non è visto; finisce se il gruppo attacca. Un furfante può rubare 1 oggetto o un sacco fino a Lx10 p.o. (tira TES del nemico) con TS di furtività contro il LIV (+L); se fallisce il bersaglio vede il gruppo e attacca. Inutile contro immuni alla magia, non-viventi, boss finali e chi vede gli invisibili.",
+   "tipo": "illusione",
+   "furtoMaxPoFormula": "Lx10",
+   "tsFurtivita": {
+    "bonus": {
+     "furfante": "L"
+    }
+   },
+   "nonContro": [
+    "immuni alla magia",
+    "non-viventi",
+    "boss finali",
+    "creature che vedono gli invisibili"
+   ]
+  },
+  {
+   "id": "p-pugno-arcano",
+   "nome": "Pugno Arcano",
+   "grado": "eroico",
+   "pagina": 27,
+   "costoMemoria": 2,
+   "classi": [
+    "mago"
+   ],
+   "effetto": "Illusione: una mano gigante esegue una azione: 1) impedisce l'attacco di un nemico mentre il gruppo si ritira; 2) attacco a distanza (+L) che infligge GR danni; 3) abbatte una porta (non immune alla magia); 4) recupera un oggetto o personaggio su un baratro; 5) blocca un avversario: attacchi in mischia contro di lui a +GR finché il mago non lancia un altro incantesimo.",
+   "tipo": "illusione",
+   "azioni": [
+    {
+     "n": 1,
+     "id": "copri-ritirata"
+    },
+    {
+     "n": 2,
+     "id": "attacco",
+     "dannoFormula": "GR",
+     "bonusAttaccoFormula": "L"
+    },
+    {
+     "n": 3,
+     "id": "abbatti-porta"
+    },
+    {
+     "n": 4,
+     "id": "recupera"
+    },
+    {
+     "n": 5,
+     "id": "blocca",
+     "modAttaccoMischiaContro": "GR"
+    }
+   ],
+   "nota": "Il manuale lo definisce illusorio ma non elenca classi aggiuntive: solo mago (vedi ambiguita)."
+  },
+  {
+   "id": "p-teletrasportare-nemico",
+   "nome": "Teletrasportare il Nemico",
+   "grado": "eroico",
+   "pagina": 27,
+   "costoMemoria": 2,
+   "classi": [
+    "mago"
+   ],
+   "effetto": "Con un tiro per lanciare riuscito contro il LIV di un bersaglio, questi è teletrasportato a 1d6 stanze/aree/esagoni di distanza in un luogo già visitato e rientra nel combattimento impiegando 1 turno per ogni stanza; se ci sono ostacoli che non supera non torna.",
+   "distanza": "1d6",
+   "turniPerStanza": 1
+  },
+  {
+   "id": "p-contattare-dio",
+   "nome": "Contattare un Dio Dimenticato",
+   "grado": "leggendario",
+   "pagina": 28,
+   "costoMemoria": 3,
+   "classi": [
+    "mago"
+   ],
+   "effetto": "L'incantatore prende 1 follia, perde 2 PV e sceglie: 1) resuscitare (anche in combattimento) un compagno morto da non più di 1 ora/6 aree, a livello minimo del grado corrente, con le abilità, a metà PV massimi; ognuno solo una volta nella vita; 2) uccidere un mostro minore o maggiore non boss finale distruggendone il TES (conta per l'ES).",
+   "costoFollia": 1,
+   "costoPV": 2,
+   "opzioni": [
+    {
+     "id": "resurrezione",
+     "entro": "1 ora/6 aree",
+     "pvFrazione": "1/2",
+     "unaVoltaNellaVita": true,
+     "livelloMinimoDelGrado": true,
+     "mantieneAbilita": true
+    },
+    {
+     "id": "uccisione",
+     "nonBossFinale": true,
+     "distruggeTES": true,
+     "contaPerES": true
+    }
+   ]
+  },
+  {
+   "id": "p-distrazioni-illusorie",
+   "nome": "Distrazioni Illusorie",
+   "grado": "leggendario",
+   "pagina": 28,
+   "costoMemoria": 3,
+   "classi": [
+    "mago",
+    "gnomo"
+   ],
+   "effetto": "Illusione su tutti i nemici di un incontro con TS lancio contro il LIV: i furfanti e gli assassini aggiungono +L agli attacchi, gli altri senza addestramento militare +1/2L; i mercenari sì, i compagni animali no; dura fino a fine incontro; può anche permettere la fuga senza attacchi.",
+   "tipo": "illusione",
+   "bonusAttacco": {
+    "furfante": "L",
+    "assassino": "L",
+    "senzaAddestramentoMilitare": "1/2L"
+   },
+   "mercenariSi": true,
+   "compagniAnimaliNo": true,
+   "durata": "fine incontro",
+   "permetteFuga": true
+  },
+  {
+   "id": "p-distruggi-invincibile",
+   "nome": "Distruggi Nemico Invincibile",
+   "grado": "leggendario",
+   "pagina": 28,
+   "costoMemoria": 3,
+   "classi": [
+    "mago"
+   ],
+   "effetto": "Solo contro un nemico sopravvissuto ad almeno 12 attacchi del gruppo, o colpibile solo dalla magia quando nessuno ha armi magiche. Con TS lancio riuscito contro il LIV (+L) il nemico è distrutto e tutto il suo TES è perso; conta per l'ES.",
+   "attacchiPrecedentiMin": 12,
+   "oSoloMagia": true,
+   "distruggeTES": true,
+   "contaPerES": true
+  },
+  {
+   "id": "p-fornace-amuleto",
+   "nome": "Fornace dell'Amuleto",
+   "grado": "leggendario",
+   "pagina": 29,
+   "costoMemoria": 3,
+   "classi": [
+    "mago",
+    "piromante"
+   ],
+   "effetto": "Come Palla di Fuoco ma danni GR. Se distrugge un maggiore, nello stesso turno il mago, con una gemma da almeno 200 p.o. in tasca, può fare un TS lancio contro il LIV (+L): se riesce crea un amuleto leggendario con cariche pari al LIV della creatura (ogni TS di chi lo indossa ne consuma una; a zero la gemma diventa polvere); se fallisce la gemma si frantuma (50 p.o.).",
+   "comeIncantesimo": "Palla di Fuoco",
+   "dannoFormula": "GR",
+   "tipo": "fuoco",
+   "gemmaMinPo": 200,
+   "gemmaFrantumataPo": 50,
+   "caricheAmuleto": "LIV della creatura",
+   "oggettoCreato": "p-amuleto-leggendario",
+   "ricaricaCon": "cubo anima (Orrori dall'Aldilà) prima dell'ultima carica",
+   "nonCumulabileTraAmuletiUguali": true
+  },
+  {
+   "id": "p-fulmine-accecante",
+   "nome": "Fulmine Accecante",
+   "grado": "leggendario",
+   "pagina": 29,
+   "costoMemoria": 3,
+   "classi": [
+    "mago"
+   ],
+   "effetto": "TS lancio (+L) contro il LIV di un bersaglio, +3 se metallico (automa, golem di ferro): se riesce infligge GR danni e il bersaglio perde 2 LIV (accecato). Nessun effetto su elementali di fulmine o chi non è influenzato dall'elettricità; chi non si basa sulla vista è immune alla perdita di LIV.",
+   "dannoFormula": "GR",
+   "perdeLiv": 2,
+   "bonusContro": {
+    "metallici": 3
+   },
+   "tipo": "elettricità",
+   "immuni": [
+    "elementali di fulmine",
+    "immuni all'elettricità"
+   ],
+   "immuniAccecamento": [
+    "senza occhi o che non si basano sulla vista"
+   ]
+  },
+  {
+   "id": "p-tempesta-arcana",
+   "nome": "Tempesta Arcana",
+   "grado": "leggendario",
+   "pagina": 29,
+   "costoMemoria": 3,
+   "classi": [
+    "mago"
+   ],
+   "effetto": "Una azione a scelta: 1) impedisce l'attacco di un nemico mentre il gruppo si ritira; 2) attacco a distanza (+L) che infligge 4 PV; 3) attacco a distanza con +3 oltre a +L ma solo 1 PV anche con esplosione; 4) abbatte una porta (non immune alla magia).",
+   "azioni": [
+    {
+     "n": 1,
+     "id": "copri-ritirata"
+    },
+    {
+     "n": 2,
+     "id": "attacco",
+     "danno": 4
+    },
+    {
+     "n": 3,
+     "id": "attacco-preciso",
+     "bonusLancio": 3,
+     "danno": 1,
+     "esplosioneNonAumentaDanno": true
+    },
+    {
+     "n": 4,
+     "id": "abbatti-porta"
+    }
+   ]
+  }
+ ],
+ "oggetti": [
+  {
+   "id": "p-arma-perfetta",
+   "nome": "Arma perfetta",
+   "categoria": "equipaggiamento",
+   "pagina": 11,
+   "magico": false,
+   "prezzoVenditaMolt": "1d6+4",
+   "effetto": "Arma non magica di alta qualità: +1 alla probabilità di esplosione degli attacchi (d6: 5-6, d8: 6-8...); usabile anche da chi non può usare armi magiche. Venduta a 1d6+4 volte il prezzo normale; non in vendita normale.",
+   "modEsplosione": 1,
+   "usabileDaBarbari": true
+  },
+  {
+   "id": "p-armatura-perfetta",
+   "nome": "Armatura perfetta",
+   "categoria": "equipaggiamento",
+   "pagina": 11,
+   "magico": false,
+   "effetto": "Armatura non magica di qualità eccelsa: +1 alla probabilità di esplosione sui tiri di difesa.",
+   "modEsplosioneDifesa": 1
+  },
+  {
+   "id": "p-oggetto-leggendario",
+   "nome": "Oggetto leggendario (generico)",
+   "categoria": "regola",
+   "pagina": 11,
+   "magico": true,
+   "effetto": "Il bonus di un oggetto leggendario vale +GR (es. spada leggendaria +GR: +1 base, +2 esperto, +3 eroico, +4 leggendario).",
+   "bonusFormula": "GR"
+  },
+  {
+   "id": "p-scudo-chiodato",
+   "nome": "Scudo chiodato",
+   "categoria": "equipaggiamento",
+   "pagina": 15,
+   "magico": false,
+   "prezzo": 6,
+   "effetto": "Punte montate su uno scudo (6 p.o.): +1 all'attacco speciale di Colpo di scudo eroico.",
+   "modColpoScudoEroico": 1
+  },
+  {
+   "id": "p-coltello-ossidiana",
+   "nome": "Coltello di ossidiana",
+   "categoria": "arma",
+   "pagina": 40,
+   "magico": false,
+   "prezzo": 10,
+   "effetto": "Arma da taglio leggera perfetta (+1 esplosione) che si rompe con un 1 al tiro di attacco; ricavata dai frammenti del disco di ossidiana; vale 10 p.o.",
+   "modEsplosione": 1,
+   "siRompeConTiroDi": 1,
+   "tipoArma": "taglio leggera"
+  },
+  {
+   "id": "p-maschera-thar-tizan",
+   "nome": "Maschera di Thar-Tizan",
+   "categoria": "tesoro-magico",
+   "pagina": 47,
+   "magico": true,
+   "prezzo": 50,
+   "effetto": "Chi la indossa può ignorare 1 evento che gli farebbe prendere 1 follia (distruggendo la maschera) ed è immune alla Nebbia da incubo.",
+   "annullaFollia": 1,
+   "immuneNebbiaIncubo": true,
+   "monouso": true
+  },
+  {
+   "id": "p-frecce-leggendarie",
+   "nome": "Frecce o dardi magici leggendari",
+   "categoria": "tesoro-magico",
+   "pagina": 47,
+   "magico": true,
+   "prezzo": 15,
+   "effetto": "Proiettili monouso che aggiungono +GR al tiro di attacco.",
+   "modAttaccoFormula": "GR",
+   "monouso": true
+  },
+  {
+   "id": "p-arco-perfetto-argento",
+   "nome": "Arco perfetto con 24 frecce d'argento",
+   "categoria": "arma",
+   "pagina": 47,
+   "magico": false,
+   "prezzo": 150,
+   "effetto": "Arco perfetto con 24 frecce a punta d'argento.",
+   "modEsplosione": 1
+  },
+  {
+   "id": "p-ingredienti-rari",
+   "nome": "Pacchetto di ingredienti rari",
+   "categoria": "servizio",
+   "pagina": 21,
+   "magico": false,
+   "prezzo": 50,
+   "effetto": "Sacrificato a ogni uso di Ripristino fisico."
+  },
+  {
+   "id": "p-erbe-sacre",
+   "nome": "Erbe sacre",
+   "categoria": "servizio",
+   "pagina": 14,
+   "magico": false,
+   "prezzo": 5,
+   "effetto": "5 p.o. di erbe sacre bruciate a ogni uso di Circolo di protezione."
+  },
+  {
+   "id": "p-barca-ignifuga-alchimista",
+   "nome": "Barca resa ignifuga da un alchimista",
+   "categoria": "servizio",
+   "pagina": 31,
+   "magico": false,
+   "prezzo": 20,
+   "effetto": "Un alchimista rende ignifuga una barca con materiali comuni per 20 p.o."
+  },
+  {
+   "id": "p-barca-fortunata",
+   "nome": "Barca fortunata",
+   "categoria": "tesoro-magico",
+   "pagina": 48,
+   "magico": true,
+   "prezzo": 120,
+   "effetto": "Barca per 6 persone con 3 cariche di Fortuna del Barcaiolo; ricarica con 1 cristallo ronzante o 1 cubo anima; funziona solo con a bordo uno gnomo o un incantatore; trasportarla richiede 2 personaggi (o 1 orco/troll) che hanno -1 in difesa e non portano altro. Vendita 120 p.o. +20 per carica residua.",
+   "capacita": 6,
+   "cariche": 3,
+   "incantesimo": "p-fortuna-barcaiolo",
+   "prezzoPerCarica": 20,
+   "ricarica": [
+    "cristallo ronzante",
+    "cubo anima"
+   ]
+  },
+  {
+   "id": "p-veste-nuotatore",
+   "nome": "Veste del nuotatore",
+   "categoria": "tesoro-magico",
+   "pagina": 48,
+   "magico": true,
+   "prezzo": 80,
+   "effetto": "+3 ai tiri salvezza di nuotare, cumulabile con Nuotatore eroico.",
+   "modNuotare": 3
+  },
+  {
+   "id": "p-balestra-ripetizione",
+   "nome": "Balestra a ripetizione",
+   "categoria": "arma",
+   "pagina": 48,
+   "magico": false,
+   "prezzo": 60,
+   "effetto": "Arma meccanica a due mani non magica (usabile da gnomi, barbari e chi usa archi/armi da fuoco): attacchi a distanza a +1, 2 attacchi per turno con Doppio colpo; con un 1 si perde 1 turno per ricaricare; la lama conta come arma da taglio leggera.",
+   "modAttaccoDistanza": 1,
+   "dueMani": true,
+   "ricaricaConUno": true
+  },
+  {
+   "id": "p-flagellatore-profondita",
+   "nome": "Flagellatore delle profondità",
+   "categoria": "tesoro-magico",
+   "pagina": 49,
+   "magico": true,
+   "prezzo": 300,
+   "effetto": "Randello magico leggero: per maghi, druidi, veterani, gnomi, naturalisti e negromanti +4 all'attacco contro nemici di questo volume o creature con «profondità/profondo» nel nome, ignora il -1 delle armi leggere, e +1/2L ai TS contro tali creature.",
+   "modAttacco": 4,
+   "contro": "creature delle profondità",
+   "modTSFraz": "1/2L",
+   "classi": [
+    "mago",
+    "druido",
+    "veterano",
+    "gnomo",
+    "naturalista",
+    "negromante"
+   ]
+  },
+  {
+   "id": "p-guanti-ombra-fulmine",
+   "nome": "Guanti dell'ombra e del fulmine",
+   "categoria": "tesoro-magico",
+   "pagina": 49,
+   "magico": true,
+   "prezzo": 200,
+   "effetto": "Per chi usa armature pesanti: +1 difesa, non disarmabile. 1 volta per avventura/capitolo: muro d'ombra (fuga senza attacchi) oppure lampo (TS lancio contro LIV +L): accecato, difese contro di lui a +3 fino a fine incontro; creature d'ombra ignorano il muro ma perdono 4 PV dal lampo; scheletri, mummie e chi non si basa sulla vista sono immuni all'accecamento. Ricaricabile con 1 cristallo ronzante.",
+   "modDifesa": 1,
+   "nonDisarmabile": true,
+   "usi": "1 per avventura o capitolo",
+   "accecato": {
+    "modDifesaContro": 3
+   },
+   "creatureOmbraPerdonoPV": 4,
+   "ricarica": "cristallo ronzante"
+  },
+  {
+   "id": "p-cristallo-ronzante",
+   "nome": "Cristallo ronzante",
+   "categoria": "tesoro-magico",
+   "pagina": 49,
+   "magico": true,
+   "prezzoFormula": "90+2d10",
+   "effetto": "Un cristallo si consuma per ricaricare 1 oggetto magico monouso o per evitare che una pergamena si distrugga quando l'incantesimo è lanciato o copiato; i cristallomanti lo usano al posto di un cubo anima.",
+   "monouso": true,
+   "ricarica": true
+  },
+  {
+   "id": "p-scudo-leggendario",
+   "nome": "Scudo leggendario",
+   "categoria": "tesoro-magico",
+   "pagina": 50,
+   "magico": true,
+   "prezzo": 500,
+   "effetto": "+GR ai tiri di difesa; indistruttibile (si lascia solo cadere).",
+   "modDifesaFormula": "GR",
+   "indistruttibile": true
+  },
+  {
+   "id": "p-bastone-leggendario",
+   "nome": "Bastone da mago leggendario",
+   "categoria": "tesoro-magico",
+   "pagina": 50,
+   "magico": true,
+   "prezzo": 600,
+   "effetto": "+GR ai tiri per lanciare incantesimi (serve una mano libera); arma contundente leggera leggendaria +GR (-1 perché leggera).",
+   "modLancioFormula": "GR",
+   "modAttaccoFormula": "GR",
+   "tipoArma": "contundente leggera"
+  },
+  {
+   "id": "p-arma-leggendaria",
+   "nome": "Arma leggendaria",
+   "categoria": "tesoro-magico",
+   "pagina": 50,
+   "magico": true,
+   "prezzoFormula": "GRx100",
+   "prezzoLeggeraMenoPo": 50,
+   "effetto": "+GR ai tiri di attacco; tipo determinato con 1d6.",
+   "modAttaccoFormula": "GR",
+   "tipoTabella": "armaLeggendariaTipo"
+  },
+  {
+   "id": "p-armatura-leggendaria",
+   "nome": "Armatura leggendaria",
+   "categoria": "tesoro-magico",
+   "pagina": 50,
+   "magico": true,
+   "prezzo": 500,
+   "prezzoPesante": 700,
+   "effetto": "+GR ai tiri di difesa oltre al bonus normale (leggera +1, pesante +2); 2 su 1d6 non metallica.",
+   "modDifesaFormula": "GR",
+   "tipoTabella": "armaturaLeggendariaTipo",
+   "nonMetallicaProbSu6": 2
+  },
+  {
+   "id": "p-amuleto-leggendario",
+   "nome": "Amuleto leggendario",
+   "categoria": "tesoro-magico",
+   "pagina": 50,
+   "magico": true,
+   "prezzo": 700,
+   "effetto": "+GR ai tiri salvezza di chi lo indossa; non funziona con un mostro con RM 15+. Se creato con Fornace dell'Amuleto ha cariche pari al LIV della creatura.",
+   "modTSFormula": "GR",
+   "nonFunzionaConRMDa": 15
+  },
+  {
+   "id": "p-abito-leggendario",
+   "nome": "Abito leggendario",
+   "categoria": "tesoro-magico",
+   "pagina": 50,
+   "magico": true,
+   "prezzo": 400,
+   "effetto": "+GR ai tiri per amoreggiare; non con armature; dopo una mischia 1 su 1d10 di sporcarsi e smettere di funzionare finché non è lavato (20 minuti = 2 tiri erranti).",
+   "modAmoreggiareFormula": "GR",
+   "sporcoProbSu10": 1,
+   "lavaggioMinuti": 20
+  },
+  {
+   "id": "p-calderone-leggendario",
+   "nome": "Calderone curativo leggendario",
+   "categoria": "tesoro-magico",
+   "pagina": 51,
+   "magico": true,
+   "prezzo": 1000,
+   "effetto": "1 volta per avventura, durante il riposo, produce GR pozioni di guarigione da usare subito (perdono efficacia dopo 30 minuti).",
+   "usi": "1 per avventura",
+   "pozioniFormula": "GR",
+   "durataPozioniMinuti": 30
+  },
+  {
+   "id": "p-talismano-leggendario",
+   "nome": "Talismano leggendario",
+   "categoria": "tesoro-magico",
+   "pagina": 51,
+   "magico": true,
+   "prezzo": 900,
+   "effetto": "Chi lo indossa ha GR punti fortuna come quelli del mezzuomo.",
+   "puntiFortunaFormula": "GR"
+  },
+  {
+   "id": "p-utensili-cucina-leggendari",
+   "nome": "Utensili da cucina leggendari",
+   "categoria": "tesoro-magico",
+   "pagina": 51,
+   "magico": true,
+   "effetto": "Solo mezzuomo o ogre vivandiere: il mezzuomo prepara GR pasti rifocillanti in più per avventura; l'ogre raddoppia le razioni create con Macellazione.",
+   "classi": [
+    "mezzuomo",
+    "ogre-vivandiere"
+   ],
+   "pastiExtraFormula": "GR"
+  }
+ ],
+ "fiumi": {
+  "regole": {
+   "pagina": 30,
+   "naturaDado": "1d6",
+   "naturaTabella": "naturaFiume",
+   "naturaDuraFinoAllaFine": true,
+   "altroFiumeSiTiraDiNuovo": true,
+   "pericoloProbSu6PerTratto": 2,
+   "pericoliTabella": "pericoliFluviali",
+   "sbarcoAFine": {
+    "barcaRitrovataProbSu6": 5
+   },
+   "ponte": {
+    "guardianoProbSu6": 2,
+    "tabella": "incontriFluviali",
+    "sbarcoPossibile": true
+   },
+   "rovine": {
+    "stanze": "1d6+2",
+    "tabellaContenuto": "contenutoRovine",
+    "bossFinale": false
+   },
+   "tumulo": {
+    "tiroLancioLivMod": 5,
+    "incantesimoSenzaConsumo": true,
+    "costoPV": 1,
+    "unoNaturale": "perde 1 PV o dimentica 1 incantesimo (a scelta)",
+    "stanze": 1,
+    "tabellaContenuto": "contenutoRovine",
+    "guardianoProbSu6": 2,
+    "guardianoTabella": "incontriFluviali",
+    "guardianoModReazioni": 1,
+    "guardianoCombattutoPrimaDellIncontro": true,
+    "esclusiIncantatoriCheUsanoPV": true
+   },
+   "mappaSeparata": true,
+   "tratti": "1d66 sulla tabella Tratti di fiume (p.36-37); i tratti si trattano come stanze",
+   "barche": {
+    "ignifugaOpzioni": [
+     {
+      "metodo": "Fortuna del Barcaiolo"
+     },
+     {
+      "metodo": "Conciatore arcano con pelle di drago o di creatura immune al fuoco con forma fisica",
+      "durata": "1 ora (6 tiri erranti)"
+     },
+     {
+      "metodo": "alchimista",
+      "costoPo": 20
+     }
+    ]
+   }
+  },
+  "elenco": [
+   {
+    "id": "p-rivo-evocazione",
+    "nome": "Rivo dell'Evocazione",
+    "n": 1,
+    "pagina": 30,
+    "effetto": "Lungo il fiume si evocano le anime dei defunti: ogni PG che lo desidera ottiene un numero di indizi a scelta ma guadagna altrettanti punti follia; ripetibile a ogni tratto.",
+    "indiziPerFollia": 1,
+    "perOgniTratto": true
+   },
+   {
+    "id": "p-rivo-fiamma",
+    "nome": "Rivo della Fiamma",
+    "n": 2,
+    "pagina": 30,
+    "effetto": "Lava e acque bollenti: +1 alla probabilità di sorpresa delle creature che ne hanno; ogni PG entrando in un tratto salva contro fuoco LMP+2 o perde 1 PV (elfi del fuoco e piromanti immuni; un incantatore può sacrificare un incantesimo di fuoco). Senza barca ignifuga: a ogni tratto 1d6 +1 per tratto consecutivo, con 6+ la barca è distrutta, tutti subiscono GR danni automatici e devono nuotare (TS nuoto L8: fallimento 2 PV e riprova); chi muore ha il corpo distrutto, non resuscitabile.",
+    "sorpresaProbBonus": 1,
+    "tsEntrata": {
+     "tipo": "fuoco",
+     "liv": "LMP",
+     "livMod": 2,
+     "livFormula": "LMP+2",
+     "fallimentoPV": 1,
+     "immuni": [
+      "elfo-fuoco",
+      "piromante"
+     ],
+     "sacrificioIncantesimoFuoco": true
+    },
+    "barca": {
+     "dado": "1d6",
+     "bonusPerTrattoConsecutivo": 1,
+     "distruttaDa": 6,
+     "dannoAutomaticoFormula": "GR",
+     "nuoto": {
+      "liv": 8,
+      "fallimentoPV": 2,
+      "ripetibile": true
+     },
+     "morteCorpoDistrutto": true,
+     "ignifugaEvita": true
+    }
+   },
+   {
+    "id": "p-rivo-lacrime",
+    "nome": "Rivo delle Lacrime",
+    "n": 3,
+    "pagina": 31,
+    "effetto": "Se un PG muore durante l'esplorazione tutti gli altri prendono 1 follia; non si può riposare lungo le rive. Con Orrori dall'Aldilà, spendendo 3 indizi su un tratto si trova l'accesso all'Aldilà.",
+    "mortePG": {
+     "follia": 1,
+     "aTuttiGliAltri": true
+    },
+    "riposoVietato": true,
+    "accessoAldila": {
+     "indizi": 3,
+     "rimando": "Orrori dall'Aldilà"
+    }
+   },
+   {
+    "id": "p-rivo-morte",
+    "nome": "Rivo della Morte",
+    "n": 4,
+    "pagina": 31,
+    "effetto": "Tutti gli attacchi a +1 e le difese a -1; i negromanti tirano 1d6 a ogni incantesimo: con 1-2 non viene consumato; ogni guarigione (incantesimi, pozioni) è dimezzata per difetto, le bende no.",
+    "modAttacco": 1,
+    "modDifesa": -1,
+    "negromanteIncantesimoNonConsumato": {
+     "dado": "1d6",
+     "da": 1,
+     "a": 2
+    },
+    "guarigioneMolt": 0.5,
+    "guarigioneArrotondamento": "per difetto",
+    "beneNonDimezzate": true
+   },
+   {
+    "id": "p-rivo-oblio",
+    "nome": "Rivo dell'Oblio",
+    "n": 5,
+    "pagina": 32,
+    "effetto": "Ogni tiro per lanciare incantesimi o per risolvere enigmi/indovinelli con risultato 1 fa dimenticare a un incantatore 1 incantesimo a scelta; entrando si può togliere 1 punto follia a un PG.",
+    "unoNaturaleDimenticaIncantesimo": true,
+    "tiriCoinvolti": [
+     "lanciare incantesimi",
+     "enigmi e indovinelli"
+    ],
+    "entrataRimuoviFollia": 1
+   },
+   {
+    "id": "p-rivo-serpe",
+    "nome": "Rivo Serpe",
+    "n": 6,
+    "pagina": 32,
+    "effetto": "Corso tortuoso: i tratti non vanno mai nella stessa direzione del precedente; tutti i tiri per governare la barca a -2; i maggiori hanno LIV +1.",
+    "mappaNonRettilinea": true,
+    "modNavigazione": -2,
+    "livMaggioriMod": 1
+   }
+  ]
+ },
+ "cittadelle": {
+  "pagina": 35,
+  "consigliataGrado": "leggendario",
+  "dungeonSeparato": true,
+  "tabellaTipi": "cittadelle",
+  "tabellaContenuto": "contenuto",
+  "ingressoIC": {
+   "uscitePiuDiUna": "solo una porta alla Cittadella, a scelta",
+   "accessi": [
+    "codice IC su un'area",
+    "evento Il passaggio",
+    "segreto Ingresso segreto a una Cittadella",
+    "rovine/tumuli passaggio segreto",
+    "tratto fiume con ingresso"
+   ]
+  },
+  "tipi": [
+   {
+    "id": "p-cit-fantasma",
+    "nome": "Cittadella fantasma",
+    "stanze": "3d6",
+    "rimando": "tabelle.cittadelle[1]"
+   },
+   {
+    "id": "p-cit-affollata",
+    "nome": "Cittadella affollata",
+    "stanze": "4d6",
+    "rimando": "tabelle.cittadelle[2]"
+   },
+   {
+    "id": "p-cit-trappole",
+    "nome": "Cittadella delle trappole",
+    "stanze": "10+2d6",
+    "rimando": "tabelle.cittadelle[3]"
+   },
+   {
+    "id": "p-cit-prigionieri",
+    "nome": "Prigionieri della Cittadella",
+    "stanze": "3d6",
+    "rimando": "tabelle.cittadelle[4]"
+   },
+   {
+    "id": "p-cit-cose-morte",
+    "nome": "Cittadella delle cose morte",
+    "stanze": "2d6+6",
+    "rimando": "tabelle.cittadelle[5]"
+   },
+   {
+    "id": "p-cit-magica",
+    "nome": "Cittadella magica",
+    "stanze": "3d6",
+    "rimando": "tabelle.cittadelle[6]"
+   }
+  ]
+ },
+ "segreti": [
+  {
+   "id": "p-seg-agnas",
+   "nome": "Segreto dell'uccello agnas",
+   "grado": "eroico",
+   "pagina": 72,
+   "costoIndizi": 5,
+   "requisiti": [],
+   "effetto": "Contro l'uccello agnas, una Benedizione (tiro per lanciare contro il suo LIV; chierici e maghi +L) spezza la maledizione e ripristina la donna (furfante L1), ponendo fine all'incontro: 3 su 1d6 che si unisca al gruppo; si guadagna 1 tiro ES oltre a quello normale.",
+   "contro": "p-uccello-agnas",
+   "tiroLancioContro": "LIV della creatura",
+   "bonusLancio": {
+    "chierico": "L",
+    "mago": "L"
+   },
+   "donnaComeFurfanteLivello": 1,
+   "unisciProbSu6": 3,
+   "tiroESExtra": 1
+  },
+  {
+   "id": "p-seg-artefatto-eroico",
+   "nome": "Posizione segreta di un artefatto eroico",
+   "grado": "eroico",
+   "pagina": 72,
+   "costoIndizi": 5,
+   "requisiti": [],
+   "effetto": "Scopri un oggetto magico: tira su Tesori magici eroici; l'oggetto è nella prossima stanza/area visitata (se occupata fa parte del tesoro dei mostri o è da loro custodito).",
+   "tabella": "tesoriMagiciEroici",
+   "nellaProssimaStanza": true
+  },
+  {
+   "id": "p-seg-passaggio-profondita",
+   "nome": "Passaggio segreto nelle Profondità Dimenticate",
+   "grado": "eroico",
+   "pagina": 72,
+   "costoIndizi": 5,
+   "requisiti": [],
+   "effetto": "Scopri un passaggio segreto verso (a scelta): 1) una camera con un idolo ciclopico (tira su Idoli ciclopici); 2) un'entrata segreta a una Cittadella; 3) un'entrata segreta per un fiume a scelta.",
+   "destinazioni": [
+    "idolo",
+    "cittadella",
+    "fiume"
+   ],
+   "tabellaIdolo": "idoli"
+  },
+  {
+   "id": "p-seg-artefatto-leggendario",
+   "nome": "Ubicazione segreta di un artefatto leggendario",
+   "grado": "leggendario",
+   "pagina": 72,
+   "costoIndizi": 6,
+   "requisiti": [],
+   "effetto": "Come l'artefatto eroico ma con la tabella Tesori magici leggendari; l'oggetto è nella prossima stanza/area visitata.",
+   "tabella": "tesoriMagiciLeggendari",
+   "nellaProssimaStanza": true
+  },
+  {
+   "id": "p-seg-ingresso-cittadella",
+   "nome": "Ingresso segreto a una Cittadella",
+   "grado": "leggendario",
+   "pagina": 72,
+   "costoIndizi": 6,
+   "requisiti": [],
+   "effetto": "Trovi un accesso a una Cittadella casuale: tira 2 volte su Cittadelle e scegli il risultato.",
+   "tabella": "cittadelle",
+   "tiri": 2
+  },
+  {
+   "id": "p-seg-iscrizione",
+   "nome": "Luogo segreto di un'iscrizione",
+   "grado": "leggendario",
+   "pagina": 72,
+   "costoIndizi": 6,
+   "requisiti": [],
+   "effetto": "Un'iscrizione leggendaria si trova nella prossima stanza: tira su Incantesimo leggendario a caso; puoi copiarlo nel grimorio, ma se la stanza è occupata devi prima sconfiggere, mettere in fuga o corrompere i mostri.",
+   "tabella": "incantesimoLeggendarioCaso",
+   "nellaProssimaStanza": true,
+   "custoditaDaiMostri": true
+  },
+  {
+   "id": "p-seg-debolezza-magica",
+   "nome": "Segreto della debolezza magica",
+   "grado": "leggendario",
+   "pagina": 72,
+   "costoIndizi": 6,
+   "requisiti": [],
+   "effetto": "Una figura traslucida rivela come ignorare la Resistenza alla magia di un luogo o di una creatura per tutta la durata di un incontro.",
+   "ignoraRM": true,
+   "durata": "un incontro"
+  }
+ ],
+ "segretiRegola": {
+  "pagina": 72,
+  "usabiliAnche": [
+   "segreti del manuale base p.60",
+   "segreti di Contro l'Abisso p.41"
+  ],
+  "costoEroico": 5,
+  "costoLeggendario": 6,
+  "tiroESDaImparare": false
+ },
+ "forme": {
+  "pagina": 34,
+  "codici": [
+   {
+    "codice": "ST",
+    "nome": "Stanza normale",
+    "regola": "regole del manuale base"
+   },
+   {
+    "codice": "CN",
+    "nome": "Corridoio normale",
+    "regola": "regole del manuale base"
+   },
+   {
+    "codice": "CS",
+    "nome": "Corridoio stretto",
+    "regola": "il gruppo viaggia in fila indiana",
+    "armiDueManiMod": -1,
+    "armiDueManiIgnoraBonus": true,
+    "armiLungheVietate": true,
+    "armiLeggereTaglioMod": 1,
+    "armiLeggereIgnoraPenalita": true,
+    "armiDistanza": "solo il personaggio in posizione 1 (o in posizione 4 se attacco alle spalle)"
+   },
+   {
+    "codice": "IC",
+    "nome": "Ingresso alla Cittadella",
+    "regola": "passaggio verso una Cittadella (dungeon separato); se l'area ha più uscite solo una conduce alla Cittadella"
+   },
+   {
+    "codice": "UF",
+    "nome": "Uscita sul fiume",
+    "regola": "in aggiunta al contenuto, 4 su 1d6 di trovare una barca (parte del tesoro se l'incontro è stato violento); senza incontro il barcaiolo è tirato su tabella Barcaiolo",
+    "barcaProbSu6": 4,
+    "barcaiolo": "barcaiolo"
+   },
+   {
+    "codice": "FI",
+    "nome": "Tratto di fiume",
+    "regola": "trattato come una stanza, non come un corridoio"
+   },
+   {
+    "codice": "P",
+    "nome": "Ponte"
+   },
+   {
+    "codice": "R",
+    "nome": "Rovine"
+   },
+   {
+    "codice": "T",
+    "nome": "Tumulo"
+   },
+   {
+    "codice": "FINE",
+    "nome": "Fine navigabile del fiume",
+    "regola": "il fiume diventa sotterraneo; si può sbarcare (barca ancora presente con 5 su 1d6)"
+   }
+  ],
+  "mappaForme": {
+   "dado": "d66",
+   "pagine": [
+    36,
+    37
+   ],
+   "tipoCella": {
+    "11": "ST",
+    "12": "ST",
+    "13": "ST",
+    "14": "ST",
+    "15": "ST",
+    "16": "ST",
+    "21": "CN",
+    "22": "CS",
+    "23": "CN",
+    "24": "CN",
+    "25": "ST",
+    "26": "ST",
+    "31": "ST",
+    "32": "CS",
+    "33": "CN",
+    "34": "CN",
+    "35": "ST",
+    "36": "ST",
+    "41": "CN",
+    "42": "CN",
+    "43": "ST",
+    "44": "ST",
+    "45": "ST",
+    "46": "ST",
+    "51": "ST",
+    "52": "ST",
+    "53": "ST",
+    "54": "CN",
+    "55": "CN",
+    "56": "ST",
+    "61": "ST",
+    "62": "ST",
+    "63": "ST",
+    "64": "ST",
+    "65": "ST",
+    "66": "ST"
+   },
+   "marcatoriNonAssegnati": {
+    "UF": 3,
+    "IC": 2,
+    "nota": "I marcatori UF e IC compaiono come testo sciolto tra le etichette; non si sa a quale cella appartengano."
+   },
+   "disegniForme": "Le sagome grafiche non sono nel testo estratto: solo il codice ST/CN/CS per cella è ricostruibile."
+  },
+  "mappaTratti": {
+   "dado": "d66",
+   "pagine": [
+    36,
+    37
+   ],
+   "celle": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "36",
+    "41",
+    "42",
+    "43",
+    "44",
+    "45",
+    "46",
+    "51",
+    "52",
+    "53",
+    "54",
+    "55",
+    "56",
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66"
+   ],
+   "marcatoriNonAssegnati": {
+    "P": 5,
+    "T": 4,
+    "FINE": 4,
+    "IC": 2,
+    "nota": "Marcatori P, T, FINE, IC compaiono come testo sciolto: non si sa a quale tratto FI appartengano."
+   },
+   "regolaSenzaMarcatore": "Se il tratto non ha lettera: 1d6 (1-4 nulla; 5-6 caratteristica, poi tabella tipoCaratteristica)",
+   "tabellaCaratteristica": "caratteristicaTratto"
+  }
+ },
+ "regole": [
+  {
+   "id": "grado-eroico",
+   "nome": "Passare al grado eroico",
+   "pagina": 6,
+   "sintesi": "Un PG di livello 9 diventa eroico mettendo da parte 2 tiri ES (da non tirare) e pagando 1.000 p.o., in un'unica soluzione per tutti e tra un'avventura e l'altra. Resta di livello 9 ma può tentare il tiro ES per il livello 10.",
+   "parametri": {
+    "livelloMin": 9,
+    "tiriESPerPG": 2,
+    "poPerPG": 1000,
+    "traAvventure": true,
+    "tuttiInsieme": true
+   }
+  },
+  {
+   "id": "dado-eroico",
+   "nome": "Dado eroico",
+   "pagina": 6,
+   "sintesi": "Gli eroi usano il d10 per tutti i tiri (salvezza, attacco, difesa, cura di Guarigione). Esplode con 8+ (8, 9, 10); un 1 è sempre un fallimento.",
+   "parametri": {
+    "dado": 10,
+    "esplosioneDa": 8,
+    "fallimentoAutomatico": 1
+   }
+  },
+  {
+   "id": "tiri-es-eroici",
+   "nome": "Tiri ES eroici",
+   "pagina": 6,
+   "sintesi": "Livello e abilità eroiche si tirano con 1d10+4; le abilità esperte con 1d10+5. Alcune abilità danno bonus ai tiri ES.",
+   "parametri": {
+    "livello": "1d10+4",
+    "abilitaEroiche": "1d10+4",
+    "abilitaEsperte": "1d10+5"
+   }
+  },
+  {
+   "id": "segreti-eroici",
+   "nome": "Segreti eroici",
+   "pagina": 6,
+   "sintesi": "Gli eroi spendono 5 indizi per scoprire un segreto eroico, senza ottenere alcun tiro ES.",
+   "parametri": {
+    "indizi": 5,
+    "tiroES": 0
+   }
+  },
+  {
+   "id": "incantesimi-eroici",
+   "nome": "Incantesimi eroici",
+   "pagina": 6,
+   "sintesi": "Gli incantesimi eroici sono a volte insegnati come ricompensa di missioni; altrimenti si trovano su pergamene o graffiti e si imparano con un tiro ES riuscito (altrimenti la fonte è distrutta). Ciascuno occupa il doppio della memoria.",
+   "parametri": {
+    "costoMemoria": 2
+   }
+  },
+  {
+   "id": "grado-leggendario",
+   "nome": "Passare al grado leggendario",
+   "pagina": 7,
+   "sintesi": "Un eroe di livello 14 spende 3 tiri ES (non tirati) e 2.000 p.o. fuori da un dungeon, in una scuola o gilda; conviene addestrare tutti insieme e si possono accumulare ES e oro in anticipo.",
+   "parametri": {
+    "livelloMin": 14,
+    "tiriESPerPG": 3,
+    "poPerPG": 2000,
+    "fuoriDalDungeon": true
+   }
+  },
+  {
+   "id": "dado-leggendario",
+   "nome": "Dado leggendario",
+   "pagina": 7,
+   "sintesi": "I leggendari usano il d12; un 1 è sempre un fallimento. Il testo dice che esplode con 8-12, la tabella dei gradi con 9+ (adottato 9+, vedi ambiguita).",
+   "parametri": {
+    "dado": 12,
+    "esplosioneDa": 9,
+    "esplosioneDaTesto": 8,
+    "fallimentoAutomatico": 1
+   }
+  },
+  {
+   "id": "tiri-es-leggendari",
+   "nome": "Tiri ES leggendari",
+   "pagina": 7,
+   "sintesi": "Tabella p.9: livello 1d12+8, abilità leggendarie 1d12+8, eroiche 1d12+9, esperte 1d12+10. Il testo a p.7 indica +7/+7/+8/+9 (vedi ambiguita).",
+   "parametri": {
+    "livello": "1d12+8",
+    "abilitaLeggendarie": "1d12+8",
+    "abilitaEroiche": "1d12+9",
+    "abilitaEsperte": "1d12+10"
+   }
+  },
+  {
+   "id": "segreti-leggendari",
+   "nome": "Segreti leggendari",
+   "pagina": 7,
+   "sintesi": "I leggendari spendono 6 indizi per un segreto leggendario, senza tiro ES.",
+   "parametri": {
+    "indizi": 6,
+    "tiroES": 0
+   }
+  },
+  {
+   "id": "incantesimi-leggendari",
+   "nome": "Incantesimi leggendari",
+   "pagina": 7,
+   "sintesi": "Non vengono mai insegnati: vanno trovati come pergamene o iscrizioni (anche su statue animate e golem, da sconfiggere prima). Si imparano con tiro ES; ognuno occupa il triplo della memoria.",
+   "parametri": {
+    "costoMemoria": 3
+   }
+  },
+  {
+   "id": "morte-alto-livello",
+   "nome": "Morte di personaggi di alto livello",
+   "pagina": 8,
+   "sintesi": "Se muoiono eroi non resuscitabili si riparte o si creano sostituti di grado inferiore da portare al livello degli altri con ES e tesori; il metodo della compagnia (circa 12 PG a rotazione) è consigliato.",
+   "parametri": {
+    "compagniaConsigliata": 12
+   }
+  },
+  {
+   "id": "passare-di-grado",
+   "nome": "Passare di grado",
+   "pagina": 8,
+   "sintesi": "Il cambio di grado (es. d6->d8) costa solo i tiri ES messi da parte e le monete, senza prova; il livello resta lo stesso. Esempio: 4 PG livello 9 -> 4.000 p.o. e 8 ES.",
+   "parametri": {
+    "nessunaProva": true,
+    "livelloInvariato": true
+   }
+  },
+  {
+   "id": "riassunto-gradi",
+   "nome": "Riassunto dei gradi",
+   "pagina": 9,
+   "sintesi": "Tabella con dado, esplosione, tiri ES, costo del grado, costo incantesimi e segreti per base/esperto/eroico/leggendario/epico. Vedi la sezione gradi.",
+   "parametri": {
+    "gradi": 5
+   }
+  },
+  {
+   "id": "numero-grado",
+   "nome": "Numero del grado (GR)",
+   "pagina": 10,
+   "sintesi": "GR vale 1 base, 2 esperto, 3 eroico, 4 leggendario, 5 epico; danni, PV e bonus dei mostri e degli oggetti possono dipendere da GR (es. danni GR+1, PV GRx2+5).",
+   "parametri": {
+    "base": 1,
+    "esperto": 2,
+    "eroico": 3,
+    "leggendario": 4,
+    "epico": 5
+   }
+  },
+  {
+   "id": "orde",
+   "nome": "Orde",
+   "pagina": 10,
+   "sintesi": "Un'orda conta come un solo mostro maggiore (1 tiro ES) e attacca ogni turno ogni personaggio, alleati e compagni animali compresi, che fa 1 tiro di difesa contro il LIV dell'orda (alcune fanno 2 attacchi per PG). Sonno e simili tolgono all'orda tanti PV quanti sono i minori colpiti; sconfitta l'orda si raccolgono armi a una mano e leggere per ogni membro.",
+   "parametri": {
+    "attacchiPerPG": 1,
+    "contaComeMaggiore": true,
+    "tiriES": 1,
+    "sonnoTogliePV": true,
+    "armiRaccolte": "a una mano e leggere, per ogni membro"
+   }
+  },
+  {
+   "id": "armi-perfette",
+   "nome": "Armi e armature perfette",
+   "pagina": 11,
+   "sintesi": "Un'arma perfetta aumenta di 1 la probabilità di esplosione degli attacchi (non magica, usabile dai barbari), un'armatura perfetta quella dei tiri di difesa. Vendita a 1d6+4 volte il prezzo normale.",
+   "parametri": {
+    "modEsplosione": 1,
+    "prezzoMolt": "1d6+4"
+   }
+  },
+  {
+   "id": "oggetti-leggendari",
+   "nome": "Oggetti leggendari",
+   "pagina": 11,
+   "sintesi": "Il bonus di un oggetto leggendario è +GR (per attacco, difesa, TS o incantesimi), quindi cresce con il grado.",
+   "parametri": {
+    "bonus": "GR"
+   }
+  },
+  {
+   "id": "abilita-eroiche",
+   "nome": "Abilità eroiche",
+   "pagina": 12,
+   "sintesi": "Le abilità eroiche si imparano dal livello 10; salvo indicazione, tutte le classi possono sceglierle.",
+   "parametri": {
+    "livelloMin": 10,
+    "qualsiasiClasse": true,
+    "numero": 45
+   }
+  },
+  {
+   "id": "abilita-leggendarie",
+   "nome": "Abilità leggendarie",
+   "pagina": 22,
+   "sintesi": "Dal livello 15; sono versioni potenziate delle eroiche, richiedono la conoscenza della versione eroica e i bonus non si cumulano; le frazioni si arrotondano per difetto.",
+   "parametri": {
+    "livelloMin": 15,
+    "richiedeEroica": true,
+    "numero": 21,
+    "cumulabile": false
+   }
+  },
+  {
+   "id": "trovare-incantesimi",
+   "nome": "Trovare, imparare e memorizzare gli incantesimi",
+   "pagina": 24,
+   "sintesi": "Solo i maghi (salvo eccezioni) imparano incantesimi eroici e leggendari, trovati come pergamene o iscrizioni (cancellata la pergamena, non l'iscrizione). Serve un tiro ES riuscito; se si ha già la memoria piena non si memorizza al volo ma nelle avventure successive riservando 2 o 3 posti.",
+   "parametri": {
+    "costoEroico": 2,
+    "costoLeggendario": 3,
+    "memorizzaAlVolo": false
+   }
+  },
+  {
+   "id": "resistenza-magia",
+   "nome": "Resistenza alla magia (RM)",
+   "pagina": 25,
+   "sintesi": "Con un nemico con RM ogni incantesimo lanciato nell'incontro (anche non diretto a lui o automatico) richiede prima un tiro per lanciare riuscito contro la RM (+L); se fallisce è sprecato. Poi, se previsto, un secondo tiro contro il LIV; RM senza valore = LIV del mostro. Vale per pergamene, oggetti, preghiere, druidi, illusioni e poteri descritti come incantesimi.",
+   "parametri": {
+    "rmDefault": "LIV della creatura",
+    "doppioTiro": true,
+    "vale": [
+     "pergamene",
+     "oggetti magici",
+     "preghiere",
+     "incantesimi druidici",
+     "illusioni",
+     "poteri naturali magici"
+    ]
+   }
+  },
+  {
+   "id": "natura-fiume",
+   "nome": "Natura dei fiumi",
+   "pagina": 30,
+   "sintesi": "Sei fiumi: tira 1d6 per sapere quale; tutti i tratti generati appartengono a quel fiume fino a FINE; un altro fiume incontrato si tira di nuovo.",
+   "parametri": {
+    "dado": "1d6",
+    "fiumi": 6
+   }
+  },
+  {
+   "id": "rivo-evocazione",
+   "nome": "Rivo dell'Evocazione",
+   "pagina": 30,
+   "sintesi": "A ogni tratto ogni PG può ottenere indizi a scelta in cambio di altrettanti punti follia.",
+   "parametri": {
+    "indiziPerFollia": 1
+   }
+  },
+  {
+   "id": "rivo-fiamma",
+   "nome": "Rivo della Fiamma",
+   "pagina": 30,
+   "sintesi": "Sorpresa +1; TS fuoco LMP+2 per entrare in ogni tratto; la barca senza protezione è distrutta con 1d6 (+1 per tratto consecutivo) 6+; nuoto L8 per salvarsi.",
+   "parametri": {
+    "sorpresaProbBonus": 1,
+    "tsLivMod": 2,
+    "barcaDistruttaDa": 6,
+    "nuotoLiv": 8,
+    "nuotoDanno": 2
+   }
+  },
+  {
+   "id": "rivo-lacrime",
+   "nome": "Rivo delle Lacrime",
+   "pagina": 31,
+   "sintesi": "Una morte dà 1 follia a tutti gli altri; niente riposo sulle rive; 3 indizi aprono la via all'Aldilà (Orrori dall'Aldilà).",
+   "parametri": {
+    "follia": 1,
+    "indiziAldila": 3
+   }
+  },
+  {
+   "id": "rivo-morte",
+   "nome": "Rivo della Morte",
+   "pagina": 31,
+   "sintesi": "Attacchi +1, difese -1, guarigioni dimezzate (non le bende), negromanti con 1-2 su d6 non consumano l'incantesimo.",
+   "parametri": {
+    "modAttacco": 1,
+    "modDifesa": -1,
+    "guarigioneMolt": 0.5
+   }
+  },
+  {
+   "id": "rivo-oblio",
+   "nome": "Rivo dell'Oblio",
+   "pagina": 32,
+   "sintesi": "Un 1 su un tiro per lanciare o su un enigma fa dimenticare un incantesimo; all'ingresso -1 follia a un PG.",
+   "parametri": {
+    "uno": "dimentica 1 incantesimo",
+    "follia": -1
+   }
+  },
+  {
+   "id": "rivo-serpe",
+   "nome": "Rivo Serpe",
+   "pagina": 32,
+   "sintesi": "Tratti sempre in direzione diversa dal precedente; tiri per governare la barca a -2; maggiori con LIV +1.",
+   "parametri": {
+    "modNavigazione": -2,
+    "livMaggioriMod": 1
+   }
+  },
+  {
+   "id": "tratti-fiume",
+   "nome": "Generare i tratti di fiume",
+   "pagina": 33,
+   "sintesi": "Si tira 1d66 sulla mappa dei tratti, si disegna il fiume su un foglio separato annotando il collegamento col dungeon. I tratti sono trattati come stanze. Senza lettera: 1d6, 1-4 nulla, 5-6 caratteristica (1-2 ponte, 3-4 rovine, 5-6 tumulo).",
+   "parametri": {
+    "dado": "d66",
+    "probCaratteristicaSu6": 2
+   }
+  },
+  {
+   "id": "ponte",
+   "nome": "Ponte",
+   "pagina": 33,
+   "sintesi": "Con 2 su 1d6 un nemico da Incontri fluviali lo sorveglia; si può sbarcare e proseguire a piedi generando un nuovo dungeon.",
+   "parametri": {
+    "guardianoProbSu6": 2
+   }
+  },
+  {
+   "id": "rovine",
+   "nome": "Rovine",
+   "pagina": 33,
+   "sintesi": "Edificio in rovina: dungeon di 1d6+2 stanze con la tabella Contenuti di rovine e tumuli, mappa a parte, senza boss finale.",
+   "parametri": {
+    "stanze": "1d6+2",
+    "bossFinale": false
+   }
+  },
+  {
+   "id": "tumulo",
+   "nome": "Tumulo",
+   "pagina": 33,
+   "sintesi": "Gli incantatori possono sfruttarlo con un tiro per lanciare LMP+5: lanciano un incantesimo senza consumarlo perdendo 1 PV (non chi paga già in PV). Con un 1 si perde 1 PV o un incantesimo. È una sola stanza (tabella rovine/tumuli) e 2 su 1d6 è custodito da una creatura fluviale con reazioni +1.",
+   "parametri": {
+    "tiroLancioLivMod": 5,
+    "costoPV": 1,
+    "stanze": 1,
+    "guardianoProbSu6": 2,
+    "guardianoModReazioni": 1
+   }
+  },
+  {
+   "id": "navigare",
+   "nome": "Navigare sui fiumi",
+   "pagina": 34,
+   "sintesi": "Ogni tratto percorso ha 2 su 1d6 di minaccia (tabella Pericoli fluviali). Nelle aree FINE si può sbarcare lasciando la barca (5 su 1d6 di ritrovarla) e proseguire a piedi con un nuovo dungeon.",
+   "parametri": {
+    "pericoloProbSu6": 2,
+    "barcaRitrovataProbSu6": 5
+   }
+  },
+  {
+   "id": "barche-ignifughe",
+   "nome": "Barche ignifughe",
+   "pagina": 31,
+   "sintesi": "Si rendono ignifughe con Fortuna del Barcaiolo, con un Conciatore arcano e pelle di drago in 1 ora, o con un alchimista per 20 p.o.",
+   "parametri": {
+    "costoAlchimistaPo": 20,
+    "oreConciatore": 1
+   }
+  },
+  {
+   "id": "generare-dungeon",
+   "nome": "Generare il dungeon",
+   "pagina": 34,
+   "sintesi": "Le Profondità usano tabelle proprie; le forme irregolari sono tunnel dei vermi, quelle regolari opere dei Precursori; si possono ribaltare, specchiare e troncare ai bordi. Codici: ST, CN, CS, IC, UF.",
+   "parametri": {
+    "codici": [
+     "ST",
+     "CN",
+     "CS",
+     "IC",
+     "UF"
+    ]
+   }
+  },
+  {
+   "id": "corridoio-stretto",
+   "nome": "Corridoio stretto (CS)",
+   "pagina": 35,
+   "sintesi": "Fila indiana: armi a due mani -1 e senza il +1; armi lunghe vietate; armi leggere da taglio +1 senza la penalità; a distanza solo chi è primo (o quarto per attacchi alle spalle).",
+   "parametri": {
+    "dueManiMod": -1,
+    "leggereTaglioMod": 1
+   }
+  },
+  {
+   "id": "uscita-fiume",
+   "nome": "Uscita sul fiume (UF) e barcaioli",
+   "pagina": 35,
+   "sintesi": "4 su 1d6 di trovare una barca; senza incontro un barcaiolo (1d6: 1-2 umano, 3 scheletrico, 4 automa, 5 elfo oscuro, 6 hobgoblin), tutti BOSS LIV 9 ATT 1 PV LMP (hobgoblin LMP+1), che non combattono se non attaccati; 20 p.o. a viaggio per personaggio (30 l'hobgoblin). Se la barca è distrutta il barcaiolo muore o fugge (50%). L'automa ripete i Pericoli fluviali.",
+   "parametri": {
+    "barcaProbSu6": 4,
+    "costoPo": 20,
+    "costoPoHobgoblin": 30,
+    "liv": 9,
+    "fugaOMorteProb": 50
+   }
+  },
+  {
+   "id": "formato-mostri",
+   "nome": "Formato dei mostri e arrotondamenti",
+   "pagina": 36,
+   "sintesi": "Nome (numero), categoria, LIV, ATT, PV, MOR, TES (numero, NO o ST), poi regole speciali e reazioni al singolare; gli arrotondamenti sono per difetto.",
+   "parametri": {
+    "arrotondamento": "per difetto"
+   }
+  },
+  {
+   "id": "trappole-regole",
+   "nome": "Trappole (regole comuni)",
+   "pagina": 40,
+   "sintesi": "Tutte le trappole sono LMP+GR+2; i personaggi aggiungono +1/2L ai TS indicati; i mezzuomini possono sempre ripetere un TS fallito salvo alternativa migliore.",
+   "parametri": {
+    "livMod": 2,
+    "livGR": true,
+    "bonusTSTutti": "1/2L",
+    "mezzuominoRipete": true
+   }
+  },
+  {
+   "id": "allucinazioni-regole",
+   "nome": "Allucinazioni",
+   "pagina": 42,
+   "sintesi": "Se causate ai nemici si segue il testo in corsivo (versioneNemico). Dopo 2 allucinazioni nell'avventura il risultato 4 su Contenuti diventa un Evento.",
+   "parametri": {
+    "maxPerAvventura": 2
+   }
+  },
+  {
+   "id": "tesori-regola",
+   "nome": "Tabella Tesori",
+   "pagina": 47,
+   "sintesi": "d10 con righe 0 o meno e 10 o più (ritira 2 o 4 volte, ma 4 su 1d6 di erranti che sorprendono).",
+   "parametri": {
+    "righeEstreme": true,
+    "ritiri": [
+     2,
+     4
+    ],
+    "erranti4Su6": true
+   }
+  },
+  {
+   "id": "missioni",
+   "nome": "Missioni e Dama in grigio",
+   "pagina": 62,
+   "sintesi": "La Dama in grigio (evento 1) assegna missioni (d6) che al termine danno tiri ES, tesori magici o pergamene.",
+   "parametri": {
+    "missioni": 6
+   }
+  },
+  {
+   "id": "cittadelle-regola",
+   "nome": "Cittadelle",
+   "pagina": 64,
+   "sintesi": "Sei tipi di Cittadella (dungeon separati, consigliati ai leggendari) con numero di stanze e regole proprie.",
+   "parametri": {
+    "tipi": 6
+   }
+  },
+  {
+   "id": "idoli",
+   "nome": "Idoli ciclopici",
+   "pagina": 66,
+   "sintesi": "Sei tipi di idolo (gemme, che cammina, segreto, allucinante, profezia, magia); uno scappa dall'idolo che cammina e l'1 vale 2 nei successivi tiri.",
+   "parametri": {
+    "tipi": 6
+   }
+  },
+  {
+   "id": "segreti-profondita",
+   "nome": "Segreti delle Profondità",
+   "pagina": 72,
+   "sintesi": "Si possono scoprire anche i segreti del manuale base (p.60) e di Contro l'Abisso (p.41); in più 3 segreti eroici (5 indizi) e 4 leggendari (6 indizi).",
+   "parametri": {
+    "eroici": 3,
+    "leggendari": 4
+   }
+  },
+  {
+   "id": "reazioni-nuove",
+   "nome": "Reazioni dei mostri",
+   "pagina": 36,
+   "sintesi": "Reazioni come in Abisso: Corruzione con costi in p.o., razioni, gemme, pergamene, indizi, cristalli ronzanti, animali vivi; nuova reazione «offre cibo e riposo» del goblin mutato maggiore.",
+   "parametri": {
+    "nuove": [
+     "offre-riposo"
+    ]
+   }
+  }
+ ],
+ "indiceTabelle": [
+  {
+   "chiave": "naturaFiume",
+   "nome": "Natura del fiume",
+   "dado": "d6",
+   "pagina": 30,
+   "dove": "tabelle.naturaFiume"
+  },
+  {
+   "chiave": "mappaTratti",
+   "nome": "Tratti di fiume (mappa)",
+   "dado": "d66",
+   "pagina": 36,
+   "dove": "forme.mappaTratti"
+  },
+  {
+   "chiave": "mappaForme",
+   "nome": "Forme delle aree (mappa)",
+   "dado": "d66",
+   "pagina": 36,
+   "dove": "forme.mappaForme"
+  },
+  {
+   "chiave": "caratteristicaTratto",
+   "nome": "Caratteristica del tratto",
+   "dado": "d6",
+   "pagina": 33,
+   "dove": "tabelle.caratteristicaTratto"
+  },
+  {
+   "chiave": "tipoCaratteristica",
+   "nome": "Tipo di caratteristica (P/R/T)",
+   "dado": "d6",
+   "pagina": 33,
+   "dove": "tabelle.tipoCaratteristica"
+  },
+  {
+   "chiave": "barcaiolo",
+   "nome": "Barcaiolo all'uscita sul fiume",
+   "dado": "d6",
+   "pagina": 35,
+   "dove": "tabelle.barcaiolo"
+  },
+  {
+   "chiave": "contenuto",
+   "nome": "Contenuti della stanza",
+   "dado": "2d6",
+   "pagina": 39,
+   "dove": "tabelle.contenuto"
+  },
+  {
+   "chiave": "trappole",
+   "nome": "Trappole",
+   "dado": "d6",
+   "pagina": 40,
+   "dove": "tabelle.trappole"
+  },
+  {
+   "chiave": "allucinazioni",
+   "nome": "Allucinazioni",
+   "dado": "d6",
+   "pagina": 42,
+   "dove": "tabelle.allucinazioni"
+  },
+  {
+   "chiave": "eventi",
+   "nome": "Eventi speciali",
+   "dado": "d10",
+   "pagina": 44,
+   "dove": "tabelle.eventi"
+  },
+  {
+   "chiave": "tesori",
+   "nome": "Tesori",
+   "dado": "d10",
+   "pagina": 47,
+   "dove": "tabelle.tesori"
+  },
+  {
+   "chiave": "tesoriMagiciEroici",
+   "nome": "Tesori magici eroici",
+   "dado": "d6",
+   "pagina": 48,
+   "dove": "tabelle.tesoriMagiciEroici"
+  },
+  {
+   "chiave": "tesoriMagiciLeggendari",
+   "nome": "Tesori magici leggendari",
+   "dado": "d10",
+   "pagina": 50,
+   "dove": "tabelle.tesoriMagiciLeggendari"
+  },
+  {
+   "chiave": "infestanti",
+   "nome": "Mostri infestanti",
+   "dado": "d6",
+   "pagina": 53,
+   "dove": "mostri.infestanti"
+  },
+  {
+   "chiave": "seguaci",
+   "nome": "Mostri seguaci",
+   "dado": "d6",
+   "pagina": 54,
+   "dove": "mostri.seguaci"
+  },
+  {
+   "chiave": "orde",
+   "nome": "Orde",
+   "dado": "d6",
+   "pagina": 55,
+   "dove": "mostri.orde"
+  },
+  {
+   "chiave": "aberranti",
+   "nome": "Mostri aberranti",
+   "dado": "d6",
+   "pagina": 56,
+   "dove": "mostri.aberranti"
+  },
+  {
+   "chiave": "aberrantiCittadella",
+   "nome": "Mostri aberranti della Cittadella",
+   "dado": "d6",
+   "pagina": 58,
+   "dove": "mostri.aberrantiCittadella"
+  },
+  {
+   "chiave": "boss",
+   "nome": "Mostri boss",
+   "dado": "d6",
+   "pagina": 60,
+   "dove": "mostri.boss"
+  },
+  {
+   "chiave": "missioni",
+   "nome": "Missioni",
+   "dado": "d6",
+   "pagina": 62,
+   "dove": "tabelle.missioni"
+  },
+  {
+   "chiave": "cittadelle",
+   "nome": "Cittadelle",
+   "dado": "d6",
+   "pagina": 64,
+   "dove": "tabelle.cittadelle"
+  },
+  {
+   "chiave": "idoli",
+   "nome": "Idoli ciclopici",
+   "dado": "d6",
+   "pagina": 66,
+   "dove": "tabelle.idoli"
+  },
+  {
+   "chiave": "pericoliFluviali",
+   "nome": "Pericoli fluviali",
+   "dado": "d6",
+   "pagina": 68,
+   "dove": "tabelle.pericoliFluviali"
+  },
+  {
+   "chiave": "incontriFluviali",
+   "nome": "Incontri fluviali",
+   "dado": "d6",
+   "pagina": 68,
+   "dove": "mostri.incontriFluviali"
+  },
+  {
+   "chiave": "contenutoRovine",
+   "nome": "Contenuti di rovine e tumuli",
+   "dado": "2d6",
+   "pagina": 70,
+   "dove": "tabelle.contenutoRovine"
+  },
+  {
+   "chiave": "incantesimoEroicoCaso",
+   "nome": "Incantesimo eroico a caso",
+   "dado": "d6",
+   "pagina": 26,
+   "dove": "tabelle.incantesimoEroicoCaso"
+  },
+  {
+   "chiave": "incantesimoLeggendarioCaso",
+   "nome": "Incantesimo leggendario a caso",
+   "dado": "d6",
+   "pagina": 28,
+   "dove": "tabelle.incantesimoLeggendarioCaso"
+  },
+  {
+   "chiave": "armaLeggendariaTipo",
+   "nome": "Tipo di arma leggendaria",
+   "dado": "d6",
+   "pagina": 50,
+   "dove": "tabelle.armaLeggendariaTipo"
+  },
+  {
+   "chiave": "armaturaLeggendariaTipo",
+   "nome": "Tipo di armatura leggendaria",
+   "dado": "d6",
+   "pagina": 50,
+   "dove": "tabelle.armaturaLeggendariaTipo"
+  },
+  {
+   "chiave": "aberranteOrigine",
+   "nome": "Origine dell'aberrante (stanza)",
+   "dado": "d6",
+   "pagina": 39,
+   "dove": "tabelle.aberranteOrigine"
+  },
+  {
+   "chiave": "cittadellaMagicaIdoloAltare",
+   "nome": "Idolo o altare nella Cittadella magica",
+   "dado": "d6",
+   "pagina": 65,
+   "dove": "tabelle.cittadellaMagicaIdoloAltare"
+  },
+  {
+   "chiave": "idoloStatua",
+   "nome": "Idolo: statua o tabella",
+   "dado": "d6",
+   "pagina": 65,
+   "dove": "tabelle.idoloStatua"
+  }
+ ],
+ "rimandi": [
+  {
+   "cosa": "LMP (livello massimo dei personaggi), regole stanze/corridoi, boss finale, follia, tiri ES, segreti",
+   "libro": "Manuale base",
+   "pagina": "6, 60"
+  },
+  {
+   "cosa": "Colpo di scudo (requisito di Colpo di scudo eroico); Sesto senso; segreti; dungeon dell'Abisso via portale/passaggio; Conciatore arcano",
+   "libro": "Contro l'Abisso",
+   "pagina": "21, 41"
+  },
+  {
+   "cosa": "Tabella «Toccato dal caos» (Ripristino fisico, Canzone di Elidra); dungeon caotici via portale",
+   "libro": "Contro il Caos",
+   "pagina": 56
+  },
+  {
+   "cosa": "Cubo anima (Barca fortunata, Fornace dell'Amuleto); dimensione/mappa dell'Aldilà; accesso dal Rivo delle Lacrime",
+   "libro": "Orrori dall'Aldilà",
+   "pagina": 12
+  },
+  {
+   "cosa": "Incantesimo druidico Distruggi la Non-vita (unico incantesimo che ferisce l'idolo che cammina); incantesimi druidici (Formazione druidica)",
+   "libro": "Contro l'Abisso / supplementi druidici",
+   "pagina": 66
+  },
+  {
+   "cosa": "Macellazione dell'ogre vivandiere (utensili da cucina leggendari)",
+   "libro": "supplemento non indicato",
+   "pagina": 51
+  },
+  {
+   "cosa": "Classi non ancora pubblicate citate (piromante, cristallomante, artificiere, demonologo, cacciatore di streghe, naturalista, negromante, monaco, mistico marziale, signore delle bestie, ogre vivandiere, paladino, cavaliere errante, bardo, trovatore)",
+   "libro": "supplementi futuri",
+   "pagina": 5,
+   "nota": "Nota importante p.5: ignorare ciò che non è ancora pubblicato."
+  },
+  {
+   "cosa": "Grado epico (livello 20+)",
+   "libro": "Eroi Epici di Norindaal",
+   "pagina": 9
+  }
+ ],
+ "ambiguita": [
+  {
+   "punto": "Tiri ES leggendari: il testo (p.7) dice 1d12+7 per livello e abilità leggendarie, +8 per le eroiche, +9 per le esperte; la tabella dei gradi (p.9) dice +8 / +8 / +9 / +10.",
+   "scelta": "Adottata la tabella (+8 livello e leggendarie, +9 eroiche, +10 esperte), coerente con lo schema crescente delle altre colonne; valori del testo conservati in gradi[leggendario].testoAlternativo."
+  },
+  {
+   "punto": "Esplosione del d12: il testo (p.7) elenca 8, 9, 10, 11, 12 (8+); la tabella (p.9) indica 9+.",
+   "scelta": "Adottata la tabella (9+); il 8+ resta in gradi[leggendario].testoAlternativo e nel parametro esplosioneDaTesto."
+  },
+  {
+   "punto": "La tabella riassuntiva p.9 ha le colonne spostate nell'estrazione; la colonna epica (1d20+10 / +13 / +12 / +11 / +10) è ricostruita per posizione.",
+   "scelta": "Ricostruzione per schema (base < esperto < eroico < leggendario); il grado epico è marcato nonGiocabile."
+  },
+  {
+   "punto": "Costo del grado esperto: la tabella p.9 dice 500 p.o. oppure 1 tiro ES (da Contro l'Abisso).",
+   "scelta": "Riportato come 'oppure'; eroico e leggendario sono 'più' (p.o. e tiri ES insieme)."
+  },
+  {
+   "punto": "Livello e grado sono separati: dopo il passaggio all'eroico il PG resta di livello 9 e il d10 vale da subito.",
+   "scelta": "Il programma deve tenere un campo grado distinto dal livello (livelli.nonOpzionaleLivello10)."
+  },
+  {
+   "punto": "LMP non è definito in questo volume.",
+   "scelta": "Usata la definizione del manuale base p.6: livello più alto tra i personaggi del gruppo; liv/pv/rm = \"LMP\" con scarto in livMod/pvMod/rmMod."
+  },
+  {
+   "punto": "Fendente: la versione eroica dice «1 PV in più o un minore in più», la leggendaria «2 PV / 3 minori aggiuntivi invece di 1 PV / 2 minori»: le quantità di minori non sono coerenti.",
+   "scelta": "Interpretato come uccisioni totali per colpo (2 eroico, 3 leggendario): minoriExtra 1 e 2."
+  },
+  {
+   "punto": "Carneficina leggendaria: parla solo di 1d8 minori; l'effetto contro le orde (eroica: 1d6 danni) non è ripetuto.",
+   "scelta": "Assunto 1d8 anche contro le orde (nota nel campo dell'abilità)."
+  },
+  {
+   "punto": "Classi di varie abilità (Canzone di Elidra «classi musicali», Ripristino fisico «incantatori e chierici», Ripristino mentale «incantatori», Comando animale «signori delle bestie»).",
+   "scelta": "Elenchi di classi con gli id del programma più id di classi non ancora pubblicate (bardo, trovatore, druido, signore-bestie); nota nel campo dove serve."
+  },
+  {
+   "punto": "Pugno Arcano è definito illusorio ma non elenca classi che possono impararlo (Invisibilità di Massa: elfi e gnomi; Distrazioni Illusorie: gnomi).",
+   "scelta": "Solo mago."
+  },
+  {
+   "punto": "Botola dell'oblio: il TS degli altri è «contro il L della botola» senza valore.",
+   "scelta": "Assunto il livello della trappola (LMP+GR+2)."
+  },
+  {
+   "punto": "Disco di ossidiana: «ladri» aggiungono +L; il programma usa furfante.",
+   "scelta": "Mappato su furfante."
+  },
+  {
+   "punto": "Valori TES: il testo usa ST, NO, numeri con segno e «x2» (anche «+1 x2», «-1 x2»).",
+   "scelta": "tes numerico = modificatore (come abisso.json: 1 = TES +1); tesMolt per i moltiplicatori; TES ST = 0."
+  },
+  {
+   "punto": "Reazioni «Combatte sempre» (pedinatori, idolo) e «Combatte sempre fino alla morte» (sporagni, accoliti, fanghiglia, zombi).",
+   "scelta": "combatte-sempre per il primo caso, morte per il secondo (come in abisso.json)."
+  },
+  {
+   "punto": "Costi della Corruzione: oltre ai p.o. ci sono razioni, gemme, pergamene, indizi, cristalli ronzanti, animali vivi, la barca del gruppo; «a mostro» è esplicito solo in alcuni casi.",
+   "scelta": "Parametri numerici = p.o.; altrimenti stringa testuale, sempre intesi a mostro come nei volumi precedenti."
+  },
+  {
+   "punto": "Uccello agnas: TES «vedi sotto» (piume del valore di 5d6x10 p.o. come componenti alchemici).",
+   "scelta": "tes = null con tesOro e tesExtra."
+  },
+  {
+   "punto": "Maestro psionico delle caverne: il danno della mazza non è indicato.",
+   "scelta": "danno null nell'attacco; il programma può usare 1."
+  },
+  {
+   "punto": "Goblin mutato maggiore: arma perfetta del valore «1d6+4x5 p.o.».",
+   "scelta": "Riportata la stringa originale in tesExtra; lettura probabile (1d6+4)x5 p.o., non verificabile."
+  },
+  {
+   "punto": "Orde: il manuale rimanda ai mostri maggiori (LIV -1 a metà PV) ma per goblin dice esplicitamente -2.",
+   "scelta": "Il goblin ha livAMetaPV con -2; le altre orde seguono la regola base dei maggiori (non copiata qui)."
+  },
+  {
+   "punto": "Tabella Tesori d10: righe «0 o meno» e «10 o più»; il modificatore TES dei mostri si applica al tiro.",
+   "scelta": "Righe estreme da=-99 e a=99; modificatore come nei volumi precedenti (non spiegato qui)."
+  },
+  {
+   "punto": "Il Rivo Serpe è chiamato anche «Rivo del Serpente» nel testo.",
+   "scelta": "Un solo fiume, id p-rivo-serpe."
+  },
+  {
+   "punto": "Pericolo fluviale Barca danneggiata: nessun effetto pratico oltre alla distruzione alla seconda uscita; il Teletrasporto richiede TS L8 del barcaiolo.",
+   "scelta": "Modellato come stato barca danneggiata; il secondo risultato distrugge la barca."
+  },
+  {
+   "punto": "Rivo della Fiamma: «+1 per ogni tratto navigato consecutivamente» non dice se il primo tratto conta già +1.",
+   "scelta": "Assunto che il primo tratto sia +1 (n-esimo tratto: +n)."
+  },
+  {
+   "punto": "Mappe d66 dei tratti (pp.36-37): le etichette ST/CN/CS e FI sono nel testo estratto ma i marcatori UF, IC, P, T, FINE sono sciolti e le sagome sono grafiche.",
+   "scelta": "Ricostruito solo il tipo ST/CN/CS delle 36 aree e l'elenco delle 36 celle FI; marcatori contati in marcatoriNonAssegnati senza assegnarli (UF 3, IC 2 sulle aree; P 5, T 4, FINE 4, IC 2 sui tratti)."
+  },
+  {
+   "punto": "Pagina 38 vuota nell'estrazione (probabile illustrazione, forse parte della mappa).",
+   "scelta": "Ignorata come da istruzioni."
+  },
+  {
+   "punto": "Cittadelle e Contenuti: i corridoi non hanno regole distinte per boss/aberranti/orde.",
+   "scelta": "Applicate le stesse azioni in stanze e corridoi; solo trappola/vuota hanno la nota del corridoio (-1 a perquisire, niente tesoro)."
+  },
+  {
+   "punto": "Benedizione di Massa: «elfi non possono imparare ma possono lanciare da pergamena»; Fortuna del Barcaiolo imparabile anche dai druidi.",
+   "scelta": "Campi nonImparabileDa e classi nell'incantesimo."
+  },
+  {
+   "punto": "Idolo che cammina: l'eccezione è l'incantesimo druidico Distruggi la Non-vita (non presente nei dati).",
+   "scelta": "Campo eccezioneIncantesimo con danno GR+2."
+  },
+  {
+   "punto": "Allucinazione 1 (Sono circondato): il PG è un BOSS di pari LIV/PV, LIV dimezzato per chi non ha bonus di livello all'attacco.",
+   "scelta": "Campo comeBoss.livDimezzatoSeNessunBonusAttacco."
+  },
+  {
+   "punto": "Abilità Banchetto dell'eroe/Riposo dell'eroe: 'avventura o capitolo' non è definito.",
+   "scelta": "usi testuale '1 per avventura o capitolo'."
+  },
+  {
+   "punto": "Sesto senso (abilità esperta, Abisso) è citata dai pedinatori.",
+   "scelta": "Campo primoAttaccoSeSorpresa.attacchiSeSestoSenso: 2."
+  }
+ ]
+}

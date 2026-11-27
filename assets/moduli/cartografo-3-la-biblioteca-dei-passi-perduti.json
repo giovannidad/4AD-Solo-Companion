@@ -1,0 +1,3913 @@
+{
+ "formato": "4ad-avventura",
+ "versione": 1,
+ "nome": "La biblioteca dei passi perduti",
+ "autore": "Giovanni D'Addabbo per 4AD Solo Companion",
+ "lingua": "it",
+ "descrizione": "Capitolo 3 di 5 de «Il Cartografo dell'Oblio». In un monastero sulle montagne i corridoi si riscrivono ogni notte. Nell'Indice, l'ultimo libro dell'Ordine, c'è il nome di chi cancella il mondo, e la ragione.",
+ "introduzione": "Il monastero di San Verbo sorge a duemila metri, dove l'aria è così sottile che le parole si sentono meglio dei passi. I monaci cartografi vi custodivano la Biblioteca dei Passi Perduti: ottomila volumi, ciascuno con la carta di un luogo che non sarebbe mai stato visitato. Da una settimana nessun monaco scende a valle. Da una settimana, di notte, la biblioteca cambia pianta.\n\nIl vecchio sacrestano che vi accoglie al portone non ha più la lingua, e scrive con il carbone sul pavimento: «Il bibliotecario ha letto troppo. Ora le stanze si ricordano da sole, e si dimenticano quando vogliono.» Mostra un portale di quercia da cui trapelano, come fumo, parole in tre alfabeti.\n\nQui, secondo il compasso, finisce un filo. Là dentro, da qualche parte, c'è l'Indice: il registro dei nomi di tutti i luoghi mai disegnati dall'Ordine. Chi vuole sapere perché Ysmeril Vael cancella il mondo deve leggerlo. Ma ogni pagina letta costa qualcosa, e il bibliotecario non ama i lettori che non restituiscono i libri.",
+ "introduzioneSe": {
+  "2:salva-porto": "Lagonero ha riavuto i suoi moli, e un battello di pescatori vi ha portato fin qui senza chiedere nulla: sul fondo della barca c'è una cesta di pane e un biglietto di Mirel, con una sola riga: «Leggete bene. Non fidatevi di ciò che sembra una porta.»",
+  "2:registri": "Le carte di Ysmeril, ancora umide, vi hanno condotto fin qui: la loro ultima pagina porta il disegno di questo monastero, con una X sull'ultimo scaffale. «Qui c'è la sua ultima carta» dice il sacrestano muto, scrivendo con il carbone, quasi con sollievo."
+ },
+ "obiettivo": "Attraversa la Biblioteca dei Passi Perduti, sconfiggi il Bibliotecario che l'ha corrotta e recupera il terzo Frammento della Mappa dell'Alba, con il Nome nell'Indice.",
+ "serie": {
+  "id": "cartografo",
+  "numero": 3,
+  "di": 5
+ },
+ "livello": {
+  "min": 3,
+  "max": 4
+ },
+ "eroi": {
+  "min": 3,
+  "max": 5
+ },
+ "set": "diabolici",
+ "fine": "boss",
+ "conclusione": "L'Indice si chiude con un tonfo di montagna. Il terzo lembo di pergamena si lascia sfilare dal dorso del libro come una lingua dalla bocca, e ora, finalmente, la calligrafia è leggibile: «Ysmeril Vael, capo cartografo dell'Ordine della Bussola, scrive questo ultimo atto prima di scendere dove nessuna mappa arriva. Ciò che sta sotto il mondo vede soltanto ciò che è disegnato. Se cancello abbastanza, dormirà.»",
+ "finali": [
+  {
+   "id": "leggi",
+   "nome": "Leggere l'ultima pagina",
+   "scelta": "Leggi tutta la pagina dell'Indice: saprai dove si trova Ysmeril, ma ricorderai per sempre ciò che c'è scritto.",
+   "testo": "Leggete l'ultima pagina fino all'ultima riga. Per un istante vedete il mondo com'è davvero: una mappa sottilissima stesa sopra un abisso, e dall'abisso un occhio che cerca. Quando la visione si ritira, sapete dove trovare Ysmeril, e sapete che ha ragione, almeno in parte. Il peso di questa verità vi accompagnerà. Il sacrestano vi bacia le mani, senza lingua."
+  },
+  {
+   "id": "brucia",
+   "nome": "Bruciare l'Indice",
+   "scelta": "Dai fuoco al libro: nessuno potrà più leggere il nome dei luoghi cancellati, nemmeno Ysmeril.",
+   "testo": "Date fuoco all'Indice con la lanterna. Le pagine bruciano di una luce blu, e per un istante tutta la biblioteca canta: ottomila luoghi che non esisteranno mai, liberati. Il monastero ricorda come respirare. Ma ciò che avete bruciato conteneva anche la via più breve verso Ysmeril, e ora dovrete cercarlo seguendo soltanto le cuciture del mondo."
+  }
+ ],
+ "stanze": [
+  {
+   "id": "portale",
+   "nome": "Il portale di quercia",
+   "tipo": "ingresso",
+   "celle": [
+    [
+     41,
+     27
+    ],
+    [
+     42,
+     27
+    ],
+    [
+     43,
+     27
+    ],
+    [
+     44,
+     27
+    ],
+    [
+     45,
+     27
+    ],
+    [
+     41,
+     28
+    ],
+    [
+     42,
+     28
+    ],
+    [
+     43,
+     28
+    ],
+    [
+     44,
+     28
+    ],
+    [
+     45,
+     28
+    ],
+    [
+     41,
+     29
+    ],
+    [
+     42,
+     29
+    ],
+    [
+     41,
+     30
+    ],
+    [
+     42,
+     30
+    ],
+    [
+     41,
+     31
+    ],
+    [
+     42,
+     31
+    ]
+   ],
+   "testo": "Un portale alto tre uomini, scolpito con le mappe di un mondo che forse non è mai esistito. Oltre la soglia, l'aria odora di colla, di polvere e di cera, e le parole ti sfiorano il viso come falene."
+  },
+  {
+   "id": "atrio",
+   "nome": "Atrio dei lettori",
+   "tipo": "stanza",
+   "celle": [
+    [
+     32,
+     26
+    ],
+    [
+     33,
+     26
+    ],
+    [
+     34,
+     26
+    ],
+    [
+     30,
+     27
+    ],
+    [
+     31,
+     27
+    ],
+    [
+     32,
+     27
+    ],
+    [
+     33,
+     27
+    ],
+    [
+     34,
+     27
+    ],
+    [
+     35,
+     27
+    ],
+    [
+     36,
+     27
+    ],
+    [
+     30,
+     28
+    ],
+    [
+     31,
+     28
+    ],
+    [
+     32,
+     28
+    ],
+    [
+     33,
+     28
+    ],
+    [
+     34,
+     28
+    ],
+    [
+     35,
+     28
+    ],
+    [
+     36,
+     28
+    ],
+    [
+     30,
+     29
+    ],
+    [
+     31,
+     29
+    ],
+    [
+     32,
+     29
+    ],
+    [
+     33,
+     29
+    ],
+    [
+     34,
+     29
+    ],
+    [
+     35,
+     29
+    ],
+    [
+     36,
+     29
+    ],
+    [
+     32,
+     30
+    ],
+    [
+     33,
+     30
+    ],
+    [
+     34,
+     30
+    ]
+   ],
+   "testo": "Panche, leggii, una grande lanterna di vetro che oscilla appesa senza catena. Il pavimento è di lettere di legno, e ogni passo compone parole che non vuoi leggere.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-ragni"
+    }
+   ]
+  },
+  {
+   "id": "scrittorio",
+   "nome": "Scrittorio degli amanuensi",
+   "tipo": "stanza",
+   "celle": [
+    [
+     26,
+     34
+    ],
+    [
+     25,
+     35
+    ],
+    [
+     26,
+     35
+    ],
+    [
+     27,
+     35
+    ],
+    [
+     24,
+     36
+    ],
+    [
+     25,
+     36
+    ],
+    [
+     26,
+     36
+    ],
+    [
+     27,
+     36
+    ],
+    [
+     28,
+     36
+    ],
+    [
+     25,
+     37
+    ],
+    [
+     26,
+     37
+    ],
+    [
+     27,
+     37
+    ],
+    [
+     26,
+     38
+    ]
+   ],
+   "testo": "Venti scrivanie, venti sedie spostate, venti calamai ancora pieni. Gli amanuensi sono ancora al lavoro: scheletri con la penna in mano, che copiano in silenzio lo stesso rigo, in eterno.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-scheletri-corazzati"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "galleria",
+   "nome": "Galleria dei corridoi mobili",
+   "tipo": "stanza",
+   "celle": [
+    [
+     21,
+     31
+    ],
+    [
+     22,
+     31
+    ],
+    [
+     23,
+     31
+    ],
+    [
+     24,
+     31
+    ],
+    [
+     25,
+     31
+    ],
+    [
+     26,
+     31
+    ],
+    [
+     21,
+     32
+    ],
+    [
+     22,
+     32
+    ],
+    [
+     23,
+     32
+    ],
+    [
+     24,
+     32
+    ],
+    [
+     25,
+     32
+    ],
+    [
+     26,
+     32
+    ],
+    [
+     21,
+     33
+    ],
+    [
+     22,
+     33
+    ],
+    [
+     23,
+     33
+    ],
+    [
+     24,
+     33
+    ],
+    [
+     25,
+     33
+    ],
+    [
+     26,
+     33
+    ]
+   ],
+   "testo": "Tre corridoi identici partono dalla galleria. Dopo un passo, ti accorgi che stai già percorrendo il quarto. Le pareti si riscrivono sotto le dita.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Dardo",
+     "liv": 6
+    },
+    {
+     "tipo": "caratteristica",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "scala",
+   "nome": "Scala a chiocciola senza fine",
+   "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     35
+    ],
+    [
+     14,
+     35
+    ],
+    [
+     15,
+     35
+    ],
+    [
+     12,
+     36
+    ],
+    [
+     13,
+     36
+    ],
+    [
+     14,
+     36
+    ],
+    [
+     15,
+     36
+    ],
+    [
+     11,
+     37
+    ],
+    [
+     12,
+     37
+    ],
+    [
+     13,
+     37
+    ],
+    [
+     14,
+     37
+    ],
+    [
+     15,
+     37
+    ],
+    [
+     11,
+     38
+    ],
+    [
+     12,
+     38
+    ],
+    [
+     13,
+     38
+    ],
+    [
+     14,
+     38
+    ],
+    [
+     15,
+     38
+    ],
+    [
+     11,
+     39
+    ],
+    [
+     12,
+     39
+    ],
+    [
+     13,
+     39
+    ],
+    [
+     14,
+     39
+    ],
+    [
+     15,
+     39
+    ],
+    [
+     12,
+     40
+    ],
+    [
+     13,
+     40
+    ],
+    [
+     14,
+     40
+    ],
+    [
+     15,
+     40
+    ],
+    [
+     13,
+     41
+    ],
+    [
+     14,
+     41
+    ],
+    [
+     15,
+     41
+    ]
+   ],
+   "testo": "Una scala che sale e scende, a volte nello stesso istante. Chi guarda in alto vede sé stesso scendere. Chi guarda in basso vede sé stesso salire.",
+   "contenuto": [
+    {
+     "tipo": "evento",
+     "nome": "L'altro che sale",
+     "testo": "Un eroe a caso (tira 1d6) incrocia sé stesso sulla scala: se tira 1-2, l'altro gli sussurra una frase e per questa avventura ha −1 al primo attacco di ogni scontro; con 5-6 impara qualcosa e ha +1 al primo tiro salvezza."
+    }
+   ]
+  },
+  {
+   "id": "refettorio",
+   "nome": "Refettorio dei monaci",
+   "tipo": "stanza",
+   "celle": [
+    [
+     39,
+     18
+    ],
+    [
+     40,
+     18
+    ],
+    [
+     41,
+     18
+    ],
+    [
+     42,
+     18
+    ],
+    [
+     43,
+     18
+    ],
+    [
+     38,
+     19
+    ],
+    [
+     39,
+     19
+    ],
+    [
+     40,
+     19
+    ],
+    [
+     41,
+     19
+    ],
+    [
+     42,
+     19
+    ],
+    [
+     43,
+     19
+    ],
+    [
+     44,
+     19
+    ],
+    [
+     38,
+     20
+    ],
+    [
+     39,
+     20
+    ],
+    [
+     40,
+     20
+    ],
+    [
+     41,
+     20
+    ],
+    [
+     42,
+     20
+    ],
+    [
+     43,
+     20
+    ],
+    [
+     44,
+     20
+    ],
+    [
+     38,
+     21
+    ],
+    [
+     39,
+     21
+    ],
+    [
+     40,
+     21
+    ],
+    [
+     41,
+     21
+    ],
+    [
+     42,
+     21
+    ],
+    [
+     43,
+     21
+    ],
+    [
+     44,
+     21
+    ],
+    [
+     39,
+     22
+    ],
+    [
+     40,
+     22
+    ],
+    [
+     41,
+     22
+    ],
+    [
+     42,
+     22
+    ],
+    [
+     43,
+     22
+    ]
+   ],
+   "testo": "Lunghi tavoli apparecchiati per cento. La zuppa nei piatti è ancora tiepida. Seduti, immobili, ci sono monaci con la tonaca nera e il cappuccio calato, e ciascuno ha un solo occhio.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "d-nani-posseduti"
+    }
+   ]
+  },
+  {
+   "id": "copisteria",
+   "nome": "Copisteria delle penne d'oca",
+   "tipo": "stanza",
+   "celle": [
+    [
+     23,
+     21
+    ],
+    [
+     24,
+     21
+    ],
+    [
+     25,
+     21
+    ],
+    [
+     22,
+     22
+    ],
+    [
+     23,
+     22
+    ],
+    [
+     24,
+     22
+    ],
+    [
+     25,
+     22
+    ],
+    [
+     26,
+     22
+    ],
+    [
+     21,
+     23
+    ],
+    [
+     22,
+     23
+    ],
+    [
+     23,
+     23
+    ],
+    [
+     24,
+     23
+    ],
+    [
+     25,
+     23
+    ],
+    [
+     26,
+     23
+    ],
+    [
+     27,
+     23
+    ],
+    [
+     21,
+     24
+    ],
+    [
+     22,
+     24
+    ],
+    [
+     23,
+     24
+    ],
+    [
+     24,
+     24
+    ],
+    [
+     25,
+     24
+    ],
+    [
+     26,
+     24
+    ],
+    [
+     27,
+     24
+    ],
+    [
+     21,
+     25
+    ],
+    [
+     22,
+     25
+    ],
+    [
+     23,
+     25
+    ],
+    [
+     24,
+     25
+    ],
+    [
+     25,
+     25
+    ],
+    [
+     26,
+     25
+    ],
+    [
+     27,
+     25
+    ],
+    [
+     22,
+     26
+    ],
+    [
+     23,
+     26
+    ],
+    [
+     24,
+     26
+    ],
+    [
+     25,
+     26
+    ],
+    [
+     26,
+     26
+    ],
+    [
+     23,
+     27
+    ],
+    [
+     24,
+     27
+    ],
+    [
+     25,
+     27
+    ]
+   ],
+   "testo": "Migliaia di penne d'oca ritte in vasi di coccio. Quando respiri, tutte vibrano insieme, come se ti ascoltassero. Alcune hanno lasciato una macchia nera sul soffitto.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-uccelli"
+    }
+   ]
+  },
+  {
+   "id": "rilegatura",
+   "nome": "Rilegatura",
+   "tipo": "stanza",
+   "celle": [
+    [
+     30,
+     40
+    ],
+    [
+     28,
+     41
+    ],
+    [
+     29,
+     41
+    ],
+    [
+     30,
+     41
+    ],
+    [
+     31,
+     41
+    ],
+    [
+     27,
+     42
+    ],
+    [
+     28,
+     42
+    ],
+    [
+     29,
+     42
+    ],
+    [
+     30,
+     42
+    ],
+    [
+     31,
+     42
+    ],
+    [
+     28,
+     43
+    ],
+    [
+     29,
+     43
+    ],
+    [
+     30,
+     43
+    ]
+   ],
+   "testo": "Torchi, pelli di capra, colla bollente in un calderone che sobbolle da sola. Uno strano golem di cuoio e carta ricuce un volume con un ago d'osso, e nel farlo ride.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "d-golem"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    }
+   ]
+  },
+  {
+   "id": "scaffali",
+   "nome": "Scaffali alti",
+   "tipo": "stanza",
+   "celle": [
+    [
+     16,
+     25
+    ],
+    [
+     18,
+     25
+    ],
+    [
+     15,
+     26
+    ],
+    [
+     16,
+     26
+    ],
+    [
+     17,
+     26
+    ],
+    [
+     18,
+     26
+    ],
+    [
+     19,
+     26
+    ],
+    [
+     20,
+     26
+    ],
+    [
+     15,
+     27
+    ],
+    [
+     16,
+     27
+    ],
+    [
+     17,
+     27
+    ],
+    [
+     18,
+     27
+    ],
+    [
+     19,
+     27
+    ],
+    [
+     20,
+     27
+    ],
+    [
+     15,
+     28
+    ],
+    [
+     16,
+     28
+    ],
+    [
+     17,
+     28
+    ],
+    [
+     18,
+     28
+    ],
+    [
+     19,
+     28
+    ],
+    [
+     20,
+     28
+    ],
+    [
+     16,
+     29
+    ],
+    [
+     18,
+     29
+    ]
+   ],
+   "testo": "Scaffali che si perdono nel buio dell'altezza. Scale a pioli salgono verso ripiani che non si vedono. Dall'alto piovono pagine, come foglie d'autunno.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-uomini-capra"
+    },
+    {
+     "tipo": "evento",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "giardino",
+   "nome": "Giardino della meditazione",
+   "tipo": "stanza",
+   "celle": [
+    [
+     4,
+     33
+    ],
+    [
+     5,
+     33
+    ],
+    [
+     6,
+     33
+    ],
+    [
+     7,
+     33
+    ],
+    [
+     8,
+     33
+    ],
+    [
+     4,
+     34
+    ],
+    [
+     5,
+     34
+    ],
+    [
+     6,
+     34
+    ],
+    [
+     7,
+     34
+    ],
+    [
+     8,
+     34
+    ],
+    [
+     5,
+     35
+    ],
+    [
+     6,
+     35
+    ],
+    [
+     5,
+     36
+    ],
+    [
+     6,
+     36
+    ]
+   ],
+   "testo": "Un chiostro a cielo aperto, con una fontana senza acqua e quattro aiuole di sabbia rastrellata in forma di carte geografiche. Un monaco di pietra sta seduto, immobile, con la mano tesa verso chi entra.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Rosario di perle d'ossidiana (vale 50 p.o. se venduto)",
+       "valore": 50
+      }
+     ]
+    },
+    {
+     "tipo": "caratteristica",
+     "nome": "La mano di pietra",
+     "testo": "Chi pone nella mano del monaco di pietra un pezzo d'oro riceve un presagio: al prossimo tiro salvezza fallito di questa avventura può ritirare il dado una volta."
+    }
+   ]
+  },
+  {
+   "id": "cripta",
+   "nome": "Cripta degli archivisti",
+   "tipo": "stanza",
+   "celle": [
+    [
+     44,
+     14
+    ],
+    [
+     45,
+     14
+    ],
+    [
+     43,
+     15
+    ],
+    [
+     44,
+     15
+    ],
+    [
+     45,
+     15
+    ],
+    [
+     46,
+     15
+    ],
+    [
+     43,
+     16
+    ],
+    [
+     44,
+     16
+    ],
+    [
+     45,
+     16
+    ]
+   ],
+   "testo": "Sarcofagi con coperchi di pergamena cuciti come scatole. Ognuno ha scritto sul coperchio il nome di chi vi riposa e la data in cui è stato dimenticato.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-serpenti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "planisfero",
+   "nome": "Sala del planisfero",
+   "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     15
+    ],
+    [
+     14,
+     15
+    ],
+    [
+     15,
+     15
+    ],
+    [
+     12,
+     16
+    ],
+    [
+     13,
+     16
+    ],
+    [
+     14,
+     16
+    ],
+    [
+     15,
+     16
+    ],
+    [
+     16,
+     16
+    ],
+    [
+     12,
+     17
+    ],
+    [
+     13,
+     17
+    ],
+    [
+     14,
+     17
+    ],
+    [
+     15,
+     17
+    ],
+    [
+     16,
+     17
+    ],
+    [
+     11,
+     18
+    ],
+    [
+     12,
+     18
+    ],
+    [
+     13,
+     18
+    ],
+    [
+     14,
+     18
+    ],
+    [
+     15,
+     18
+    ],
+    [
+     16,
+     18
+    ],
+    [
+     17,
+     18
+    ],
+    [
+     11,
+     19
+    ],
+    [
+     12,
+     19
+    ],
+    [
+     13,
+     19
+    ],
+    [
+     14,
+     19
+    ],
+    [
+     15,
+     19
+    ],
+    [
+     16,
+     19
+    ],
+    [
+     17,
+     19
+    ],
+    [
+     11,
+     20
+    ],
+    [
+     12,
+     20
+    ],
+    [
+     13,
+     20
+    ],
+    [
+     14,
+     20
+    ],
+    [
+     15,
+     20
+    ],
+    [
+     16,
+     20
+    ],
+    [
+     17,
+     20
+    ],
+    [
+     12,
+     21
+    ],
+    [
+     13,
+     21
+    ],
+    [
+     14,
+     21
+    ],
+    [
+     15,
+     21
+    ],
+    [
+     16,
+     21
+    ],
+    [
+     12,
+     22
+    ],
+    [
+     13,
+     22
+    ],
+    [
+     14,
+     22
+    ],
+    [
+     15,
+     22
+    ],
+    [
+     16,
+     22
+    ],
+    [
+     13,
+     23
+    ],
+    [
+     14,
+     23
+    ],
+    [
+     15,
+     23
+    ]
+   ],
+   "testo": "Un planisfero di bronzo, enorme, gira lentamente al centro della sala. Dove un tempo c'erano mari e montagne, ora si aprono buchi lisci, come bruciature fatte con una brace. Davanti alla mappa, un uomo senza volto traccia con il dito un ultimo confine.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Cartografo senza volto",
+     "liv": 6,
+     "att": 2,
+     "pv": 5,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "umanoide",
+      "demone"
+     ],
+     "note": "Se non è ferito nel primo round, cancella un incantesimo preparato a scelta del giocatore (non lanciabile per l'incontro)."
+    }
+   ]
+  },
+  {
+   "id": "archivio",
+   "nome": "Archivio delle carte vive",
+   "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     9
+    ],
+    [
+     14,
+     9
+    ],
+    [
+     15,
+     9
+    ],
+    [
+     13,
+     10
+    ],
+    [
+     14,
+     10
+    ],
+    [
+     15,
+     10
+    ],
+    [
+     13,
+     11
+    ],
+    [
+     14,
+     11
+    ],
+    [
+     15,
+     11
+    ]
+   ],
+   "testo": "Cassetti infiniti, ciascuno con una mappa che si agita come un animale. Una carta ti morde la mano. Un'altra, più prudente, ti indica la direzione di un tesoro.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": 1
+    },
+    {
+     "tipo": "trappola",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "indice",
+   "nome": "Anticamera dell'Indice",
+   "tipo": "stanza",
+   "celle": [
+    [
+     51,
+     0
+    ],
+    [
+     52,
+     0
+    ],
+    [
+     47,
+     1
+    ],
+    [
+     50,
+     1
+    ],
+    [
+     51,
+     1
+    ],
+    [
+     52,
+     1
+    ],
+    [
+     46,
+     2
+    ],
+    [
+     47,
+     2
+    ],
+    [
+     48,
+     2
+    ],
+    [
+     49,
+     2
+    ],
+    [
+     50,
+     2
+    ],
+    [
+     51,
+     2
+    ],
+    [
+     52,
+     2
+    ],
+    [
+     50,
+     3
+    ],
+    [
+     51,
+     3
+    ]
+   ],
+   "testo": "Un'anticamera spoglia, con un solo leggio vuoto. Sopra il leggio, scritto con il fuoco: «Chi legge ciò che non gli è dato, lascia in pegno la propria storia». Ai lati, quattro statue con i libri chiusi ti fissano.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "nome": "Sentinella di libri",
+     "liv": 6,
+     "att": 1,
+     "pv": 5,
+     "maggiore": true,
+     "tes": 1,
+     "tag": [
+      "costrutto"
+     ],
+     "note": "Se uccidi la sentinella in mischia, l'ultimo colpo fa cadere i libri che tiene sul petto: il colpitore tira 1d6 e con 1 perde 1 punto vita."
+    }
+   ]
+  },
+  {
+   "id": "rogo",
+   "nome": "Sala del rogo dimenticato",
+   "tipo": "stanza",
+   "celle": [
+    [
+     53,
+     10
+    ],
+    [
+     54,
+     10
+    ],
+    [
+     55,
+     10
+    ],
+    [
+     52,
+     11
+    ],
+    [
+     53,
+     11
+    ],
+    [
+     54,
+     11
+    ],
+    [
+     55,
+     11
+    ],
+    [
+     56,
+     11
+    ],
+    [
+     51,
+     12
+    ],
+    [
+     52,
+     12
+    ],
+    [
+     53,
+     12
+    ],
+    [
+     54,
+     12
+    ],
+    [
+     55,
+     12
+    ],
+    [
+     56,
+     12
+    ],
+    [
+     57,
+     12
+    ],
+    [
+     51,
+     13
+    ],
+    [
+     52,
+     13
+    ],
+    [
+     53,
+     13
+    ],
+    [
+     54,
+     13
+    ],
+    [
+     55,
+     13
+    ],
+    [
+     56,
+     13
+    ],
+    [
+     57,
+     13
+    ],
+    [
+     51,
+     14
+    ],
+    [
+     52,
+     14
+    ],
+    [
+     53,
+     14
+    ],
+    [
+     54,
+     14
+    ],
+    [
+     55,
+     14
+    ],
+    [
+     56,
+     14
+    ],
+    [
+     57,
+     14
+    ],
+    [
+     52,
+     15
+    ],
+    [
+     53,
+     15
+    ],
+    [
+     54,
+     15
+    ],
+    [
+     55,
+     15
+    ],
+    [
+     56,
+     15
+    ],
+    [
+     53,
+     16
+    ],
+    [
+     54,
+     16
+    ],
+    [
+     55,
+     16
+    ]
+   ],
+   "testo": "Un camino enorme, con cenere ancora calda. Sul fondo, i resti di un rogo di libri: centinaia di volumi bruciati in una sola notte, da qualcuno che li amava.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "d-schiavisti"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true,
+     "mod": -1
+    }
+   ]
+  },
+  {
+   "id": "passo",
+   "nome": "Il passo perduto",
+   "tipo": "stanza",
+   "celle": [
+    [
+     3,
+     12
+    ],
+    [
+     4,
+     12
+    ],
+    [
+     5,
+     12
+    ],
+    [
+     3,
+     13
+    ],
+    [
+     4,
+     13
+    ],
+    [
+     5,
+     13
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     14
+    ],
+    [
+     5,
+     14
+    ],
+    [
+     0,
+     15
+    ],
+    [
+     1,
+     15
+    ],
+    [
+     2,
+     15
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     15
+    ],
+    [
+     5,
+     15
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     8,
+     15
+    ],
+    [
+     0,
+     16
+    ],
+    [
+     1,
+     16
+    ],
+    [
+     2,
+     16
+    ],
+    [
+     3,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     5,
+     16
+    ],
+    [
+     6,
+     16
+    ],
+    [
+     7,
+     16
+    ],
+    [
+     8,
+     16
+    ],
+    [
+     0,
+     17
+    ],
+    [
+     1,
+     17
+    ],
+    [
+     2,
+     17
+    ],
+    [
+     3,
+     17
+    ],
+    [
+     4,
+     17
+    ],
+    [
+     5,
+     17
+    ],
+    [
+     6,
+     17
+    ],
+    [
+     7,
+     17
+    ],
+    [
+     8,
+     17
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     18
+    ],
+    [
+     5,
+     18
+    ],
+    [
+     3,
+     19
+    ],
+    [
+     4,
+     19
+    ],
+    [
+     5,
+     19
+    ],
+    [
+     3,
+     20
+    ],
+    [
+     4,
+     20
+    ],
+    [
+     5,
+     20
+    ]
+   ],
+   "testo": "Un corridoio lunghissimo e stretto, che non finisce mai: ma ogni dieci passi, sul pavimento, ci sono impronte fresche, di piedi nudi, che vanno nella tua direzione.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "modello": "Tagliola",
+     "liv": 6
+    },
+    {
+     "tipo": "evento",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "bibliotecario",
+   "nome": "L'ultimo scaffale",
+   "tipo": "stanza",
+   "celle": [
+    [
+     16,
+     6
+    ],
+    [
+     17,
+     6
+    ],
+    [
+     18,
+     6
+    ],
+    [
+     19,
+     6
+    ],
+    [
+     20,
+     6
+    ],
+    [
+     21,
+     6
+    ],
+    [
+     22,
+     6
+    ],
+    [
+     23,
+     6
+    ],
+    [
+     16,
+     7
+    ],
+    [
+     17,
+     7
+    ],
+    [
+     18,
+     7
+    ],
+    [
+     19,
+     7
+    ],
+    [
+     20,
+     7
+    ],
+    [
+     21,
+     7
+    ],
+    [
+     22,
+     7
+    ],
+    [
+     23,
+     7
+    ],
+    [
+     16,
+     8
+    ],
+    [
+     17,
+     8
+    ],
+    [
+     18,
+     8
+    ],
+    [
+     19,
+     8
+    ],
+    [
+     20,
+     8
+    ],
+    [
+     21,
+     8
+    ],
+    [
+     22,
+     8
+    ],
+    [
+     23,
+     8
+    ],
+    [
+     19,
+     9
+    ],
+    [
+     20,
+     9
+    ],
+    [
+     19,
+     10
+    ],
+    [
+     20,
+     10
+    ],
+    [
+     19,
+     11
+    ],
+    [
+     20,
+     11
+    ]
+   ],
+   "testo": "Una torre cava, con scaffali dal pavimento alle stelle. Al centro, sul leggio gigante, l'Indice: un libro grande come una porta, con le pagine aperte. Sopra, ricurvo, il Bibliotecario, con la lingua scritta sul palato e le dita nere come carboncino, legge ad alta voce un nome dopo l'altro. Ogni nome che pronuncia cancella un luogo.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "seguaci",
+     "id": "d-maestri-hobgoblin",
+     "quantita": "1d3"
+    },
+    {
+     "tipo": "mostri",
+     "nome": "Il Bibliotecario",
+     "liv": 7,
+     "att": 2,
+     "pv": 7,
+     "maggiore": true,
+     "tes": 2,
+     "tag": [
+      "non-morto",
+      "umanoide"
+     ],
+     "note": "Quando è ferito, grida un nome: un eroe a caso (tira 1d6) perde la memoria di una abilità per questo incontro con 1-2.",
+     "finale": true
+    }
+   ]
+  },
+  {
+   "id": "reliquiario",
+   "nome": "Sigillo dell'Ultimo Libro",
+   "tipo": "stanza",
+   "celle": [
+    [
+     28,
+     4
+    ],
+    [
+     29,
+     4
+    ],
+    [
+     30,
+     4
+    ],
+    [
+     31,
+     4
+    ],
+    [
+     28,
+     5
+    ],
+    [
+     29,
+     5
+    ],
+    [
+     30,
+     5
+    ],
+    [
+     31,
+     5
+    ],
+    [
+     28,
+     6
+    ],
+    [
+     29,
+     6
+    ],
+    [
+     30,
+     6
+    ],
+    [
+     31,
+     6
+    ],
+    [
+     26,
+     7
+    ],
+    [
+     27,
+     7
+    ],
+    [
+     28,
+     7
+    ],
+    [
+     29,
+     7
+    ],
+    [
+     30,
+     7
+    ],
+    [
+     31,
+     7
+    ],
+    [
+     26,
+     8
+    ],
+    [
+     27,
+     8
+    ],
+    [
+     28,
+     8
+    ],
+    [
+     29,
+     8
+    ],
+    [
+     30,
+     8
+    ],
+    [
+     31,
+     8
+    ],
+    [
+     26,
+     9
+    ],
+    [
+     27,
+     9
+    ],
+    [
+     28,
+     9
+    ],
+    [
+     29,
+     9
+    ],
+    [
+     30,
+     9
+    ],
+    [
+     31,
+     9
+    ]
+   ],
+   "testo": "Un cubicolo con una finestra sul cielo. Sul davanzale, per terra, un lembo di pergamena viva, e accanto una rosa dei venti d'ottone, molto grande, incisa nella pietra.",
+   "contenuto": [
+    {
+     "tipo": "tesoro",
+     "fisso": [
+      {
+       "tipo": "oggetto",
+       "testo": "Frammento della Mappa dell'Alba (3 di 5): lembo di pergamena viva con una piccola rosa dei venti"
+      },
+      {
+       "tipo": "gemma",
+       "valore": 80
+      },
+      {
+       "tipo": "oro",
+       "valore": 100
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "x1",
+   "nome": "Stanza dei sigilli",
+   "tipo": "stanza",
+   "celle": [
+    [
+     13,
+     43
+    ],
+    [
+     12,
+     44
+    ],
+    [
+     13,
+     44
+    ],
+    [
+     14,
+     44
+    ],
+    [
+     11,
+     45
+    ],
+    [
+     12,
+     45
+    ],
+    [
+     13,
+     45
+    ],
+    [
+     14,
+     45
+    ],
+    [
+     15,
+     45
+    ],
+    [
+     11,
+     46
+    ],
+    [
+     12,
+     46
+    ],
+    [
+     13,
+     46
+    ],
+    [
+     14,
+     46
+    ],
+    [
+     15,
+     46
+    ],
+    [
+     11,
+     47
+    ],
+    [
+     12,
+     47
+    ],
+    [
+     13,
+     47
+    ],
+    [
+     14,
+     47
+    ],
+    [
+     15,
+     47
+    ],
+    [
+     11,
+     48
+    ],
+    [
+     12,
+     48
+    ],
+    [
+     13,
+     48
+    ],
+    [
+     14,
+     48
+    ],
+    [
+     15,
+     48
+    ],
+    [
+     11,
+     49
+    ],
+    [
+     12,
+     49
+    ],
+    [
+     13,
+     49
+    ],
+    [
+     14,
+     49
+    ],
+    [
+     15,
+     49
+    ],
+    [
+     12,
+     50
+    ],
+    [
+     13,
+     50
+    ],
+    [
+     14,
+     50
+    ],
+    [
+     13,
+     51
+    ]
+   ],
+   "testo": "Cera rossa sul pavimento, sigilli spezzati ovunque. Qualcosa è stato liberato da qui, molto tempo fa, e non ha mai smesso di cercare.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "d-golem"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x2",
+   "nome": "Sala delle pergamene bruciate",
+   "tipo": "stanza",
+   "celle": [
+    [
+     20,
+     47
+    ],
+    [
+     21,
+     47
+    ],
+    [
+     22,
+     47
+    ],
+    [
+     23,
+     47
+    ],
+    [
+     20,
+     48
+    ],
+    [
+     21,
+     48
+    ],
+    [
+     22,
+     48
+    ],
+    [
+     23,
+     48
+    ],
+    [
+     20,
+     49
+    ],
+    [
+     21,
+     49
+    ],
+    [
+     22,
+     49
+    ],
+    [
+     23,
+     49
+    ]
+   ],
+   "testo": "Cenere di mappe, ancora tiepida. Nel mucchio più alto si distingue il profilo di un continente.",
+   "contenuto": [
+    {
+     "tipo": "trappola",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x3",
+   "nome": "Lettorio dei ciechi",
+   "tipo": "stanza",
+   "celle": [
+    [
+     30,
+     14
+    ],
+    [
+     31,
+     14
+    ],
+    [
+     32,
+     14
+    ],
+    [
+     33,
+     14
+    ],
+    [
+     29,
+     15
+    ],
+    [
+     30,
+     15
+    ],
+    [
+     31,
+     15
+    ],
+    [
+     32,
+     15
+    ],
+    [
+     33,
+     15
+    ],
+    [
+     34,
+     15
+    ],
+    [
+     29,
+     16
+    ],
+    [
+     30,
+     16
+    ],
+    [
+     31,
+     16
+    ],
+    [
+     32,
+     16
+    ],
+    [
+     33,
+     16
+    ],
+    [
+     34,
+     16
+    ],
+    [
+     29,
+     17
+    ],
+    [
+     30,
+     17
+    ],
+    [
+     31,
+     17
+    ],
+    [
+     32,
+     17
+    ],
+    [
+     33,
+     17
+    ],
+    [
+     34,
+     17
+    ],
+    [
+     29,
+     18
+    ],
+    [
+     30,
+     18
+    ],
+    [
+     31,
+     18
+    ],
+    [
+     32,
+     18
+    ],
+    [
+     33,
+     18
+    ],
+    [
+     34,
+     18
+    ],
+    [
+     30,
+     19
+    ],
+    [
+     31,
+     19
+    ],
+    [
+     32,
+     19
+    ],
+    [
+     33,
+     19
+    ]
+   ],
+   "testo": "Panche semplici davanti a pareti dove il testo è inciso in rilievo. Le dita lo leggono, e mormorano da sole.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "infestanti",
+     "id": "d-ragni"
+    },
+    {
+     "tipo": "tesoro",
+     "tira": true
+    }
+   ]
+  },
+  {
+   "id": "x4",
+   "nome": "Legatoria delle ombre",
+   "tipo": "stanza",
+   "celle": [
+    [
+     43,
+     5
+    ],
+    [
+     44,
+     5
+    ],
+    [
+     45,
+     5
+    ],
+    [
+     42,
+     6
+    ],
+    [
+     43,
+     6
+    ],
+    [
+     44,
+     6
+    ],
+    [
+     45,
+     6
+    ],
+    [
+     46,
+     6
+    ],
+    [
+     41,
+     7
+    ],
+    [
+     42,
+     7
+    ],
+    [
+     43,
+     7
+    ],
+    [
+     44,
+     7
+    ],
+    [
+     45,
+     7
+    ],
+    [
+     46,
+     7
+    ],
+    [
+     47,
+     7
+    ],
+    [
+     41,
+     8
+    ],
+    [
+     42,
+     8
+    ],
+    [
+     43,
+     8
+    ],
+    [
+     44,
+     8
+    ],
+    [
+     45,
+     8
+    ],
+    [
+     46,
+     8
+    ],
+    [
+     47,
+     8
+    ],
+    [
+     41,
+     9
+    ],
+    [
+     42,
+     9
+    ],
+    [
+     43,
+     9
+    ],
+    [
+     44,
+     9
+    ],
+    [
+     45,
+     9
+    ],
+    [
+     46,
+     9
+    ],
+    [
+     47,
+     9
+    ],
+    [
+     42,
+     10
+    ],
+    [
+     43,
+     10
+    ],
+    [
+     44,
+     10
+    ],
+    [
+     45,
+     10
+    ],
+    [
+     46,
+     10
+    ],
+    [
+     43,
+     11
+    ],
+    [
+     44,
+     11
+    ],
+    [
+     45,
+     11
+    ]
+   ],
+   "testo": "Torchi, aghi, filo d'argento. Sui banconi giacciono libri cuciti con ombre al posto delle pagine.",
+   "contenuto": [
+    {
+     "tipo": "vuota"
+    }
+   ]
+  },
+  {
+   "id": "x5",
+   "nome": "Cella del copista",
+   "tipo": "stanza",
+   "celle": [
+    [
+     10,
+     52
+    ],
+    [
+     11,
+     52
+    ],
+    [
+     12,
+     52
+    ],
+    [
+     9,
+     53
+    ],
+    [
+     10,
+     53
+    ],
+    [
+     11,
+     53
+    ],
+    [
+     12,
+     53
+    ],
+    [
+     13,
+     53
+    ],
+    [
+     9,
+     54
+    ],
+    [
+     10,
+     54
+    ],
+    [
+     11,
+     54
+    ],
+    [
+     12,
+     54
+    ],
+    [
+     13,
+     54
+    ],
+    [
+     9,
+     55
+    ],
+    [
+     10,
+     55
+    ],
+    [
+     11,
+     55
+    ],
+    [
+     12,
+     55
+    ],
+    [
+     13,
+     55
+    ],
+    [
+     10,
+     56
+    ],
+    [
+     11,
+     56
+    ],
+    [
+     12,
+     56
+    ]
+   ],
+   "testo": "Uno sgabello, un calamaio asciutto. Sul tavolo, una frase incompiuta che nessuno ha mai finito di scrivere.",
+   "contenuto": [
+    {
+     "tipo": "mostri",
+     "tabella": "aberranti",
+     "id": "d-golem"
+    }
+   ]
+  },
+  {
+   "id": "cor1",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     35,
+     26
+    ],
+    [
+     36,
+     26
+    ],
+    [
+     37,
+     26
+    ],
+    [
+     37,
+     27
+    ],
+    [
+     38,
+     27
+    ],
+    [
+     38,
+     28
+    ],
+    [
+     39,
+     28
+    ],
+    [
+     39,
+     29
+    ],
+    [
+     40,
+     29
+    ],
+    [
+     40,
+     30
+    ]
+   ]
+  },
+  {
+   "id": "cor2",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     40,
+     23
+    ],
+    [
+     40,
+     24
+    ],
+    [
+     40,
+     25
+    ],
+    [
+     41,
+     25
+    ],
+    [
+     41,
+     26
+    ],
+    [
+     42,
+     26
+    ]
+   ]
+  },
+  {
+   "id": "cor3",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     29,
+     19
+    ],
+    [
+     29,
+     20
+    ],
+    [
+     29,
+     21
+    ],
+    [
+     29,
+     22
+    ],
+    [
+     30,
+     22
+    ],
+    [
+     30,
+     23
+    ],
+    [
+     31,
+     23
+    ],
+    [
+     31,
+     24
+    ],
+    [
+     32,
+     24
+    ],
+    [
+     32,
+     25
+    ],
+    [
+     33,
+     25
+    ]
+   ]
+  },
+  {
+   "id": "cor4",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     31,
+     31
+    ],
+    [
+     32,
+     31
+    ],
+    [
+     30,
+     32
+    ],
+    [
+     31,
+     32
+    ],
+    [
+     29,
+     33
+    ],
+    [
+     30,
+     33
+    ],
+    [
+     28,
+     34
+    ],
+    [
+     29,
+     34
+    ],
+    [
+     28,
+     35
+    ]
+   ]
+  },
+  {
+   "id": "cor5",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     28,
+     25
+    ],
+    [
+     29,
+     25
+    ],
+    [
+     29,
+     26
+    ],
+    [
+     29,
+     27
+    ]
+   ]
+  },
+  {
+   "id": "cor6",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     38,
+     16
+    ],
+    [
+     39,
+     16
+    ],
+    [
+     40,
+     16
+    ],
+    [
+     41,
+     16
+    ],
+    [
+     42,
+     16
+    ],
+    [
+     38,
+     17
+    ],
+    [
+     38,
+     18
+    ]
+   ]
+  },
+  {
+   "id": "cor7",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     22,
+     34
+    ],
+    [
+     22,
+     35
+    ],
+    [
+     22,
+     36
+    ],
+    [
+     22,
+     37
+    ],
+    [
+     23,
+     37
+    ],
+    [
+     24,
+     37
+    ]
+   ]
+  },
+  {
+   "id": "cor8",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     26,
+     39
+    ],
+    [
+     27,
+     39
+    ],
+    [
+     28,
+     39
+    ],
+    [
+     28,
+     40
+    ]
+   ]
+  },
+  {
+   "id": "cor9",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     18,
+     20
+    ],
+    [
+     19,
+     20
+    ],
+    [
+     20,
+     20
+    ],
+    [
+     21,
+     20
+    ],
+    [
+     21,
+     21
+    ],
+    [
+     21,
+     22
+    ]
+   ]
+  },
+  {
+   "id": "cor10",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     49,
+     10
+    ],
+    [
+     50,
+     10
+    ],
+    [
+     51,
+     10
+    ],
+    [
+     52,
+     10
+    ],
+    [
+     48,
+     11
+    ],
+    [
+     49,
+     11
+    ],
+    [
+     47,
+     12
+    ],
+    [
+     48,
+     12
+    ],
+    [
+     46,
+     13
+    ],
+    [
+     47,
+     13
+    ],
+    [
+     46,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor11",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     41,
+     10
+    ],
+    [
+     41,
+     11
+    ],
+    [
+     41,
+     12
+    ],
+    [
+     41,
+     13
+    ],
+    [
+     42,
+     13
+    ],
+    [
+     43,
+     13
+    ],
+    [
+     43,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor12",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     20,
+     32
+    ],
+    [
+     19,
+     33
+    ],
+    [
+     20,
+     33
+    ],
+    [
+     18,
+     34
+    ],
+    [
+     19,
+     34
+    ],
+    [
+     16,
+     35
+    ],
+    [
+     17,
+     35
+    ],
+    [
+     18,
+     35
+    ]
+   ]
+  },
+  {
+   "id": "cor13",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     21,
+     28
+    ],
+    [
+     22,
+     28
+    ],
+    [
+     22,
+     29
+    ],
+    [
+     22,
+     30
+    ]
+   ]
+  },
+  {
+   "id": "cor14",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     10,
+     18
+    ],
+    [
+     9,
+     19
+    ],
+    [
+     10,
+     19
+    ],
+    [
+     6,
+     20
+    ],
+    [
+     7,
+     20
+    ],
+    [
+     8,
+     20
+    ],
+    [
+     9,
+     20
+    ]
+   ]
+  },
+  {
+   "id": "cor15",
+   "nome": "Passaggio umido",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     14,
+     12
+    ],
+    [
+     14,
+     13
+    ],
+    [
+     13,
+     14
+    ],
+    [
+     14,
+     14
+    ]
+   ]
+  },
+  {
+   "id": "cor16",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     46,
+     3
+    ],
+    [
+     46,
+     4
+    ],
+    [
+     46,
+     5
+    ]
+   ]
+  },
+  {
+   "id": "cor17",
+   "nome": "Passaggio stretto",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     9,
+     33
+    ],
+    [
+     10,
+     33
+    ],
+    [
+     11,
+     33
+    ],
+    [
+     12,
+     33
+    ],
+    [
+     12,
+     34
+    ],
+    [
+     12,
+     35
+    ]
+   ]
+  },
+  {
+   "id": "cor18",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     12,
+     42
+    ],
+    [
+     13,
+     42
+    ],
+    [
+     11,
+     43
+    ],
+    [
+     12,
+     43
+    ],
+    [
+     11,
+     44
+    ]
+   ]
+  },
+  {
+   "id": "cor19",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     16,
+     9
+    ],
+    [
+     16,
+     10
+    ]
+   ]
+  },
+  {
+   "id": "cor20",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     16,
+     47
+    ],
+    [
+     17,
+     47
+    ],
+    [
+     18,
+     47
+    ],
+    [
+     19,
+     47
+    ]
+   ]
+  },
+  {
+   "id": "cor21",
+   "nome": "Cunicolo",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     11,
+     50
+    ],
+    [
+     11,
+     51
+    ]
+   ]
+  },
+  {
+   "id": "cor22",
+   "nome": "Andito",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     23,
+     9
+    ],
+    [
+     24,
+     9
+    ],
+    [
+     25,
+     9
+    ]
+   ]
+  },
+  {
+   "id": "cor23",
+   "nome": "Galleria bassa",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     13,
+     29
+    ],
+    [
+     14,
+     29
+    ],
+    [
+     15,
+     29
+    ],
+    [
+     13,
+     30
+    ],
+    [
+     8,
+     31
+    ],
+    [
+     9,
+     31
+    ],
+    [
+     10,
+     31
+    ],
+    [
+     11,
+     31
+    ],
+    [
+     12,
+     31
+    ],
+    [
+     13,
+     31
+    ],
+    [
+     8,
+     32
+    ]
+   ]
+  },
+  {
+   "id": "cor24",
+   "nome": "Corridoio",
+   "tipo": "corridoio",
+   "celle": [
+    [
+     11,
+     7
+    ],
+    [
+     12,
+     7
+    ],
+    [
+     13,
+     7
+    ],
+    [
+     14,
+     7
+    ],
+    [
+     15,
+     7
+    ],
+    [
+     10,
+     8
+    ],
+    [
+     11,
+     8
+    ],
+    [
+     10,
+     9
+    ],
+    [
+     9,
+     10
+    ],
+    [
+     10,
+     10
+    ],
+    [
+     9,
+     11
+    ],
+    [
+     8,
+     12
+    ],
+    [
+     9,
+     12
+    ],
+    [
+     8,
+     13
+    ],
+    [
+     8,
+     14
+    ]
+   ]
+  }
+ ],
+ "porte": [
+  {
+   "da": "portale",
+   "a": "cor1",
+   "x": 41,
+   "y": 30,
+   "lato": "o"
+  },
+  {
+   "da": "cor1",
+   "a": "atrio",
+   "x": 35,
+   "y": 26,
+   "lato": "o"
+  },
+  {
+   "da": "portale",
+   "a": "cor2",
+   "x": 42,
+   "y": 27,
+   "lato": "n"
+  },
+  {
+   "da": "cor2",
+   "a": "refettorio",
+   "x": 40,
+   "y": 23,
+   "lato": "n"
+  },
+  {
+   "da": "atrio",
+   "a": "cor3",
+   "x": 33,
+   "y": 26,
+   "lato": "n"
+  },
+  {
+   "da": "cor3",
+   "a": "x3",
+   "x": 29,
+   "y": 19,
+   "lato": "n"
+  },
+  {
+   "da": "atrio",
+   "a": "cor4",
+   "x": 32,
+   "y": 30,
+   "lato": "s"
+  },
+  {
+   "da": "cor4",
+   "a": "scrittorio",
+   "x": 28,
+   "y": 35,
+   "lato": "s"
+  },
+  {
+   "da": "atrio",
+   "a": "cor5",
+   "x": 30,
+   "y": 27,
+   "lato": "o"
+  },
+  {
+   "da": "cor5",
+   "a": "copisteria",
+   "x": 28,
+   "y": 25,
+   "lato": "o"
+  },
+  {
+   "da": "refettorio",
+   "a": "cor6",
+   "x": 38,
+   "y": 19,
+   "lato": "n"
+  },
+  {
+   "da": "cor6",
+   "a": "cripta",
+   "x": 42,
+   "y": 16,
+   "lato": "e"
+  },
+  {
+   "da": "scrittorio",
+   "a": "cor7",
+   "x": 25,
+   "y": 37,
+   "lato": "o"
+  },
+  {
+   "da": "cor7",
+   "a": "galleria",
+   "x": 22,
+   "y": 34,
+   "lato": "n"
+  },
+  {
+   "da": "scrittorio",
+   "a": "cor8",
+   "x": 26,
+   "y": 38,
+   "lato": "s"
+  },
+  {
+   "da": "cor8",
+   "a": "rilegatura",
+   "x": 28,
+   "y": 40,
+   "lato": "s"
+  },
+  {
+   "da": "copisteria",
+   "a": "cor9",
+   "x": 21,
+   "y": 23,
+   "lato": "n"
+  },
+  {
+   "da": "cor9",
+   "a": "planisfero",
+   "x": 18,
+   "y": 20,
+   "lato": "o"
+  },
+  {
+   "da": "cripta",
+   "a": "cor10",
+   "x": 45,
+   "y": 14,
+   "lato": "e"
+  },
+  {
+   "da": "cor10",
+   "a": "rogo",
+   "x": 52,
+   "y": 10,
+   "lato": "e"
+  },
+  {
+   "da": "cripta",
+   "a": "cor11",
+   "x": 43,
+   "y": 15,
+   "lato": "n"
+  },
+  {
+   "da": "cor11",
+   "a": "x4",
+   "x": 41,
+   "y": 10,
+   "lato": "n"
+  },
+  {
+   "da": "galleria",
+   "a": "cor12",
+   "x": 21,
+   "y": 32,
+   "lato": "o"
+  },
+  {
+   "da": "cor12",
+   "a": "scala",
+   "x": 16,
+   "y": 35,
+   "lato": "o"
+  },
+  {
+   "da": "galleria",
+   "a": "cor13",
+   "x": 22,
+   "y": 31,
+   "lato": "n"
+  },
+  {
+   "da": "cor13",
+   "a": "scaffali",
+   "x": 21,
+   "y": 28,
+   "lato": "o"
+  },
+  {
+   "da": "planisfero",
+   "a": "cor14",
+   "x": 11,
+   "y": 18,
+   "lato": "o"
+  },
+  {
+   "da": "cor14",
+   "a": "passo",
+   "x": 6,
+   "y": 20,
+   "lato": "o"
+  },
+  {
+   "da": "planisfero",
+   "a": "cor15",
+   "x": 13,
+   "y": 15,
+   "lato": "n"
+  },
+  {
+   "da": "cor15",
+   "a": "archivio",
+   "x": 14,
+   "y": 12,
+   "lato": "n"
+  },
+  {
+   "da": "x4",
+   "a": "cor16",
+   "x": 46,
+   "y": 6,
+   "lato": "n"
+  },
+  {
+   "da": "cor16",
+   "a": "indice",
+   "x": 46,
+   "y": 3,
+   "lato": "n"
+  },
+  {
+   "da": "scala",
+   "a": "cor17",
+   "x": 13,
+   "y": 35,
+   "lato": "o"
+  },
+  {
+   "da": "cor17",
+   "a": "giardino",
+   "x": 9,
+   "y": 33,
+   "lato": "o"
+  },
+  {
+   "da": "scala",
+   "a": "cor18",
+   "x": 13,
+   "y": 41,
+   "lato": "s"
+  },
+  {
+   "da": "cor18",
+   "a": "x1",
+   "x": 11,
+   "y": 44,
+   "lato": "s"
+  },
+  {
+   "da": "archivio",
+   "a": "cor19",
+   "x": 15,
+   "y": 10,
+   "lato": "e"
+  },
+  {
+   "da": "cor19",
+   "a": "bibliotecario",
+   "x": 16,
+   "y": 9,
+   "lato": "n"
+  },
+  {
+   "da": "x1",
+   "a": "cor20",
+   "x": 15,
+   "y": 47,
+   "lato": "e"
+  },
+  {
+   "da": "cor20",
+   "a": "x2",
+   "x": 19,
+   "y": 47,
+   "lato": "e"
+  },
+  {
+   "da": "x1",
+   "a": "cor21",
+   "x": 11,
+   "y": 49,
+   "lato": "s"
+  },
+  {
+   "da": "cor21",
+   "a": "x5",
+   "x": 11,
+   "y": 51,
+   "lato": "s"
+  },
+  {
+   "da": "bibliotecario",
+   "a": "cor22",
+   "x": 23,
+   "y": 8,
+   "lato": "s"
+  },
+  {
+   "da": "cor22",
+   "a": "reliquiario",
+   "x": 25,
+   "y": 9,
+   "lato": "e"
+  },
+  {
+   "da": "scaffali",
+   "a": "cor23",
+   "x": 15,
+   "y": 28,
+   "lato": "s"
+  },
+  {
+   "da": "cor23",
+   "a": "giardino",
+   "x": 8,
+   "y": 32,
+   "lato": "s"
+  },
+  {
+   "da": "passo",
+   "a": "cor24",
+   "x": 8,
+   "y": 15,
+   "lato": "n",
+   "tipo": "segreta"
+  },
+  {
+   "da": "cor24",
+   "a": "bibliotecario",
+   "x": 15,
+   "y": 7,
+   "lato": "e"
+  }
+ ]
+}

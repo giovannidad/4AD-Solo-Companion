@@ -1,0 +1,116 @@
+{
+  "ingressi": [
+    "Ingresso 1", "Ingresso 2", "Ingresso 3", "Ingresso 4", "Ingresso 5", "Ingresso 6"
+  ],
+  "contenuto": [
+    { "da": 2, "a": 2, "azione": "tesoro", "testo": "Trovato un tesoro." },
+    { "da": 3, "a": 3, "azione": "tesoro-trappola", "testo": "Tesoro protetto da una trappola." },
+    { "da": 4, "a": 4, "azione": "evento-o-vuoto", "testo": "Corridoio: vuoto. Stanza: evento speciale." },
+    { "da": 5, "a": 5, "azione": "vuota-speciale", "testo": "Stanza vuota con una caratteristica speciale." },
+    { "da": 6, "a": 6, "azione": "infestanti", "testo": "Mostri infestanti." },
+    { "da": 7, "a": 7, "azione": "seguaci", "testo": "Mostri seguaci." },
+    { "da": 8, "a": 8, "azione": "seguaci-o-vuoto", "testo": "Corridoio: vuoto. Stanza: mostri seguaci." },
+    { "da": 9, "a": 9, "azione": "vuota", "testo": "Stanza vuota." },
+    { "da": 10, "a": 10, "azione": "aberranti-o-vuoto", "testo": "Corridoio: vuoto. Stanza: mostro aberrante (possibile boss finale)." },
+    { "da": 11, "a": 11, "azione": "boss", "testo": "Mostro boss (possibile boss finale)." },
+    { "da": 12, "a": 12, "azione": "drago-o-vuoto", "testo": "Corridoio: vuoto. Stanza: tana di un piccolo drago." }
+  ],
+  "caratteristiche": [
+    { "da": 1, "a": 1, "nome": "Fontana", "testo": "Tutti i personaggi feriti recuperano 1 PV la prima volta che incontrano una fontana in un'avventura." },
+    { "da": 2, "a": 2, "nome": "Tempio benedetto", "testo": "Un personaggio a tua scelta ha +1 in attacco contro non-morti o demoni finché non ne uccide uno." },
+    { "da": 3, "a": 3, "nome": "Armeria", "testo": "Tutti possono cambiare le armi entro i limiti della classe." },
+    { "da": 4, "a": 4, "nome": "Altare maledetto", "testo": "Un personaggio a caso è maledetto: -1 ai tiri di difesa. Si spezza uccidendo da soli un mostro maggiore, col Tempio benedetto o con Benedizione." },
+    { "da": 5, "a": 5, "nome": "Statua", "testo": "Lasciala stare o toccala: 1d6 con 1-3 si anima (BOSS LIV 4, ATT 1, PV 6, immune agli incantesimi, 3d6x10 p.o. dentro); con 4-6 si spezza e trovi 3d6x10 p.o." },
+    { "da": 6, "a": 6, "nome": "Rompicapo", "testo": "Scatola rompicapo con L = 1d6. Ogni tentativo fallito costa 1 PV. Furfanti e maghi aggiungono il livello. Se risolto: tira sulla tabella Tesori." }
+  ],
+  "eventi": [
+    { "da": 1, "a": 1, "nome": "Fantasma", "testo": "Un fantasma attraversa il gruppo: tutti salvano contro la paura (L4; chierici +L) o perdono 1 PV." },
+    { "da": 2, "a": 2, "nome": "Mostri erranti", "azione": "errante-evento", "testo": "Mostri erranti attaccano il gruppo (1d6: 1-3 infestanti, 4 seguaci, 5 aberranti, 6 boss; ritira se piccolo drago)." },
+    { "da": 3, "a": 3, "nome": "Dama in bianco", "azione": "missione", "testo": "Appare una dama in bianco e chiede una missione. Se accetti tira sulla tabella Missioni." },
+    { "da": 4, "a": 4, "nome": "Trappola!", "azione": "trappola", "testo": "Tira sulla tabella Trappole." },
+    { "da": 5, "a": 5, "nome": "Guaritore errante", "testo": "Cura il gruppo a 10 p.o. per PV guarito. Solo 1 volta per partita (altrimenti ritira)." },
+    { "da": 6, "a": 6, "nome": "Alchimista errante", "testo": "Vende 1 pozione di guarigione (50 p.o.) a ogni membro (no barbari) o 1 dose di veleno per lama (30 p.o.). Solo 1 volta per partita (altrimenti trappola)." }
+  ],
+  "tesori": [
+    { "da": -99, "a": 0, "nome": "Nessun tesoro", "azione": "niente" },
+    { "da": 1, "a": 1, "nome": "Monete", "azione": "oro", "dadi": "1d6", "testo": "1d6 pezzi d'oro" },
+    { "da": 2, "a": 2, "nome": "Monete", "azione": "oro", "dadi": "2d6", "testo": "2d6 pezzi d'oro" },
+    { "da": 3, "a": 3, "nome": "Pergamena", "azione": "pergamena", "testo": "Una pergamena con un incantesimo a caso" },
+    { "da": 4, "a": 4, "nome": "Gemma", "azione": "gemma", "dadi": "2d6x5", "testo": "Una gemma del valore di 2d6x5 p.o." },
+    { "da": 5, "a": 5, "nome": "Gioiello", "azione": "gioiello", "dadi": "3d6x10", "testo": "Un gioiello del valore di 3d6x10 p.o." },
+    { "da": 6, "a": 99, "nome": "Oggetto magico", "azione": "magico", "testo": "Un oggetto magico a caso" }
+  ],
+  "tesoriMagici": [
+    { "da": 1, "a": 1, "nome": "Bacchetta del Sonno", "testo": "Lancia Sonno 3 volte. Solo elfi e maghi (+L)." },
+    { "da": 2, "a": 2, "nome": "Anello di teletrasporto", "testo": "Riesce automaticamente in un tiro di difesa spostando il personaggio fuori dalla stanza. Un solo uso." },
+    { "da": 3, "a": 3, "nome": "Oro degli stolti", "testo": "Corrompe automaticamente il prossimo mostro che chiede una tangente. Monouso." },
+    { "da": 4, "a": 4, "nome": "Arma magica", "azione": "arma-magica", "testo": "+1 ai tiri di attacco. Permanente." },
+    { "da": 5, "a": 5, "nome": "Pozione di guarigione", "testo": "Recupera tutti i PV persi; azione gratuita. Monouso, non per barbari." },
+    { "da": 6, "a": 6, "nome": "Bastone della Palla di Fuoco", "testo": "Lancia Palla di Fuoco 2 volte. Solo maghi (+L)." }
+  ],
+  "armaMagica": [
+    { "da": 1, "a": 1, "nome": "arma leggera contundente" },
+    { "da": 2, "a": 2, "nome": "arma leggera da taglio" },
+    { "da": 3, "a": 3, "nome": "arma a una mano contundente" },
+    { "da": 4, "a": 5, "nome": "arma a una mano da taglio" },
+    { "da": 6, "a": 6, "nome": "arco" }
+  ],
+  "trappole": [
+    { "da": 1, "a": 1, "nome": "Botola", "liv": 4, "testo": "Si apre sotto il personaggio in testa all'ordine di marcia: tiro salvezza (-1 armatura leggera, -2 pesante, +1 elfi/mezzuomini, furfanti +L) o cade e perde 1 PV (serve un compagno per tirarlo fuori)." },
+    { "da": 2, "a": 2, "nome": "Dardo", "liv": 2, "testo": "Attacca un personaggio a caso: tiro di difesa o perde 1 PV." },
+    { "da": 3, "a": 3, "nome": "Gas velenoso", "liv": 3, "testo": "Tutti fanno un tiro di difesa senza bonus di scudo o armatura, o perdono 1 PV." },
+    { "da": 4, "a": 4, "nome": "Lance", "liv": 5, "testo": "Due lance attaccano 2 personaggi a caso: tiro di difesa o perdono 1 PV." },
+    { "da": 5, "a": 5, "nome": "Masso gigante", "liv": 5, "testo": "Colpisce l'ultimo in ordine di marcia: tiro di difesa (conta l'armatura, non lo scudo) o perde 2 PV." },
+    { "da": 6, "a": 6, "nome": "Tagliola", "liv": 4, "testo": "Colpisce il primo in ordine di marcia: tiro salvezza (elfi/mezzuomini +1, furfanti +L) o perde 1 PV e zoppica (-1 attacco e difesa fino a guarigione)." }
+  ],
+  "errante": [
+    { "da": 1, "a": 2, "tabella": "infestanti" },
+    { "da": 3, "a": 4, "tabella": "seguaci" },
+    { "da": 5, "a": 5, "tabella": "aberranti" },
+    { "da": 6, "a": 6, "tabella": "boss" }
+  ],
+  "perquisire": [
+    { "da": 1, "a": 1, "testo": "Attacco di mostri erranti!", "azione": "errante" },
+    { "da": 2, "a": 4, "testo": "La stanza è davvero vuota." },
+    { "da": 5, "a": 6, "testo": "Scegli ciò che trovi: 1 porta segreta, 1 tesoro nascosto o 1 indizio." }
+  ],
+  "tesoroNascostoComplicazioni": [
+    { "da": 1, "a": 2, "testo": "Si attiva un allarme: arrivano mostri erranti.", "azione": "errante" },
+    { "da": 3, "a": 5, "testo": "L'oro è protetto da una trappola di livello pari al tiro. Un furfante può disattivarla; altrimenti attacca un avventuriero a caso (1 PV se fallisce il tiro salvezza, 2 PV con un 1 sul dado)." },
+    { "da": 6, "a": 6, "testo": "Un fantasma (LIV 1d3+1) protegge l'oro. Un chierico può scacciarlo (1d6+livello >= LIV). Altrimenti tutti perdono 1 PV." }
+  ],
+  "incantesimoCaso": ["Benedizione", "Fuga", "Fulmine Magico", "Palla di Fuoco", "Protezione", "Sonno"],
+  "missioni": [
+    { "da": 1, "a": 1, "nome": "Portatemi la sua testa!", "testo": "Uccidi un boss (tira sulla tabella Mostri boss) e riporta la testa nella stanza della creatura." },
+    { "da": 2, "a": 2, "nome": "Portatemi l'oro!", "testo": "Riporta un tesoro che valga almeno d6x50 p.o. (il doppio se il gruppo ha già tale importo)." },
+    { "da": 3, "a": 3, "nome": "Lo voglio vivo!", "testo": "Come il 1, ma il boss va soggiogato (Sonno o -1 in attacco), legato con una corda e portato qui." },
+    { "da": 4, "a": 4, "nome": "Portatemelo!", "testo": "Tira sulla tabella Tesori magici: ogni mostro maggiore ucciso ha 1 probabilità su 1d6 di possedere l'oggetto. Riportalo qui." },
+    { "da": 5, "a": 5, "nome": "Che la pace sia con voi!", "testo": "Affronta almeno 3 incontri in modo non violento, poi torna qui per la ricompensa." },
+    { "da": 6, "a": 6, "nome": "Massacrate tutti i mostri!", "testo": "Dungeon completo e tutti gli occupanti uccisi (tranne la creatura), poi torna qui." }
+  ],
+  "ricompense": [
+    { "da": 1, "a": 1, "nome": "Il libro di Skalitos", "testo": "Equivale a 6 pergamene con 1 incantesimo base ciascuna. Vendibile per 650 p.o." },
+    { "da": 2, "a": 2, "nome": "L'oro di Kerrak Dar", "testo": "Alla prossima perquisizione con almeno 1 indizio trovi una cassa con 500 p.o." },
+    { "da": 3, "a": 3, "nome": "Arma incantata", "testo": "Un'arma tira 2 dadi per l'attacco (tieni il migliore) fino a fine avventura e colpisce mostri attaccabili solo con la magia." },
+    { "da": 4, "a": 4, "nome": "Scudo di avvertimento", "testo": "Uno scudo protegge anche da sorpresa e in fuga. Permanente. Vendibile per 200 p.o." },
+    { "da": 5, "a": 5, "nome": "Freccia dilaniante", "testo": "Infligge automaticamente 3 PV a un tipo di boss (tira sulla tabella Mostri boss). Solo con arco. Vendibile 3d6x15 p.o." },
+    { "da": 6, "a": 6, "nome": "Simbolo sacro di guarigione", "testo": "Il chierico guarisce a +2 finché vive. Vendibile per 700 p.o." }
+  ],
+  "indizi": [
+    { "nome": "Punto debole di un mostro", "testo": "+2 per attaccare un mostro maggiore a scelta (tutto il gruppo, per l'intero combattimento)." },
+    { "nome": "Patto con un mostro", "testo": "Il mostro lascia passare il gruppo senza attaccare (non si prende il tesoro). Non vale per infestanti e boss finale." },
+    { "nome": "Ubicazione di un tesoro segreto", "testo": "In una stanza vuota trovi 3d6x10 p.o." },
+    { "nome": "Ubicazione di un oggetto magico", "testo": "In una stanza vuota ottieni un oggetto dalla tabella Tesori magici." },
+    { "nome": "Vero nome di un'entità spirituale", "testo": "Angelo: guarisce completamente 1 personaggio. Demone: 4 PV a una creatura o uccide fino a 6 minori. Una volta sola." },
+    { "nome": "Nuovo incantesimo", "testo": "Solo mago o elfo: aggiungi 1 incantesimo alla lista." },
+    { "nome": "Segreto per aumentare il potere", "testo": "Solo mago, elfo, chierico: +1 uso di un incantesimo (o della guarigione)." },
+    { "nome": "Ubicazione di una pergamena", "testo": "Un non incantatore (no barbaro) trova una pergamena a scelta." },
+    { "nome": "Ricetta per una pozione", "testo": "Servono 2 mostri maggiori uccisi e 50 p.o.: pozioni a 50 p.o." },
+    { "nome": "Segreto terrificante", "testo": "Fa fallire automaticamente un tiro di morale (non boss finale)." },
+    { "nome": "Qualcuno pagherà un sacco di soldi", "testo": "Gioielli e gemme portati fuori valgono il triplo." },
+    { "nome": "Il tuo nemico è nel dungeon", "testo": "Scambia un mostro maggiore con un signore del caos e attaccalo a +1." },
+    { "nome": "Qualcuno è stato imprigionato", "testo": "Liberalo (attacco contro L4) e portalo fuori: 1 tesoro e 1 oggetto magico, o raddoppia l'oro." },
+    { "nome": "Stirpe di ammazzadraghi", "testo": "Solo barbaro o nano: +1 in attacco e difesa contro i draghi." },
+    { "nome": "Dieta segreta", "testo": "Spendendo 100 p.o. in cibo prima di ogni avventura: +1 PV (50 p.o. per mezzuomini)." }
+  ]
+}

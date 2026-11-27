@@ -1,0 +1,6180 @@
+{
+ "_nota": "Supplemento «Labirinti Silvani» (MS Edizioni, ed. digitale mag. 2020, Erick N. Bouchard e Andrea Sfiligoi), personaggi dal 4° livello in su: p. 5-72. Pagine 4, 9, 14, 17, 20, 24, 31, 40, 60, 63, 67, 68 solo illustrazioni; la tabella «Conformazione della foresta» (p. 42) è solo un disegno. Convenzioni come abisso.json: mor/tes 0 = ST, \"NO\" = assente, \"x2\" doppio (x3 con tesMolt; «+1 x2» = tes 1 con tesMolt 2), tes null = tesoro particolare descritto in tesoroFisso/tesoroExtra; reazioni [da, a, tipo, parametro?, \"totale\"?, risorsa?]; bonus {classe: valore} con \"L\" = livello, \"1/2L\" = metà livello per difetto; id con prefisso s-. Tipi di reazione già noti al programma: combatte, morte (combatte fino alla morte), combatte-sempre, fugge, fugge-inf, pacifico, corruzione, missione, sfida, offre-riposo. NUOVI tipi introdotti qui: enigma, mercanti, cattura (descritti in regole.reazioni-nuove). Per «corruzione» non in monete il 6° elemento della reazione dice la risorsa (es. [3,4,\"corruzione\",\"1d6\",null,\"razioni di cibo\"]: il 5° elemento null = per mostro, \"totale\" = in blocco; senza 6° elemento sono p.o.). Le tabelle dei mostri sono sotto \"mostri\" (6 voci ciascuna), le altre sotto \"tabelle\"; \"indiceTabelle\" le elenca con dado, pagina e intervallo coperto. Le scoperte (p. 61-66) sono integrate nelle voci a cui appartengono. Tutti gli arrotondamenti sono per difetto salvo dove il testo dice «per eccesso». Non trascritte, perché legate solo all'avventura «L'Unicorno Nero»: tabelle Richiesta di aiuto (p. 71) e Malattia debilitante (p. 72).",
+ "livelli": {
+  "min": 4,
+  "max": null,
+  "sottotitolo": "per personaggi dal 4° livello in su",
+  "pagina": 10,
+  "condizione": {
+   "pagina": 6,
+   "descrizione": "Si usano le tabelle di questo volume quando tutti i personaggi hanno almeno il 4° livello.",
+   "livelloMinimoTutti": 4
+  },
+  "sostituisceTabelle": [
+   "contenuti delle stanze",
+   "corridoi e stanze (conformazione)",
+   "trappole",
+   "tesori",
+   "tesori magici",
+   "eventi speciali",
+   "mostri infestanti, seguaci, aberranti e boss",
+   "pergamene (incantesimi)"
+  ],
+  "nonSostituite": [
+   "tesoroNascostoComplicazioni",
+   "missioni",
+   "ricompenseEpiche"
+  ],
+  "mostriErranti": "nessuna tabella propria: si usa una tabella di mostri erranti di altri volumi adatta al livello (è lecito sceglierla)",
+  "scala": {
+   "pagina": 10,
+   "livelloBase": 4,
+   "riferimento": "livello del personaggio più alto del gruppo (LMP)",
+   "perOgniLivelloSopraIl4": {
+    "mostriMinoriNumero": 1,
+    "mostriMaggioriLiv": 1,
+    "mostriMaggioriPV": 1
+   },
+   "livelloAvanzato": {
+    "da": 5,
+    "a": 9,
+    "modTuttiITiriSalvezza": 2
+   },
+   "esempio": "con un personaggio di 6° livello: +2 al numero dei minori, +2 al LIV e ai PV dei maggiori, +2 a tutti i TS"
+  },
+  "ingresso": {
+   "mappa": {
+    "larghezza": 20,
+    "altezza": 28
+   },
+   "primaArea": {
+    "dado": "1d6+60",
+    "tabella": "conformazione",
+    "posizione": "centro del bordo inferiore del foglio"
+   },
+   "areeSuccessive": {
+    "dado": "d66",
+    "tabella": "conformazione"
+   }
+  },
+  "partenzaDiretta": null
+ },
+ "dadi": {
+  "conformazione": "d66",
+  "ingresso": "1d6+60",
+  "contenuto": "2d6",
+  "eventi": "1d6",
+  "tesori": "1d6",
+  "tesoriMagici": "1d6",
+  "pergameneInutili": "1d6",
+  "recintoSchiavi": "2d6+L",
+  "prigionieri": "d66",
+  "infestanti": "1d6",
+  "seguaci": "1d6",
+  "aberranti": "1d6",
+  "boss": "1d6",
+  "incantesimiDruidoBase": "1d12",
+  "incantesimiDruidoAvanzati": "1d12",
+  "tipoPonte": "1d6",
+  "pozzo": "1d6",
+  "tipoElementale": "1d6",
+  "stregaIncantesimi": "1d6",
+  "tipoVillaggio": "1d6",
+  "bossFinale": "1d6",
+  "dungeonCieloAperto": "1d3"
+ },
+ "classi": {
+  "chierico-elidra": {
+   "id": "chierico-elidra",
+   "nome": "Chierico di Elidra",
+   "pagina": 22,
+   "suppl": true,
+   "ereditaDa": "chierico",
+   "vitaBase": 4,
+   "oro": "1d6",
+   "armature": [
+    "leggera",
+    "pesante"
+   ],
+   "scudo": true,
+   "armi": [
+    "due-mani",
+    "una-mano",
+    "fionda"
+   ],
+   "equip": [
+    "Arma a una mano",
+    "Armatura leggera",
+    "Scudo"
+   ],
+   "benedizioni": 3,
+   "guarigioni": 3,
+   "ereditatoDaBase": [
+    "vitaBase",
+    "oro",
+    "armature",
+    "scudo",
+    "armi",
+    "equip",
+    "benedizioni",
+    "guarigioni",
+    "attacco"
+   ],
+   "attacco": {
+    "formula": "1/2L",
+    "controNonMorti": "L",
+    "nota": "come il chierico base (non ripetuto nel testo)"
+   },
+   "tiriSalvezza": {
+    "come": [
+     "chierico",
+     "elfo"
+    ],
+    "scelta": "giocatore",
+    "pagina": 23
+   },
+   "tratti": "Variante del chierico base, devoto alla dea Elidra (bellezza, pace, musica, protettrice degli elfi). Per tutto il resto vale il chierico base. In qualsiasi momento può spendere 1 Benedizione per lanciare Musica dell'armonia. Salva come chierico oppure come elfo, a scelta del giocatore.",
+   "poteri": [
+    {
+     "id": "musica-armonia",
+     "nome": "Musica dell'armonia",
+     "pagina": 23,
+     "costo": {
+      "benedizione": 1,
+      "sacrificaAttacco": true
+     },
+     "quando": "in qualsiasi momento",
+     "tiro": {
+      "tipo": "musica",
+      "contro": "livello del mostro",
+      "bonus": "L"
+     },
+     "effetto": "Se il tiro riesce, il giocatore sceglie la reazione del mostro tra quelle disponibili.",
+     "richiede": {
+      "strumentoMusicale": true,
+      "maniLibereMin": 1
+     },
+     "parametri": {
+      "bonusTiro": "L",
+      "benedizioniSpese": 1
+     }
+    }
+   ],
+   "abilita": null,
+   "abilitaNota": "non indicate nel testo: valgono quelle del chierico base",
+   "rimando": {
+    "libro": "Manuale base",
+    "cosa": "statistiche del chierico non ripetute (attacco, PV, oro, armi, armature, Benedizione e Guarigione)"
+   }
+  },
+  "chierico-korimnos": {
+   "id": "chierico-korimnos",
+   "nome": "Chierico di Korimnos",
+   "pagina": 23,
+   "suppl": true,
+   "ereditaDa": "chierico",
+   "vitaBase": 4,
+   "oro": "1d6",
+   "armature": [
+    "leggera",
+    "pesante"
+   ],
+   "scudo": true,
+   "armi": [
+    "due-mani",
+    "una-mano",
+    "fionda"
+   ],
+   "equip": [
+    "Arma a una mano",
+    "Armatura leggera",
+    "Scudo"
+   ],
+   "benedizioni": 3,
+   "guarigioni": 3,
+   "ereditatoDaBase": [
+    "vitaBase",
+    "oro",
+    "armature",
+    "scudo",
+    "armi",
+    "equip",
+    "benedizioni",
+    "guarigioni",
+    "attacco",
+    "tiriSalvezza"
+   ],
+   "attacco": {
+    "formula": "1/2L",
+    "controNonMorti": "L",
+    "nota": "come il chierico base (non ripetuto nel testo)"
+   },
+   "tiriSalvezza": {
+    "come": "chierico"
+   },
+   "tratti": "Variante del chierico base, devoto a Korimnos (il Cervo Dorato, protettore di foreste, centauri, fauni e uomini cervo). In qualsiasi momento può spendere 1 Benedizione perché un animale naturale, o un gruppo di animali, abbia automaticamente la reazione Pacifico. Prepara pozioni come un mago e sa amoreggiare come un mezzuomo.",
+   "poteri": [
+    {
+     "id": "animali-pacifici",
+     "nome": "Animali pacifici",
+     "pagina": 25,
+     "costo": {
+      "benedizione": 1,
+      "sacrificaAttacco": true
+     },
+     "quando": "in qualsiasi momento",
+     "effetto": "Un animale naturale o un gruppo di animali (qualunque creatura esista anche nel mondo reale) ottiene automaticamente la reazione Pacifico.",
+     "bersaglio": "animali naturali (esistenti nel mondo reale)",
+     "reazioneAutomatica": "pacifico",
+     "parametri": {
+      "benedizioniSpese": 1
+     }
+    },
+    {
+     "id": "pozioni-come-mago",
+     "nome": "Prepara pozioni",
+     "pagina": 25,
+     "effetto": "Può preparare pozioni come se fosse un mago.",
+     "parametri": {
+      "comeClasse": "mago"
+     }
+    },
+    {
+     "id": "amoreggiare-come-mezzuomo",
+     "nome": "Sa amoreggiare",
+     "pagina": 25,
+     "effetto": "Tira per l'accoppiamento (evento Festeggiamenti sfrenati) come un mezzuomo.",
+     "parametri": {
+      "comeClasse": "mezzuomo",
+      "tiroAccoppiamentoBonus": "1/2L"
+     }
+    }
+   ],
+   "abilita": null,
+   "abilitaNota": "non indicate nel testo: valgono quelle del chierico base",
+   "rimando": {
+    "libro": "Manuale base",
+    "cosa": "statistiche del chierico non ripetute"
+   }
+  },
+  "druido": {
+   "id": "druido",
+   "nome": "Druido",
+   "pagina": 26,
+   "suppl": true,
+   "vitaBase": 3,
+   "oro": "2d6",
+   "armature": [
+    "leggera",
+    "cotta-fogliacciaio"
+   ],
+   "scudo": true,
+   "armi": [
+    "leggera",
+    "fionda",
+    "arco-corto",
+    "giavellotto"
+   ],
+   "armiElenco": {
+    "leggera": [
+     "bastone",
+     "clava",
+     "coltello",
+     "falcetto"
+    ],
+    "lancio": [
+     "arco corto",
+     "fionda",
+     "giavellotto"
+    ]
+   },
+   "equip": [
+    "Falcetto (arma leggera da taglio)"
+   ],
+   "tiriSalvezza": {
+    "come": "chierico"
+   },
+   "attacco": {
+    "formula": "1/2L"
+   },
+   "incantatore": true,
+   "incantesimiBase": 2,
+   "incantesimiPerLivello": 1,
+   "incantesimiLivello1": 3,
+   "incantesimi": {
+    "lista": "druido",
+    "bonusLancio": "L",
+    "bonusLancioIncantesimiFuoriLista": "1/2L",
+    "puoImparareFuoriLista": false,
+    "inizio": "2 + 1 per livello (livello 1 = 3)",
+    "nuoviPerLivelloUsabiliSubito": true,
+    "recuperoMeditando": true,
+    "serveLibro": false,
+    "conosceTuttaLaListaBase": true,
+    "listaAvanzata": {
+     "livelloMin": 5,
+     "dado": "1d12",
+     "tabella": "tabelle.incantesimiDruidoAvanzati",
+     "modi": [
+      {
+       "n": 1,
+       "id": "ricompensa-epica",
+       "testo": "Al posto di una ricompensa epica, alla fine di una missione completata."
+      },
+      {
+       "n": 2,
+       "id": "segreto",
+       "testo": "Spendendo 3 indizi (scoperta di un segreto).",
+       "indizi": 3
+      },
+      {
+       "n": 3,
+       "id": "tiro-es",
+       "testo": "Con 1 tiro ES riuscito.",
+       "tiriES": 1
+      },
+      {
+       "n": 4,
+       "id": "pergamena",
+       "testo": "Usando una pergamena con un incantesimo avanzato: la pergamena si distrugge, l'incantesimo entra nel repertorio.",
+       "distruggePergamena": true
+      }
+     ]
+    }
+   },
+   "tratti": "Sacerdote della natura senza affiliazioni religiose. Attacco +1/2 livello. Aggiunge il livello ai suoi incantesimi (anche da pergamena), solo metà livello a quelli fuori lista (da oggetti o pergamene), che non può mai imparare. Oltre a 1 cavalcatura può avere 1 compagno animale gratuito. All'interno dei dungeon (non all'aperto) la sua forza è parzialmente ridotta, nelle terre selvagge è formidabile.",
+   "poteri": [
+    {
+     "id": "compagno-animale-druido",
+     "nome": "Compagno animale",
+     "pagina": 26,
+     "effetto": "1 compagno animale oltre alla cavalcatura, qualsiasi di questo supplemento (anche ombra della foresta e orsolupo). Si unisce di spontanea volontà: costo solo 1 p.o. di cibo all'arrivo. Se muore: +1 punto follia al druido; appena nelle terre selvagge o fuori dal dungeon ne arriva uno nuovo a scelta (altra offerta di 1 p.o. di cibo).",
+     "parametri": {
+      "compagniMax": 1,
+      "cavalcatureMax": 1,
+      "costoCiboPO": 1,
+      "folliaSeMuore": 1,
+      "sostituzioneInTerreSelvagge": true
+     }
+    },
+    {
+     "id": "ombra-foresta-druido",
+     "nome": "Ombra della foresta con il druido",
+     "pagina": 18,
+     "effetto": "Con un'ombra della foresta come compagno il druido non è mai sorpreso e, anche se il gruppo è sorpreso, attacca per primo (col felino) nel primo turno. Il felino non lo abbandona mai.",
+     "parametri": {
+      "mai": "sorpreso",
+      "attaccaPerPrimoPrimoTurno": true,
+      "felinoNonAbbandonaMai": true
+     }
+    },
+    {
+     "id": "forza-ridotta-dungeon",
+     "nome": "Forza ridotta nei dungeon",
+     "pagina": 26,
+     "effetto": "Nei dungeon la forza del druido è «parzialmente ridotta»: il testo non dà un valore generale, ma alcuni incantesimi funzionano solo all'aperto o in foresta.",
+     "parametri": {
+      "valoreGenerale": null
+     }
+    }
+   ],
+   "abilita": [
+    "alchimia-delle-spore",
+    "conciatore-arcano",
+    "furia-terrificante",
+    "incenso-protettivo",
+    "intuizione",
+    "investigatore",
+    "leader-carismatico",
+    "luce-perenne",
+    "negoziatore",
+    "refrattario-al-veleno",
+    "volonta-ferrea"
+   ],
+   "abilitaNota": "descrizioni in Contro l'Abisso p. 19",
+   "rimando": {
+    "libro": "Contro l'Abisso",
+    "pagina": 19,
+    "cosa": "abilità avanzate"
+   }
+  },
+  "elfo-silvano": {
+   "id": "elfo-silvano",
+   "nome": "Elfo silvano",
+   "pagina": 34,
+   "suppl": true,
+   "vitaBase": 4,
+   "oro": "1d6",
+   "armature": [
+    "leggera",
+    "cotta-fogliacciaio"
+   ],
+   "scudo": true,
+   "armi": [
+    "arco",
+    "una-mano",
+    "leggera",
+    "balestra",
+    "bastone",
+    "bolas",
+    "boomerang"
+   ],
+   "equip": [
+    "Arco",
+    "Arma a una mano",
+    "Cotta di fogliacciaio"
+   ],
+   "tiriSalvezza": {
+    "come": "elfo"
+   },
+   "attacco": {
+    "inForestaOGiungla": "L",
+    "conArco": "L",
+    "nonConBalestra": true,
+    "altrove": "1/2L"
+   },
+   "difesa": {
+    "inForestaOGiungla": "L",
+    "altrove": 0
+   },
+   "incantatore": false,
+   "tratti": "Aggiunge il livello ad attacco e difesa in foresta o giungla, e in qualsiasi ambiente quando combatte con un arco (non una balestra); altrove solo metà livello all'attacco. Aggiunge il livello ai TS contro le trappole delle terre selvagge (buche, lacci, tagliole) e ai tiri di furtività in foresta. In foresta, giungla o boschi riduce di 1 su 1d6 la probabilità che il gruppo sia sorpreso (anche fino a 0).",
+   "poteri": [
+    {
+     "id": "bonus-ambiente",
+     "nome": "Bonus in foresta",
+     "pagina": 34,
+     "effetto": "Livello pieno ad attacco e difesa in foresta/giungla e con l'arco ovunque; metà livello all'attacco negli altri casi.",
+     "parametri": {
+      "attaccoAmbiente": "L",
+      "difesaAmbiente": "L",
+      "attaccoAltrove": "1/2L",
+      "attaccoArcoOvunque": "L"
+     }
+    },
+    {
+     "id": "ts-trappole-selvagge",
+     "nome": "Trappole delle terre selvagge",
+     "pagina": 34,
+     "effetto": "Aggiunge il livello ai TS contro buche, lacci, tagliole e simili.",
+     "parametri": {
+      "bonusTS": "L"
+     }
+    },
+    {
+     "id": "furtivita-foresta",
+     "nome": "Furtività in foresta",
+     "pagina": 34,
+     "effetto": "Aggiunge il livello ai tiri di furtività quando è in una foresta.",
+     "parametri": {
+      "bonusFurtivita": "L"
+     }
+    },
+    {
+     "id": "sorpresa-ridotta",
+     "nome": "Difficile da sorprendere",
+     "pagina": 34,
+     "effetto": "In foresta, giungla o boschi la probabilità di sorpresa del gruppo scende di 1 su 1d6 (minimo 0).",
+     "parametri": {
+      "riduzioneSorpresa": 1,
+      "dado": "1d6",
+      "minimo": 0,
+      "ambienti": [
+       "foresta",
+       "giungla",
+       "boschi"
+      ]
+     }
+    },
+    {
+     "id": "amico-foresta",
+     "nome": "Amico degli abitanti della foresta",
+     "pagina": 34,
+     "effetto": "Il giocatore può aumentare o diminuire di 1 il tiro sull'elenco reazioni delle creature di foresta/giungla, driadi, altri elfi silvani, forme di vita vegetali (uomini albero) e in generale ogni creatura delle tabelle incontri di foresta e giungla.",
+     "parametri": {
+      "modReazione": 1,
+      "scelta": "aumentare o diminuire"
+     }
+    },
+    {
+     "id": "armature-naturali",
+     "nome": "Armature naturali",
+     "pagina": 34,
+     "effetto": "Può fare uno scudo dal carapace di uno scarabeo gigante o dal guscio di una tartaruga. Può fabbricare una cotta di fogliacciaio se trova un cespuglio (vedi regola cotta-fogliacciaio).",
+     "parametri": {
+      "cespuglioProb": 1,
+      "cespuglioDado": "1d6",
+      "oreLavoro": 4,
+      "oreLavoroTaglioGrande": 6,
+      "erranti": 2,
+      "erranteDado": "1d6",
+      "durataAvventure": 2,
+      "difesaPiu": 2
+     }
+    },
+    {
+     "id": "armi-naturali",
+     "nome": "Armi naturali",
+     "pagina": 35,
+     "effetto": "In boschi o fitte foreste costruisce un'arma contundente (leggera, a una mano o a due mani) oppure un arco con materiali naturali; serve 1 tiro mostri erranti ogni 2 armi costruite.",
+     "parametri": {
+      "tiriErrantiOgniArmi": 2,
+      "tipi": [
+       "contundente-leggera",
+       "contundente-una-mano",
+       "contundente-due-mani",
+       "arco"
+      ]
+     }
+    },
+    {
+     "id": "guardaboschi",
+     "nome": "Guardaboschi",
+     "pagina": 35,
+     "effetto": "Un gruppo composto solo da elfi silvani si muove nella foresta come sotto Passaforesta permanente.",
+     "parametri": {
+      "comeIncantesimo": "s-passaforesta",
+      "soloGruppoDiElfiSilvani": true
+     }
+    },
+    {
+     "id": "vivere-frutti-terra",
+     "nome": "Vivere dei frutti della terra",
+     "pagina": 35,
+     "effetto": "All'aperto, fuori da territori desertici o artici, procura automaticamente cibo per 2 persone per 1 giorno (1 persona sui terreni innevati).",
+     "parametri": {
+      "personePerGiorno": 2,
+      "personePerGiornoNeve": 1,
+      "escluso": [
+       "deserto",
+       "artico"
+      ]
+     }
+    }
+   ],
+   "abilita": [
+    "combattente-acrobatico",
+    "conciatore-arcano",
+    "doppio-attacco",
+    "lanciatore-di-coltelli",
+    "lesto-di-piedi",
+    "mira-infallibile",
+    "rissaiolo",
+    "sesto-senso",
+    "tiro-preciso",
+    "udito-formidabile"
+   ],
+   "abilitaNota": "Mira infallibile funziona solo con l'arco; descrizioni in Contro l'Abisso p. 19",
+   "rimando": {
+    "libro": "Contro l'Abisso",
+    "pagina": 19,
+    "cosa": "abilità avanzate"
+   },
+   "noteIncantatore": "Il testo non elenca incantesimi né dice che sia incantatore."
+  },
+  "guida-terre-selvagge": {
+   "id": "guida-terre-selvagge",
+   "nome": "Guida delle terre selvagge",
+   "pagina": 36,
+   "suppl": true,
+   "vitaBase": 3,
+   "oro": "1d6",
+   "armature": [
+    "leggera"
+   ],
+   "scudo": true,
+   "armi": [
+    "leggera",
+    "fionda"
+   ],
+   "equip": [
+    "Arma leggera",
+    "Lanterna"
+   ],
+   "tiriSalvezza": {
+    "come": "barbaro"
+   },
+   "attacco": {
+    "formula": 0
+   },
+   "difesa": {
+    "formula": "1/2L"
+   },
+   "quintoPersonaggio": {
+    "puoUnirsiAGruppo": true,
+    "limiteGuide": 5,
+    "togliePostoAMercenari": false,
+    "nota": "personaggio a tutti gli effetti; si può fare un gruppo di 5 guide"
+   },
+   "razzeFrequenti": [
+    "elfi",
+    "mezzuomini",
+    "umani",
+    "uomini fungo"
+   ],
+   "tratti": "Esperto locale che evita le piste e i luoghi più pericolosi. Nessun bonus all'attacco, mezzo livello alla difesa. Ogni avventura, 2 volte per livello, può ripetere un tiro su qualsiasi tabella dell'ambiente selvaggio (non nei mondi demoniaci né nei dungeon).",
+   "poteri": [
+    {
+     "id": "ripeti-tiro-selvaggio",
+     "nome": "Ripetere un tiro nelle terre selvagge",
+     "pagina": 36,
+     "effetto": "Può ripetere qualsiasi tiro su una tabella dell'ambiente delle terre selvagge: tabelle della foresta di questo volume, tutte quelle di I Tre Anelli (Acque Oscure e Altre Avventure), le future simili. Non vale per i mondi demoniaci (Orrori dall'Aldilà) né all'interno dei dungeon.",
+     "parametri": {
+      "usiPerLivelloPerAvventura": 2,
+      "tabelleValide": [
+       "tabelle foresta Labirinti Silvani",
+       "I Tre Anelli"
+      ],
+      "nonValidoIn": [
+       "mondi demoniaci",
+       "dungeon"
+      ]
+     }
+    }
+   ],
+   "abilita": [
+    "combattente-acrobatico",
+    "intuizione",
+    "lanciatore-di-coltelli",
+    "lesto-di-piedi",
+    "mira-infallibile",
+    "negoziatore",
+    "refrattario-al-veleno",
+    "sesto-senso",
+    "tiro-preciso",
+    "udito-formidabile"
+   ],
+   "abilitaNota": "Stesse abilità dei mezzuomini, tranne Alchimia delle spore e le capacità culinarie (queste ultime non sono abilità avanzate nell'elenco di Contro l'Abisso)",
+   "rimando": {
+    "libro": "Contro l'Abisso",
+    "pagina": 19,
+    "cosa": "abilità avanzate"
+   }
+  },
+  "signore-bestie": {
+   "id": "signore-bestie",
+   "nome": "Signore delle bestie",
+   "pagina": 37,
+   "suppl": true,
+   "vitaBase": 4,
+   "oro": "2d6",
+   "armature": [
+    "leggera"
+   ],
+   "scudo": true,
+   "armi": "tutte",
+   "armiEscluse": [
+    "armi da fuoco"
+   ],
+   "equip": [
+    "Arma a una mano",
+    "Armatura leggera",
+    "Scudo",
+    "1 compagno animale di livello 0 o 1"
+   ],
+   "equipScambio": "può scambiare arma a una mano e scudo con un'arma a due mani oppure un arco",
+   "tiriSalvezza": {
+    "come": "barbaro"
+   },
+   "attacco": {
+    "formula": "1/2L"
+   },
+   "tratti": "Cacciatore che addestra i compagni animali. Attacco +1/2 livello. Bonus di addestramento = 1/2 livello da ripartire a piacere tra attacco, difesa, morale, tiri salvezza e punti vita dei compagni animali (non delle cavalcature). Può avere 1 compagno animale ogni 3 livelli (per eccesso), mai di livello superiore al suo.",
+   "poteri": [
+    {
+     "id": "bonus-addestramento",
+     "nome": "Bonus di addestramento",
+     "pagina": 37,
+     "effetto": "Metà livello (per difetto) aggiunto ad attacco, difesa, morale, TS e PV dei compagni animali; il totale si ripartisce a scelta tra i compagni. Non vale per le cavalcature.",
+     "parametri": {
+      "bonusTotale": "1/2L",
+      "ripartibile": true,
+      "applicaA": [
+       "attacco",
+       "difesa",
+       "morale",
+       "tiriSalvezza",
+       "puntiVita"
+      ],
+      "escludeCavalcature": true
+     }
+    },
+    {
+     "id": "compagni-multipli",
+     "nome": "Più compagni animali",
+     "pagina": 37,
+     "effetto": "1 compagno ogni 3 livelli per eccesso: L1-3 uno, L4-6 due, L7-9 tre, e così via. Livello del compagno mai superiore a quello del signore. Può controllare più mostri sottomessi (eccezione alla regola di 1 per personaggio).",
+     "parametri": {
+      "livelliPerCompagno": 3,
+      "arrotondamento": "eccesso",
+      "tabella": {
+       "1-3": 1,
+       "4-6": 2,
+       "7-9": 3
+      },
+      "livelloCompagnoMax": "livello del signore",
+      "piuMostriSottomessi": true
+     }
+    },
+    {
+     "id": "promozione-compagno",
+     "nome": "Aumentare il livello di un compagno",
+     "pagina": 38,
+     "effetto": "Sacrificando 1 tiro ES riuscito, un compagno guadagna +1 livello: +1 PV totali e +1 da assegnare ad attacco o difesa. Il livello non supera mai quello del padrone.",
+     "parametri": {
+      "costoTiroES": 1,
+      "livelloPiu": 1,
+      "pvPiu": 1,
+      "bonusAttaccoODifesa": 1
+     }
+    },
+    {
+     "id": "se-il-signore-cade",
+     "nome": "Se il signore muore, perde i sensi o è paralizzato",
+     "pagina": 38,
+     "effetto": "I compagni perdono il bonus di addestramento ma restano col gruppo (salvo eccedere il limite di 1 per personaggio: allora possono morire o andarsene). Mantengono i livelli guadagnati. Un nuovo signore di livello sufficiente può reclamarli.",
+     "parametri": {
+      "perdonoBonus": true,
+      "mantengonoLivelli": true,
+      "reclamabili": true
+     }
+    }
+   ],
+   "esempio": {
+    "pagina": 39,
+    "compagno": "cane da guerra LIV 1",
+    "livelloSignore": 3,
+    "bonusAddestramento": 1,
+    "risultato": {
+     "liv": 1,
+     "att": 1,
+     "pv": 3,
+     "mor": 2,
+     "modAttacco": 2,
+     "modDifesa": 1,
+     "modTiriSalvezza": 1
+    },
+    "livello4": {
+     "bonusAddestramento": 2,
+     "compagni": 2
+    }
+   },
+   "abilita": [
+    "cacciatore-di-vampiri",
+    "combattente-acrobatico",
+    "conciatore-arcano",
+    "doppio-attacco",
+    "lanciatore-di-coltelli",
+    "leader-carismatico",
+    "lesto-di-piedi",
+    "nemico-giurato",
+    "rissaiolo",
+    "sesto-senso",
+    "udito-formidabile",
+    "vortice-di-lame"
+   ],
+   "abilitaEstesaACompagni": [
+    "cacciatore-di-vampiri",
+    "combattente-acrobatico",
+    "nemico-giurato"
+   ],
+   "abilitaNota": "Le abilità con asterisco valgono anche per i compagni animali con almeno +1 di bonus di addestramento",
+   "rimando": {
+    "libro": "Contro l'Abisso",
+    "pagina": 19,
+    "cosa": "abilità avanzate"
+   }
+  }
+ },
+ "abilitaPerClasse": {
+  "druido": [
+   "Alchimia delle spore",
+   "Conciatore arcano",
+   "Furia terrificante",
+   "Incenso protettivo",
+   "Intuizione",
+   "Investigatore",
+   "Leader carismatico",
+   "Luce perenne",
+   "Negoziatore",
+   "Refrattario al veleno",
+   "Volontà ferrea"
+  ],
+  "elfo-silvano": [
+   "Combattente acrobatico",
+   "Conciatore arcano",
+   "Doppio attacco",
+   "Lanciatore di coltelli",
+   "Lesto di piedi",
+   "Mira infallibile",
+   "Rissaiolo",
+   "Sesto senso",
+   "Tiro preciso",
+   "Udito formidabile"
+  ],
+  "guida-terre-selvagge": [
+   "Combattente acrobatico",
+   "Intuizione",
+   "Lanciatore di coltelli",
+   "Lesto di piedi",
+   "Mira infallibile",
+   "Negoziatore",
+   "Refrattario al veleno",
+   "Sesto senso",
+   "Tiro preciso",
+   "Udito formidabile"
+  ],
+  "signore-bestie": [
+   "Cacciatore di vampiri",
+   "Combattente acrobatico",
+   "Conciatore arcano",
+   "Doppio attacco",
+   "Lanciatore di coltelli",
+   "Leader carismatico",
+   "Lesto di piedi",
+   "Nemico giurato",
+   "Rissaiolo",
+   "Sesto senso",
+   "Udito formidabile",
+   "Vortice di lame"
+  ]
+ },
+ "abilita": [
+  {
+   "id": "nuotare",
+   "nome": "Nuotare",
+   "pagina": 7,
+   "classi": [
+    "tutte le classi senza nuoto automatico"
+   ],
+   "requisiti": [],
+   "effetto": "Imparare a nuotare conta come abilità avanzata per le classi che non nuotano automaticamente: dà accesso al tiro di nuotare (altrimenti perdono 1 PV per quadretto).",
+   "rimando": "Contro l'Abisso p. 19 (abilità avanzate)",
+   "nuovaInSilvani": true
+  }
+ ],
+ "incantesimi": [
+  {
+   "id": "s-aspetto-orso",
+   "nome": "Aspetto dell'orso",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 28,
+   "d12": [
+    1,
+    1
+   ],
+   "effetto": "Il druido spende 1 azione; dal turno dopo e fino a fine combattimento è un orso: combatte come guerriero di 3° livello con 8 PV (o il suo livello e i PV attuali se migliori) e non può lanciare incantesimi. A fine incontro subisce metà (per difetto) delle ferite prese in forma di orso, e può morire.",
+   "parametri": {
+    "azioni": 1,
+    "inizioDalTurno": "successivo",
+    "durata": "fine combattimento",
+    "livelloOrso": 3,
+    "pvOrso": 8,
+    "usaLivelloEPVDelDruidoSeMigliori": true,
+    "bloccaIncantesimi": true,
+    "feriteAlRitorno": "1/2 subite in forma di orso"
+   }
+  },
+  {
+   "id": "s-controllo-clima",
+   "nome": "Controllo del clima",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 28,
+   "d12": [
+    2,
+    2
+   ],
+   "effetto": "Solo all'aperto: maltempo lieve per 10 minuti; -1 al livello di tutti gli attacchi a distanza (non incantesimi), +1 a ogni Richiama il fulmine del druido; oppure 2 danni automatici a un elementale d'aria o di fuoco; oppure spegne un incendio naturale.",
+   "parametri": {
+    "soloAperto": true,
+    "durataMinuti": 10,
+    "modLivelloAttacchiDistanza": -1,
+    "esclusiIncantesimi": true,
+    "bonusRichiamaFulmine": 1,
+    "dannoAutomaticoElementaliAriaFuoco": 2,
+    "estingueIncendiNaturali": true
+   }
+  },
+  {
+   "id": "s-disperdi-infestanti",
+   "nome": "Disperdi infestanti",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 29,
+   "d12": [
+    3,
+    3
+   ],
+   "effetto": "Conta come 1 attacco in mischia con bonus pari al doppio del livello del druido, solo contro mostri infestanti (non non-morti né meccanici, né oggetti animati). Le creature distrutte sono disperse: niente componenti alchemici né tesoro.",
+   "parametri": {
+    "contaComeAttaccoMischia": true,
+    "bonusAttacco": "2L",
+    "soloInfestanti": true,
+    "escludeNonMorti": true,
+    "escludeMeccanici": true,
+    "escludeOggettiAnimati": true,
+    "nessunTesoro": true
+   }
+  },
+  {
+   "id": "s-evoca-bestia",
+   "nome": "Evoca bestia",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 28,
+   "d12": [
+    4,
+    4
+   ],
+   "effetto": "Evoca un grosso animale naturale non volante adatto all'area (cinghiale, grande felino, orso) che combatte come guerriero di 3° livello con 5 PV dal turno seguente del druido. Scompare se muore, se il druido muore, perde i sensi o è pietrificato, o a fine incontro. Nell'ordine di marcia sta accanto al druido (2 posti in corridoio); in imboscata in corridoio può difendere la retroguardia prima dell'attacco nemico.",
+   "parametri": {
+    "livelloBestia": 3,
+    "pvBestia": 5,
+    "combatteDalTurno": "successivo",
+    "nonVolante": true,
+    "postiCorridoio": 2,
+    "scompareSe": [
+     "uccisa",
+     "druido morto",
+     "druido privo di sensi",
+     "druido pietrificato",
+     "fine incontro"
+    ]
+   }
+  },
+  {
+   "id": "s-frantuma-legno",
+   "nome": "Frantuma legno",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 29,
+   "d12": [
+    5,
+    5
+   ],
+   "effetto": "Distrugge una porta di legno, la cassa di un tesoro o altri manufatti di legno (ponte, palizzata); oppure 2 danni automatici a golem di legno, alberi viventi, uomini albero, driadi, elementali di legno e ogni creatura descritta come albero o pianta.",
+   "parametri": {
+    "dannoAutomaticoCreatureLegno": 2,
+    "distruggeManufattiLegno": true,
+    "distruggePonteDiLegno": true
+   }
+  },
+  {
+   "id": "s-getto-acqua",
+   "nome": "Getto d'acqua",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 29,
+   "d12": [
+    6,
+    6
+   ],
+   "effetto": "Tiro per incantesimi contro il livello del bersaglio; se riesce scegli: a) 2 danni a una creatura di fuoco o a un fuoco naturale; b) 2 infestanti dispersi; c) 1 seguace perde i sensi; d) 1 maggiore distratto, il gruppo si sottrae senza subire attacchi. Fuori dal combattimento disseta tutto il gruppo (con cavalcature e alleati) per 1 giorno. +1 al tiro presso uno specchio d'acqua, -2 in zona desertica; si può lanciare anche nei dungeon.",
+   "parametri": {
+    "tiro": "incantesimi contro livello del bersaglio",
+    "dannoCreaturaFuoco": 2,
+    "infestantiDispersi": 2,
+    "seguaciSvenuti": 1,
+    "maggioriDistratti": 1,
+    "dissetaGiorni": 1,
+    "bonusVicinoAcqua": 1,
+    "malusDeserto": -2,
+    "utilizzabileNeiDungeon": true
+   }
+  },
+  {
+   "id": "s-impigliare",
+   "nome": "Impigliare",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 29,
+   "d12": [
+    7,
+    7
+   ],
+   "effetto": "Come Ragnatela ma solo in un'area di foresta (non in edifici né sottoterra). Colpisce anche le creature di fuoco, ma per soli 2 turni; un incantesimo di fuoco lanciato contro il bersaglio non lo libera.",
+   "parametri": {
+    "comeIncantesimo": "s-ragnatela",
+    "soloForesta": true,
+    "durataCreatureFuocoTurni": 2,
+    "fuocoNonLibera": true
+   }
+  },
+  {
+   "id": "s-passaforesta",
+   "nome": "Passaforesta",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 29,
+   "d12": [
+    8,
+    8
+   ],
+   "effetto": "Per 10 minuti per livello del druido la vegetazione si apre e il gruppo attraversa il labirinto silvano ignorando alberi e vegetazione. Il druido deve essere nei primi 2 posti dell'ordine di marcia. Gli alberi non sono tagliati e tornano al loro posto.",
+   "parametri": {
+    "durataMinutiPerLivello": 10,
+    "druidaNeiPrimiPosti": 2,
+    "alberiNonTagliati": true
+   }
+  },
+  {
+   "id": "s-pelle-corteccia",
+   "nome": "Pelle di corteccia",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 30,
+   "d12": [
+    9,
+    9
+   ],
+   "effetto": "Su sé o su 1 altra creatura: +2 ai tiri di difesa fino a fine combattimento, -2 ai TS basati sull'agilità (scalare, evitare trappole) e -2 in difesa contro il fuoco (anche soffio di drago). Lanciato su un nemico: +1 al suo livello, +3 agli attacchi di fuoco contro di lui con minimo 2 danni.",
+   "parametri": {
+    "bonusDifesa": 2,
+    "malusTSAgilita": -2,
+    "malusDifesaFuoco": -2,
+    "durata": "fine combattimento",
+    "suNemico": {
+     "livelloPiu": 1,
+     "bonusAttacchiFuoco": 3,
+     "dannoMinimoFuoco": 2
+    }
+   }
+  },
+  {
+   "id": "s-ragnatela",
+   "nome": "Ragnatela",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 30,
+   "d12": [
+    10,
+    10
+   ],
+   "effetto": "Intrappola automaticamente 1 mostro maggiore o 1d6 minori (immuni creature di fuoco ed elementali): -1 livello in attacco e difesa fino a fine combattimento. Un incantesimo di fuoco la brucia. Chi fallisce il morale mentre è avvolto è sottomesso e può essere catturato vivo a fine incontro.",
+   "parametri": {
+    "bersagli": {
+     "maggiori": 1,
+     "minori": "1d6"
+    },
+    "malusLivello": -1,
+    "immuni": [
+     "creature di fuoco",
+     "elementali"
+    ],
+    "annullataDaFuoco": true,
+    "moraleFallitoSottomesso": true
+   }
+  },
+  {
+   "id": "s-richiama-fulmine",
+   "nome": "Richiama il fulmine",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 30,
+   "d12": [
+    11,
+    11
+   ],
+   "effetto": "Come Fulmine magico del mago, ma non in edifici né in dungeon (il fulmine cala dal cielo); serve un tiro di attacco a cui il druido aggiunge il suo livello.",
+   "parametri": {
+    "comeIncantesimo": "Fulmine magico",
+    "soloAperto": true,
+    "bonusAttacco": "L"
+   }
+  },
+  {
+   "id": "s-sottomissione",
+   "nome": "Sottomissione",
+   "lista": "druido",
+   "livello": "base",
+   "pagina": 30,
+   "d12": [
+    12,
+    12
+   ],
+   "effetto": "Lanciato su tutto il gruppo, funziona automaticamente: per l'incontro in corso le armi dei personaggi non hanno la penalità di -1 per sottomettere un mostro.",
+   "parametri": {
+    "bersaglio": "tutto il gruppo",
+    "automatico": true,
+    "annullaMalus": -1,
+    "durata": "incontro"
+   }
+  },
+  {
+   "id": "s-distruggi-non-vita",
+   "nome": "Distruggi la non-vita",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 32,
+   "d12": [
+    1,
+    1
+   ],
+   "effetto": "Ondata di forza vitale contro un non-morto o una creatura artificiale/elementale: conta come 1 attacco a distanza che danneggia solo non-morti e artificiali inorganici (automi, robot, golem, elementali). Si lancia anche con le mani occupate.",
+   "parametri": {
+    "attaccoADistanza": true,
+    "bersagli": [
+     "non-morti",
+     "artificiali inorganici",
+     "golem",
+     "elementali"
+    ],
+    "maniOccupateOk": true
+   }
+  },
+  {
+   "id": "s-freccia-fuoco-gemella",
+   "nome": "Freccia di fuoco gemella",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 32,
+   "d12": [
+    2,
+    3
+   ],
+   "effetto": "Due lingue di fuoco colpiscono 2 bersagli diversi: 2 attacchi a distanza separati, a ciascuno si aggiunge metà livello del druido; danni da fuoco. È un incantesimo di fuoco: i piromanti possono impararlo.",
+   "parametri": {
+    "attacchi": 2,
+    "bonusAttacco": "1/2L",
+    "bersagliDiversi": true,
+    "danni": "fuoco",
+    "incantesimoDiFuoco": true,
+    "apprendibileDa": [
+     "piromante"
+    ]
+   }
+  },
+  {
+   "id": "s-furia-natura",
+   "nome": "Furia della natura",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 32,
+   "d12": [
+    4,
+    5
+   ],
+   "effetto": "Il druido guadagna +2 ai tiri di attacco e +1 ai tiri di difesa fino a fine combattimento.",
+   "parametri": {
+    "bonusAttacco": 2,
+    "bonusDifesa": 1,
+    "durata": "fine combattimento"
+   }
+  },
+  {
+   "id": "s-guarigione-armoniosa",
+   "nome": "Guarigione armoniosa",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 33,
+   "d12": [
+    6,
+    7
+   ],
+   "effetto": "Tutti i membri del gruppo, druido incluso, alleati, compagni animali e cavalcature recuperano 1 punto vita.",
+   "parametri": {
+    "pvRecuperati": 1,
+    "bersagli": [
+     "gruppo",
+     "alleati",
+     "compagni animali",
+     "cavalcature"
+    ]
+   }
+  },
+  {
+   "id": "s-nascondersi-vista",
+   "nome": "Nascondersi alla vista",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 33,
+   "d12": [
+    8,
+    9
+   ],
+   "effetto": "Su un membro del gruppo (o sul druido): finché non attacca né lancia incantesimi, i nemici lo attaccano solo se è l'ultimo rimasto in piedi. Finisce con il combattimento.",
+   "parametri": {
+    "bersaglio": "1 membro del gruppo o il druido",
+    "finoA": "attacca o lancia incantesimi",
+    "durata": "fine combattimento"
+   }
+  },
+  {
+   "id": "s-protezione-lacci-tagliole",
+   "nome": "Protezione da lacci e tagliole",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 33,
+   "d12": [
+    10,
+    10
+   ],
+   "effetto": "Il gruppo aggiunge il livello del druido al primo tiro salvezza contro una trappola, un laccio o altro pericolo fabbricato dall'uomo.",
+   "parametri": {
+    "bonusTS": "L druido",
+    "aTutti": "gruppo",
+    "soloPrimoTS": true
+   }
+  },
+  {
+   "id": "s-svanire-foresta",
+   "nome": "Svanire nella foresta",
+   "lista": "druido",
+   "livello": "avanzato",
+   "pagina": 33,
+   "d12": [
+    11,
+    12
+   ],
+   "effetto": "Solo in aree di vegetazione abbondante (foreste, paludi, giungle): il druido si teletrasporta al sicuro lontano dal combattimento. Conta come sottrarsi con successo, senza subire attacchi.",
+   "parametri": {
+    "soloVegetazioneAbbondante": true,
+    "ambienti": [
+     "foresta",
+     "palude",
+     "giungla"
+    ],
+    "ritirataAutomatica": true,
+    "nessunAttaccoSubito": true
+   }
+  },
+  {
+   "id": "s-raccolto-abbondante",
+   "nome": "Raccolto abbondante",
+   "lista": "speciale",
+   "livello": "pergamena",
+   "pagina": 65,
+   "d12": null,
+   "effetto": "Effetto alternativo di quando si legge la pergamena (tesoro della strega nera): apre un sentiero permanente attraverso un numero di quadretti di foresta pari o inferiore al tiro per l'incantesimo (es. fino a 6 con un 6). Citato anche a p. 8 come alternativa per abbattere alberi.",
+   "parametri": {
+    "quadrettiMax": "tiro per l'incantesimo",
+    "permanente": true,
+    "fonte": "pergamena della strega nera",
+    "altriEffettiNelManuale": null
+   }
+  },
+  {
+   "id": "s-musica-armonia",
+   "nome": "Musica dell'armonia",
+   "lista": "chierico-elidra",
+   "livello": "potere",
+   "pagina": 23,
+   "d12": null,
+   "effetto": "Potere del chierico di Elidra (1 Benedizione): vedi classi.chierico-elidra.poteri.",
+   "parametri": {
+    "classe": "chierico-elidra"
+   },
+   "rimando": "classi.chierico-elidra"
+  }
+ ],
+ "incantesimiRegole": {
+  "classi": [
+   "druido"
+  ],
+  "livelloMinimoAvanzati": 5,
+  "pagina": 27,
+  "iniziali": "2 + 1 per livello",
+  "nessunLibro": true,
+  "recuperoMeditando": true,
+  "acquisizioneAvanzati": [
+   "ricompensa-epica",
+   "segreto (3 indizi)",
+   "tiro ES riuscito",
+   "pergamena (si distrugge)"
+  ],
+  "usiPerAvventura": null,
+  "memorizzabilePiuVolte": null,
+  "pergamene": {
+   "pagina": 33,
+   "tipo": {
+    "dado": "1d6",
+    "mago": [
+     1,
+     4
+    ],
+    "druido": [
+     5,
+     6
+    ],
+    "oScelta": true
+   },
+   "lista": {
+    "dado": "1d6",
+    "base": [
+     1,
+     4
+    ],
+    "avanzata": [
+     5,
+     6
+    ]
+   },
+   "bonusTiroSeTesoroDiMostroAbissoOSuperiore": 1,
+   "tabella": "1d12",
+   "tabelle": [
+    "tabelle.incantesimiDruidoBase",
+    "tabelle.incantesimiDruidoAvanzati"
+   ]
+  },
+  "dadoIncantesimiBase": "1d12",
+  "rimando": "Il numero di usi per incantesimo per avventura non è indicato: vedi ambiguita"
+ },
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "s-ratti-nebbia",
+    "nome": "Ratti della nebbia",
+    "conta": "2d6",
+    "tag": [
+     "animale",
+     "volante"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": "NO",
+    "xp": true,
+    "note": "Invece di attaccare cercano di addentare razioni e oggetti di carta: ogni ratto per turno distrugge, nell'ordine, 1 pezzo di formaggio, razioni per 1 giorno, 1 pergamena, 1 oggetto di pelle, 1 altro oggetto non metallico. Non attaccano mai lanternieri né xwart.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "categoria": "infestanti",
+    "pagina": 52,
+    "nonAttacca": true,
+    "distruggeOggetti": {
+     "perRattoPerTurno": 1,
+     "ordine": [
+      "formaggio",
+      "razioni di cibo per 1 giorno",
+      "pergamena",
+      "oggetto di pelle",
+      "altro oggetto non metallico"
+     ],
+     "nonAttaccano": [
+      "lanternieri",
+      "xwart"
+     ]
+    },
+    "reazioneTesto": "Addenta sempre i possedimenti del gruppo"
+   },
+   {
+    "id": "s-folletti",
+    "nome": "Folletti",
+    "conta": "1d6+1",
+    "tag": [
+     "progenie-infernale",
+     "volante"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": -1,
+    "xp": true,
+    "note": "Con un tiro di difesa fallito il personaggio non perde PV ma 1 oggetto a caso, rubato dal folletto che vola via. 1 fiala di acqua santa ne uccide 2 all'istante. -1 al livello per ogni demonologo nel gruppo. Una Benedizione di un chierico di un dio della Luce ne fa fuggire 1d6+L senza rubare. Non attaccano i chierici di Akerbeltz, odiano i cacciatori di streghe.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "enigma"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "infestanti",
+    "pagina": 52,
+    "rubaOggetto": {
+     "alPostoDelDanno": true,
+     "oggettoCasuale": true,
+     "quando": "tiro di difesa fallito"
+    },
+    "acquaSantaUccide": 2,
+    "modLivelloPerDemonologo": -1,
+    "benedizioneChiericoLuce": {
+     "fuggono": "1d6+L",
+     "senzaRubare": true
+    },
+    "nonAttaccano": [
+     "chierico di Akerbeltz"
+    ],
+    "odiano": [
+     "cacciatore di streghe"
+    ],
+    "rimando": {
+     "classi": [
+      "demonologo",
+      "cacciatore di streghe",
+      "chierici di Luura, Zoyas, Akerbeltz"
+     ],
+     "libro": "altri volumi non ancora pubblicati"
+    }
+   },
+   {
+    "id": "s-capricorni-alati",
+    "nome": "Capricorni alati",
+    "conta": "1d6",
+    "tag": [
+     "volante"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": "NO",
+    "xp": true,
+    "note": "Nel primo turno i maschi, in carica, combattono a LIV 6 (attacco e difesa). Il branco ha anche 2d6 femmine e cuccioli (LIV 2) che non combattono e fuggono sempre. Si incontrano vicino a un ruscello o laghetto reso fertile da loro: la prima volta che i PG bevono recuperano 1 PV.",
+    "reazioni": [
+     [
+      1,
+      3,
+      "fugge-inf"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "infestanti",
+    "pagina": 52,
+    "livPrimoTurno": 6,
+    "gruppoAccessorio": {
+     "nome": "femmine e cuccioli",
+     "conta": "2d6",
+     "liv": 2,
+     "combattono": false,
+     "fuggonoSempre": true
+    },
+    "acquaFertile": {
+     "primaVoltaChiBeve": true,
+     "pvRecuperati": 1
+    },
+    "contaIndicaMaschi": true
+   },
+   {
+    "id": "s-vermi-carogne",
+    "nome": "Vermi delle carogne",
+    "conta": "2d6",
+    "tag": [
+     "animale"
+    ],
+    "liv": 4,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -2,
+    "xp": true,
+    "note": "Un personaggio colpito fa TS contro il veleno (L2; bestie della luna e dottori della peste immuni) o resta paralizzato per il turno successivo: non può attaccare e fallisce le difese, ma può fare i TS contro il veleno.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "infestanti",
+    "pagina": 53,
+    "paralisi": {
+     "liv": 2,
+     "tipo": "veleno",
+     "quando": "personaggio colpito",
+     "durata": "turno successivo",
+     "immuni": [
+      "bestia della luna",
+      "dottore della peste"
+     ],
+     "nonAttacca": true,
+     "difesaFallitaAutomatica": true,
+     "tsVelenoPermessi": true
+    }
+   },
+   {
+    "id": "s-lupi-foreste",
+    "nome": "Lupi delle foreste",
+    "conta": "1d6+3",
+    "tag": [
+     "animale"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Temono il fuoco: se una Palla di fuoco ne uccide 2 o più devono fare subito un tiro di morale (2 tiri se il loro numero scende sotto il 50%). -1 al morale per ogni signore delle bestie o ranger nel gruppo (massimo -2).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      "1d3",
+      null,
+      "razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "infestanti",
+    "pagina": 53,
+    "moralePallaDiFuoco": {
+     "uccisiMin": 2,
+     "tiriMorale": 1,
+     "tiriMoraleSeSotto50": 2,
+     "modPerSignoreBestieORanger": -1,
+     "modMax": -2
+    }
+   },
+   {
+    "id": "s-scoiattoli-malvagi",
+    "nome": "Scoiattoli malvagi",
+    "conta": "2d6",
+    "tag": [
+     "animale"
+    ],
+    "liv": 3,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Famigli delle streghe del monte Larrun. Invece di attaccare, per ogni PG tira 1d6+livello: se il risultato è minore del numero di scoiattoli il PG perde, in ordine, 1 punto fortuna, 1 devozione, 1 maestria, 1 incantesimo/potere del chierico o 1 PV. Non attaccano maghe, chierici di Akerbeltz e Radah, mutanti, negromanti; odiano paladini e cacciatori di streghe. Considerati ratti: corruttibili con 1 formaggio perfetto.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "categoria": "infestanti",
+    "pagina": 53,
+    "nonAttacca": true,
+    "drenaggio": {
+     "dadoPerPersonaggio": "1d6+L",
+     "successoSe": "risultato < numero di scoiattoli",
+     "perdite": [
+      "punto fortuna",
+      "punto devozione",
+      "punto maestria",
+      "incantesimo o potere del chierico",
+      "punto vita"
+     ],
+     "ordine": true
+    },
+    "nonAttaccano": [
+     "maghi di sesso femminile",
+     "chierico di Akerbeltz",
+     "chierico di Radah",
+     "mutante",
+     "negromante"
+    ],
+    "odiano": [
+     "paladino",
+     "cacciatore di streghe"
+    ],
+    "comeRatti": true,
+    "corruzioneAlternativa": {
+     "oggetto": "formaggio perfetto",
+     "quantita": 1,
+     "nota": "rara prelibatezza ottenuta mungendo creature magiche"
+    },
+    "premioSterminio": {
+     "ogniUccisi": 13,
+     "classe": "cacciatore di streghe",
+     "bonusAttaccoETS": 1,
+     "contro": "streghe nere e Sorella Eliza",
+     "massimo": "livello del cacciatore",
+     "pagina": 62
+    },
+    "reazioneTesto": "Combatte sempre"
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "s-arpie",
+    "nome": "Arpie",
+    "conta": "1d6+1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Immuni a Sonno. A ogni turno delle arpie tutti i PG non sordi fanno TS contro la magia (L4; maghi, mezzuomini, bardi, chierici di Akerbeltz e satiri +1/2L) o restano paralizzati dal canto (non attaccano, difese fallite). I bardi possono pacificarle con un TS di musica (L7, +1/2L). Missione sempre «Portatemelo!» (specchio d'argento).",
+    "reazioni": [
+     [
+      1,
+      2,
+      "missione"
+     ],
+     [
+      3,
+      4,
+      "corruzione",
+      1,
+      null,
+      "gemma"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "seguaci",
+    "pagina": 54,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "paralisi": {
+     "liv": 4,
+     "tipo": "magia",
+     "quando": "ogni turno delle arpie",
+     "chi": "tutti i personaggi non sordi",
+     "bonus": {
+      "mago": "1/2L",
+      "mezzuomo": "1/2L",
+      "bardo": "1/2L",
+      "chierico di Akerbeltz": "1/2L",
+      "satiro": "1/2L"
+     },
+     "nonAttacca": true,
+     "difesaFallitaAutomatica": true
+    },
+    "pacificabileDaBardo": {
+     "tiro": "musica",
+     "liv": 7,
+     "bonus": "1/2L"
+    },
+    "missione": {
+     "nome": "Portatemelo!",
+     "oggetto": "specchio d'argento",
+     "probOggettoNeiMaggiori": {
+      "su": 1,
+      "dado": "1d6"
+     },
+     "sfingeLoHaSempre": true,
+     "consegna": "alle arpie",
+     "dopoLaMissione": "da ora ogni mostro maggiore sconfitto può avere lo specchio oltre al tesoro"
+    },
+    "rimando": {
+     "classi": [
+      "bardo",
+      "chierico di Akerbeltz",
+      "satiro"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-uomini-gufo",
+    "nome": "Uomini gufo cavalcatori di cani",
+    "conta": "1d3+1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 8,
+    "att": 2,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "note": "Gli attacchi dell'uomo gufo e del suo cane colpiscono sempre lo stesso bersaglio; se entrambi vanno a segno smettono di volare ma infliggono automaticamente 1 PV in più a ogni loro turno. Il fuoco dà -1 al morale. -1 al tiro reazioni per ogni gufo o naturalista nel gruppo. Reazione Mercanti = Pacifico (Scoperta 5).",
+    "reazioni": [
+     [
+      1,
+      2,
+      "mercanti"
+     ],
+     [
+      3,
+      4,
+      "corruzione",
+      "1d6",
+      null,
+      "razioni di cibo"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "seguaci",
+    "pagina": 54,
+    "attacchiStessoBersaglio": true,
+    "doppioColpo": {
+     "seEntrambiASegno": true,
+     "smettonoDiVolare": true,
+     "pvAutomaticiPerTurno": 1
+    },
+    "moraleFuocoMod": -1,
+    "modReazione": [
+     {
+      "chi": "gufo",
+      "mod": -1
+     },
+     {
+      "chi": "naturalista",
+      "mod": -1
+     }
+    ],
+    "mercanti": {
+     "comeReazione": "pacifico",
+     "vendono": "qualsiasi oggetto non magico e non vivente di valore inferiore a 101 p.o. di qualsiasi supplemento",
+     "pozione": {
+      "prob": {
+       "da": 5,
+       "a": 6,
+       "dado": "1d6"
+      },
+      "costoMax": 100,
+      "maxPerVolta": "1d3"
+     },
+     "incontroSuccessivo": {
+      "stessoGruppo": {
+       "da": 4,
+       "a": 6,
+       "dado": "1d6"
+      },
+      "scorteRifornite": true
+     }
+    },
+    "rimando": {
+     "classi": [
+      "naturalista"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-aquile-giganti",
+    "nome": "Aquile giganti",
+    "conta": "1d6+2",
+    "tag": [
+     "volante"
+    ],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": null,
+    "xp": true,
+    "note": "Su sentieri/corridoi -2 all'attacco. Altrove, se almeno 3 attacchi riescono contro un singolo PG, questi fa un tiro di difesa (L4) o viene portato via al nido per sempre. Gli altri hanno 1 solo turno per abbatterle con armi da lancio o incantesimi: con un 1 sul tiro colpiscono l'amico. Tesoro: 1d6 gemme per un valore totale di 1d6x3 p.o.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "fugge"
+     ],
+     [
+      2,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      4,
+      "corruzione",
+      1,
+      null,
+      "gemma"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "seguaci",
+    "pagina": 54,
+    "tesoroFisso": {
+     "gemme": "1d6",
+     "valoreTotale": "1d6x3"
+    },
+    "modAttaccoSentiero": -2,
+    "rapimento": {
+     "fuoriDaSentiero": true,
+     "attacchiASegnoMin": 3,
+     "bersaglio": "singolo personaggio",
+     "tiro": "difesa",
+     "liv": 4,
+     "effetto": "portato al nido, non torna più",
+     "contromisura": {
+      "turni": 1,
+      "armi": [
+       "armi da lancio",
+       "incantesimi"
+      ],
+      "colpisceAmicoSu": 1
+     }
+    }
+   },
+   {
+    "id": "s-ruote-viventi",
+    "nome": "Ruote viventi",
+    "conta": "1d6",
+    "tag": [
+     "caos"
+    ],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "note": "Mutanti a forma di disco che rotolano. Sorprendono il gruppo con 1-3 su 1d6; se sorprendono lanciano coltelli: ogni PG fa un tiro di difesa (L3) o perde 1d3 PV. -1 al tiro reazioni per ogni atrocità, golem del caos o mutante nel gruppo.",
+    "reazioni": [
+     [
+      -99,
+      0,
+      "offre-riposo"
+     ],
+     [
+      1,
+      3,
+      "corruzione",
+      10
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "seguaci",
+    "pagina": 55,
+    "sorpresaProb": 3,
+    "attaccoSorpresa": {
+     "aTutti": true,
+     "tiro": "difesa",
+     "liv": 3,
+     "danno": "1d3"
+    },
+    "modReazione": [
+     {
+      "chi": "atrocità",
+      "mod": -1
+     },
+     {
+      "chi": "golem del caos",
+      "mod": -1
+     },
+     {
+      "chi": "mutante",
+      "mod": -1
+     }
+    ],
+    "reazioneTesto": "0 o meno: offre cibo e riposo",
+    "rimando": {
+     "classi": [
+      "atrocità",
+      "golem del caos",
+      "mutante"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-centauri",
+    "nome": "Centauri",
+    "conta": "2d6",
+    "tag": [],
+    "liv": 5,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": -1,
+    "xp": true,
+    "note": "Sangue velenoso: ogni attacco in mischia a segno obbliga l'attaccante a un TS contro il veleno (L2) o a perdere 1 PV. Sorprendono con 1-2 su 1d6. Se nel gruppo ci sono personaggi di sesso femminile la reazione è sempre Cattura. Mercanti: vendono qualsiasi oggetto di valore inferiore a 101 p.o. del manuale base.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "offre-riposo"
+     ],
+     [
+      2,
+      3,
+      "mercanti"
+     ],
+     [
+      4,
+      4,
+      "cattura"
+     ],
+     [
+      5,
+      5,
+      "corruzione",
+      "2d6"
+     ],
+     [
+      6,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "seguaci",
+    "pagina": 55,
+    "sorpresaProb": 2,
+    "sangueVelenoso": {
+     "quando": "attacco in mischia a segno contro il centauro",
+     "chi": "l'attaccante",
+     "tipo": "veleno",
+     "liv": 2,
+     "perdita": 1
+    },
+    "reazioneFissaSe": {
+     "condizione": "nel gruppo personaggi di sesso femminile",
+     "azione": "cattura"
+    },
+    "mercanti": {
+     "vendono": "qualsiasi oggetto di valore inferiore a 101 p.o. del manuale base"
+    }
+   },
+   {
+    "id": "s-uomini-lucertola",
+    "nome": "Uomini lucertola trogloditi",
+    "conta": "1d6+2",
+    "tag": [],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Prima del combattimento tutti i PG fanno TS contro il veleno (L3; alchimisti, dottori della peste e mastri casari immuni) o vomitano per il fetore: non attaccano per i primi 1d3 turni. Un incantesimo Protezione lanciato subito prima rende un membro immune. Palla di fuoco provoca un tiro di morale. -1 al morale per ogni atrocità nel gruppo.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "categoria": "seguaci",
+    "pagina": 55,
+    "fetore": {
+     "quando": "prima del combattimento",
+     "chi": "tutti i membri del gruppo",
+     "tiro": "veleno",
+     "liv": 3,
+     "immuni": [
+      "alchimista",
+      "dottore della peste",
+      "mastro casaro"
+     ],
+     "effetto": "non può attaccare per 1d3 turni",
+     "protezione": "incantesimo Protezione subito prima del combattimento: immunità di 1 membro"
+    },
+    "moralePallaDiFuoco": {
+     "uccisiMin": 1,
+     "tiriMorale": 1
+    },
+    "modMoralePerAtrocita": -1,
+    "reazioneTesto": "Combatte sempre"
+   }
+  ],
+  "aberranti": [
+   {
+    "id": "s-angelo-luce",
+    "nome": "Angelo della luce",
+    "conta": "1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 8,
+    "att": 2,
+    "pv": 5,
+    "mor": 2,
+    "tes": null,
+    "xp": true,
+    "note": "Immune a Sonno. ATT 2 più 1 per ogni miscredente nel gruppo; ogni attacco a segno su un miscredente causa 2 danni e gli incantesimi dei miscredenti contro di lui hanno -2. Se il gruppo include miscredenti combatte sempre fino alla morte; altrimenti offre da bere e da mangiare e lancia una Benedizione sul gruppo. Può essere sottomesso (non da miscredenti, con un devoto della Luce e corda/catena): porta 1 solo passeggero in volo. Alla seconda uscita del risultato 1 si incontra invece la tigre dai denti a sciabola.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "offre-riposo"
+     ]
+    ],
+    "categoria": "aberranti",
+    "pagina": 56,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "tesoroFisso": {
+     "pergamena": "Benedizione",
+     "gioiello": 30
+    },
+    "attPerMiscredente": 1,
+    "dannoAiMiscredenti": 2,
+    "incantesimiMiscredentiMod": -2,
+    "reazioneMiscredenti": "morte",
+    "benedizioneAlGruppo": true,
+    "sottomettibile": true,
+    "sottomissione": {
+     "vietataA": "gruppi con miscredenti",
+     "richiede": [
+      "almeno 1 personaggio devoto a una divinità della Luce",
+      "corda o catena"
+     ],
+     "trasportaPasseggeri": 1,
+     "soloInVolo": true,
+     "vendita": "100 necro agli uomini salamandra o nell'Aldilà"
+    },
+    "sostituitoDaAllaSecondaUscita": "s-tigre-sciabola",
+    "reazioneTesto": "Vedi Scoperta 6",
+    "rimando": {
+     "cosa": "miscredenti (cambione, demonologo, blasfemi di Orrori dall'Aldilà, devoti di Caos/Demoni/Morte, classi del Compendio dei Morti Divoratori tranne il chierico di Darim, bestia della luna, succubo, tocco del caos)",
+     "libro": "Orrori dall'Aldilà p.62; Compendio dei Morti Divoratori"
+    }
+   },
+   {
+    "id": "s-grifone",
+    "nome": "Grifone",
+    "conta": "1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 6,
+    "att": 3,
+    "pv": 4,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Sonno lo colpisce a -1. -1 al tiro reazioni per ogni signore delle bestie o naturalista nel gruppo. Può essere sottomesso.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      "1d6",
+      null,
+      "razioni di cibo"
+     ],
+     [
+      4,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "aberranti",
+    "pagina": 56,
+    "tesMolt": 2,
+    "sonnoMod": -1,
+    "modReazione": [
+     {
+      "chi": "signore delle bestie",
+      "mod": -1
+     },
+     {
+      "chi": "naturalista",
+      "mod": -1
+     }
+    ],
+    "sottomettibile": true,
+    "rimando": {
+     "classi": [
+      "naturalista"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-sfinge",
+    "nome": "Sfinge",
+    "conta": "1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 7,
+    "att": 3,
+    "pv": 6,
+    "mor": 1,
+    "tes": "x2",
+    "xp": true,
+    "note": "Immune a Sonno. Se il gruppo la attacca prima di aver risolto l'enigma il suo livello sale di +2. Furfanti, maghi, gnomi e naturalisti aggiungono +L al tiro per risolvere l'enigma. Con enigma risolto è considerata sottomessa. Con la missione «Portatemelo!» delle arpie ha sempre lo specchio d'argento e lo dà se risolvi l'enigma.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "enigma"
+     ]
+    ],
+    "categoria": "aberranti",
+    "pagina": 56,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "livPiuSeAttaccataPrimaDellEnigma": 2,
+    "bonusEnigma": {
+     "furfante": "L",
+     "mago": "L",
+     "gnomo": "L",
+     "naturalista": "L"
+    },
+    "sottomettibile": true,
+    "sottomissione": {
+     "quando": "enigma risolto"
+    },
+    "reazioneTesto": "Enigma sempre"
+   },
+   {
+    "id": "s-elementale",
+    "nome": "Elementale",
+    "conta": "1",
+    "tag": [
+     "progenie-infernale"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 6,
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "note": "Immune a Sonno. Il tipo si tira su 1d6 (tabelle.tipoElementale): terra, aria, fuoco, acqua, fulmine, energia, ciascuno con una sua regola. Le armi dorate lo attaccano a +2.",
+    "reazioni": [
+     [
+      1,
+      6,
+      "combatte-sempre"
+     ]
+    ],
+    "categoria": "aberranti",
+    "pagina": 56,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "tipoElementale": "tabelle.tipoElementale",
+    "armiDorateMod": 2,
+    "rimando": {
+     "cosa": "armi dorate",
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-lamia",
+    "nome": "Lamia",
+    "conta": "1",
+    "tag": [],
+    "liv": 7,
+    "att": 2,
+    "pv": 6,
+    "mor": 0,
+    "tes": 3,
+    "xp": true,
+    "note": "Immune a Sonno. Chi perde 1 PV per un suo attacco fa TS contro la magia (L3) o perde 1 livello finché non gli è lanciata una Benedizione. A fine di ogni turno del gruppo tira 2d6: se il risultato è inferiore ai PV rimasti della lamia il gruppo combatteva un duplicato illusorio e i PV tornano a 6. -1/2 del livello di maghe e chierici di Akerbeltz al tiro reazioni. Tesoro: +3, 1 cubo anima e 1 strano oggetto alchemico (una bomba).",
+    "reazioni": [
+     [
+      1,
+      1,
+      "missione"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      100,
+      "totale",
+      "gioielli (valore minimo)"
+     ],
+     [
+      4,
+      4,
+      "sfida"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "aberranti",
+    "pagina": 57,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "tesoroExtra": {
+     "cuboAnima": 1,
+     "bomba": "s-bomba-alchemica"
+    },
+    "perditaLivello": {
+     "quando": "perde 1 PV per attacco della lamia",
+     "tiro": "magia",
+     "liv": 3,
+     "rimozione": [
+      "Benedizione"
+     ]
+    },
+    "duplicatoIllusorio": {
+     "quando": "fine di ogni turno del gruppo",
+     "tiro": "2d6",
+     "se": "risultato inferiore ai PV rimasti",
+     "effetto": "i PV tornano a 6",
+     "pvMax": 6
+    },
+    "modReazione": [
+     {
+      "chi": "maga",
+      "mod": "-1/2L"
+     },
+     {
+      "chi": "chierico di Akerbeltz",
+      "mod": "-1/2L"
+     }
+    ],
+    "missione": {
+     "nome": "Massacrate tutti i mostri!"
+    },
+    "fugaConCadavere": {
+     "reazione": "5-6",
+     "dettaglio": "combatte finché uno dei personaggi non è ucciso, poi fugge con il cadavere"
+    },
+    "rimando": {
+     "classi": [
+      "chierico di Akerbeltz"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-unicorno",
+    "nome": "Unicorno",
+    "conta": "1",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 6,
+    "mor": -1,
+    "tes": "NO",
+    "xp": true,
+    "note": "Immune a Sonno e al veleno. Il corno infligge 1d3 ferite per attacco a segno; con un 3 sul dado attacca subito ancora lo stesso PG (1 sola volta). Sottomesso, può essere cavalcato solo da fanciulle vergini. -2 al tiro reazioni per ogni PG femminile vergine o unicorco. Un mago con 1 cubo anima e 1 corno può fare un coltello magico +1 (+2 ai TS contro il veleno). Odia cambioni, chierici della Morte, atrocità, mutanti, negromanti, succubi.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "pacifico"
+     ],
+     [
+      2,
+      4,
+      "fugge"
+     ],
+     [
+      5,
+      5,
+      "corruzione",
+      "qualsiasi cibo magico",
+      "totale"
+     ],
+     [
+      6,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "aberranti",
+    "pagina": 57,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "immuneVeleno": true,
+    "dannoDadi": "1d3",
+    "attaccoExtraSu": {
+     "naturale": 3,
+     "volte": 1,
+     "stessoBersaglio": true
+    },
+    "modReazione": [
+     {
+      "chi": "personaggio femminile vergine (qualsiasi specie) o unicorco",
+      "mod": -2
+     }
+    ],
+    "sottomettibile": true,
+    "sottomissione": {
+     "cavalcabileSolo": "fanciulle vergini"
+    },
+    "coltelloMagico": {
+     "ingredienti": [
+      "corno di unicorno",
+      "1 cubo anima"
+     ],
+     "creatoreMago": true,
+     "bonusAttacco": 1,
+     "bonusTSVeleno": 2
+    },
+    "odia": [
+     "cambione",
+     "chierici degli dèi della Morte",
+     "atrocità",
+     "mutante",
+     "negromante",
+     "succubo"
+    ]
+   }
+  ],
+  "boss": [
+   {
+    "id": "s-mostro-occhio",
+    "nome": "Mostro occhio",
+    "conta": "1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 8,
+    "att": 2,
+    "pv": 6,
+    "mor": 2,
+    "tes": 2,
+    "xp": true,
+    "note": "ATT 2 su ciascun membro del gruppo. Immune a Sonno; ogni altro incantesimo contro di lui ha -2. All'inizio di ogni turno del mostro tutti i PG fanno TS contro la magia (L5; maghi e mezzuomini +1/2L): chi riesce riduce di 1 gli attacchi contro di sé. Si può colpire l'occhio grosso con un attacco a -3: se riesce non fa danni ma annulla il -2 agli incantesimi e riduce a 1 gli attacchi su ciascun membro.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "missione"
+     ],
+     [
+      2,
+      2,
+      "corruzione",
+      "tutti gli oggetti magici del gruppo",
+      "totale"
+     ],
+     [
+      3,
+      3,
+      "sfida"
+     ],
+     [
+      4,
+      4,
+      "cattura"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "boss",
+    "pagina": 58,
+    "tesMolt": 2,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "incantesimiMod": -2,
+    "attPerBersaglio": true,
+    "tsInizioTurno": {
+     "tiro": "magia",
+     "liv": 5,
+     "bonus": {
+      "mago": "1/2L",
+      "mezzuomo": "1/2L"
+     },
+     "successo": "-1 attacchi contro il personaggio (minimo 1)",
+     "automatico": [
+      "cacciatrice degli elfi dei ghiacci"
+     ]
+    },
+    "occhioGrosso": {
+     "attacco": -3,
+     "nessunDanno": true,
+     "annullaMalusIncantesimi": true,
+     "attacchiPerMembroDopo": 1
+    },
+    "sfidaMagica": {
+     "modSfidante": -2
+    },
+    "missione": {
+     "nome": "Portatemelo!"
+    },
+    "rimando": {
+     "classi": [
+      "elfi dei ghiacci"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-genio",
+    "nome": "Genio",
+    "conta": "1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 6,
+    "att": 1,
+    "pv": 5,
+    "mor": -1,
+    "tes": 0,
+    "xp": true,
+    "note": "Immune a Sonno. Oltre all'attacco normale ha 1 attacco aggiuntivo di fulmine contro chi indossa armatura pesante o è di metallo (golem) e 1 altro (cumulativo) contro chi porta uno scudo. Codardo: se fugge è considerato sottomesso (Scoperta 8) e concede 1 desiderio minore.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "missione"
+     ],
+     [
+      2,
+      2,
+      "pacifico"
+     ],
+     [
+      3,
+      4,
+      "sfida"
+     ],
+     [
+      5,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "boss",
+    "pagina": 58,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "attacchiFulmine": {
+     "contro": [
+      {
+       "chi": "armatura pesante o fatto di metallo",
+       "attacchiExtra": 1
+      },
+      {
+       "chi": "scudo",
+       "attacchiExtra": 1
+      }
+     ],
+     "cumulativi": true
+    },
+    "fugaSottomesso": true,
+    "desiderioMinore": "regole.genio-desiderio",
+    "missione": {
+     "nome": "Portatemi l'oro!"
+    }
+   },
+   {
+    "id": "s-coatl",
+    "nome": "Coatl (serpente piumato)",
+    "conta": "1",
+    "tag": [
+     "volante"
+    ],
+    "liv": 6,
+    "att": 3,
+    "pv": 5,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Immune a Sonno. Chi è morso fa TS contro il veleno (L3; barbari, mezzuomini e nani +1/2L): chi fallisce cade in coma fino a fine combattimento e se abbandonato viene mangiato.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "missione"
+     ],
+     [
+      2,
+      2,
+      "fugge"
+     ],
+     [
+      3,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "boss",
+    "pagina": 58,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "coma": {
+     "quando": "personaggio morso",
+     "tiro": "veleno",
+     "liv": 3,
+     "bonus": {
+      "barbaro": "1/2L",
+      "mezzuomo": "1/2L",
+      "nano": "1/2L"
+     },
+     "durata": "fine combattimento",
+     "seAbbandonato": "mangiato"
+    },
+    "missione": {
+     "nome": null,
+     "nota": "tipo di missione non specificato: tabella Missioni del manuale base"
+    }
+   },
+   {
+    "id": "s-strega-nera",
+    "nome": "Strega nera",
+    "conta": "1",
+    "tag": [
+     "demone"
+    ],
+    "liv": 7,
+    "att": 2,
+    "pv": 6,
+    "mor": "NO",
+    "tes": 0,
+    "xp": true,
+    "note": "Immune a Sonno. Muore sul colpo se un paladino o cacciatore di streghe fa esattamente 13 al tiro di attacco. All'inizio di ogni suo turno tenta di imprigionare nel calderone il PG con il bonus di attacco maggiore (1 alla volta): TS contro la magia (L5; guerrieri e paladini +1/2L, mezzuomini -1, bestie della luna e taglia ogre +L) o resta nel calderone: non attacca e perde 1 PV a turno (salvo immune al fuoco); la strega perde 1 attacco. Lancia anche incantesimi (tabelle.stregaIncantesimi). Odia i cacciatori di streghe.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "missione"
+     ],
+     [
+      3,
+      4,
+      "corruzione",
+      "tutti gli oggetti magici del gruppo",
+      "totale"
+     ],
+     [
+      5,
+      6,
+      "cattura"
+     ]
+    ],
+    "categoria": "boss",
+    "pagina": 59,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "tesoroExtra": {
+     "pergamena": "s-raccolto-abbondante",
+     "cubiAnima": "1d3"
+    },
+    "mortePaladinoSu13": true,
+    "calderone": {
+     "inizioTurno": true,
+     "bersaglio": "PG con il bonus di attacco maggiore",
+     "maxPrigionieri": 1,
+     "tiro": "magia",
+     "liv": 5,
+     "bonus": {
+      "guerriero": "1/2L",
+      "paladino": "1/2L",
+      "mezzuomo": -1,
+      "bestia della luna": "L",
+      "taglia ogre": "L"
+     },
+     "nelCalderone": {
+      "nonAttacca": true,
+      "pvPerTurno": -1,
+      "immuneSeFuoco": true
+     },
+     "stregaPerdeAttacchi": 1
+    },
+    "incantesimiStrega": "tabelle.stregaIncantesimi",
+    "cubiAnimaPerIncantesimo": {
+     "incantesimi": [
+      "Prosciugare",
+      "Guarigione"
+     ],
+     "cubi": 1
+    },
+    "odia": [
+     "cacciatore di streghe"
+    ],
+    "missione": {
+     "nome": "Lo voglio vivo!"
+    },
+    "rimando": {
+     "classi": [
+      "paladino",
+      "cacciatore di streghe"
+     ],
+     "libro": "altri volumi"
+    }
+   },
+   {
+    "id": "s-rakshasa",
+    "nome": "Rakshasa (orco-tigre demoniaco)",
+    "conta": "1",
+    "tag": [
+     "demone"
+    ],
+    "liv": 7,
+    "att": 3,
+    "pv": 6,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Immune a Sonno. Prima del combattimento si annota la scheda dei personaggi (es. con una foto). A ogni turno del mostro tira 1d6: con un 1 inverte il tempo e il combattimento ricomincia da capo, riportando PV e abilità allo stato iniziale. Un incantesimo temporale annulla questa abilità. Tesoro x3 e 1 oggetto magico a scelta dai Tesori magici del manuale base.",
+    "reazioni": [
+     [
+      1,
+      1,
+      "missione"
+     ],
+     [
+      2,
+      3,
+      "corruzione",
+      50,
+      "totale"
+     ],
+     [
+      4,
+      6,
+      "cattura"
+     ]
+    ],
+    "categoria": "boss",
+    "pagina": 59,
+    "tesMolt": 3,
+    "immuneIncantesimi": [
+     "Sonno"
+    ],
+    "tesoroExtra": {
+     "oggettoMagico": "a scelta dalla tabella Tesori magici del manuale base"
+    },
+    "inversioneTempo": {
+     "ogniTurnoDelMostro": true,
+     "dado": "1d6",
+     "su": 1,
+     "effetto": "ricomincia il combattimento ripristinando lo stato iniziale",
+     "annullatoDa": "incantesimo temporale"
+    },
+    "missione": {
+     "nome": "Portatemi la sua testa!"
+    }
+   },
+   {
+    "id": "s-gigante-pietra",
+    "nome": "Gigante di pietra",
+    "conta": "1",
+    "tag": [],
+    "liv": 8,
+    "att": 2,
+    "pv": 6,
+    "mor": 1,
+    "tes": "x2",
+    "xp": true,
+    "note": "Ogni attacco causa 1d3 ferite. In un dungeon (non all'aperto) sorprende con 1-2 su 1d6. Se ostile lancia un masso: i primi 2 PG nell'ordine di marcia fanno TS per schivare (L5; furfanti +1/2L) o perdono 1d3 PV.",
+    "reazioni": [
+     [
+      1,
+      2,
+      "missione"
+     ],
+     [
+      3,
+      4,
+      "corruzione",
+      50,
+      "totale"
+     ],
+     [
+      5,
+      5,
+      "cattura"
+     ],
+     [
+      6,
+      6,
+      "combatte"
+     ]
+    ],
+    "categoria": "boss",
+    "pagina": 59,
+    "dannoDadi": "1d3",
+    "sorpresaProb": 2,
+    "sorpresaSoloDungeon": true,
+    "masso": {
+     "bersagli": "primi 2 personaggi nell'ordine di marcia",
+     "tiro": "schivare",
+     "liv": 5,
+     "bonus": {
+      "furfante": "1/2L"
+     },
+     "danno": "1d3"
+    },
+    "missione": {
+     "nome": "Che la pace sia con voi!"
+    }
+   }
+  ]
+ },
+ "creatureExtra": [
+  {
+   "id": "s-unicorno-nero",
+   "nome": "Unicorno nero",
+   "conta": "1",
+   "tag": [
+    "aberrante"
+   ],
+   "liv": 8,
+   "att": 1,
+   "pv": null,
+   "mor": "NO",
+   "tes": null,
+   "xp": true,
+   "note": "Dall'incontro veloce «L'Unicorno Nero»: attacca di sorpresa e sul primo attacco ha +2 al livello. Ogni attacco a segno del corno causa 2 PV di ferite non guaribili finché l'unicorno non muore. Un PG che subisce 4 o più danni fa TS contro la malattia (L10; mezzuomini +L, barbari +1/2L) o tira sulla tabella Malattia debilitante (p. 72, non trascritta qui). PV = livello massimo del gruppo + 2. Il corno vale 1.000 p.o.",
+   "reazioni": [
+    [
+     1,
+     6,
+     "morte"
+    ]
+   ],
+   "categoria": "aberranti",
+   "pagina": 70,
+   "pvFormula": "LMP+2",
+   "pvLMP": 2,
+   "tesoroFisso": {
+    "corno": 1000
+   },
+   "attaccaPerPrimo": true,
+   "sorpresa": true,
+   "livPiuPrimoAttacco": 2,
+   "dannoCorno": {
+    "feriteAPunto": 2,
+    "inguaribiliFinoAllaMorte": true
+   },
+   "malattia": {
+    "quandoDanniSubitiMin": 4,
+    "tiro": "malattia",
+    "liv": 10,
+    "bonus": {
+     "mezzuomo": "L",
+     "barbaro": "1/2L"
+    },
+    "tabella": "Malattia debilitante (p. 72)",
+    "tabellaTrascritta": false
+   },
+   "reazioneTesto": "Combatte sempre fino alla morte",
+   "avventura": "s-unicorno-nero"
+  },
+  {
+   "id": "s-tigre-sciabola",
+   "nome": "Tigre dai denti a sciabola",
+   "conta": "1",
+   "tag": [
+    "aberrante"
+   ],
+   "liv": 7,
+   "att": 2,
+   "pv": 5,
+   "mor": 0,
+   "tes": "NO",
+   "xp": true,
+   "note": "Compare al posto dell'angelo della luce quando il risultato 1 sulla tabella aberranti esce una seconda volta. Un barbaro che la combatte da solo può scegliere di sottometterla e usarla come cavalcatura.",
+   "reazioni": [
+    [
+     1,
+     6,
+     "combatte-sempre"
+    ]
+   ],
+   "categoria": "aberranti",
+   "pagina": 65,
+   "sostituisce": "s-angelo-luce",
+   "sottomettibile": true,
+   "sottomissione": {
+    "soloBarbaro": true,
+    "daSolo": true,
+    "comeCavalcatura": "s-grande-felino"
+   }
+  },
+  {
+   "id": "s-incendio",
+   "nome": "Incendio nella foresta",
+   "conta": "1",
+   "tag": [
+    "aberrante",
+    "fuoco"
+   ],
+   "liv": 5,
+   "att": 1,
+   "pv": 3,
+   "mor": "NO",
+   "tes": "NO",
+   "xp": false,
+   "note": "Domare un incendio è un combattimento contro un «mostro aberrante» con PV = 1 per ogni quadretto di alberi adiacenti nell'area (minimo 3, scegli la zona più vasta). Immune alla magia (tranne Estingui fuoco). Si aggiunge il bonus degli scudi ma non quello dell'armatura contro gli attacchi del fuoco. Le asce danno +2 all'attacco. Ogni PV perso conta come 1 quadretto di alberi abbattuto.",
+   "reazioni": [
+    [
+     1,
+     6,
+     "combatte-sempre"
+    ]
+   ],
+   "categoria": "aberranti",
+   "pagina": 44,
+   "pvPerQuadrettoAlberi": 1,
+   "pvMin": 3,
+   "pvDaAreaPiuVasta": true,
+   "immuneMagia": true,
+   "eccezioneImmunita": [
+    "Estingui fuoco"
+   ],
+   "difesaConScudoSenzaArmatura": true,
+   "bonusAttaccoAscia": 2,
+   "pvPersoEquivaleQuadrettiAbbattuti": 1,
+   "reazioneTesto": "nessuna reazione indicata (combattimento)"
+  }
+ ],
+ "tabelle": {
+  "contenuto": [
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "tesoro",
+    "nome": "Tesoro",
+    "tabella": "tesori",
+    "testo": "Trovato un tesoro: tira Tesori."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "braccati",
+    "nome": "Braccati",
+    "costoIndizi": 1,
+    "oppure": "raddoppia le creature del prossimo incontro con mostri minori",
+    "testo": "Spendi 1 indizio, oppure raddoppia il numero di creature nel prossimo incontro con mostri minori."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "evento",
+    "nome": "Evento speciale",
+    "tabella": "eventi",
+    "testo": "Tira su Eventi speciali."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "caccia-prodigiosa",
+    "nome": "Caccia prodigiosa",
+    "pvPerPersonaggio": 1,
+    "testo": "Ogni personaggio recupera 1 PV."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "infestanti",
+    "nome": "Infestanti",
+    "tabella": "infestanti",
+    "testo": "Mostri infestanti."
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "azione": "seguaci",
+    "nome": "Seguaci",
+    "tabella": "seguaci",
+    "testo": "Mostri seguaci."
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "azione": "seguaci-o-sentiero-vuoto",
+    "nome": "Sentiero o seguaci",
+    "tabella": "seguaci",
+    "sentiero": "vuoto (si può perquisire a -1)",
+    "perquisireModSentiero": -1,
+    "testo": "Su un sentiero sembra non esserci niente (perquisire a -1); in una radura, mostri seguaci."
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "azione": "pista",
+    "nome": "Trovata una pista",
+    "indizi": 1,
+    "testo": "Guadagni 1 indizio."
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "azione": "aberranti",
+    "nome": "Aberrante",
+    "tabella": "aberranti",
+    "bossFinale": {
+     "dado": "1d6",
+     "piuMaggioriSconfitti": true,
+     "inclusiErranti": true,
+     "soglia": 6,
+     "oSpazioFinito": true
+    },
+    "testo": "Mostro aberrante; poi 1d6 +1 per ogni mostro maggiore già sconfitto (anche erranti): con 6 o più, o se il foglio è finito, è il boss finale."
+   },
+   {
+    "da": 11,
+    "a": 11,
+    "azione": "boss",
+    "nome": "Boss",
+    "tabella": "boss",
+    "bossFinale": {
+     "dado": "1d6",
+     "piuMaggioriSconfitti": true,
+     "inclusiErranti": true,
+     "soglia": 6,
+     "oSpazioFinito": true
+    },
+    "testo": "Mostro boss; poi 1d6 +1 per ogni mostro maggiore già sconfitto (anche erranti): con 6 o più, o se il foglio è finito, è il boss finale."
+   },
+   {
+    "da": 12,
+    "a": 12,
+    "azione": "banda-guerrieri",
+    "nome": "Banda di guerrieri",
+    "sentiero": {
+     "tabella": "boss"
+    },
+    "radura": {
+     "tabella": "boss",
+     "conSeguaci": "seguaci",
+     "leader": true,
+     "regola": "seguaci-con-leader"
+    },
+    "testo": "Su un sentiero: mostro boss. In una radura: un boss con la sua banda di seguaci (seguaci con un leader)."
+   }
+  ],
+  "eventi": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Incendio nella foresta",
+    "azione": "incendio",
+    "creatura": "s-incendio",
+    "regola": "domare-incendio",
+    "testo": "Domare l'incendio è un combattimento contro un «aberrante» LIV 5 con PV pari ai quadretti di alberi adiacenti (min 3); asce +2; vedi creatureExtra."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Mandria in fuga",
+    "azione": "mandria",
+    "salvezza": {
+     "tipo": "fuga",
+     "liv": 3,
+     "bonus": {
+      "barbaro": 1,
+      "elfo": 1,
+      "mezzuomo": -1,
+      "nano": -1
+     },
+     "aTutti": true
+    },
+    "fallimento": {
+     "pv": "1d3",
+     "con1Naturale": "perde tutti gli oggetti tenuti in mano"
+    },
+    "testo": "Tutti fanno TS di fuga (L3; barbari ed elfi +1, mezzuomini e nani -1): chi fallisce perde 1d3 PV; con un 1 naturale perde anche gli oggetti in mano."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Pegasi",
+    "azione": "pegasi",
+    "conta": "1d3",
+    "salvezza": {
+     "tipo": "domare",
+     "liv": 5,
+     "bonus": {
+      "signore delle bestie": "L",
+      "barbaro": "1/2L",
+      "mezzuomo": 1
+     },
+     "mezzuominoPuntoFortuna": true
+    },
+    "cavalcatura": "s-pegaso",
+    "secondaVolta": {
+     "scoperta": 1,
+     "esito": "borgo",
+     "regola": "borgo"
+    },
+    "unicoPerAvventura": true,
+    "testo": "1d3 pegasi pacifici: con un TS per domare (L5) si usano come cavalcature volanti (vedi oggetti.s-pegaso). Se esce una seconda volta si trova invece un borgo (Scoperta 1)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Festeggiamenti sfrenati",
+    "azione": "festeggiamenti",
+    "salvezza": {
+     "tipo": "accoppiamento",
+     "liv": 3,
+     "bonus": {
+      "mezzuomo": "1/2L",
+      "spadaccino": "1/2L"
+     },
+     "automaticoPer": [
+      "satiro"
+     ],
+     "perChiPartecipa": true
+    },
+    "esclusi": [
+     "monaco",
+     "personaggi accompagnati da una megera"
+    ],
+    "successo": {
+     "indizi": 1,
+     "pvRecuperati": "1d3"
+    },
+    "fallimento": {
+     "pv": -1
+    },
+    "testo": "Ogni PG che si unisce (monaci e chi ha una megera esclusi) fa un tiro di accoppiamento (L3): successo +1 indizio e 1d3 PV, fallimento -1 PV."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Trovi un prigioniero",
+    "azione": "prigioniero",
+    "indizi": 1,
+    "tabella": "prigionieri",
+    "fossa": {
+     "dado": "1d6",
+     "da": 1,
+     "a": 3,
+     "salvezza": {
+      "tipo": "trappola",
+      "liv": 4,
+      "bonus": {
+       "furfante": "L",
+       "elfo": 1,
+       "mezzuomo": 1
+      },
+      "sottraiBonusArmatura": true
+     },
+     "fallimento": {
+      "pv": -1
+     },
+     "soloNellaFossa": {
+      "tiro": "arrampicarsi",
+      "liv": 6,
+      "fallimento": "intrappolato e muore"
+     }
+    },
+    "testo": "+1 indizio e tira Prigionieri. Con 1-3 su 1d6 il prigioniero è in una fossa nascosta: TS trappola (L4, meno bonus armatura) o -1 PV; da solo nella fossa serve un TS arrampicarsi (L6) o si muore."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Mappa del tesoro",
+    "azione": "mappa-tesoro",
+    "indizi": "1d3",
+    "soloPerTesoroSegreto": true,
+    "indiziConVanga": 2,
+    "costoVanga": 4,
+    "testo": "Guadagni 1d3 indizi usabili solo per localizzare un tesoro segreto; con una vanga (4 p.o.) ne bastano 2."
+   }
+  ],
+  "tesori": [
+   {
+    "da": -99,
+    "a": 0,
+    "azione": "niente",
+    "nome": "Nessun tesoro",
+    "testo": "Nessun tesoro trovato."
+   },
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "scelta",
+    "nome": "Oro o oggetto",
+    "opzioni": [
+     {
+      "azione": "oro",
+      "dadi": "1d6x4",
+      "testo": "1d6x4 pezzi d'oro"
+     },
+     {
+      "azione": "oggetto",
+      "valoreMax": 20,
+      "fonte": "manuale base",
+      "testo": "1 oggetto del manuale base di valore massimo 20 p.o."
+     }
+    ],
+    "testo": "1d6x4 p.o. oppure 1 oggetto del manuale base fino a 20 p.o."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "gemma",
+    "nome": "Gemma",
+    "dadi": "2d6x5",
+    "testo": "Una gemma da 2d6x5 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "scelta",
+    "nome": "Pergamena o acqua santa",
+    "opzioni": [
+     {
+      "azione": "pergamena",
+      "tabella": "pergamena del manuale base",
+      "testo": "1 pergamena con un incantesimo a caso (tabella del manuale base)"
+     },
+     {
+      "azione": "acqua-santa",
+      "n": 1,
+      "testo": "1 fiala di acqua santa"
+     }
+    ],
+    "testo": "1 pergamena a caso (tabella del manuale base) oppure 1 fiala di acqua santa."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "scelta",
+    "nome": "Pergamene inutili o oro",
+    "opzioni": [
+     {
+      "azione": "pergamenaInutile",
+      "tabella": "pergameneInutili",
+      "testo": "Tira su Pergamene con incantesimi inutili"
+     },
+     {
+      "azione": "oro",
+      "dadi": "5d6x2",
+      "testo": "5d6x2 pezzi d'oro"
+     }
+    ],
+    "testo": "Pergamene con incantesimi inutili oppure 5d6x2 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "gioiello",
+    "nome": "Gioiello",
+    "dadi": "4d6x10",
+    "testo": "Un gioiello da 4d6x10 p.o."
+   },
+   {
+    "da": 6,
+    "a": 99,
+    "azione": "magico",
+    "nome": "Oggetto magico",
+    "tabella": "tesoriMagici",
+    "testo": "1 oggetto magico a caso: tira Tesori magici."
+   }
+  ],
+  "tesoriMagici": [
+   {
+    "da": 1,
+    "a": 1,
+    "oggetto": "s-cintura-cambio-sesso",
+    "nome": "Cintura del cambio di sesso",
+    "prezzo": "2d6",
+    "testo": "Cambia il sesso di chi la indossa per 1d6 avventure e dà 1 Benedizione; non si toglie finché l'effetto non svanisce."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "oggetto": "s-talismano-vigilanza",
+    "nome": "Talismano della vigilanza",
+    "prezzo": 100,
+    "testo": "-1 su 1d6 alla probabilità di essere sorpresi."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "oggetto": "s-scarabeo-morte-vivente",
+    "nome": "Scarabeo della morte vivente",
+    "prezzo": 66,
+    "testo": "Il primo che lo tocca salva contro la magia (L6) o muore; appuntato su un morto lo rialza come non-morto senziente."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "oggetto": "s-arco-rapidita",
+    "nome": "Arco della rapidità",
+    "prezzo": 200,
+    "testo": "1 freccia aggiuntiva nel primo turno di combattimento."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "oggetto": "s-balsamo-nicodemo",
+    "nome": "Balsamo di Nicodemo",
+    "prezzo": 40,
+    "testo": "Annulla l'immunità alle armi non magiche di un non-morto."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "oggetto": "s-mantello-oscurita",
+    "nome": "Mantello dell'oscurità",
+    "prezzo": 100,
+    "testo": "Invisibilità del portatore, ma spegne ogni luce: +3 difesa a lui, -2 a tutti gli altri."
+   }
+  ],
+  "pergameneInutili": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Ritardare le faccende di casa",
+    "testo": "Incantesimo con effetto sul mondo reale: permette al giocatore di rimandare di 1 ora le faccende domestiche o l'ora di andare a letto per continuare a giocare; 1 volta al giorno.",
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "effettoMondoReale": true,
+    "usiPerGiorno": 1,
+    "ritardoOre": 1
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Pira suicida",
+    "testo": "L'incantatore brucia la propria anima e crea 1 cubo anima (1 carica per un oggetto magico) ma muore subito, senza possibilità di resurrezione o rianimazione. Non lanciabile da alleati e catturati.",
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "cuboAnima": 1,
+    "incantatoreMuore": true,
+    "nonResuscitabile": true,
+    "nonLanciabileDa": [
+     "alleati",
+     "catturati"
+    ]
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Genocidio solipsistico",
+    "testo": "Uccide 1.000 persone per livello dell'incantatore, esseri viventi a caso di cui non si ha prova: è impossibile sapere se ha funzionato (si tira a occhi chiusi).",
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "morti": "1000 per livello",
+    "verificabile": false
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Provocare un dio",
+    "testo": "Insulta una divinità sconosciuta: l'incantatore muore in modo spettacolare, chi assiste guadagna 1 punto follia; in una città impazziscono tutti i cittadini.",
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "incantatoreMuore": true,
+    "follia": 1,
+    "aChiAssiste": true
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Cancellazione assoluta",
+    "testo": "Quando è lanciato cancella il proprio stesso effetto; non si annulla nemmeno con un desiderio.",
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "nessunEffetto": true
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Annienta-universo",
+    "testo": "Distrugge l'universo di Norindaal: il lancio richiede 1 anno di salmodia in cui arrivano, uno dopo l'altro, tutti i mostri di tutti i supplementi posseduti; portarla è reato punibile con la morte nelle città. Il testo chiede anche azioni nel mondo reale (bruciare i volumi, ecc.): da gestire solo come testo/umorismo.",
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "effettoMondoReale": true,
+    "combattimentiTuttiIMostri": true,
+    "reato": "punibile con la morte in tutte le città"
+   }
+  ],
+  "recintoSchiavi": [
+   {
+    "da": 2,
+    "a": 9,
+    "azione": "morto-o-mangiato",
+    "nome": "Ucciso o mangiato",
+    "probMangiato": 50,
+    "mangiatoNonResuscitabile": true,
+    "testo": "Il personaggio è stato ucciso oppure mangiato (50% e 50%); se mangiato non può essere resuscitato."
+   },
+   {
+    "da": 10,
+    "a": 11,
+    "azione": "comprabile",
+    "nome": "Si può comprare",
+    "mazzetta": "2d6 p.o. per livello del personaggio",
+    "mazzettaLivello0": "1d6 p.o.",
+    "testo": "Con una mazzetta ai carcerieri il personaggio può essere comprato: 2d6 p.o. per livello (1d6 p.o. se di livello 0), salvo diversa indicazione."
+   },
+   {
+    "da": 12,
+    "a": 14,
+    "azione": "venduto-boss",
+    "nome": "Venduto al prossimo boss",
+    "testo": "Non c'è più: venduto come schiavo al prossimo mostro boss che incontri (fa parte del suo tesoro)."
+   },
+   {
+    "da": 15,
+    "a": 99,
+    "azione": "venduto-boss-finale",
+    "nome": "Venduto al boss finale",
+    "testo": "Non c'è più: venduto come schiavo al prossimo boss finale che incontri (fa parte del suo tesoro)."
+   }
+  ],
+  "prigionieri": [
+   {
+    "da": 11,
+    "a": 14,
+    "id": "s-prigioniero-principessa",
+    "nome": "Principessa viziata",
+    "testo": "Chiede vendetta: se il gruppo completa la missione «Massacrate tutti i mostri!» ottiene 1 ricompensa epica. Pretende il primo posto nell'ordine di marcia e qualcuno in seconda fila a reggerle lo strascico (almeno una mano); se non è accontentata, -1 ad attacchi a distanza e incantesimi del gruppo.",
+    "missione": {
+     "nome": "Massacrate tutti i mostri!",
+     "ricompensaEpica": 1
+    },
+    "pretese": {
+     "primaFila": true,
+     "secondaFilaPortaStrascico": true,
+     "maniOccupate": 1
+    },
+    "malusSeNonAccontentata": {
+     "attacchiADistanza": -1,
+     "incantesimi": -1
+    },
+    "sesso": "F"
+   },
+   {
+    "da": 15,
+    "a": 22,
+    "id": "s-prigioniero-mercante",
+    "nome": "Mercante nei guai",
+    "testo": "Gli hanno rubato tutti gli averi. Se il gruppo completa la missione «Portatemelo!» ottiene 1 ricompensa epica; l'obiettivo sono i beni del mercante, non un oggetto magico.",
+    "missione": {
+     "nome": "Portatemelo!",
+     "ricompensaEpica": 1,
+     "oggetto": "beni del mercante"
+    }
+   },
+   {
+    "da": 23,
+    "a": 26,
+    "id": "s-prigioniero-guaritrice",
+    "nome": "Guaritrice riconoscente",
+    "testo": "Fa recuperare 1 PV a ciascun membro del gruppo; riportata a casa dà 1d6x5 p.o. di ricompensa.",
+    "pvRecuperatiPerMembro": 1,
+    "ricompensaPO": "1d6x5",
+    "quando": "riportata a casa",
+    "sesso": "F"
+   },
+   {
+    "da": 31,
+    "a": 34,
+    "id": "s-prigioniero-chierico",
+    "nome": "Chierico gioviale",
+    "testo": "Offre 1 Benedizione (subito o più tardi). Se in sua presenza il gruppo fornica o abusa di alcol, lo infastidisce con sermoni fino a casa: -1 a prove per risolvere enigmi, TS basati sulla volontà e incantesimi.",
+    "benedizioni": 1,
+    "malusSeComportamentiSconvenienti": {
+     "enigmi": -1,
+     "tsVolonta": -1,
+     "incantesimi": -1
+    },
+    "durata": "finché non è riportato a casa"
+   },
+   {
+    "da": 35,
+    "a": 42,
+    "id": "s-prigioniero-spia",
+    "nome": "Spia inquietante",
+    "testo": "Conosce 1d3 indizi e li dà in cambio di una scorta in salvo. Se il gruppo ha meno di 4 PG può unirsi come furfante di livello pari al PG più basso.",
+    "indizi": "1d3",
+    "sesso": "F",
+    "unisciComeFurfante": {
+     "seGruppoMinoreDi": 4,
+     "livello": "livello del PG più basso"
+    }
+   },
+   {
+    "da": 43,
+    "a": 46,
+    "id": "s-prigioniero-nano",
+    "nome": "Nano disperato",
+    "testo": "Ha sepolto il suo tesoro e vuole una scorta: missione «Portatemelo!» con la pipa incantata di famiglia (250 p.o., guarisce 1 PV dopo ogni combattimento). La ricompensa epica è sempre «L'oro di Kerrak Dar», consegnata solo dopo averlo scortato fuori dal bosco con la pipa in mano. Con Acque Oscure, 1 su 1d6 al posto del nano c'è Harros Davanzu (Scoperta 3).",
+    "missione": {
+     "nome": "Portatemelo!",
+     "oggetto": "s-pipa-incantata-nano",
+     "ricompensaEpica": "L'oro di Kerrak Dar",
+     "consegna": "fuori dal bosco, con la pipa"
+    },
+    "sostituzioneHarros": {
+     "probabilita": 1,
+     "dado": "1d6",
+     "richiede": "Acque Oscure e Altre Avventure",
+     "scoperta": 3
+    },
+    "rimando": {
+     "libro": "Acque Oscure e Altre Avventure",
+     "cosa": "Harros Davanzu, I Tre Anelli"
+    }
+   },
+   {
+    "da": 51,
+    "a": 54,
+    "id": "s-prigioniero-contadino",
+    "nome": "Contadino umile",
+    "testo": "A fine avventura offre 1d6+3 razioni di cibo (1 p.o. ciascuna) e, a chi vuole, una delle sue figlie in matrimonio.",
+    "razioni": "1d6+3",
+    "valoreRazionePO": 1,
+    "matrimonio": true,
+    "coniuge": {
+     "liv": 0,
+     "pv": 2,
+     "modAttacco": 0,
+     "modDifesa": 0,
+     "mor": -1,
+     "armi": [
+      "leggera"
+     ],
+     "tipo": "alleato"
+    }
+   },
+   {
+    "da": 55,
+    "a": 62,
+    "id": "s-prigioniero-oste",
+    "nome": "Oste alcolizzato",
+    "testo": "Da riportare in salvo: poi si beve gratis a vita nella sua locanda. Ogni PG può iniziare un'avventura ubriaco: può ripetere il primo TS contro la paura o il primo tiro follia, ma ha -1 agli attacchi con armi da lancio per tutta l'avventura.",
+    "bereGratis": true,
+    "ubriaco": {
+     "ripetiPrimoTSPaura": true,
+     "oppureRipetiPrimoTiroFollia": true,
+     "malusArmiDaLancio": -1,
+     "durata": "avventura"
+    }
+   },
+   {
+    "da": 63,
+    "a": 66,
+    "id": "s-prigioniero-maestro",
+    "nome": "Maestro premuroso",
+    "testo": "A fine avventura insegna gratis 1 abilità avanzata a 1 PG di livello avanzato (nessun tiro ES), tra quelle consentite alla classe; il PG salta la prossima avventura. Se nessuno è di livello avanzato il maestro aspetta.",
+    "abilitaAvanzateInsegnate": 1,
+    "serveTiroES": false,
+    "costo": "il PG salta la prossima avventura",
+    "seNessunoAvanzato": "aspetta il momento opportuno"
+   }
+  ],
+  "tipoPonte": [
+   {
+    "da": 1,
+    "a": 2,
+    "nome": "Pietra",
+    "tipo": "pietra",
+    "testo": "Ponte di pietra: non distruggibile con incantesimi fino al 9° livello (solo bomba o desiderio)."
+   },
+   {
+    "da": 3,
+    "a": 6,
+    "nome": "Legno",
+    "tipo": "legno",
+    "testo": "Ponte di legno: distruggibile con Frantuma legno, Fulmine magico o Palla di fuoco; se adiacente ad alberi può scoppiare un incendio."
+   }
+  ],
+  "pozzo": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Avvelenato",
+    "effetto": "veleno",
+    "salvezza": {
+     "tipo": "veleno",
+     "liv": 3
+    },
+    "fallimento": {
+     "pv": "1d3"
+    },
+    "testo": "TS contro il veleno (L3) o perdi 1d3 PV."
+   },
+   {
+    "da": 2,
+    "a": 3,
+    "nome": "Normale",
+    "effetto": "nessuno",
+    "testo": "Nessun effetto."
+   },
+   {
+    "da": 4,
+    "a": 6,
+    "nome": "Rigenerante",
+    "effetto": "cura",
+    "pvRecuperati": 1,
+    "testo": "Recuperi 1 PV."
+   }
+  ],
+  "tipoElementale": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "terra",
+    "nome": "Elementale di terra",
+    "tag": [],
+    "volante": false,
+    "modArmi": {
+     "taglio": -1
+    },
+    "testo": "Le armi da taglio lo colpiscono a -1."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "aria",
+    "nome": "Elementale d'aria",
+    "tag": [
+     "volante"
+    ],
+    "volante": true,
+    "modArmi": {
+     "contundente": -1
+    },
+    "testo": "Volante; le armi contundenti lo attaccano a -1."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "fuoco",
+    "nome": "Elementale di fuoco",
+    "tag": [
+     "fuoco"
+    ],
+    "volante": false,
+    "immuneA": [
+     "fuoco"
+    ],
+    "testo": "Immune al fuoco."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "acqua",
+    "nome": "Elementale d'acqua",
+    "tag": [],
+    "volante": false,
+    "modArmi": {
+     "lancio": -1
+    },
+    "testo": "Le armi da lancio lo attaccano a -1."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "fulmine",
+    "nome": "Elementale di fulmine",
+    "tag": [
+     "volante"
+    ],
+    "volante": true,
+    "immuneA": [
+     "fulmine"
+    ],
+    "modArmi": {
+     "metallo non dorato": -1
+    },
+    "testo": "Volante; immune al fulmine; le armi di metallo non dorate lo attaccano a -1."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "energia",
+    "nome": "Elementale di energia",
+    "tag": [],
+    "volante": false,
+    "risucchio": {
+     "quando": "colpisce",
+     "tiro": "risucchio di energia",
+     "liv": 3,
+     "perdita": "1 livello"
+    },
+    "testo": "Quando colpisce, TS contro il risucchio di energia (L3) o si perde 1 livello."
+   }
+  ],
+  "stregaIncantesimi": [
+   {
+    "da": 1,
+    "a": 2,
+    "id": "rospo-gigante",
+    "nome": "Rospo gigante",
+    "bersaglio": "PG col bonus di attacco più alto (escluso chi è nel calderone)",
+    "salvezza": {
+     "tipo": "magia",
+     "liv": 5
+    },
+    "effetto": "trasformato in un grosso rospo che attacca come mostro di livello pari al suo +3; armi ed equipaggiamento gettati nel calderone",
+    "livelloMostroPiu": 3,
+    "rimozione": [
+     "Benedizione",
+     "morte della strega"
+    ],
+    "libriNelCalderone": {
+     "probDistrutti": {
+      "da": 1,
+      "a": 3,
+      "dado": "1d6"
+     }
+    },
+    "cuboAnima": false,
+    "testo": "TS contro la magia (L5) o trasformazione in rospo (attacca come mostro 3 livelli sopra al PG). Benedizione o morte della strega annullano; l'equipaggiamento resta nel calderone; libri e pergamene finiti dentro sono distrutti con 1-3 su 1d6."
+   },
+   {
+    "da": 3,
+    "a": 4,
+    "id": "prosciugare",
+    "nome": "Prosciugare",
+    "effetto": "risucchia 1 Benedizione disponibile a un PG a caso (anche da pergamena o oggetto); se nessuno ne ha, 1 potere di guarigione; poi 1 incantesimo non usato a caso o tutte le cariche di un oggetto magico",
+    "cuboAnima": true,
+    "testo": "Consuma 1 Benedizione da un PG a caso (altrimenti 1 guarigione, altrimenti 1 incantesimo o le cariche di un oggetto). +1 cubo anima al suo tesoro."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "maledizione-apatia",
+    "nome": "Maledizione dell'apatia",
+    "bersaglio": "un PG a caso",
+    "effetto": "-1 a tutti gli attacchi, fallimento automatico di persuasione e accoppiamento, non può più amoreggiare; satiro o succubo perde 1d3 PV; se sposato 2 su 1d6 che il partner chieda il divorzio dopo ogni avventura",
+    "modAttacco": -1,
+    "satiroSuccuboPV": "1d3",
+    "divorzioProb": {
+     "su": 2,
+     "dado": "1d6"
+    },
+    "rimozione": [
+     "pozione di guarigione",
+     "Benedizione"
+    ],
+    "cuboAnima": false,
+    "testo": "Un PG a caso diventa apatico: -1 agli attacchi, persuasione e accoppiamento falliti. Guaribile con pozione di guarigione o Benedizione."
+   },
+   {
+    "da": 6,
+    "a": 7,
+    "id": "guarigione",
+    "nome": "Guarigione",
+    "effetto": "la strega recupera tutti i PV e cancella gli effetti negativi; ogni lancio riduce il suo livello di 2 (cumulativo); sotto il 3° livello l'incantesimo fallisce",
+    "livelloMeno": 2,
+    "livelloMinimoPerLanciare": 3,
+    "cuboAnima": true,
+    "testo": "Recupera tutti i PV e cancella gli effetti negativi, ma perde 2 livelli a ogni uso (sotto il 3° fallisce). +1 cubo anima al suo tesoro."
+   }
+  ],
+  "tipoVillaggio": [
+   {
+    "da": 1,
+    "a": 4,
+    "id": "umani",
+    "nome": "Umani",
+    "testo": "Etnia dominante: umani."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "mezzuomini",
+    "nome": "Mezzuomini",
+    "testo": "Etnia dominante: mezzuomini."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "elfi",
+    "nome": "Elfi",
+    "testo": "Etnia dominante: elfi."
+   }
+  ],
+  "incantesimiDruidoBase": [
+   {
+    "da": 1,
+    "a": 1,
+    "incantesimo": "s-aspetto-orso",
+    "nome": "Aspetto dell'orso",
+    "testo": "Aspetto dell'orso"
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "incantesimo": "s-controllo-clima",
+    "nome": "Controllo del clima",
+    "testo": "Controllo del clima"
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "incantesimo": "s-disperdi-infestanti",
+    "nome": "Disperdi infestanti",
+    "testo": "Disperdi infestanti"
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "incantesimo": "s-evoca-bestia",
+    "nome": "Evoca bestia",
+    "testo": "Evoca bestia"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "incantesimo": "s-frantuma-legno",
+    "nome": "Frantuma legno",
+    "testo": "Frantuma legno"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "incantesimo": "s-getto-acqua",
+    "nome": "Getto d'acqua",
+    "testo": "Getto d'acqua"
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "incantesimo": "s-impigliare",
+    "nome": "Impigliare",
+    "testo": "Impigliare"
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "incantesimo": "s-passaforesta",
+    "nome": "Passaforesta",
+    "testo": "Passaforesta"
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "incantesimo": "s-pelle-corteccia",
+    "nome": "Pelle di corteccia",
+    "testo": "Pelle di corteccia"
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "incantesimo": "s-ragnatela",
+    "nome": "Ragnatela",
+    "testo": "Ragnatela"
+   },
+   {
+    "da": 11,
+    "a": 11,
+    "incantesimo": "s-richiama-fulmine",
+    "nome": "Richiama il fulmine",
+    "testo": "Richiama il fulmine"
+   },
+   {
+    "da": 12,
+    "a": 12,
+    "incantesimo": "s-sottomissione",
+    "nome": "Sottomissione",
+    "testo": "Sottomissione"
+   }
+  ],
+  "incantesimiDruidoAvanzati": [
+   {
+    "da": 1,
+    "a": 1,
+    "incantesimo": "s-distruggi-non-vita",
+    "nome": "Distruggi la non-vita",
+    "testo": "Distruggi la non-vita"
+   },
+   {
+    "da": 2,
+    "a": 3,
+    "incantesimo": "s-freccia-fuoco-gemella",
+    "nome": "Freccia di fuoco gemella",
+    "testo": "Freccia di fuoco gemella"
+   },
+   {
+    "da": 4,
+    "a": 5,
+    "incantesimo": "s-furia-natura",
+    "nome": "Furia della natura",
+    "testo": "Furia della natura"
+   },
+   {
+    "da": 6,
+    "a": 7,
+    "incantesimo": "s-guarigione-armoniosa",
+    "nome": "Guarigione armoniosa",
+    "testo": "Guarigione armoniosa"
+   },
+   {
+    "da": 8,
+    "a": 9,
+    "incantesimo": "s-nascondersi-vista",
+    "nome": "Nascondersi alla vista",
+    "testo": "Nascondersi alla vista"
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "incantesimo": "s-protezione-lacci-tagliole",
+    "nome": "Protezione da lacci e tagliole",
+    "testo": "Protezione da lacci e tagliole"
+   },
+   {
+    "da": 11,
+    "a": 12,
+    "incantesimo": "s-svanire-foresta",
+    "nome": "Svanire nella foresta",
+    "testo": "Svanire nella foresta"
+   }
+  ]
+ },
+ "conformazione": {
+  "pagina": 42,
+  "dado": "d66",
+  "soloDisegno": true,
+  "descrizione": "Tabella solo disegnata: 36 tessere d66 (11-66) di radure (come stanze) e sentieri (come corridoi), ruotabili e specchiabili. Il testo non descrive le forme: qui si registrano solo i fatti dichiarati nel testo (numeri delle tessere con ponti e pozzi) e i dati del progetto per il controllo di compatibilità.",
+  "ingresso": {
+   "dado": "1d6+60",
+   "tessere": [
+    61,
+    62,
+    63,
+    64,
+    65,
+    66
+   ],
+   "posizione": "centro del bordo inferiore del foglio",
+   "mappa": {
+    "larghezza": 20,
+    "altezza": 28
+   },
+   "pagina": 6
+  },
+  "areeSuccessive": {
+   "dado": "d66",
+   "valori": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66
+   ]
+  },
+  "radureComeStanze": true,
+  "sentieriComeCorridoi": true,
+  "ruotabile": true,
+  "specchiabile": true,
+  "alberiAlPostoDeiMuri": true,
+  "nonCiSonoPorte": true,
+  "ponti": {
+   "tessere": [
+    22,
+    25,
+    42
+   ],
+   "pagina": 8,
+   "senzaAlberiAdiacenti": [
+    22
+   ],
+   "conAlberiAdiacenti": [
+    25,
+    42
+   ],
+   "tipoDado": "1d6 (1-2 pietra, 3-6 legno): tabelle.tipoPonte",
+   "regola": "ponti"
+  },
+  "pozzi": {
+   "tessere": [
+    15,
+    26,
+    35,
+    36,
+    41,
+    63,
+    65
+   ],
+   "pagina": 8,
+   "tabella": "tabelle.pozzo",
+   "regola": "pozzi"
+  },
+  "acquaNelTesto": "Il testo parla di corsi d'acqua da nuotare (p. 7) ma non elenca le tessere con acqua; solo i ponti (22, 25, 42) la implicano.",
+  "strutture": null,
+  "osservazioniDisegno": {
+   "affidabilita": "NON dal testo: lette dal rendering della p. 42 nel censimento, da verificare",
+   "acqua": [
+    21,
+    22,
+    24,
+    25,
+    31,
+    33,
+    35,
+    42,
+    52,
+    61,
+    64,
+    66
+   ],
+   "struttureRiquadrate": [
+    43,
+    63,
+    65
+   ],
+   "nota": "nessuna regola nel testo per le strutture riquadrate; 22 e 66 poco chiari nel disegno"
+  },
+  "tessere": [
+   {
+    "numero": 11,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 4,
+     "larghezza": 4,
+     "altezza": 1,
+     "uscite": 4,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 12,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 4,
+     "larghezza": 3,
+     "altezza": 2,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 13,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 20,
+     "larghezza": 6,
+     "altezza": 5,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 14,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 15,
+     "larghezza": 6,
+     "altezza": 3,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 15,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 14,
+     "larghezza": 4,
+     "altezza": 4,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 16,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 11,
+     "larghezza": 5,
+     "altezza": 3,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 21,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 9,
+     "larghezza": 3,
+     "altezza": 3,
+     "uscite": 1,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 22,
+    "ingresso": false,
+    "ponte": true,
+    "alberiAdiacentiAlPonte": false,
+    "pozzo": false,
+    "acqua": "implicita-dal-ponte",
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 11,
+     "larghezza": 4,
+     "altezza": 4,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 23,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 22,
+     "larghezza": 7,
+     "altezza": 4,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 24,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 9,
+     "larghezza": 4,
+     "altezza": 3,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 25,
+    "ingresso": false,
+    "ponte": true,
+    "alberiAdiacentiAlPonte": true,
+    "pozzo": false,
+    "acqua": "implicita-dal-ponte",
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 16,
+     "larghezza": 6,
+     "altezza": 4,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 26,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 3,
+     "larghezza": 2,
+     "altezza": 2,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 31,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 10,
+     "larghezza": 4,
+     "altezza": 4,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 32,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 15,
+     "larghezza": 6,
+     "altezza": 4,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 33,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 3,
+     "larghezza": 3,
+     "altezza": 1,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 34,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 16,
+     "larghezza": 7,
+     "altezza": 4,
+     "uscite": 5,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 35,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 16,
+     "larghezza": 5,
+     "altezza": 4,
+     "uscite": 0,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 36,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 18,
+     "larghezza": 7,
+     "altezza": 4,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 41,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 15,
+     "larghezza": 5,
+     "altezza": 3,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 42,
+    "ingresso": false,
+    "ponte": true,
+    "alberiAdiacentiAlPonte": true,
+    "pozzo": false,
+    "acqua": "implicita-dal-ponte",
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 5,
+     "larghezza": 2,
+     "altezza": 4,
+     "uscite": 1,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 43,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 8,
+     "larghezza": 4,
+     "altezza": 3,
+     "uscite": 1,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 44,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 11,
+     "larghezza": 4,
+     "altezza": 5,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 45,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 10,
+     "larghezza": 6,
+     "altezza": 5,
+     "uscite": 4,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 46,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 7,
+     "larghezza": 5,
+     "altezza": 3,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 51,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 8,
+     "larghezza": 3,
+     "altezza": 3,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 52,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 17,
+     "larghezza": 6,
+     "altezza": 5,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 53,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 6,
+     "larghezza": 3,
+     "altezza": 2,
+     "uscite": 1,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 54,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 14,
+     "larghezza": 6,
+     "altezza": 4,
+     "uscite": 1,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 55,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 7,
+     "larghezza": 5,
+     "altezza": 2,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 56,
+    "ingresso": false,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 27,
+     "larghezza": 5,
+     "altezza": 7,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 61,
+    "ingresso": true,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 19,
+     "larghezza": 6,
+     "altezza": 4,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 62,
+    "ingresso": true,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 6,
+     "larghezza": 3,
+     "altezza": 3,
+     "uscite": 0,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 63,
+    "ingresso": true,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 4,
+     "larghezza": 4,
+     "altezza": 1,
+     "uscite": 4,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 64,
+    "ingresso": true,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 14,
+     "larghezza": 7,
+     "altezza": 3,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   },
+   {
+    "numero": 65,
+    "ingresso": true,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": true,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": true,
+    "progetto": {
+     "celle": 7,
+     "larghezza": 5,
+     "altezza": 3,
+     "uscite": 2,
+     "tipoPresuntoDalProgetto": "sentiero"
+    }
+   },
+   {
+    "numero": 66,
+    "ingresso": true,
+    "ponte": false,
+    "alberiAdiacentiAlPonte": null,
+    "pozzo": false,
+    "acqua": null,
+    "struttura": null,
+    "fonteTesto": false,
+    "progetto": {
+     "celle": 18,
+     "larghezza": 5,
+     "altezza": 6,
+     "uscite": 3,
+     "tipoPresuntoDalProgetto": "radura"
+    }
+   }
+  ]
+ },
+ "oggetti": [
+  {
+   "id": "s-cane-guerra",
+   "nome": "Cane da guerra",
+   "categoria": "compagno-animale",
+   "pagina": 15,
+   "prezzo": 20,
+   "liv": 1,
+   "att": 1,
+   "pv": 2,
+   "mor": 1,
+   "modAttacco": 1,
+   "modDifesa": 0,
+   "effetto": "Leale a un padrone: ogni volta che il padrone subisce un danno, con 5-6 su 1d6 lo subisce il cane (senza scelta). -1 alla probabilità di sorpresa del gruppo (se numerica); cumulativo con i falchi. Sta sempre accanto al padrone nell'ordine di marcia. Armatura leggera su misura 50 p.o. (+1 difesa), solo per cani da guerra e lupi. Non può essere tenuto fuori dal combattimento.",
+   "dannoAlPostoDelPadrone": {
+    "da": 5,
+    "a": 6,
+    "dado": "1d6"
+   },
+   "riduzioneSorpresa": 1,
+   "cumulabileCon": "s-falco",
+   "armaturaLeggera": {
+    "prezzo": 50,
+    "modDifesa": 1,
+    "soloPer": [
+     "cane da guerra",
+     "lupo"
+    ]
+   },
+   "puoEssereTenutoFuoriDalCombattimento": false,
+   "incompatibileCon": [
+    "s-ombra-foresta"
+   ]
+  },
+  {
+   "id": "s-falco",
+   "nome": "Falco",
+   "categoria": "compagno-animale",
+   "pagina": 15,
+   "prezzo": 20,
+   "liv": 1,
+   "att": 1,
+   "pv": 1,
+   "mor": "ST",
+   "modAttacco": -1,
+   "modDifesa": 2,
+   "effetto": "+1 ai tiri di orientamento del gruppo. -1 alla probabilità di sorpresa (se numerica) solo all'aperto; cumulativo con i cani da guerra. Non può attaccare nei corridoi.",
+   "bonusOrientamento": 1,
+   "riduzioneSorpresa": 1,
+   "soloAperto": true,
+   "nonAttaccaInCorridoio": true,
+   "cumulabileCon": "s-cane-guerra",
+   "rimando": {
+    "libro": "Orrori dall'Aldilà",
+    "pagina": 28,
+    "cosa": "orientamento"
+   }
+  },
+  {
+   "id": "s-felino-selvatico",
+   "nome": "Felino selvatico",
+   "categoria": "compagno-animale",
+   "pagina": 16,
+   "prezzo": 20,
+   "liv": 1,
+   "att": 1,
+   "pv": 2,
+   "mor": "ST",
+   "modAttacco": 0,
+   "modDifesa": 1,
+   "effetto": "Invece di attaccare uccide automaticamente 1d6 ratti o altri infestanti simili che odia. Contro gli altri mostri, con 1 su 1d6 si rifiuta di combattere.",
+   "uccideInfestantiAlPostoDellAttacco": "1d6",
+   "rifiutaCombattereSu": {
+    "su": 1,
+    "dado": "1d6"
+   }
+  },
+  {
+   "id": "s-gufo",
+   "nome": "Gufo",
+   "categoria": "compagno-animale",
+   "pagina": 16,
+   "prezzo": 20,
+   "liv": 1,
+   "att": 1,
+   "pv": 1,
+   "mor": "ST",
+   "modAttacco": -1,
+   "modDifesa": 2,
+   "effetto": "Può attaccare (a -1) oppure dare al padrone +1 ai tiri per gli incantesimi; invece di attaccare uccide automaticamente 1d6 ratti o infestanti simili. Non attacca nei corridoi.",
+   "bonusIncantesimiPadrone": 1,
+   "uccideInfestantiAlPostoDellAttacco": "1d6",
+   "nonAttaccaInCorridoio": true
+  },
+  {
+   "id": "s-ombra-foresta",
+   "nome": "Ombra della foresta",
+   "categoria": "compagno-animale",
+   "pagina": 18,
+   "prezzo": 30,
+   "liv": 1,
+   "att": 1,
+   "pv": 2,
+   "mor": "ST",
+   "modAttacco": 0,
+   "modDifesa": 2,
+   "effetto": "Felino grosso e mimetico. +4 a tutti i tiri di furtività all'aperto, +1 al chiuso. Solo druidi, elfi silvani, signori delle bestie e ranger. Gratis per druidi e signori delle bestie; per gli altri 30 p.o. e 1 su 1d6 che a inizio avventura se ne vada (mai quella di un druido). Odia i canidi e attacca per primi quelli; incompatibile con cani da guerra, lupi, orsilupi.",
+   "furtivita": {
+    "aperto": 4,
+    "chiuso": 1
+   },
+   "soloClassi": [
+    "druido",
+    "elfo-silvano",
+    "signore-bestie",
+    "ranger"
+   ],
+   "gratisPer": [
+    "druido",
+    "signore-bestie"
+   ],
+   "abbandonaProb": {
+    "su": 1,
+    "dado": "1d6",
+    "quando": "inizio avventura",
+    "esclusoDruido": true
+   },
+   "incompatibileCon": [
+    "canidi",
+    "s-cane-guerra",
+    "s-orsolupo"
+   ],
+   "attaccaPerPrimoCanidi": true,
+   "rimando": {
+    "classe": "ranger",
+    "libro": "altri volumi"
+   }
+  },
+  {
+   "id": "s-orsolupo",
+   "nome": "Orsolupo giovane",
+   "categoria": "compagno-animale",
+   "pagina": 19,
+   "prezzo": 50,
+   "liv": 2,
+   "att": 1,
+   "pv": 3,
+   "mor": "ST",
+   "modAttacco": 2,
+   "modDifesa": 0,
+   "effetto": "Grosso lupo blu, cavalcabile da mezzuomini, gnomi, goblin, lutin. Ogni volta che uccide un nemico 1 su 1d8 che si rivolti contro il padrone: questi fa un tiro di difesa (L3) o perde 1 PV. Guanti e guinzaglio 10 p.o.: +1 al tiro di difesa contro il proprio orsolupo (occupa 1 mano). Sella per goblin/lutin 40 p.o.: aiuta a non cadere con un TS (L2). Cavaliere disarcionato con un 1 sulla difesa: perde il turno successivo. Solo druidi, signori delle bestie, goblin, orchi; un nano non lo accetta; incompatibile con le ombre della foresta.",
+   "ribellione": {
+    "su": 1,
+    "dado": "1d8",
+    "quando": "uccide un nemico",
+    "salvezzaPadrone": {
+     "tipo": "difesa",
+     "liv": 3
+    },
+    "fallimento": {
+     "pv": -1
+    }
+   },
+   "guantiGuinzaglio": {
+    "prezzo": 10,
+    "bonusDifesaControOrsolupo": 1,
+    "maniOccupate": 1
+   },
+   "sella": {
+    "prezzo": 40,
+    "per": [
+     "goblin",
+     "lutin"
+    ],
+    "salvezza": {
+     "tipo": "restare in sella",
+     "liv": 2
+    }
+   },
+   "cavalcabileDa": [
+    "mezzuomo",
+    "gnomo",
+    "goblin",
+    "lutin"
+   ],
+   "disarcionatoSu": 1,
+   "soloClassi": [
+    "druido",
+    "signore-bestie",
+    "goblin",
+    "orco"
+   ],
+   "nonAccettatoDa": [
+    "nano"
+   ],
+   "incompatibileCon": [
+    "s-ombra-foresta"
+   ]
+  },
+  {
+   "id": "s-cavallo-guerra",
+   "nome": "Cavallo da guerra",
+   "categoria": "cavalcatura",
+   "pagina": 21,
+   "prezzo": 30,
+   "liv": 2,
+   "att": 1,
+   "pv": 3,
+   "mor": "ST",
+   "modAttacco": 1,
+   "modDifesa": 1,
+   "effetto": "All'aperto permette di combattere in sella: +1 all'attacco del cavaliere in prima fila. Bardatura su misura (armatura leggera o pesante) a 10 volte il prezzo normale.",
+   "bonusAttaccoCavaliere": 1,
+   "soloAperto": true,
+   "bardatura": {
+    "moltiplicatorePrezzo": 10
+   }
+  },
+  {
+   "id": "s-cavallo-sella",
+   "nome": "Cavallo da sella",
+   "categoria": "cavalcatura",
+   "pagina": 21,
+   "prezzo": 10,
+   "liv": 0,
+   "att": "NO",
+   "pv": 3,
+   "mor": -2,
+   "modAttacco": 0,
+   "modDifesa": 0,
+   "effetto": "Non può essere usato per combattere in sella.",
+   "nonCombatte": true
+  },
+  {
+   "id": "s-cinghiale",
+   "nome": "Cinghiale",
+   "categoria": "cavalcatura",
+   "pagina": 21,
+   "prezzo": 40,
+   "liv": 3,
+   "att": 1,
+   "pv": 3,
+   "mor": 1,
+   "modAttacco": 2,
+   "modDifesa": 1,
+   "effetto": "Quando i PV arrivano a 0, con 3-6 su 1d6 continua ad attaccare per 1 ultimo turno. Cavalcabile solo da una creatura di taglia mezzuomo o nano.",
+   "ultimoTurno": {
+    "da": 3,
+    "a": 6,
+    "dado": "1d6"
+   },
+   "cavalcabileDa": [
+    "taglia mezzuomo",
+    "taglia nano"
+   ],
+   "cavalieriMax": 1
+  },
+  {
+   "id": "s-mulo",
+   "nome": "Muli, lama e zebre",
+   "categoria": "cavalcatura",
+   "pagina": 22,
+   "prezzo": 5,
+   "liv": 0,
+   "att": "NO",
+   "pv": 2,
+   "mor": -2,
+   "modAttacco": 0,
+   "modDifesa": 0,
+   "effetto": "Portano fino a 3 volte il peso di un personaggio ma 1 solo cavaliere. Testardi: con 1 su 1d6 rifiutano di attraversare un ponte o seguire il gruppo su terreno pericoloso. Non si combatte in sella.",
+   "carico": "x3",
+   "cavalieriMax": 1,
+   "rifiutaProb": {
+    "su": 1,
+    "dado": "1d6",
+    "quando": "ponte o terreno pericoloso"
+   },
+   "nonCombatte": true
+  },
+  {
+   "id": "s-grande-felino",
+   "nome": "Tigre e grandi felini",
+   "categoria": "cavalcatura",
+   "pagina": 22,
+   "prezzo": null,
+   "liv": 7,
+   "att": 1,
+   "pv": 5,
+   "mor": "ST",
+   "modAttacco": 4,
+   "modDifesa": 3,
+   "effetto": "ATT 1 quando cavalcati. Se il cavaliere muore, perde i sensi o è paralizzato, con 1-2 su 1d6 attaccano il gruppo come mostri LIV 7. Solo i barbari li cavalcano; vanno prima combattuti e sottomessi dal personaggio da solo; a fine avventura serve 1 tiro ES per tenerli. Velocità di un cavallo all'aperto. Non acquistabili.",
+   "abbandonoSeCavaliereCade": {
+    "da": 1,
+    "a": 2,
+    "dado": "1d6",
+    "come": "mostro LIV 7"
+   },
+   "soloClassi": [
+    "barbaro"
+   ],
+   "mantenimento": {
+    "tiroES": 1,
+    "quando": "fine avventura"
+   },
+   "nonAcquistabile": true,
+   "sottomissione": "regole.sottomettere-mostri"
+  },
+  {
+   "id": "s-pegaso",
+   "nome": "Pegaso",
+   "categoria": "cavalcatura",
+   "pagina": 44,
+   "prezzo": null,
+   "liv": null,
+   "att": null,
+   "pv": null,
+   "mor": null,
+   "modAttacco": null,
+   "modDifesa": null,
+   "effetto": "Dal risultato 3 degli Eventi speciali: se domato (TS L5) è una cavalcatura volante: +1 all'attacco in sella all'aperto, velocità tripla in viaggio, trasporta 2 personaggi con equipaggiamento (2 mezzuomini contano come 1). Statistiche di combattimento non fornite.",
+   "domatura": {
+    "liv": 5
+   },
+   "trasporta": 2,
+   "velocitaViaggio": "x3",
+   "bonusAttaccoCavaliere": 1,
+   "volante": true,
+   "statisticheNonDate": true
+  },
+  {
+   "id": "s-razione-cibo",
+   "nome": "Razione di cibo (1 giorno)",
+   "categoria": "equipaggiamento",
+   "pagina": 10,
+   "prezzo": 1,
+   "maxPerPersonaggio": 10,
+   "effetto": "1 al giorno per personaggio e alleato, altrimenti -1 PV ogni 24 ore; può corrompere animali selvatici e mostri non intelligenti."
+  },
+  {
+   "id": "s-vanga",
+   "nome": "Vanga",
+   "categoria": "equipaggiamento",
+   "pagina": 45,
+   "prezzo": 4,
+   "effetto": "Con una vanga bastano 2 indizi per localizzare un tesoro segreto da Mappa del tesoro."
+  },
+  {
+   "id": "s-torcia",
+   "nome": "Torcia",
+   "categoria": "equipaggiamento",
+   "pagina": 64,
+   "prezzo": 1,
+   "effetto": "Fonte di fuoco per accendere la miccia della bomba alchemica."
+  },
+  {
+   "id": "s-cotta-fogliacciaio",
+   "nome": "Cotta di fogliacciaio",
+   "categoria": "armatura",
+   "pagina": 35,
+   "prezzo": null,
+   "magico": false,
+   "modDifesa": 2,
+   "equivaleA": "armatura pesante",
+   "penalitaNuotareScalare": 0,
+   "durataAvventure": 2,
+   "indossabileDa": "classi che usano armature leggere",
+   "fabbricabileDa": [
+    "elfo-silvano"
+   ],
+   "effetto": "Vale come armatura pesante (+2 difesa) senza penalità a nuotare e scalare; dopo 2 avventure le foglie si seccano e diventa inutilizzabile."
+  },
+  {
+   "id": "s-scudo-carapace",
+   "nome": "Scudo di carapace o guscio",
+   "categoria": "armatura",
+   "pagina": 34,
+   "prezzo": null,
+   "fabbricabileDa": [
+    "elfo-silvano"
+   ],
+   "effetto": "Scudo ricavato dal carapace di uno scarabeo gigante o dal guscio di una tartaruga."
+  },
+  {
+   "id": "s-formaggio-perfetto",
+   "nome": "Formaggio perfetto",
+   "categoria": "equipaggiamento",
+   "pagina": 62,
+   "prezzo": null,
+   "effetto": "Rara prelibatezza ottenuta mungendo creature magiche: corrompe gli scoiattoli malvagi (1 pezzo)."
+  },
+  {
+   "id": "s-cubo-anima",
+   "nome": "Cubo anima",
+   "categoria": "varie",
+   "pagina": 11,
+   "prezzo": 50,
+   "effetto": "Restituisce 1 carica a un oggetto magico; moneta di demoni e streghe nere (50 necro nell'Aldilà).",
+   "rimando": {
+    "libro": "Orrori dall'Aldilà",
+    "pagina": 12
+   }
+  },
+  {
+   "id": "s-cintura-cambio-sesso",
+   "nome": "Cintura del cambio di sesso",
+   "categoria": "tesoro-magico",
+   "pagina": 46,
+   "magico": true,
+   "prezzo": "2d6",
+   "effetto": "Cambia il sesso di chi la indossa per 1d6 avventure e permette di lanciare 1 volta Benedizione. Non si toglie finché l'effetto non svanisce. Non utilizzabile da creature artificiali, chierici di Gobras, golem, succubi; i satiri diventano temporaneamente elfi.",
+   "durataAvventure": "1d6",
+   "benedizioni": 1,
+   "rimovibile": false,
+   "riferimento": "Scoperta 2",
+   "effettiPerClasse": {
+    "satiro": "diventa temporaneamente elfo (incantesimi invariati)",
+    "bestia della luna": "riduce la taglia, perde 1 PV per livello e le penalità di taglia",
+    "elfo dei ghiacci": "acquisisce temporaneamente la classe dell'altro sesso"
+   }
+  },
+  {
+   "id": "s-talismano-vigilanza",
+   "nome": "Talismano della vigilanza",
+   "categoria": "tesoro-magico",
+   "pagina": 46,
+   "magico": true,
+   "prezzo": 100,
+   "effetto": "Indossato sulla schiena riduce di 1 su 1d6 la probabilità di essere sorpresi; non funziona se non può vedere (buio totale, scudo sulle spalle) o contro mostri invisibili.",
+   "riduzioneSorpresa": 1,
+   "dado": "1d6",
+   "richiedeVista": true
+  },
+  {
+   "id": "s-scarabeo-morte-vivente",
+   "nome": "Scarabeo della morte vivente",
+   "categoria": "tesoro-magico",
+   "pagina": 47,
+   "magico": true,
+   "prezzo": 66,
+   "effetto": "Spilla che costringe il primo che la tocca (scelto a caso) a un TS contro la magia (L6; negromanti +L) o a morire; appuntata su un morto lo rialza come non-morto senziente che non mangia, beve né procrea, non dorme né respira, non guarisce con pozioni, si decompone (fallimento automatico dei TS sociali tranne coi non-morti) ed è trattato come vampiro. Se la spilla è rimossa, muore. Nessun effetto su non-morti e artificiali.",
+   "salvezza": {
+    "tipo": "magia",
+    "liv": 6,
+    "bonus": {
+     "negromante": "L"
+    }
+   },
+   "effettoFallimento": "morte",
+   "rialzatoComeNonMorto": true,
+   "rimozioneSpilla": "morte",
+   "riferimento": "p. 47"
+  },
+  {
+   "id": "s-arco-rapidita",
+   "nome": "Arco della rapidità",
+   "categoria": "tesoro-magico",
+   "pagina": 47,
+   "magico": true,
+   "prezzo": 200,
+   "effetto": "Nel primo turno di combattimento scaglia 1 freccia aggiuntiva (2 invece di 1), anche freccia dilaniante; se il personaggio ne scaglia già più di una aggiunge 1 ulteriore attacco a distanza.",
+   "frecceAggiuntivePrimoTurno": 1
+  },
+  {
+   "id": "s-balsamo-nicodemo",
+   "nome": "Balsamo di Nicodemo",
+   "categoria": "tesoro-magico",
+   "pagina": 47,
+   "magico": true,
+   "prezzo": 40,
+   "effetto": "Scagliato contro un non-morto (1 azione di attacco, colpisce sempre) annulla la sua immunità alle armi non magiche. Automatico se lanciato da un mago o alchimista, altrimenti funziona con 2 su 1d6.",
+   "colpisceSempre": true,
+   "automaticoPer": [
+    "mago",
+    "alchimista"
+   ],
+   "probAltri": {
+    "su": 2,
+    "dado": "1d6"
+   }
+  },
+  {
+   "id": "s-mantello-oscurita",
+   "nome": "Mantello dell'oscurità",
+   "categoria": "tesoro-magico",
+   "pagina": 47,
+   "magico": true,
+   "prezzo": 100,
+   "effetto": "Coprendosi il capo col cappuccio il portatore diventa invisibile, ma tutte le fonti di luce nell'area si spengono. Solo il portatore vede al buio (non abbastanza per leggere) e ha +3 in difesa; gli altri non vedono e hanno -2 a tutti i tiri.",
+   "bonusDifesaPortatore": 3,
+   "malusAltri": -2,
+   "spegneLuci": true
+  },
+  {
+   "id": "s-bomba-alchemica",
+   "nome": "Bomba alchemica",
+   "categoria": "tesoro",
+   "pagina": 64,
+   "magico": false,
+   "prezzo": 40,
+   "effetto": "Si usa con 1 azione e una fonte di fuoco (torcia 1 p.o.) per la miccia; va tenuta in una mano e lanciata con 1 azione di attacco. L'esplosione attacca i minori a +3 (2 tiri) oppure fa 1 tiro a +3 contro ogni maggiore nella stanza; non si aggiungono i bonus d'attacco del lanciatore. Tutti (anche il lanciatore) fanno TS contro l'esplosione (L5; nani +1): chi fallisce ha -1 in difesa nel turno dopo. I barbari non la usano.",
+   "attacco": {
+    "bonus": 3,
+    "tiriControMinori": 2,
+    "tiriControOgniMaggiore": 1,
+    "senzaBonusPersonaggio": true
+   },
+   "salvezzaEsplosione": {
+    "liv": 5,
+    "bonus": {
+     "nano": 1
+    },
+    "fallimento": {
+     "modDifesaTurnoSuccessivo": -1
+    },
+    "aTutti": true
+   },
+   "azioni": 1,
+   "richiede": "fonte di fuoco",
+   "nonUsabileDa": [
+    "barbaro"
+   ],
+   "prezzoVendita": 40,
+   "riferimento": "Scoperta 7"
+  },
+  {
+   "id": "s-pipa-incantata-nano",
+   "nome": "Pipa incantata del nano",
+   "categoria": "tesoro-magico",
+   "pagina": 51,
+   "magico": true,
+   "prezzo": 250,
+   "effetto": "Cimelio di famiglia nanico: dopo ogni combattimento guarisce 1 PV.",
+   "pvDopoCombattimento": 1
+  },
+  {
+   "id": "s-fiore-guarigione",
+   "nome": "Fiore rarissimo",
+   "categoria": "varie",
+   "pagina": 69,
+   "magico": false,
+   "effetto": "Funziona come 1 pozione di guarigione, usabile solo nella prossima avventura, poi secca; non magico (lo usano anche i barbari). Secco vale 2d6 p.o. se venduto a mago, alchimista, guaritore o naturalista.",
+   "usoSoloProssimaAvventura": true,
+   "valoreSecco": "2d6",
+   "usabileDaBarbaro": true,
+   "avventura": "s-unicorno-nero"
+  },
+  {
+   "id": "s-corno-unicorno-nero",
+   "nome": "Corno di unicorno nero",
+   "categoria": "tesoro",
+   "pagina": 70,
+   "magico": false,
+   "prezzo": 1000,
+   "effetto": "Valore del corno dell'unicorno nero: 1.000 p.o.",
+   "avventura": "s-unicorno-nero"
+  },
+  {
+   "id": "s-coltello-unicorno",
+   "nome": "Coltello magico di corno di unicorno",
+   "categoria": "tesoro-magico",
+   "pagina": 57,
+   "magico": true,
+   "prezzo": null,
+   "effetto": "Lo fabbrica un mago con 1 cubo anima e 1 corno di unicorno: +1 e +2 ai TS contro il veleno per chi lo porta.",
+   "bonusAttacco": 1,
+   "bonusTSVeleno": 2,
+   "creatoDa": "mago"
+  }
+ ],
+ "regole": [
+  {
+   "id": "labirinti-silvani-uso",
+   "nome": "Quando usare le tabelle silvane",
+   "pagina": 6,
+   "sintesi": "Con tutti i personaggi almeno di 4° livello si usano le tabelle di questo volume al posto di quelle del manuale base, tranne Complicazioni dei tesori nascosti, Missioni e Ricompense epiche. Meccaniche di gioco, erranti, abilità e indizi restano quelle base. Si può mescolare liberamente con altri supplementi.",
+   "parametri": {
+    "livelloMin": 4,
+    "tabelleNonSostituite": 3
+   }
+  },
+  {
+   "id": "generare-aree",
+   "nome": "Generare le aree della foresta",
+   "pagina": 6,
+   "sintesi": "Mappa di 20x28 quadretti. Prima area: 1d6+60 sulla Conformazione, disegnata al centro del bordo inferiore. Poi 1d66 per ogni area, una alla volta; radure = stanze, sentieri = corridoi; si possono ruotare e specchiare. Il contenuto si tira con 2d6 su Contenuti della foresta. Al posto dei muri si disegnano alberi o linee tratteggiate.",
+   "parametri": {
+    "larghezza": 20,
+    "altezza": 28,
+    "dadoIngresso": "1d6+60",
+    "dadoAree": "d66",
+    "dadoContenuto": "2d6",
+    "tessereIngresso": [
+     61,
+     62,
+     63,
+     64,
+     65,
+     66
+    ]
+   }
+  },
+  {
+   "id": "nessuna-porta",
+   "nome": "Niente porte nelle foreste",
+   "pagina": 7,
+   "sintesi": "Nelle foreste non ci sono porte e quindi nemmeno lucchetti da scassinare.",
+   "parametri": {
+    "porte": 0
+   }
+  },
+  {
+   "id": "incendio",
+   "nome": "Fuoco e incendi",
+   "pagina": 7,
+   "sintesi": "Palla di fuoco o qualsiasi incantesimo di fuoco in una foresta ha 2 su 1d6 di causare un incendio nell'area. Da quel momento attraversarla richiede un TS contro il soffio del drago (L5): chi fallisce perde 2 PV, chi riesce 1. A ogni rientro 1 su 1d6 che l'incendio si propaghi a 1 area adiacente a caso. Gli incendi durano finché il gruppo non lascia il labirinto silvano.",
+   "parametri": {
+    "probIncendio": 2,
+    "dado": "1d6",
+    "tsLiv": 5,
+    "tsTipo": "soffio del drago",
+    "pvFallimento": 2,
+    "pvSuccesso": 1,
+    "propagazioneSu": 1,
+    "aree": 1,
+    "durata": "fino all'uscita dal labirinto"
+   }
+  },
+  {
+   "id": "domare-incendio",
+   "nome": "Domare un incendio (evento)",
+   "pagina": 44,
+   "sintesi": "Evento 1: combattimento contro un aberrante LIV 5 ATT 1 con PV pari ai quadretti di alberi adiacenti (min 3), MOR NO, TES NO, immune alla magia salvo Estingui fuoco. Vale il bonus degli scudi, non dell'armatura; le asce danno +2 all'attacco; ogni PV perso = 1 quadretto di alberi abbattuto.",
+   "parametri": {
+    "liv": 5,
+    "att": 1,
+    "pvPerQuadretto": 1,
+    "pvMin": 3,
+    "bonusAscia": 2,
+    "creatura": "s-incendio"
+   }
+  },
+  {
+   "id": "volare-gruppo",
+   "nome": "Gruppo che vola",
+   "pagina": 7,
+   "sintesi": "Se l'intero gruppo vola (es. in sella a creature volanti) passa sopra acqua e ponti e ogni area è accessibile, ma i mostri lo attaccano normalmente all'ingresso costringendolo ad atterrare con frecce, rocce o alberi.",
+   "parametri": {
+    "interoGruppoVola": true,
+    "attaccatoAIngresso": true
+   }
+  },
+  {
+   "id": "nuotare",
+   "nome": "Nuotare",
+   "pagina": 7,
+   "sintesi": "Si attraversa un corso d'acqua volando o nuotando. Barbari, spadaccini, bestie della luna, elfi di fiume e marini, ittiani, ranger e le altre classi acquatiche nuotano automaticamente; chi respira sott'acqua non tira. Gli altri, per ogni quadretto, fanno un tiro di nuotare (L3) o perdono 1 PV. Armatura leggera -1, pesante -2, scudo -1 in più; elfi, mezzuomini e nani (tranne di fiume e marini) hanno un -1 aggiuntivo. Nuotare è un'abilità avanzata per le altre classi.",
+   "parametri": {
+    "liv": 3,
+    "pvFallimento": 1,
+    "modArmaturaLeggera": -1,
+    "modArmaturaPesante": -2,
+    "modScudo": -1,
+    "modElfiMezzuominiNani": -1,
+    "perQuadretto": true,
+    "automatici": [
+     "barbaro",
+     "spadaccino",
+     "bestia della luna",
+     "elfo di fiume",
+     "elfo marino",
+     "ittiano",
+     "ranger"
+    ]
+   }
+  },
+  {
+   "id": "abbattere-alberi",
+   "nome": "Abbattere gli alberi",
+   "pagina": 8,
+   "sintesi": "Il gruppo può abbattere 1 quadretto di alberi ogni 20 minuti, con 2 tiri mostri erranti (1 su 1d6 ciascuno); con un'ascia nel gruppo bastano 10 minuti e 1 tiro. Alternative magiche: la pergamena Raccolto abbondante o l'incantesimo Passaforesta. Consente di passare tra due aree bloccate da un quadretto di alberi.",
+   "parametri": {
+    "minutiPerQuadretto": 20,
+    "tiriErranti": 2,
+    "probErrante": 1,
+    "dado": "1d6",
+    "minutiConAscia": 10,
+    "tiriErrantiConAscia": 1,
+    "alternative": [
+     "s-raccolto-abbondante",
+     "s-passaforesta"
+    ]
+   }
+  },
+  {
+   "id": "ponti",
+   "nome": "Ponti",
+   "pagina": 8,
+   "sintesi": "Aree 22, 25, 42. Combattere su un ponte segue le regole dei corridoi. Se non si affrontano volanti o acquatici si può sfuggire distruggendo il ponte e ritirarsi senza essere attaccati. Tipo di ponte: 1d6, 1-2 pietra, 3-6 legno. Il legno si distrugge con Frantuma legno, Fulmine magico o Palla di fuoco; la pietra non cede agli incantesimi fino al 9° livello salvo bomba o desiderio. Se il ponte è vicino agli alberi (25, 42; non il 22) può scoppiare un incendio.",
+   "parametri": {
+    "tessere": [
+     22,
+     25,
+     42
+    ],
+    "dadoTipo": "1d6",
+    "pietra": [
+     1,
+     2
+    ],
+    "legno": [
+     3,
+     6
+    ],
+    "comeCorridoio": true,
+    "distruggibileLegno": [
+     "s-frantuma-legno",
+     "Fulmine magico",
+     "Palla di fuoco"
+    ],
+    "pietraNonDistruggibileFinoAlLivello": 9,
+    "tabella": "tabelle.tipoPonte"
+   }
+  },
+  {
+   "id": "pozzi",
+   "nome": "Pozzi",
+   "pagina": 8,
+   "sintesi": "Aree 15, 26, 35, 36, 41, 63, 65. Il gruppo decide prima del tiro se bere. 1d6: 1 avvelenato (TS veleno L3 o -1d3 PV), 2-3 normale, 4-6 rigenerante (+1 PV). Ogni personaggio, alleato o cavalcatura può bere dallo stesso pozzo 1 sola volta.",
+   "parametri": {
+    "tessere": [
+     15,
+     26,
+     35,
+     36,
+     41,
+     63,
+     65
+    ],
+    "dado": "1d6",
+    "tsVelenoLiv": 3,
+    "pvVeleno": "1d3",
+    "pvRigenerante": 1,
+    "bevutePerCreatura": 1,
+    "tabella": "tabelle.pozzo"
+   }
+  },
+  {
+   "id": "dungeon-cielo-aperto",
+   "nome": "Dungeon a cielo aperto",
+   "pagina": 8,
+   "sintesi": "Per incontrare solo mostri volanti (gruppo in cielo, castello tra le nuvole) si tira 1d3 invece di 1d6 su qualsiasi tabella mostri di questo volume.",
+   "parametri": {
+    "dado": "1d3",
+    "invecedi": "1d6"
+   }
+  },
+  {
+   "id": "adattare-livelli",
+   "nome": "Adattare l'avventura a livelli più alti",
+   "pagina": 10,
+   "sintesi": "Per ogni livello del PG più alto sopra il 4°: +1 al numero di mostri minori e +1 al livello e ai PV dei maggiori. Per gruppi di livello avanzato (5-9) anche +2 a tutti i tiri salvezza.",
+   "parametri": {
+    "livelloBase": 4,
+    "minoriNumeroPerLivello": 1,
+    "maggioriLivPerLivello": 1,
+    "maggioriPVPerLivello": 1,
+    "tsLivelloAvanzato": 2,
+    "livelloAvanzatoDa": 5,
+    "livelloAvanzatoA": 9
+   }
+  },
+  {
+   "id": "caratterizzazione",
+   "nome": "Caratterizzazione dei personaggi",
+   "pagina": 10,
+   "sintesi": "Alcuni incontri e oggetti richiedono sesso e altre caratteristiche del PG (es. unicorni più gentili con le damigelle vergini): si decidono sul momento, prima di partire o a caso. Un personaggio senza nome dimezza (per eccesso) ogni tiro che gli viene richiesto.",
+   "parametri": {
+    "senzaNomeDimezzaTiro": true,
+    "arrotondamento": "eccesso"
+   }
+  },
+  {
+   "id": "guadagnare-esperienza",
+   "nome": "Guadagnare esperienza",
+   "pagina": 10,
+   "sintesi": "Valgono le regole ES base, ma gli infestanti sono più mortali: si sommano gli incontri con infestanti a quelli con seguaci (si contano gli incontri, non i mostri) e a 10 si fa 1 tiro ES. I tiri ES ottenuti battendo i mostri di questo volume hanno +1 (1d6+1).",
+   "parametri": {
+    "incontriPerTiroES": 10,
+    "contaInfestanti": true,
+    "contaSeguaci": true,
+    "contaIncontriNonMostri": true,
+    "bonusTiroES": 1,
+    "dadoTiroES": "1d6+1"
+   }
+  },
+  {
+   "id": "razioni-cibo",
+   "nome": "Razioni di cibo",
+   "pagina": 10,
+   "sintesi": "Personaggi e alleati consumano 1 razione al giorno o perdono 1 PV ogni 24 ore senza mangiare. Un giorno di razioni essiccate costa 1 p.o.; al massimo 10 a personaggio. Il cibo può corrompere animali selvatici o mostri non intelligenti.",
+   "parametri": {
+    "razioniAlGiorno": 1,
+    "pvSenzaCiboPer24Ore": 1,
+    "prezzoPO": 1,
+    "maxPerPersonaggio": 10
+   }
+  },
+  {
+   "id": "mostri-volanti",
+   "nome": "Mostri volanti",
+   "pagina": 11,
+   "sintesi": "Le armi da lancio attaccano i volanti a +1. In un'area o stanza ampia (12 quadretti o più) i volanti si colpiscono solo con incantesimi, armi lunghe (alabarda, bastone ferrato, falcione, lancia, lancia lunga, naginata, picca) o armi da lancio, utilizzabili per tutto il combattimento e non solo nel primo turno.",
+   "parametri": {
+    "bonusArmiDaLancio": 1,
+    "areaAmpiaQuadretti": 12,
+    "armiLunghe": [
+     "alabarda",
+     "bastone ferrato",
+     "falcione",
+     "lancia",
+     "lancia lunga",
+     "naginata",
+     "picca"
+    ],
+    "armiDaLancioTuttoIlCombattimento": true
+   }
+  },
+  {
+   "id": "sottomettere-mostri",
+   "nome": "Sottomettere i mostri",
+   "pagina": 11,
+   "sintesi": "Alcuni maggiori (grifoni, unicorni) si possono sottomettere e usare come cavalcature: servono una corda o catena e l'incantesimo Sonno oppure un combattimento con -1 all'attacco (colpire di piatto). Dopo 10 minuti recuperano metà dei PV (per difetto). Ogni personaggio, tranne il signore delle bestie, controlla al massimo 1 mostro sottomesso (gli altri vanno liberati). Si possono cavalcare o vendere (giochi gladiatori, maghi e alchimisti) a 5 p.o. per livello.",
+   "parametri": {
+    "malusAttacco": -1,
+    "minutiRecuperoPV": 10,
+    "pvRecuperati": "1/2",
+    "mostriPerPersonaggio": 1,
+    "eccezione": "signore-bestie",
+    "prezzoVenditaPerLivello": 5,
+    "oAlternativaSonno": true,
+    "richiede": [
+     "corda o catena"
+    ],
+    "conIncantesimo": "s-sottomissione"
+   }
+  },
+  {
+   "id": "cubi-anima",
+   "nome": "Cubi anima (semplificata)",
+   "pagina": 11,
+   "sintesi": "Demoni e streghe nere commerciano in cubi anima, ottenuti bruciando anime in fornaci magiche. Un cubo restituisce 1 carica a un oggetto magico e vale 50 p.o. (o 50 necro nell'Aldilà). Regole complete in Orrori dall'Aldilà.",
+   "parametri": {
+    "valorePO": 50,
+    "caricheRestituite": 1
+   },
+   "rimando": {
+    "libro": "Orrori dall'Aldilà",
+    "pagina": 12
+   }
+  },
+  {
+   "id": "follia",
+   "nome": "Follia (semplificata)",
+   "pagina": 11,
+   "sintesi": "Chi ha 1 o più punti follia rifiuta di dividere equipaggiamento e oro. Quando i punti superano il livello il PG impazzisce e fugge per sempre (fuori dal gioco). I personaggi sotto il 6° livello possono perdere 2 PV invece di ricevere 1 punto follia. I mostri non ricevono mai follia.",
+   "parametri": {
+    "sogliaFuga": "punti follia > livello",
+    "pvAlPostoDiUnaFollia": 2,
+    "livelloMaxPerScambio": 5,
+    "rifiutaDividere": true,
+    "mostriMai": true
+   },
+   "rimando": {
+    "libro": "Contro l'Abisso",
+    "pagina": 49,
+    "anche": "Orrori dall'Aldilà p. 10 (follia estrema)"
+   }
+  },
+  {
+   "id": "seguaci-con-leader",
+   "nome": "Seguaci con un leader (semplificata)",
+   "pagina": 12,
+   "sintesi": "Sul 12 di Contenuti della foresta si può incontrare una banda: un boss con i suoi seguaci. Un personaggio scelto come campione combatte il leader in duello mortale mentre gli altri affrontano i seguaci; quando tutti i seguaci sono morti il resto del gruppo può attaccare il leader e viceversa. I seguaci con leader non tirano il morale finché il leader non fugge o muore.",
+   "parametri": {
+    "campioni": 1,
+    "seguaciNonTiranoMorale": true,
+    "fino": "il leader fugge o muore"
+   },
+   "rimando": {
+    "libro": "Contro l'Abisso",
+    "pagina": 11
+   }
+  },
+  {
+   "id": "reazione-cattura",
+   "nome": "Nuova reazione: Cattura",
+   "pagina": 12,
+   "sintesi": "I mostri con questa reazione usano attacchi non letali: ogni PG ridotto a 0 PV è catturato, incatenato e portato in un rifugio segreto. In combattimento solo 1 mostro fugge col catturato, senza poter essere attaccato mentre fugge; gli altri continuano a catturare il resto del gruppo. Versione generica di quella di Orrori dall'Aldilà.",
+   "parametri": {
+    "mostriPerFuga": 1,
+    "attaccabileInFuga": false,
+    "letale": false,
+    "rimando": "reazione Cattura di Orrori dall'Aldilà"
+   }
+  },
+  {
+   "id": "rifugio-segreto",
+   "nome": "Rifugio segreto dei catturati",
+   "pagina": 12,
+   "sintesi": "Per trovare il rifugio servono 3 indizi (segreto «Qualcuno è stato imprigionato»). Il rifugio è un complesso sotterraneo di 2d6x2d6 quadretti adiacente al luogo dove si spendono gli indizi, sorvegliato dagli stessi mostri che hanno catturato, in numero moltiplicato per 2. I catturati sono lasciati con 1d3 PV, spogliati e con l'equipaggiamento venduto. Per ciascuno si tira 2d6 + livello sul Recinto degli schiavi. Ci sono altri 3d6 prigionieri LIV 0 PV 1, uno dei quali pittoresco (tabella Prigionieri). Si combatte per liberarli o, se i mostri hanno Corruzione o altra reazione non violenta, si compra la libertà.",
+   "parametri": {
+    "indizi": 3,
+    "segreto": "Qualcuno è stato imprigionato",
+    "dimensione": "2d6x2d6",
+    "moltiplicatoreGuardiani": 2,
+    "pvCatturati": "1d3",
+    "altriPrigionieri": "3d6",
+    "altriPrigionieriLiv": 0,
+    "altriPrigionieriPV": 1,
+    "prigionieroPittoresco": 1,
+    "tabellaSorte": "tabelle.recintoSchiavi",
+    "tabellaPrigionieri": "tabelle.prigionieri",
+    "paginaBase": 61
+   }
+  },
+  {
+   "id": "compagni-animali",
+   "nome": "Compagni animali",
+   "pagina": 15,
+   "sintesi": "Acquistabili da personaggi di qualsiasi livello, mai di livello superiore al padrone. Solo il signore delle bestie può avere più di 1 compagno combattente (oltre a 1 cavalcatura per tutti). Gli animali puramente decorativi non contano. Non aprono porte, non leggono pergamene, non interagiscono con le stanze se non combattendo e non fanno tiri follia; solo le cavalcature trasportano equipaggiamento. Beneficiano del bonus di un solo signore delle bestie per volta; tranne i cani da guerra, il padrone può tenerli fuori dal combattimento. Negromanzia minore funziona anche sugli animali.",
+   "parametri": {
+    "combattentiPerPersonaggio": 1,
+    "cavalcaturePerPersonaggio": 1,
+    "livelloMaxComeIlPadrone": true,
+    "nonAprePorte": true,
+    "nonLegge": true,
+    "nonFaTiriFollia": true,
+    "fuoriDalCombattimentoPossibile": true,
+    "eccezioneCaniGuerra": true
+   }
+  },
+  {
+   "id": "creare-compagni-animali",
+   "nome": "Creare compagni animali",
+   "pagina": 16,
+   "sintesi": "Si parte da un mostro infestante animale (o simile) di qualsiasi supplemento abbassandone il livello di 2, si divide il livello tra bonus di attacco e di difesa secondo il tipo di animale e si calcola il prezzo: 10 p.o. + 10 per livello + 10 per ogni abilità speciale. Evitare abilità troppo potenti (es. rigenerazione).",
+   "parametri": {
+    "riduzioneLivello": -2,
+    "prezzoBase": 10,
+    "prezzoPerLivello": 10,
+    "prezzoPerAbilita": 10
+   }
+  },
+  {
+   "id": "cavalcature",
+   "nome": "Cavalcature",
+   "pagina": 21,
+   "sintesi": "Fuori dai dungeon una cavalcatura sottomessa porta 1 cavaliere e si muove al doppio al galoppo o al triplo volando (es. 3 esagoni al giorno invece di 1). Il cavaliere in prima fila nell'ordine di marcia ha +1 all'attacco; gli altri cavalieri attaccano solo con armi da lancio e incantesimi. Senza volare una cavalcatura porta il peso di 2 cavalieri o il doppio di un personaggio; una volante decolla con 1 solo cavaliere. 2 mezzuomini contano come 1 cavaliere; ogre non montano volanti salvo taglia di drago. Gli unicorni solo donzelle vergini. Le cavalcature vive non entrano mai nei dungeon (le non-morte possono nell'Aldilà).",
+   "parametri": {
+    "movimentoEsterno": "x2",
+    "movimentoVolante": "x3",
+    "bonusAttaccoPrimaFila": 1,
+    "cavalieriNonVolante": 2,
+    "cavalieriVolante": 1,
+    "mezzuominiPerCavaliere": 2,
+    "viveNelDungeon": false
+   }
+  },
+  {
+   "id": "cavalcatura-compagno",
+   "nome": "Trasformare una cavalcatura in compagno animale",
+   "pagina": 21,
+   "sintesi": "Un personaggio di livello avanzato può spendere 1 tiro ES per trasformare una cavalcatura sottomessa in compagno animale: combatte con bonus di attacco e difesa +1/2L e fa al massimo 1 attacco per turno.",
+   "parametri": {
+    "costoTiroES": 1,
+    "bonusAttacco": "1/2L",
+    "bonusDifesa": "1/2L",
+    "attacchiPerTurnoMax": 1,
+    "livelloMinimo": 5
+   }
+  },
+  {
+   "id": "riduzione-sorpresa",
+   "nome": "Riduzioni della probabilità di sorpresa",
+   "pagina": 15,
+   "sintesi": "Se la probabilità di sorpresa del mostro è numerica (su 1d6): cane da guerra -1, falco -1 (solo all'aperto), cumulabili tra loro; talismano della vigilanza -1; elfo silvano -1 in foresta, giungla, boschi (fino a 0). I testi non precisano la cumulabilità di talismano ed elfo.",
+   "parametri": {
+    "caneGuerra": 1,
+    "falcoAperto": 1,
+    "talismano": 1,
+    "elfoSilvano": 1,
+    "minimo": 0,
+    "cumulabileCaneFalco": true
+   }
+  },
+  {
+   "id": "boss-finale",
+   "nome": "Boss finale",
+   "pagina": 43,
+   "sintesi": "Dopo aver incontrato un aberrante (10) o un boss (11) si tira 1d6 e si aggiunge +1 per ogni mostro maggiore già sconfitto, compresi gli erranti: con 6 o più, oppure se non c'è più spazio sul foglio, quello è il boss finale.",
+   "parametri": {
+    "dado": "1d6",
+    "bonusPerMaggioreSconfitto": 1,
+    "inclusiErranti": true,
+    "soglia": 6,
+    "oSpazioFinito": true
+   }
+  },
+  {
+   "id": "cotta-fogliacciaio",
+   "nome": "Cotta di fogliacciaio",
+   "pagina": 35,
+   "sintesi": "Un elfo silvano che attraversa un'area di foresta ha 1 su 1d6 di trovare un cespuglio di fogliacciaio; in circa 4 ore (6 per creature grandi come troll e ogre) ne fabbrica una cotta: armatura pesante (+2 difesa) senza penalità a nuotare e scalare, usabile da chi porta armature leggere, inservibile dopo 2 avventure. Raccogliere le foglie ha 2 su 1d6 di attirare mostri erranti delle terre selvagge.",
+   "parametri": {
+    "cespuglioProb": 1,
+    "cespuglioDado": "1d6",
+    "ore": 4,
+    "oreGrande": 6,
+    "difesa": 2,
+    "durataAvventure": 2,
+    "erranteProb": 2,
+    "erranteDado": "1d6"
+   }
+  },
+  {
+   "id": "pergamene-druido",
+   "nome": "Pergamene da druido",
+   "pagina": 33,
+   "sintesi": "Quando si trova una pergamena si sceglie il tipo (mago o druido) oppure 1d6: 1-4 mago, 5-6 druido. Per il druido si tira ancora 1d6: 1-4 lista base, 5-6 avanzata (+1 al tiro se trovata nel tesoro di un mostro dell'Abisso o superiore). Poi 1d12 sulla relativa tabella.",
+   "parametri": {
+    "tipo": {
+     "dado": "1d6",
+     "mago": [
+      1,
+      4
+     ],
+     "druido": [
+      5,
+      6
+     ]
+    },
+    "lista": {
+     "dado": "1d6",
+     "base": [
+      1,
+      4
+     ],
+     "avanzata": [
+      5,
+      6
+     ]
+    },
+    "bonusTiroTesoroAbissoOSuperiore": 1,
+    "tabella": "1d12"
+   }
+  },
+  {
+   "id": "incantesimi-avanzati-druido",
+   "nome": "Apprendere incantesimi avanzati (druido)",
+   "pagina": 27,
+   "sintesi": "Dal 5° livello il druido impara un incantesimo avanzato in 4 modi: al posto di una ricompensa epica, spendendo 3 indizi di un segreto, con 1 tiro ES riuscito, o da una pergamena (che si distrugge).",
+   "parametri": {
+    "livelloMin": 5,
+    "modi": 4,
+    "indizi": 3,
+    "tiriES": 1
+   }
+  },
+  {
+   "id": "borgo",
+   "nome": "Borgo (Scoperta 1)",
+   "pagina": 61,
+   "sintesi": "Se i pegasi escono una seconda volta si trova un piccolo borgo grande come l'area. Etnia dominante 1d6: 1-4 umani, 5 mezzuomini, 6 elfi. Si vende e si compra qualunque oggetto del manuale base; la locanda costa 1 p.o. al giorno e dà 1 PV per giorno di riposo; è la casa dei prigionieri scortati; con 5-6 su 1d6 c'è un tempio (pozioni di guarigione, acqua santa, Benedizione su pergamena, resurrezioni, ai prezzi normali).",
+   "parametri": {
+    "locandaPOAlGiorno": 1,
+    "locandaPVAlGiorno": 1,
+    "tempioProb": {
+     "da": 5,
+     "a": 6,
+     "dado": "1d6"
+    },
+    "etnia": "tabelle.tipoVillaggio",
+    "vendeDi": "manuale base"
+   }
+  },
+  {
+   "id": "genio-desiderio",
+   "nome": "Genio sottomesso: desiderio minore",
+   "pagina": 65,
+   "sintesi": "Un genio sottomesso concede in cambio della libertà 1 desiderio minore: 1 uso di un punto fortuna (come il mezzuomo), 1 tesoro o equipaggiamento non magico fino a 100 p.o., 1 pergamena con un incantesimo a scelta (non di livello avanzato o superiore) o 1 effetto permanente di +1 a uno specifico tiro salvezza.",
+   "parametri": {
+    "scelte": 4,
+    "valoreMaxPO": 100,
+    "bonusTSPermanente": 1
+   }
+  },
+  {
+   "id": "miscredenti",
+   "nome": "Miscredenti (Scoperta 6)",
+   "pagina": 62,
+   "sintesi": "Per l'angelo della luce sono miscredenti: cambioni, demonologhi, chi porta un dono esecrando, devoti di divinità del Caos, dei Demoni o della Morte, classi del Compendio dei Morti Divoratori (tranne il chierico di Darim), bestie della luna, succubi, chi ha il tocco del caos. Se ce n'è uno l'angelo combatte fino alla morte; altrimenti offre cibo e Benedizione.",
+   "parametri": {
+    "reazioneConMiscredenti": "morte",
+    "reazioneSenza": "offre-riposo"
+   },
+   "rimando": {
+    "libro": "Orrori dall'Aldilà",
+    "pagina": 62,
+    "cosa": "blasfemi"
+   }
+  },
+  {
+   "id": "reazioni-nuove",
+   "nome": "Nuovi tipi di reazione: Enigma, Mercanti, Cattura",
+   "pagina": 12,
+   "sintesi": "Enigma: il gruppo deve risolvere un enigma (sfinge, folletti). Mercanti: la creatura vende oggetti (conta come Pacifico); uomini gufo e centauri vendono oggetti non magici sotto 101 p.o., gli uomini gufo anche pozioni fino a 100 p.o. Cattura: vedi reazione-cattura. Missione: sempre una missione fissa (es. «Portatemelo!»). Sfida magica: un duello di magia con il personaggio sfidante.",
+   "parametri": {
+    "tipiNuovi": [
+     "enigma",
+     "mercanti",
+     "cattura"
+    ],
+    "tipiNoti": [
+     "missione",
+     "sfida"
+    ],
+    "oggettiVendutiMaxPO": 100
+   }
+  },
+  {
+   "id": "mercanti-gufi",
+   "nome": "Uomini gufo: Mercanti (Scoperta 5)",
+   "pagina": 62,
+   "sintesi": "Reazione Mercanti = Pacifico. Vendono qualsiasi oggetto non magico e non vivente sotto 101 p.o. di qualunque supplemento posseduto; con 5-6 su 1d6 anche 1 pozione magica a scelta fino a 100 p.o., mai più di 1d3 pozioni insieme. Reincontrandoli, con 4-6 su 1d6 sono lo stesso gruppo e le pozioni sono rifornite.",
+   "parametri": {
+    "vendonoSottoPO": 101,
+    "pozioneProb": {
+     "da": 5,
+     "a": 6,
+     "dado": "1d6"
+    },
+    "pozioneCostoMax": 100,
+    "pozioniMax": "1d3",
+    "stessoGruppoProb": {
+     "da": 4,
+     "a": 6,
+     "dado": "1d6"
+    }
+   }
+  },
+  {
+   "id": "tigre-al-posto-angelo",
+   "nome": "Tigre al posto dell'angelo",
+   "pagina": 65,
+   "sintesi": "Gli angeli sono rari: se il risultato 1 della tabella aberranti esce di nuovo si incontra invece la tigre dai denti a sciabola (LIV 7, ATT 2, PV 5), che un barbaro può sottomettere combattendola da solo.",
+   "parametri": {
+    "risultatoTabella": 1,
+    "sostituisce": "s-angelo-luce",
+    "con": "s-tigre-sciabola"
+   }
+  },
+  {
+   "id": "incontro-veloce",
+   "nome": "Incontro veloce",
+   "pagina": 69,
+   "sintesi": "Scenario breve all'aperto che non richiede mappa, giocabile in 15 minuti-1 ora, che introduce nuovi mostri e tesori utilizzabili anche nelle partite normali.",
+   "parametri": {
+    "durataMinutiMin": 15,
+    "durataMinutiMax": 60,
+    "mappa": false
+   }
+  },
+  {
+   "id": "braccati",
+   "nome": "Braccati (contenuto 3)",
+   "pagina": 43,
+   "sintesi": "Spendi 1 indizio oppure raddoppia il numero di creature del prossimo incontro con mostri minori.",
+   "parametri": {
+    "costoIndizi": 1,
+    "moltiplicatoreMinori": 2
+   }
+  },
+  {
+   "id": "pergamene-inutili",
+   "nome": "Pergamene con incantesimi inutili",
+   "pagina": 49,
+   "sintesi": "Solo maghi e varianti (naturalisti, negromanti) le lanciano; vendibili a 75 p.o. ciascuna. Due hanno «effetti nel mondo reale» e vanno trattate come testo umoristico.",
+   "parametri": {
+    "prezzoVendita": 75,
+    "soloMaghi": true,
+    "tabella": "tabelle.pergameneInutili"
+   }
+  },
+  {
+   "id": "raccolto-abbondante-pergamena",
+   "nome": "Raccolto abbondante (pergamena)",
+   "pagina": 65,
+   "sintesi": "La pergamena nel tesoro della strega nera contiene Raccolto abbondante: leggerla apre un sentiero permanente attraverso tanti quadretti di foresta quanti il tiro per l'incantesimo (es. 6).",
+   "parametri": {
+    "incantesimo": "s-raccolto-abbondante"
+   }
+  }
+ ],
+ "rimandi": [
+  {
+   "cosa": "Abilità avanzate (descrizioni di tutte quelle citate dalle classi, nuotare incluso)",
+   "libro": "Contro l'Abisso",
+   "pagina": 19
+  },
+  {
+   "cosa": "Livelli avanzati (5-9), seguaci con un leader (p. 11), follia (p. 49), negromanzia minore (p. 25), mercenari (p. 31)",
+   "libro": "Contro l'Abisso",
+   "pagina": "5, 11, 49, 25, 31"
+  },
+  {
+   "cosa": "Cubi anima e fornaci di anime (p. 12), follia estrema (p. 10), orientamento (p. 28), divinità Zur e Foryos (p. 14-15), blasfemi (p. 62), reazione Cattura specifica",
+   "libro": "Orrori dall'Aldilà",
+   "pagina": "10, 12, 14-15, 28, 62"
+  },
+  {
+   "cosa": "Spadaccini, I Tre Anelli, sezione «Attraverso la foresta» (p. 36, 1d66 su doppio evento), Harros Davanzu (Scoperta 3, 300 p.o. per i tre anelli)",
+   "libro": "Acque Oscure e Altre Avventure",
+   "pagina": "5, 36"
+  },
+  {
+   "cosa": "Classi dei miscredenti (tranne il chierico di Darim)",
+   "libro": "Compendio dei Morti Divoratori",
+   "pagina": null
+  },
+  {
+   "cosa": "Tabelle Complicazioni dei tesori nascosti, Missioni (p. 86), Ricompense epiche (p. 87), movimento (p. 44), ordine di marcia nei corridoi (p. 52), segreti e indizi (p. 60-61), tesoro segreto (p. 60), pergamene base, Benedizione, Palla di fuoco, Fulmine magico, Ragnatela, Sonno, tesori magici (mostri erranti: altri volumi)",
+   "libro": "Manuale base",
+   "pagina": "6, 44, 52, 60-61, 86-87"
+  },
+  {
+   "cosa": "Classi e creature non ancora pubblicate o in altri volumi: ranger, naturalista, demonologo, cacciatore di streghe, paladino, bardo, satiro, monaco, bestie della luna, elfi di fiume, marini e dei ghiacci, ittiani, dottori della peste, negromante, mutante, atrocità, golem del caos, succubo, cambione, megera, chierici di Akerbeltz, Radah, Gobras, Luura, Zoyas, Darim, piromante",
+   "libro": "altri volumi",
+   "pagina": null,
+   "nota": "il testo (p. 5) dice che si possono ignorare"
+  }
+ ],
+ "indiceTabelle": [
+  {
+   "chiave": "conformazione",
+   "nome": "Conformazione della foresta",
+   "dado": "d66",
+   "pagina": 42,
+   "dove": "conformazione.tessere",
+   "min": 11,
+   "max": 66,
+   "d66": true,
+   "soloDisegno": true,
+   "nota": "ingresso: 1d6+60 (tessere 61-66)"
+  },
+  {
+   "chiave": "contenuto",
+   "nome": "Contenuti della foresta",
+   "dado": "2d6",
+   "pagina": 43,
+   "dove": "tabelle.contenuto",
+   "min": 2,
+   "max": 12
+  },
+  {
+   "chiave": "eventi",
+   "nome": "Eventi speciali",
+   "dado": "d6",
+   "pagina": "44-45",
+   "dove": "tabelle.eventi",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "tesori",
+   "nome": "Tesori",
+   "dado": "d6 (con modificatori)",
+   "pagina": 46,
+   "dove": "tabelle.tesori",
+   "min": -99,
+   "max": 99,
+   "nota": "0 o meno nessun tesoro; 6 o più oggetto magico (modificatori non indicati)"
+  },
+  {
+   "chiave": "tesoriMagici",
+   "nome": "Tesori magici",
+   "dado": "d6",
+   "pagina": "46-47",
+   "dove": "tabelle.tesoriMagici",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "pergameneInutili",
+   "nome": "Pergamene con incantesimi inutili",
+   "dado": "d6",
+   "pagina": "48-49",
+   "dove": "tabelle.pergameneInutili",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "recintoSchiavi",
+   "nome": "Recinto degli schiavi",
+   "dado": "2d6+L del personaggio catturato",
+   "pagina": "13 e 49",
+   "dove": "tabelle.recintoSchiavi",
+   "min": 2,
+   "max": 99
+  },
+  {
+   "chiave": "prigionieri",
+   "nome": "Prigionieri",
+   "dado": "d66",
+   "pagina": "50-51",
+   "dove": "tabelle.prigionieri",
+   "min": 11,
+   "max": 66,
+   "d66": true
+  },
+  {
+   "chiave": "infestanti",
+   "nome": "Mostri infestanti",
+   "dado": "d6",
+   "pagina": "52-53",
+   "dove": "mostri.infestanti",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "seguaci",
+   "nome": "Mostri seguaci",
+   "dado": "d6",
+   "pagina": "54-55",
+   "dove": "mostri.seguaci",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "aberranti",
+   "nome": "Mostri aberranti",
+   "dado": "d6",
+   "pagina": "56-57",
+   "dove": "mostri.aberranti",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "boss",
+   "nome": "Mostri boss",
+   "dado": "d6",
+   "pagina": "58-59",
+   "dove": "mostri.boss",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "incantesimiDruidoBase",
+   "nome": "Incantesimi base del druido",
+   "dado": "d12",
+   "pagina": 32,
+   "dove": "tabelle.incantesimiDruidoBase",
+   "min": 1,
+   "max": 12
+  },
+  {
+   "chiave": "incantesimiDruidoAvanzati",
+   "nome": "Incantesimi avanzati del druido",
+   "dado": "d12",
+   "pagina": 33,
+   "dove": "tabelle.incantesimiDruidoAvanzati",
+   "min": 1,
+   "max": 12
+  },
+  {
+   "chiave": "tipoPonte",
+   "nome": "Tipo di ponte (inline)",
+   "dado": "d6",
+   "pagina": 8,
+   "dove": "tabelle.tipoPonte",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "pozzo",
+   "nome": "Pozzo (inline)",
+   "dado": "d6",
+   "pagina": 8,
+   "dove": "tabelle.pozzo",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "tipoElementale",
+   "nome": "Tipo di elementale (inline)",
+   "dado": "d6",
+   "pagina": 56,
+   "dove": "tabelle.tipoElementale",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "chiave": "stregaIncantesimi",
+   "nome": "Incantesimi della strega nera (inline, +1 se oltre metà PV persi)",
+   "dado": "d6",
+   "pagina": "65-66",
+   "dove": "tabelle.stregaIncantesimi",
+   "min": 1,
+   "max": 7
+  },
+  {
+   "chiave": "tipoVillaggio",
+   "nome": "Tipo di villaggio (inline)",
+   "dado": "d6",
+   "pagina": 61,
+   "dove": "tabelle.tipoVillaggio",
+   "min": 1,
+   "max": 6
+  }
+ ],
+ "avventure": [
+  {
+   "id": "s-unicorno-nero",
+   "nome": "L'Unicorno Nero",
+   "tipo": "incontro-veloce",
+   "pagine": "69-72",
+   "mappa": false,
+   "durataMinuti": "15-60",
+   "livelloConsigliato": "4+ (gruppo che attraversa un'area di foresta)",
+   "struttura": [
+    {
+     "paragrafo": 0,
+     "nome": "Introduzione",
+     "pagina": 69,
+     "tipo": "scelta tra tre corsi d'azione"
+    },
+    {
+     "paragrafo": 1,
+     "nome": "Fuga",
+     "pagina": 69,
+     "tipo": "tiro salvezza di gruppo"
+    },
+    {
+     "paragrafo": 2,
+     "nome": "Caccia all'unicorno nero",
+     "pagina": 70,
+     "tipo": "ricerca (indizio o 1d6)"
+    },
+    {
+     "paragrafo": 3,
+     "nome": "Chiedi aiuto alle creature della foresta",
+     "pagina": 70,
+     "tipo": "tabella Richiesta di aiuto (d6)"
+    }
+   ],
+   "mostri": [
+    "s-unicorno-nero"
+   ],
+   "oggetti": [
+    "s-fiore-guarigione",
+    "s-corno-unicorno-nero"
+   ],
+   "tabelleDedicate": [
+    {
+     "nome": "Richiesta di aiuto",
+     "dado": "d6",
+     "pagina": 71,
+     "trascritta": false
+    },
+    {
+     "nome": "Malattia debilitante",
+     "dado": "d6",
+     "pagina": 72,
+     "trascritta": false
+    }
+   ],
+   "stato": "solo elenco: contenuti da trascrivere in una fase successiva"
+  }
+ ],
+ "avventureNota": "Nel volume non ci sono avventure strutturate a stanze: solo un «incontro veloce» senza mappa (p. 69-72).",
+ "ambiguita": [
+  {
+   "punto": "Conformazione della foresta (p. 42): è solo un disegno, il testo estratto non contiene la tabella.",
+   "scelta": "Nessuna forma inventata: nel file solo ponti (22, 25, 42) e pozzi (15, 26, 35, 36, 41, 63, 65) dichiarati dal testo. Acqua e strutture riquadrate (43, 63, 65) lette dal disegno nel censimento sono in conformazione.osservazioniDisegno, segnate come non verificate."
+  },
+  {
+   "punto": "Compatibilità con data/rules/tiles-foresta.json: i numeri sono gli stessi 36 (11-66) e le tessere 22, 25, 42 (ponti) e 15, 26, 35, 36, 41, 63, 65 (pozzi) esistono tutte. Per tipo (radura/sentiero) le tessere del progetto che sembrano sentieri sono 11, 12, 26, 33, 42, 63, 65: i ponti 22 e 25 e i pozzi 15, 35, 36, 41 risultano radure di 11-16 celle. Il testo (p. 8) applica ai ponti le regole dei corridoi, quindi 22 e 25 potrebbero dover essere sentieri.",
+   "scelta": "Nessuna modifica: il campo tipoPresuntoDalProgetto di ogni tessera è solo informativo (sentiero se tutte le celle hanno al massimo 2 vicini o larghezza 1). Da verificare sul disegno di p. 42."
+  },
+  {
+   "punto": "tiles-foresta.json contiene anche 'ingressi' 1-6 con forme DIVERSE dalle tessere 61-66 (es. ingresso 1: 14 celle, tessera 61: 19 celle), mentre il testo dice di tirare 1d6+60 sulla stessa tabella.",
+   "scelta": "Nel file l'ingresso è 1d6+60 = tessere 61-66; se 'ingressi' del progetto è una seconda serie di tessere d'ingresso va riconciliato a mano. Le tessere 35 e 62 del progetto non hanno nessuna porta definita."
+  },
+  {
+   "punto": "Tesori (p. 46): il dado è d6 ma le righe parlano di «0 o meno» e «6 o più», senza dire quali modificatori si applichino.",
+   "scelta": "Righe estreme da=-99/a=0 (niente) e da=6/a=99 (magico); modificatori non spiegati (probabile TES del mostro, come nel manuale base)."
+  },
+  {
+   "punto": "Contenuto 12 «Banda di guerrieri»: il testo non dice se il boss possa essere boss finale e non specifica il tiro di boss finale.",
+   "scelta": "Non applicato il test del boss finale al 12 (campo bossFinale assente)."
+  },
+  {
+   "punto": "Contenuto 8 «Sentiero o seguaci»: su un sentiero «sembra non esserci niente (puoi perquisire a -1)».",
+   "scelta": "Codificato come sentiero vuoto con perquisireModSentiero -1."
+  },
+  {
+   "punto": "Reazione dei ratti della nebbia, degli scoiattoli malvagi e dell'elementale: il testo dice «Combatte sempre» o «Addenta sempre i possedimenti», ma i ratti e gli scoiattoli non attaccano normalmente (distruggono oggetti / drenano risorse).",
+   "scelta": "Reazione combatte-sempre con nonAttacca true e un campo descrittivo (distruggeOggetti, drenaggio) per la regola speciale; reazioneTesto riporta la dicitura originale."
+  },
+  {
+   "punto": "Corruzioni non in monete (razioni di cibo, gemme, gioielli, cibo magico, tutti gli oggetti magici): il formato base prevede solo p.o.",
+   "scelta": "Sesto elemento della reazione [da,a,'corruzione',quantità,tipo,risorsa] con la risorsa (es. 'razioni di cibo', 'gemma'); 5° elemento null = per mostro. Il programma va adattato per non mostrarle come p.o."
+  },
+  {
+   "punto": "Reazioni nuove non gestite dal programma: Enigma (sfinge, folletti), Mercanti (uomini gufo, centauri), Cattura (centauri, mostro occhio, strega nera, rakshasa, gigante di pietra), Sfida magica (lamia, mostro occhio, genio).",
+   "scelta": "Usati i tipi 'enigma', 'mercanti', 'cattura'; 'sfida' e 'missione' esistono già in avanzate.json. Missione: il testo dà un nome fisso (es. «Portatemelo!») salvo il coatl, che non lo specifica (tabella Missioni del manuale base)."
+  },
+  {
+   "punto": "Reazione dell'angelo della luce: non è su d6 ma dipende dai miscredenti (Scoperta 6).",
+   "scelta": "reazioni [[1,6,'offre-riposo']] per il gruppo senza miscredenti, più reazioneMiscredenti 'morte' (combatte fino alla morte) e benedizioneAlGruppo. L'ATT sale di +1 per ogni miscredente (attPerMiscredente)."
+  },
+  {
+   "punto": "Lamia: la reazione 5-6 è «combatte finché uno dei personaggi non venga ucciso, poi fugge con il cadavere».",
+   "scelta": "Tipo 'combatte' con campo fugaConCadavere; da gestire a parte."
+  },
+  {
+   "punto": "Unicorno nero: PV = livello massimo dei personaggi (LMP) + 2; il tipo creaIncontro vuole pv numerico.",
+   "scelta": "pv null, pvFormula 'LMP+2' e pvLMP 2; tes null con tesoroFisso (corno 1.000 p.o.). Malattia debilitante non trascritta (solo per quell'avventura)."
+  },
+  {
+   "punto": "Mostri con tesoro particolare (aquile giganti, angelo, lamia, strega nera, rakshasa): il TES indica anche oggetti specifici.",
+   "scelta": "tes null con tesoroFisso (aquile, angelo) oppure tes numerico/x2/tesMolt più tesoroExtra (lamia +3, strega, rakshasa x3)."
+  },
+  {
+   "punto": "xp dei mostri: il testo dice che gli infestanti sono «più mortali» e che infestanti e seguaci contano 10 incontri per 1 tiro ES (con +1), ma non dice come si guadagnano gli ES per i maggiori.",
+   "scelta": "xp true per tutte le voci (infestanti e seguaci con conteggio a 10 incontri nella regola guadagnare-esperienza); l'incendio ha xp false (è un pericolo, non un mostro)."
+  },
+  {
+   "punto": "Incantesimi del druido: il testo non dice quanti usi per avventura ha ciascun incantesimo (il mago base ne usa 1 per incantesimo preparato) né se si può memorizzare più volte lo stesso.",
+   "scelta": "usiPerAvventura e memorizzabilePiuVolte null; recupero tramite meditazione tra le avventure."
+  },
+  {
+   "punto": "Armi del druido: arco corto e giavellotto non esistono in equipaggiamento.json (che ha arco, fionda, leggere, ecc.). 'Bastone' dell'elfo silvano non ha categoria nota.",
+   "scelta": "Armi dichiarate come ['leggera','fionda','arco-corto','giavellotto'] per il druido e ['arco','una-mano','leggera','balestra','bastone','bolas','boomerang'] per l'elfo silvano; il programma deve mappare i nomi mancanti."
+  },
+  {
+   "punto": "Chierici di Elidra e Korimnos: il testo non ripete oro, PV, armi, armature, attacco (rimanda al chierico base).",
+   "scelta": "Valori copiati da classi.json (chierico) con ereditaDa 'chierico' ed elenco ereditatoDaBase."
+  },
+  {
+   "punto": "Guida delle terre selvagge: «stesse abilità dei mezzuomini tranne Alchimia delle spore e le capacità culinarie».",
+   "scelta": "Lista derivata da abisso.json (abilitaPerClasse.mezzuomo) meno Alchimia delle spore; la capacità culinaria non è un'abilità avanzata di quell'elenco."
+  },
+  {
+   "punto": "Cotta di fogliacciaio: il cespuglio si trova «per ogni area/esagono di foresta attraversato»; il lavoro richiede 4 ore (6 per grandi).",
+   "scelta": "Codificato come 1 su 1d6 per area; il tempo non ha effetto nel programma se non tramite i mostri erranti (2 su 1d6)."
+  },
+  {
+   "punto": "Tessere con regole d'acqua: «acqua» (p. 7) richiede nuotare per ogni quadretto attraversato, ma il testo non dice quali tessere hanno acqua (solo i ponti la implicano).",
+   "scelta": "Nessuna acqua inventata nelle tessere (campo acqua null, 'implicita-dal-ponte' per 22, 25, 42)."
+  },
+  {
+   "punto": "Gruppo che vola e tigre/pegasi: il testo dice che le cavalcature volanti si muovono al triplo con «esagoni al giorno», concetto da viaggio esterno.",
+   "scelta": "Parametri conservati (movimentoVolante x3) senza applicazione nel dungeon; i pegasi non hanno statistiche di combattimento nel testo (campi null)."
+  },
+  {
+   "punto": "Sorpresa: più riduzioni numeriche (cane da guerra, falco, talismano, elfo silvano) senza regola esplicita sulla cumulabilità, tranne cane e falco.",
+   "scelta": "Solo cane+falco segnati come cumulabili; per gli altri si lascia la decisione al programma."
+  },
+  {
+   "punto": "Scarabeo della morte vivente: personaggio non-morto con molti effetti (non mangia, si decompone, TS sociali falliti, vampiro per incantesimi e abilità).",
+   "scelta": "Trascritto come testo e parametri essenziali (TS magia L6, negromanti +L); effetti sul PG da gestire a mano."
+  },
+  {
+   "punto": "Livelli: il testo dice «dal 4° livello in su» e parla di gruppi di livello avanzato 5-9; non indica un livello massimo di questo supplemento.",
+   "scelta": "livelli.min 4, max null; scala fino al 9° livello (+2 ai TS dal 5°). partenzaDiretta null (il testo non dà una partenza diretta con oro e tesori)."
+  },
+  {
+   "punto": "Pergamene inutili con «effetti nel mondo reale» (Ritardare le faccende di casa, Annienta-universo).",
+   "scelta": "Solo testo breve con flag effettoMondoReale true, senza meccanica."
+  },
+  {
+   "punto": "Mostri erranti: il testo rimanda alle tabelle di altri volumi («è lecito scegliere»).",
+   "scelta": "Nessuna tabella errante in questo file; livelli.mostriErranti lo segnala."
+  },
+  {
+   "punto": "Tabelle Richiesta di aiuto (p. 71) e Malattia debilitante (p. 72): legate solo all'avventura dell'unicorno nero.",
+   "scelta": "Non trascritte (richiesto); l'unicorno nero le richiama in malattia.tabella."
+  }
+ ]
+}

@@ -1,0 +1,516 @@
+{
+ "barbaro": {
+  "nome": "Barbaro",
+  "vitaBase": 7,
+  "oro": "1d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco. Attacco furioso 1 volta per avventura ogni 2 livelli (tira 1d6 per 3 volte, tieni il migliore; se colpisce, danni doppi). Non usa oggetti magici, pergamene o pozioni; non sa leggere. Può accettare la guarigione del chierico e usare l'acqua santa.",
+  "furie": "ceil(livello/2)"
+ },
+ "chierico": {
+  "nome": "Chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco, il livello intero contro i non-morti. Benedizione 3 volte per avventura e Guarigione 3 volte per avventura (1d6 + livello PV, non può attaccare nello stesso turno).",
+  "benedizioni": 3,
+  "guarigioni": 3
+ },
+ "elfo": {
+  "nome": "Elfo",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Arco"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco (non con armi a due mani) e ai lanci di incantesimi. +1 contro orchi. 1 incantesimo per livello per avventura, solo con armatura leggera e senza scudo.",
+  "incantatore": true,
+  "incantesimiPerLivello": 1
+ },
+ "furfante": {
+  "nome": "Furfante",
+  "vitaBase": 3,
+  "oro": "3d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "equip": [
+   "Arma leggera",
+   "Armatura leggera",
+   "Corda",
+   "Grimaldelli"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di difesa e per disarmare trappole. Aggiunge il livello all'attacco solo contro mostri minori in inferiorità numerica."
+ },
+ "guerriero": {
+  "nome": "Guerriero",
+  "vitaBase": 6,
+  "oro": "2d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco."
+ },
+ "mago": {
+  "nome": "Mago",
+  "vitaBase": 2,
+  "oro": "4d6",
+  "armature": [],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "equip": [
+   "Arma leggera",
+   "Libro di incantesimi",
+   "Strumenti per scrivere"
+  ],
+  "tratti": "Aggiunge il livello quando attacca con incantesimi (anche da pergamena) e ai tiri per enigmi. Inizia con 2 incantesimi + 1 per livello, da preparare prima dell'avventura.",
+  "incantatore": true,
+  "incantesimiBase": 2
+ },
+ "mezzuomo": {
+  "nome": "Mezzuomo",
+  "vitaBase": 3,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "equip": [
+   "Arma leggera",
+   "Fionda",
+   "3 razioni di cibo"
+  ],
+  "tratti": "Livello in difesa contro giganti, ogri e troll; +1/3 livello con la fionda. Punti fortuna = livello + 1 (fuga senza attacchi o ritiro di attacco/difesa/perquisizione/tesori). Può cucinare un pasto rifocillante.",
+  "fortuna": "livello+1"
+ },
+ "nano": {
+  "nome": "Nano",
+  "vitaBase": 5,
+  "oro": "3d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Aggiunge il livello ai tiri di attacco (non con armi da lancio). +1 in difesa contro giganti, ogri, troll; +1 in attacco contro goblin. Fiuta il tesoro: 1d6+livello >= 6 permette di vedere il tesoro prima di attaccare. Con 2+ nani non si corrompono i mostri."
+ },
+ "arlecchino": {
+  "nome": "Arlecchino",
+  "vitaBase": 3,
+  "oro": "3d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "una-mano",
+   "leggera",
+   "arco",
+   "fionda"
+  ],
+  "suppl": true,
+  "equip": [
+   "3 armi a una mano o leggere",
+   "Costume da menestrello",
+   "Grimaldelli"
+  ],
+  "tratti": "Aggiunge metà livello alla difesa. Con 2 o 3 armi leggere o a una mano fa fino a 3 attacchi in mischia per turno (premi più volte «Attacca»), senza bonus di livello; con 1 sola arma fa 1 attacco e aggiunge metà livello. Può scassinare e disarmare trappole (senza aggiungere il livello) e usare gli attrezzi dei furfanti."
+ },
+ "assassino": {
+  "nome": "Assassino",
+  "vitaBase": 3,
+  "oro": "5d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": "tutte",
+  "suppl": true,
+  "equip": [
+   "2 armi a scelta",
+   "Armatura leggera",
+   "Grimaldelli"
+  ],
+  "tratti": "Aggiunge il livello a tutti gli attacchi, anche a distanza. Può rinunciare a un attacco per nascondersi e marchiare un bersaglio (pulsante «Marchia»): se riesce nella furtività contro il mostro di LIV più alto (+L), il suo prossimo attacco infligge il triplo dei PV (non su non-morti, artificiali e informi)."
+ },
+ "elfo-fuoco": {
+  "nome": "Elfo del fuoco",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "mischia"
+  ],
+  "suppl": true,
+  "incantatore": true,
+  "equip": [
+   "Arma a una mano o leggera da mischia"
+  ],
+  "tratti": "Aggiunge il livello agli attacchi in mischia (non con armi a due mani) e ai raggi di fuoco. Nessuna arma a distanza. Al 1° turno di ogni combattimento può lanciare 1 Palla di Fuoco con la vista di fuoco al posto di attaccare; con 1 naturale subisce 1d3 PV (1d6 con armatura pesante) e gli altri salvano (L = suo livello) o perdono 1 PV. Immune agli sguardi se non usa la vista di fuoco. Non condivide oro ed equipaggiamento con altre razze; non legge pergamene."
+ },
+ "tiratore": {
+  "nome": "Tiratore scelto",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "distanza",
+   "una-mano",
+   "leggera"
+  ],
+  "suppl": true,
+  "equip": [
+   "Arma a distanza",
+   "Arma leggera",
+   "Armatura leggera"
+  ],
+  "tratti": "Aggiunge livello+1 agli attacchi a distanza (e infligge sempre 1 PV in più: minimo 2) e metà livello a quelli in mischia. All'aperto fa 2 attacchi a distanza prima della mischia. Cambia arma senza perdere un'azione."
+ },
+ "veterano": {
+  "nome": "Veterano",
+  "vitaBase": 3,
+  "oro": "4d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": false,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "suppl": true,
+  "equip": [
+   "Arma leggera",
+   "Lanterna"
+  ],
+  "tratti": "Nessun bonus ad attacco e difesa. Inizia con Assistenza (presta una capacità di classe a un compagno per 1 incontro) e Leader carismatico. Gli altri eroi possono proteggerlo rinunciando a un attacco per difenderlo. Salva come un chierico ma sottrae il livello ai tiri salvezza fisici. Non porta armi a due mani, armature pesanti né più di 200 p.o."
+ },
+ "spadaccino": {
+  "nome": "Spadaccino",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [],
+  "scudo": false,
+  "armi": [
+   "una-mano",
+   "leggera",
+   "fionda",
+   "stella",
+   "bolas",
+   "boomerang",
+   "pistola"
+  ],
+  "suppl": "acque",
+  "equip": [
+   "Arma a una mano",
+   "Arma leggera",
+   "Cappello da cavaliere piumato o tricorno",
+   "Cappa"
+  ],
+  "tratti": "Aggiunge metà livello (per difetto) ai tiri di attacco e di difesa. Nessuna armatura né scudo; niente armi a due mani né arco. Con un’arma a una mano come principale e un’arma leggera come secondaria fa 2 attacchi, uno per arma. Guadagna 1 punto maestria per ogni mostro ucciso, fino a un massimo pari al livello; ogni punto dà +1 a un tiro di attacco o di difesa (al massimo 1 punto per tiro). Salva come il furfante.",
+  "maestria": true
+ },
+ "chierico-elidra": {
+  "nome": "Chierico di Elidra",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo",
+   "Strumento musicale"
+  ],
+  "tratti": "Variante del chierico, devoto di Elidra (bellezza, pace, musica). Per il resto vale il chierico base. Può spendere 1 Benedizione (al posto di un attacco) per «Musica dell'armonia»: 1d6 + livello contro il LIV del mostro; se riesce sceglie la reazione tra quelle disponibili. Salva come chierico o come elfo, a scelta.",
+  "benedizioni": 3,
+  "guarigioni": 3
+ },
+ "chierico-korimnos": {
+  "nome": "Chierico di Korimnos",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "tratti": "Variante del chierico, devoto di Korimnos (il Cervo Dorato). Per il resto vale il chierico base. Può spendere 1 Benedizione (al posto di un attacco) perché un animale naturale, o un gruppo di animali, abbia la reazione Pacifico. Prepara pozioni come un mago e sa amoreggiare come un mezzuomo (evento Festeggiamenti sfrenati).",
+  "benedizioni": 3,
+  "guarigioni": 3
+ },
+ "druido": {
+  "nome": "Druido",
+  "vitaBase": 3,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": [
+   "leggera",
+   "fionda",
+   "arco-corto",
+   "giavellotto"
+  ],
+  "suppl": "silvani",
+  "incantatore": true,
+  "equip": [
+   "Falcetto (arma leggera da taglio)"
+  ],
+  "tratti": "Sacerdote della natura. Attacco +1/2 livello. Conosce tutti gli incantesimi base del druido (2 + 1 per livello, da preparare meditando tra le avventure), senza libro; aggiunge il livello ai propri incantesimi e solo metà livello a quelli fuori lista (da pergamene). Dal 5° livello impara incantesimi avanzati. Oltre a 1 cavalcatura può avere 1 compagno animale gratuito. Nei dungeon la sua forza è ridotta, all'aperto è formidabile."
+ },
+ "elfo-silvano": {
+  "nome": "Elfo silvano",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": [
+   "arco",
+   "una-mano",
+   "leggera",
+   "balestra",
+   "bolas",
+   "boomerang"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arco",
+   "Arma a una mano",
+   "Cotta di fogliacciaio"
+  ],
+  "tratti": "Aggiunge il livello ad attacco e difesa in foresta o giungla, e in ogni luogo con l'arco (non la balestra); altrove solo metà livello all'attacco. +livello ai TS contro buche, lacci e tagliole e alla furtività in foresta. In foresta la probabilità di sorpresa scende di 1. Può modificare di 1 la reazione delle creature della foresta e fabbricare cotte di fogliacciaio. Non è un incantatore. Salva come elfo."
+ },
+ "guida-terre-selvagge": {
+  "nome": "Guida delle terre selvagge",
+  "vitaBase": 3,
+  "oro": "1d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": [
+   "leggera",
+   "fionda"
+  ],
+  "suppl": "silvani",
+  "equip": [
+   "Arma leggera",
+   "Lanterna"
+  ],
+  "tratti": "Esperto locale. Nessun bonus all'attacco, mezzo livello alla difesa. 2 volte per livello a ogni avventura può ripetere un tiro su una tabella dell'ambiente selvaggio (non nei dungeon). Può essere un quinto personaggio. Salva come il barbaro."
+ },
+ "signore-bestie": {
+  "nome": "Signore delle bestie",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [
+   "leggera"
+  ],
+  "scudo": true,
+  "armi": "tutte",
+  "suppl": "silvani",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo",
+   "1 compagno animale di livello 0 o 1"
+  ],
+  "tratti": "Cacciatore che addestra animali. Attacco +1/2 livello. Bonus di addestramento pari a metà livello da ripartire tra attacco, difesa, morale, TS e PV dei compagni animali; 1 compagno ogni 3 livelli (per eccesso). Può controllare più mostri sottomessi. Salva come il barbaro. Niente armi da fuoco."
+ },
+ "chierico-zur": {
+  "nome": "Chierico di Zur",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "aldila",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "benedizioni": 3,
+  "guarigioni": 3,
+  "tratti": "Variante del chierico devota a Zur, dio della morte. Al posto di una Benedizione e pagando 1 PV di sangue può rendere Pacifici i non-morti (minori in automatico, maggiori con tiro salvezza; non il boss finale). Nell'Aldilà non mangia. Non usa cubi anima né ha figli. Niente Creare acqua santa né Creare pergamene; ha Negromanzia minore."
+ },
+ "chierico-foryos": {
+  "nome": "Chierico di Foryos",
+  "base": "chierico",
+  "vitaBase": 4,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": [
+   "due-mani",
+   "una-mano",
+   "fionda"
+  ],
+  "suppl": "aldila",
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo"
+  ],
+  "benedizioni": 3,
+  "guarigioni": 3,
+  "tratti": "Variante del chierico devota a Foryos, dio della guerra. Con una Benedizione aggiunge il livello intero (invece di metà) all'attacco contro i mostri con «demone» nel nome per tutto l'incontro."
+ },
+ "cambione": {
+  "nome": "Cambione",
+  "vitaBase": 5,
+  "oro": "0",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte-tranne-lancio",
+  "suppl": "aldila",
+  "incantatore": true,
+  "incantesimiPerLivello": 1,
+  "equip": [
+   "Arma a una mano",
+   "Armatura leggera",
+   "Scudo",
+   "Souvenir terrificante"
+  ],
+  "tratti": "Mezzo demone. Mezzo livello all'attacco, livello ai tiri per lanciare i soli incantesimi dell'Aldilà (1 per livello, armatura leggera e niente scudo) e ai tiri salvezza contro la follia; ripete 1 tiro di follia fallito; PV 4+livello; non mangia nell'Aldilà; -½L alle reazioni della progenie infernale. Parte con 2d6 ϰ (non oro). Con 3+ follia non è benedicibile né resuscitabile; niente acqua santa."
+ },
+ "demonologo": {
+  "nome": "Demonologo",
+  "vitaBase": 4,
+  "oro": "2d6",
+  "armature": [],
+  "scudo": false,
+  "armi": [
+   "una-mano-taglio",
+   "leggera"
+  ],
+  "suppl": "aldila",
+  "equip": [
+   "Arma leggera",
+   "Tatuaggi di protezione"
+  ],
+  "tratti": "Sottoclasse del mago che non lancia incantesimi (salvo Stregone infernale o pergamene). Mezzo livello all'attacco, livello intero contro la progenie infernale (anche ai tiri salvezza) e ½L alla difesa; PV 3+livello; immune alla follia (ogni punto guarisce 1 PV); non benedicibile né resuscitabile. Possessione: colpo di grazia a un maggiore infernale. Parte con 2d6 p.o., 2d6 ϰ e un dono esecrando."
+ },
+ "paladino": {
+  "nome": "Paladino",
+  "vitaBase": 7,
+  "oro": "1d6",
+  "armature": [
+   "leggera",
+   "pesante"
+  ],
+  "scudo": true,
+  "armi": "tutte-tranne-lancio",
+  "suppl": "aldila",
+  "equip": [
+   "Arma a una mano",
+   "Armatura pesante",
+   "Scudo"
+  ],
+  "tratti": "Livello ai tiri di attacco; PV 6+livello; livello+1 punti preghiera (cura 1 PV, ripeti un tiro salvezza, cavalcatura); Punizione divina 1 volta per avventura. A fine avventura paga 10 p.o. × livello. Non si sottrae al combattimento; -2 alla furtività del gruppo; non adora i blasfemi."
+ }
+}

@@ -1,0 +1,270 @@
+{
+ "tratti": [
+  {
+   "d66": 11,
+   "id": "abilita-meccanica",
+   "nome": "Abilità meccanica",
+   "testo": "+1 a tutti i tiri per disattivare o evitare trappole e riparare macchinari. Uno gnomo riceve 1 punto meccanica in più."
+  },
+  {
+   "d66": 12,
+   "id": "alcolizzato",
+   "nome": "Alcolizzato",
+   "testo": "All'inizio di ogni avventura tira 1d6: con 4+ sei ubriaco e hai -1 a tutti i tiri (+2 ai salvezza contro paura e terrore) finché non scendi a metà PV o meno. Una polvere della sobrietà lo cura per l'avventura; guarigione definitiva 500 p.o."
+  },
+  {
+   "d66": 13,
+   "id": "allergia-magica",
+   "nome": "Allergia magica",
+   "testo": "Tira su una tabella «Incantesimo a caso»: quando lanci quell'incantesimo perdi subito 1 PV. Cura: 500 p.o. (magica) o 50 p.o. (alchimia, 2 su 1d6 di dipendenza)."
+  },
+  {
+   "d66": 14,
+   "id": "allergico-pozioni",
+   "nome": "Allergico alle pozioni",
+   "testo": "Ogni volta che bevi una pozione tira 1d6: con 1-2 perdi 1 PV oppure hai -1 agli attacchi e ai salvezza contro veleno per 10 incontri; con 3+ nulla. La pozione fa comunque effetto."
+  },
+  {
+   "d66": 15,
+   "id": "avido",
+   "nome": "Avido",
+   "testo": "Quando il gruppo trova un tesoro devi ricevere la quota maggiore o l'oggetto magico (che sai usare) di maggior valore, altrimenti lasci il gruppo."
+  },
+  {
+   "d66": 16,
+   "id": "tamas",
+   "nome": "Benedizione di Tamas Zeya",
+   "testo": "+1 ai tiri di attacco contro adoratori e creature del caos, che ti odieranno. Si perde uccidendo da solo un avatar, santo o angelo di Tamas Zeya o distruggendone un santuario."
+  },
+  {
+   "d66": 21,
+   "id": "braccato-orchi",
+   "nome": "Braccato dagli orchi",
+   "testo": "Alla fine di ogni avventura tira 1d6: con 1-2 cadi in un'imboscata di 1d6 orchi (SEGUACE LIV 3, TES 2d6 p.o.; con 1 sul d6 l'orco è un boss LIV 5, PV 4, TES 4d6). Affronti da solo. Il tratto sparisce dopo 15 orchi uccisi (boss = 3)."
+  },
+  {
+   "d66": 22,
+   "id": "braccato-ratti",
+   "nome": "Braccato dagli uomini ratto",
+   "testo": "Alla fine di ogni avventura tira 1d6: con 1-2 uomini ratto (SEGUACE LIV 4, MOR -1, TES 3d6 p.o.) ti attaccano da solo; se muori sei solo stordito e prigioniero (2 indizi per trovare la tana, riscatto 100 p.o. x livello). Sparisce dopo 15 uccisi."
+  },
+  {
+   "d66": 23,
+   "id": "braccato-goblin",
+   "nome": "Braccato dai goblin",
+   "testo": "Alla fine di ogni avventura tira 1d6: con 1-2 imboscata di 1d6 goblin minori (SEGUACE LIV 2, MOR -1, TES 1 p.o.). Sparisce dopo 18 goblin uccisi."
+  },
+  {
+   "d66": 24,
+   "id": "changeling",
+   "nome": "Changeling",
+   "testo": "Rapito dalle fate per 1-4 anni: per ogni anno 1d6: con 6 un tesoro magico casuale, con 1 -1 ai PV totali (permanente, minimo 1)."
+  },
+  {
+   "d66": 25,
+   "id": "cimelio",
+   "nome": "Cimelio di famiglia",
+   "testo": "Scegli: 1) 3d6x10 p.o. alla creazione; 2) 1d6 pozioni o pergamene; 3) un'arma leggera magica +1 (bonus totale 0); 4) 3 indizi da spendere dopo il primo incontro."
+  },
+  {
+   "d66": 26,
+   "id": "colore",
+   "nome": "Colore della pelle/dei capelli insolito",
+   "testo": "-2 ai tiri salvezza per passare inosservato. Si rimuove con 2d6 Benedizioni in un luogo specifico (100 p.o. ciascuna; 50 per chierici e membri di una gilda)."
+  },
+  {
+   "d66": 31,
+   "id": "corrotto",
+   "nome": "Corrotto dal caos",
+   "testo": "+1 sulla tabella «Toccato dal caos». Non può essere chierico di Tamas Zeya."
+  },
+  {
+   "d66": 32,
+   "id": "diario",
+   "nome": "Diario",
+   "testo": "La prima volta che trovi 1 indizio in un'avventura ne ottieni 2. Se il diario è perso, 5 p.o. per rifarlo."
+  },
+  {
+   "d66": 33,
+   "id": "eclettico",
+   "nome": "Eclettico",
+   "testo": "Puoi avere 2 traguardi contemporaneamente."
+  },
+  {
+   "d66": 34,
+   "id": "esca-draghi",
+   "nome": "Esca per draghi",
+   "testo": "Contro un drago un attacco deve sempre bersagliare questo personaggio (e il morso, se c'è)."
+  },
+  {
+   "d66": 35,
+   "id": "folle",
+   "nome": "Folle",
+   "testo": "Inizia con 1 punto follia e non scende mai sotto 1. Si rimuove solo ricevendo il favore di un dio."
+  },
+  {
+   "d66": 36,
+   "id": "fortuna-tesori",
+   "nome": "Fortuna del cacciatore di tesori",
+   "testo": "1 volta per avventura, quando tiri un numero casuale di p.o. o il valore di una gemma/gioiello, ottieni il risultato massimo."
+  },
+  {
+   "d66": 41,
+   "id": "vitalita",
+   "nome": "Incredibile vitalità",
+   "testo": "Al 1° livello, +1 punto vita permanente."
+  },
+  {
+   "d66": 42,
+   "id": "intuizione",
+   "nome": "Intuizione",
+   "testo": "1 volta per avventura, quando trovi 1 indizio tira 1d6: con 5-6 ne trovi 2."
+  },
+  {
+   "d66": 43,
+   "id": "libidinoso",
+   "nome": "Libidinoso",
+   "testo": "+1 ai tiri per amoreggiare."
+  },
+  {
+   "d66": 44,
+   "id": "bastoni",
+   "nome": "Maestro di bastoni",
+   "testo": "1 volta per avventura puoi ripetere un attacco fallito in mischia con un'arma contundente o a mani nude."
+  },
+  {
+   "d66": 45,
+   "id": "lame",
+   "nome": "Maestro di lame",
+   "testo": "1 volta per avventura puoi ripetere un attacco fallito in mischia con un'arma da taglio."
+  },
+  {
+   "d66": 46,
+   "id": "miope",
+   "nome": "Miope",
+   "testo": "-1 agli attacchi a distanza (occhiali 200 p.o.). Con 1 in un attacco in mischia gli occhiali si rompono (100 p.o. per ripararli)."
+  },
+  {
+   "d66": 51,
+   "id": "nemici-gloria",
+   "nome": "Molti nemici, molta gloria",
+   "testo": "1 volta per avventura scegli un incontro con seguaci: il loro numero è il massimo +2 e combatti da solo per 1 turno. L'incontro conta doppio per il tiro ES."
+  },
+  {
+   "d66": 52,
+   "id": "nobile",
+   "nome": "Natali nobili",
+   "testo": "Ricchezza iniziale raddoppiata e +1 alle reazioni con la tua razza/cultura; banditi e predoni ti odiano e cercano di catturarti per un riscatto (100 p.o. x livello)."
+  },
+  {
+   "d66": 53,
+   "id": "piaga",
+   "nome": "Piaga magica",
+   "testo": "Perdi 1 PV ogni volta che lanci un incantesimo. Cura: 500 p.o. (magica) o 100 p.o. (alchimia, 3 su 1d6 di dipendenza)."
+  },
+  {
+   "d66": 54,
+   "id": "presenza",
+   "nome": "Presenza incoraggiante",
+   "testo": "In una delle 2 prime posizioni dell'ordine di marcia, i compagni hanno +1 ai salvezza contro paura e terrore."
+  },
+  {
+   "d66": 55,
+   "id": "protetto",
+   "nome": "Protetto dagli dèi",
+   "testo": "1 volta per avventura puoi ripetere un tiro di difesa fallito."
+  },
+  {
+   "d66": 56,
+   "id": "sangue-orco",
+   "nome": "Sangue orchesco",
+   "testo": "1 volta per avventura +1 al primo attacco in mischia di un incontro (non se sorpreso). Gli elfi incontrati reagiscono a +1."
+  },
+  {
+   "d66": 61,
+   "id": "prima-linea",
+   "nome": "Sempre in prima linea",
+   "testo": "Devi stare nelle posizioni 1-2 dell'ordine di marcia e, se possibile, ricevi gli attacchi in più dei nemici."
+  },
+  {
+   "d66": 62,
+   "id": "retroguardia",
+   "nome": "Sempre in retroguardia",
+   "testo": "Devi stare nelle posizioni 3-4 dell'ordine di marcia."
+  },
+  {
+   "d66": 63,
+   "id": "sfregiato",
+   "nome": "Sfregiato",
+   "testo": "-2 ai tiri di seduzione finché non paghi 500 p.o. per la cura."
+  },
+  {
+   "d66": 64,
+   "id": "sovrappeso",
+   "nome": "Sovrappeso",
+   "testo": "Cibo, armature e vestiti costano il 20% in più; -1 a scalare, +2 a nuotare. Si perde con magia (400 p.o.), alchimia (50 p.o. al mese) o dieta."
+  },
+  {
+   "d66": 65,
+   "id": "talento",
+   "nome": "Talento magico",
+   "testo": "Scegli un incantesimo: lo lanci a +1 (i barbari non ottengono il bonus)."
+  },
+  {
+   "d66": 66,
+   "id": "doppi",
+   "nome": "Tratti doppi o tratti rari",
+   "testo": "Scegli: tira 2 volte sulla lista e applica entrambi (rilancia altri 66 o doppioni), oppure tira d8 sui tratti rari."
+  }
+ ],
+ "rari": [
+  {
+   "d8": 1,
+   "id": "ben-piazzato",
+   "nome": "Ben piazzato",
+   "testo": "Alla creazione scegli: +1 PV iniziale, oppure 1 volta per combattimento infliggi 2 PV con un'arma a due mani in mischia."
+  },
+  {
+   "d8": 2,
+   "id": "distruttore",
+   "nome": "Distruttore",
+   "testo": "1 volta per avventura, con un risultato esplosivo in mischia uccidi 1 minore in più o infliggi 1 PV in più a un maggiore."
+  },
+  {
+   "d8": 3,
+   "id": "guaritore",
+   "nome": "Guaritore abile",
+   "testo": "Una benda cura 2 PV invece di 1 (anche su di te); max 1 benda per paziente per avventura."
+  },
+  {
+   "d8": 4,
+   "id": "ingegno",
+   "nome": "Ingegno precoce",
+   "testo": "Puoi imparare abilità avanzate dal 3° livello (invece del 5°)."
+  },
+  {
+   "d8": 5,
+   "id": "lesto-esperienza",
+   "nome": "Lesto a fare esperienza",
+   "testo": "+1 ai tiri ES per salire di livello."
+  },
+  {
+   "d8": 6,
+   "id": "lesto-apprendere",
+   "nome": "Lesto ad apprendere",
+   "testo": "+1 ai tiri ES per imparare abilità avanzate."
+  },
+  {
+   "d8": 7,
+   "id": "mente",
+   "nome": "Mente geniale",
+   "testo": "Alla creazione scegli: 1 incantesimo in più (incantatori) oppure 1 indizio gratis la prima volta che entri in una stanza vuota in un'avventura."
+  },
+  {
+   "d8": 8,
+   "id": "dotato",
+   "nome": "Molto dotato",
+   "testo": "Tira 2 volte sulla lista dei tratti rari e applica entrambi i risultati."
+  }
+ ]
+}

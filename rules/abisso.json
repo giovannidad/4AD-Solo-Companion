@@ -1,0 +1,4006 @@
+{
+ "_nota": "Supplemento «Contro l'Abisso» (MS Edizioni, ed. digitale feb. 2021, Andrea Sfiligoi), livelli 5-9: p. 5-70 e appendice p. 72. Pagine 4, 9, 14, 18, 30, 40, 48, 52, 55, 71 solo illustrazioni. Convenzioni: mor/tes 0 = ST, \"NO\" = assente, \"x2\" doppio (x3/x4 con tesMolt); reazioni [da, a, tipo, parametro?, \"totale\"?]; bonus {classe: valore} con \"L\" = livello, \"1/2L\" = metà livello per difetto; id con prefisso a- (oggetti/creature), m- (mercenari), r- (artigiani). Le tabelle dei mostri sono sotto \"mostri\"; le altre 12 sotto \"tabelle\"; \"indiceTabelle\" elenca tutte le 17 con dado e pagina.",
+ "livelli": {
+  "min": 5,
+  "max": 9,
+  "bossMaxLiv": 11,
+  "sottotitolo": "per giocare i livelli dal 5° al 9°",
+  "ingresso": {
+   "condizione": "tutti i personaggi di 5° livello",
+   "costo": {
+    "tiroESPerPersonaggio": 1,
+    "oppureOroPerPersonaggio": 500,
+    "misto": true
+   },
+   "modi": [
+    {
+     "id": "durante-avventura",
+     "pagina": 6,
+     "descrizione": "In un dungeon standard il gruppo sale al 5° livello e accumula 4 tiri ES (o 1 per PG se sono meno di 4), segnati come accumulati; scende poi per una rampa di scale su una stanza o corridoio che tocca il bordo del foglio e disegna una nuova mappa, con scale di ritorno nella prima stanza.",
+     "tiriESAccumulati": 4,
+     "tiriESPerPGSeMeno": 1,
+     "scale": "su stanza o corridoio a contatto con il bordo del foglio"
+    },
+    {
+     "id": "tra-avventure-es",
+     "pagina": 6,
+     "descrizione": "Gruppo già di 5° livello con 4 tiri ES accumulati (o 1 per PG): passa al livello avanzato e inizia un nuovo dungeon.",
+     "tiriESAccumulati": 4
+    },
+    {
+     "id": "tra-avventure-oro",
+     "pagina": 7,
+     "descrizione": "Fine di un'avventura in cui tutti sono al 5° livello: 500 p.o. per PG di addestramento; si usa da quella dopo. Si può mescolare ES e oro (es. 2 ES + 2x500 p.o.).",
+     "oroPerPersonaggio": 500
+    },
+    {
+     "id": "avventura-pronta",
+     "pagina": 7,
+     "descrizione": "Si gioca un'avventura già pronta per PG dal 5° livello, anche con personaggi creati apposta."
+    }
+   ],
+   "partenzaDiretta": {
+    "pagina": 10,
+    "livello": 5,
+    "oro": 100,
+    "tiriTesoriMagici": 1,
+    "tabella": "tesori magici del manuale base p.81"
+   },
+   "livelloBaseNellAbisso": {
+    "pagina": 10,
+    "permesso": true,
+    "sconsigliato": true,
+    "livelloSuggeritoMin": 3,
+    "dado": "1d6"
+   }
+  }
+ },
+ "dadi": {
+  "contenuto": "2d6",
+  "trappole": "1d6",
+  "caratteristiche": "1d6",
+  "eventi": "1d6",
+  "tesori": "1d8",
+  "tesoriMagici": "1d6",
+  "oggettiUtili": "1d6",
+  "difeseMagiche": "1d6",
+  "banchettoIncantato": "1d6",
+  "tesoroNascostoComplicazioni": "1d6",
+  "incantesimoCaso": "1d6",
+  "tramaCampagna": "1d6",
+  "infestanti": "1d6",
+  "seguaci": "1d6",
+  "aberranti": "1d6",
+  "boss": "1d6",
+  "draghi": "1d6",
+  "errante": "1d6",
+  "perquisire": "1d6"
+ },
+ "indiceTabelle": [
+  {
+   "chiave": "incantesimoCaso",
+   "nome": "Incantesimo a caso",
+   "dado": "d6",
+   "pagina": "17 e 60",
+   "dove": "tabelle.incantesimoCaso"
+  },
+  {
+   "chiave": "tramaCampagna",
+   "nome": "Trama della campagna",
+   "dado": "d6",
+   "pagina": 44,
+   "dove": "tabelle.tramaCampagna"
+  },
+  {
+   "chiave": "contenuto",
+   "nome": "Contenuti della stanza",
+   "dado": "2d6",
+   "pagina": 56,
+   "dove": "tabelle.contenuto"
+  },
+  {
+   "chiave": "trappole",
+   "nome": "Trappole",
+   "dado": "d6",
+   "pagina": 57,
+   "dove": "tabelle.trappole"
+  },
+  {
+   "chiave": "caratteristiche",
+   "nome": "Caratteristiche speciali",
+   "dado": "d6",
+   "pagina": 58,
+   "dove": "tabelle.caratteristiche"
+  },
+  {
+   "chiave": "eventi",
+   "nome": "Eventi unici",
+   "dado": "d6",
+   "pagina": 59,
+   "dove": "tabelle.eventi"
+  },
+  {
+   "chiave": "tesori",
+   "nome": "Tesori",
+   "dado": "d8",
+   "pagina": 60,
+   "dove": "tabelle.tesori"
+  },
+  {
+   "chiave": "tesoriMagici",
+   "nome": "Tesori magici",
+   "dado": "d6",
+   "pagina": 61,
+   "dove": "tabelle.tesoriMagici"
+  },
+  {
+   "chiave": "oggettiUtili",
+   "nome": "Oggetti utili",
+   "dado": "d6",
+   "pagina": 62,
+   "dove": "tabelle.oggettiUtili"
+  },
+  {
+   "chiave": "difeseMagiche",
+   "nome": "Difese magiche",
+   "dado": "d6",
+   "pagina": 63,
+   "dove": "tabelle.difeseMagiche"
+  },
+  {
+   "chiave": "banchettoIncantato",
+   "nome": "Banchetto incantato",
+   "dado": "d6",
+   "pagina": 64,
+   "dove": "tabelle.banchettoIncantato"
+  },
+  {
+   "chiave": "tesoroNascostoComplicazioni",
+   "nome": "Complicazioni dei tesori nascosti",
+   "dado": "d6",
+   "pagina": 65,
+   "dove": "tabelle.tesoroNascostoComplicazioni"
+  },
+  {
+   "chiave": "infestanti",
+   "nome": "Mostri infestanti",
+   "dado": "d6",
+   "pagina": 66,
+   "dove": "mostri.infestanti"
+  },
+  {
+   "chiave": "seguaci",
+   "nome": "Mostri seguaci",
+   "dado": "d6",
+   "pagina": 67,
+   "dove": "mostri.seguaci"
+  },
+  {
+   "chiave": "aberranti",
+   "nome": "Mostri aberranti",
+   "dado": "d6",
+   "pagina": 68,
+   "dove": "mostri.aberranti"
+  },
+  {
+   "chiave": "boss",
+   "nome": "Mostri boss",
+   "dado": "d6",
+   "pagina": 69,
+   "dove": "mostri.boss"
+  },
+  {
+   "chiave": "draghi",
+   "nome": "Draghi",
+   "dado": "d6",
+   "pagina": 70,
+   "dove": "mostri.draghi"
+  }
+ ],
+ "mostri": {
+  "infestanti": [
+   {
+    "id": "a-orchi-neri",
+    "nome": "Orchi neri banditi",
+    "conta": "2d6",
+    "tag": ["orco"],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Nessuna capacità speciale.",
+    "reazioni": [[1, 3, "corruzione", 50], [4, 6, "combatte"]]
+   },
+   {
+    "id": "a-funghi-stridenti",
+    "nome": "Funghi stridenti",
+    "conta": "1d6+2",
+    "tag": [],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": "NO",
+    "tes": "NO",
+    "xp": true,
+    "note": "Non attaccano: urlano. Gli incantesimi si lanciano a -1; immuni a Sonno; Palla di Fuoco li colpisce a -1 in più (-2 totale). Se non sono uccisi tutti entro 2 turni, arrivano i mostri erranti, che sorprendono il gruppo. Come errante: ritira.",
+    "reazioni": [[1, 6, "immobile"]],
+    "immuneIncantesimi": ["Sonno"],
+    "incantesimiMod": -1,
+    "modPallaDiFuoco": -1,
+    "nonAttacca": true,
+    "attiraErranti": {
+     "entroTurni": 2,
+     "sorpresa": true
+    },
+    "maiErrante": true
+   },
+   {
+    "id": "a-ssiklis",
+    "nome": "Campioni di Ssiklis, uomini serpente guerrieri",
+    "conta": "2d6",
+    "tag": ["serpente"],
+    "liv": 8,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Nessuna capacità speciale. Il Medaglione dell'incantatore di serpenti agisce su di loro.",
+    "reazioni": [[1, 1, "fugge-inf"], [2, 4, "corruzione", 25], [5, 6, "combatte"]]
+   },
+   {
+    "id": "a-uomini-formica",
+    "nome": "Uomini formica guerrieri",
+    "conta": "1d6+3",
+    "tag": [],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Prima della mischia spruzzano un marcatore: ogni PG (un tiro a testa) ha 2 su 1d6 di essere marchiato senza difesa; il marchiato ha -1 in difesa contro di loro per sempre. Si toglie con Benedizione o immergendosi in acqua. Chi è già marchiato non viene rispruzzato.",
+    "reazioni": [[1, 1, "fugge"], [2, 3, "corruzione", 10], [4, 6, "combatte"]],
+    "marchiatura": {
+     "probabilita": 2,
+     "dado": "1d6",
+     "modDifesa": -1,
+     "senzaDifesa": true,
+     "unTiroPerPersonaggio": true,
+     "rimozione": ["Benedizione", "immersione in acqua"]
+    }
+   },
+   {
+    "id": "a-coboldi-ghoul",
+    "nome": "Coboldi ghoul",
+    "conta": "1d6+1",
+    "tag": ["non-morto", "ghoul"],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Chi è ferito salva contro il veleno (L6; elfi immuni) o resta paralizzato: se attaccato è colpito in automatico. Benedizione toglie la paralisi, che finisce comunque a fine combattimento.",
+    "reazioni": [[1, 1, "fugge"], [2, 4, "combatte"], [5, 6, "morte"]],
+    "paralisi": {
+     "liv": 6,
+     "tipo": "veleno",
+     "elfiImmuni": true,
+     "bonusElfi": null,
+     "colpitoAutomatico": true,
+     "rimozione": ["Benedizione"],
+     "finisceFineCombattimento": true
+    }
+   },
+   {
+    "id": "a-brounie",
+    "nome": "Brounie",
+    "conta": "1d6+3",
+    "tag": ["folletto"],
+    "liv": 8,
+    "att": 1,
+    "pv": 1,
+    "mor": -1,
+    "tes": 0,
+    "xp": true,
+    "note": "Folletti mangiaoro: il gruppo perde 1 p.o. a turno per ogni brounie presente, finché l'oro finisce o se ne vanno. Il loro tesoro è solo gemme e oggetti magici; l'oro uscito dal tiro diventa una gemma di pari valore.",
+    "reazioni": [[1, 2, "fugge"], [3, 4, "corruzione", 20], [5, 6, "combatte"]],
+    "rubaOro": {
+     "perTurnoPerMostro": 1
+    },
+    "tesoroSoloGemmeMagici": true
+   }
+  ],
+  "seguaci": [
+   {
+    "id": "a-goblin-irsuti",
+    "nome": "Goblin irsuti",
+    "conta": "4d6",
+    "tag": ["goblin"],
+    "liv": 6,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "1 su 1d6 di avere un comandante goblin come leader (LIV 10, ATT 1, PV 4, MOR ST, TES ST).",
+    "reazioni": [[1, 3, "corruzione", 10], [4, 5, "combatte"], [6, 6, "tenzone"]],
+    "leader": "Comandante goblin (LIV 10, ATT 1, PV 4)",
+    "leaderProb": 1,
+    "leaderDati": {
+     "id": "a-comandante-goblin",
+     "nome": "Comandante goblin",
+     "liv": 10,
+     "att": 1,
+     "pv": 4,
+     "mor": 0,
+     "tes": 0
+    }
+   },
+   {
+    "id": "a-ghoul",
+    "nome": "Ghoul",
+    "conta": "2d6+1",
+    "tag": ["non-morto", "ghoul"],
+    "liv": 8,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "1 su 1d6 di essere guidati da un re dei ghoul (vedi Boss). Chi è ferito salva contro il veleno (L7; elfi +L) o è paralizzato (colpito in automatico); Benedizione rimuove la paralisi, altrimenti i compagni lo portano fuori; se lasciato, gli erranti lo uccidono.",
+    "reazioni": [[1, 1, "fugge"], [2, 4, "combatte"], [5, 5, "tenzone"], [6, 6, "morte"]],
+    "leader": "Re dei ghoul (tabella Boss)",
+    "leaderProb": 1,
+    "leaderDati": {
+     "id": "a-re-ghoul",
+     "nome": "Re dei ghoul",
+     "rif": "boss"
+    },
+    "paralisi": {
+     "liv": 7,
+     "tipo": "veleno",
+     "elfiImmuni": false,
+     "bonusElfi": "L",
+     "colpitoAutomatico": true,
+     "rimozione": ["Benedizione"],
+     "finisceFineCombattimento": false,
+     "paralizzatoSenzaCuraDaPortareFuori": true
+    }
+   },
+   {
+    "id": "a-nani-oscuri",
+    "nome": "Nani oscuri",
+    "conta": "2d6-1",
+    "tag": [],
+    "liv": 8,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": "x2",
+    "xp": true,
+    "note": "2 su 1d6 di essere immuni a Sonno (funghi allucinogeni): un solo tiro per tutti i nani quando si lancia Sonno.",
+    "reazioni": [[1, 1, "fugge"], [2, 3, "corruzione", 50], [4, 6, "combatte"]],
+    "immuneSonnoProb": {
+     "probabilita": 2,
+     "dado": "1d6",
+     "unTiroPerTutti": true
+    }
+   },
+   {
+    "id": "a-teschi-volanti",
+    "nome": "Teschi volanti",
+    "conta": "1d6",
+    "tag": ["non-morto"],
+    "liv": 9,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Armi contundenti a +1, frecce a -2. Se chi attacca in mischia fa 1 naturale, l'arma resta stretta tra le fauci: il teschio fugge portandola via e la si ritrova nella tana del boss finale.",
+    "reazioni": [[1, 3, "fugge-inf"], [4, 6, "combatte"]],
+    "contundentePiu": true,
+    "frecceMod": -2,
+    "disarmaSu1": {
+     "armaNellaTanaBossFinale": true,
+     "ilTeschioFugge": true
+    }
+   },
+   {
+    "id": "a-uomini-ratto",
+    "nome": "Uomini ratto del caos + leader",
+    "conta": "2d6",
+    "tag": ["ratto", "caos"],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Guidati sempre da un campione (LIV 1d3+8, ATT 1, PV 1d6+2, TES +1). Lame infette: a fine incontro, per ogni PG ferito 1d6: con 1 o se il tiro è inferiore alle ferite subite perde 1 PV in più. La tenzone si combatte con il leader.",
+    "reazioni": [[1, 2, "corruzione", 20], [3, 5, "combatte"], [6, 6, "tenzone"]],
+    "leader": "Campione degli uomini ratto (LIV 1d3+8, PV 1d6+2)",
+    "leaderProb": 6,
+    "leaderDati": {
+     "id": "a-campione-uomini-ratto",
+     "nome": "Campione degli uomini ratto",
+     "liv": "1d3+8",
+     "att": 1,
+     "pv": "1d6+2",
+     "mor": 0,
+     "tes": 1
+    },
+    "lameInfette": {
+     "dado": "1d6",
+     "perdeSe": "1 oppure tiro < ferite subite",
+     "pvExtra": 1,
+     "aFineIncontro": true
+    },
+    "rimando": "Contro il Caos (stessa creatura; statistiche qui da Contro l'Abisso)"
+   },
+   {
+    "id": "a-fanatici",
+    "nome": "Fanatici del caos",
+    "conta": "1d6+4",
+    "tag": ["caos"],
+    "liv": 7,
+    "att": 1,
+    "pv": 1,
+    "mor": 1,
+    "tes": 0,
+    "xp": true,
+    "note": "2 su 1d6 di essere comandati da un signore oscuro di Xichtul (vedi Boss).",
+    "reazioni": [[1, 4, "combatte"], [5, 6, "tenzone"]],
+    "leader": "Signore oscuro di Xichtul (tabella Boss)",
+    "leaderProb": 2,
+    "leaderDati": {
+     "id": "a-signore-oscuro",
+     "nome": "Signore oscuro di Xichtul",
+     "rif": "boss"
+    },
+    "rimando": "Contro il Caos (stessa creatura; statistiche qui da Contro l'Abisso)"
+   }
+  ],
+  "aberranti": [
+   {
+    "id": "a-minotauro-zombie",
+    "nome": "Minotauro zombie",
+    "conta": "1",
+    "tag": ["non-morto"],
+    "liv": 6,
+    "att": 2,
+    "pv": 10,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Carica e clava enormi: tutti i tiri di difesa contro di lui hanno -1.",
+    "reazioni": [[1, 2, "corruzione", 60, "totale"], [3, 5, "combatte"], [6, 6, "morte"]],
+    "malusDifesa": -1
+   },
+   {
+    "id": "a-serpente-costrittore",
+    "nome": "Serpente gigante costrittore",
+    "conta": "1",
+    "tag": ["serpente"],
+    "liv": 7,
+    "att": 1,
+    "pv": 6,
+    "mor": 0,
+    "tes": "NO",
+    "xp": true,
+    "note": "Attacca un solo PG. Se questi fallisce la difesa resta stritolato: perde 1 PV a turno finché il serpente muore o lui usa Fuga o un anello di teletrasporto. Fulmine Magico o Palla di Fuoco contro il serpente feriscono (1) anche l'intrappolato. Reazioni 2-3 mancanti nel manuale (assunto Combatte).",
+    "reazioni": [[1, 1, "fugge"], [2, 3, "combatte"], [4, 6, "combatte"]],
+    "stritola": {
+     "bersagli": 1,
+     "pvPerTurno": 1,
+     "liberazione": ["Fuga", "anello di teletrasporto", "morte del serpente"],
+     "dannoAlleatoDa": ["Fulmine Magico", "Palla di Fuoco"],
+     "dannoAlleato": 1
+    },
+    "reazioniMancanti": [2, 3]
+   },
+   {
+    "id": "a-vampiro-minore",
+    "nome": "Vampiro minore",
+    "conta": "1",
+    "tag": ["non-morto", "vampiro"],
+    "liv": 8,
+    "att": 1,
+    "pv": 6,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Chi è colpito salva contro la magia (L4) o perde 1 livello. Si colpisce solo con armi magiche, incantesimi, Cacciatore di vampiri, acqua santa (1 ferita a fiala) o attacchi da 2 ferite in un colpo. Vedi regola Vampirismo.",
+    "reazioni": [[1, 3, "corruzione", 200, "totale"], [4, 5, "combatte"], [6, 6, "missione"]],
+    "vampirismo": {
+     "tsLiv": 4,
+     "tipo": "magia",
+     "effetto": "perde 1 livello",
+     "regola": "vampirismo"
+    },
+    "vulnerabileSolo": ["arma magica", "incantesimo", "abilità Cacciatore di vampiri", "acqua santa (1 ferita per fiala)", "attacco da 2 ferite in un colpo"]
+   },
+   {
+    "id": "a-lupo-mannaro",
+    "nome": "Lupo mannaro",
+    "conta": "1",
+    "tag": ["licantropo"],
+    "liv": 8,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Armi d'argento a +1. Il PG ferito salva contro la maledizione (L5) o è infettato; a fine incontro un tiro per ogni ferito. Vedi regola Licantropia.",
+    "reazioni": [[1, 6, "combatte-sempre"]],
+    "licantropia": {
+     "tsLiv": 5,
+     "tipo": "maledizione",
+     "regola": "licantropia"
+    },
+    "argentoMod": 1
+   },
+   {
+    "id": "a-pantera-distorcente",
+    "nome": "Pantera distorcente",
+    "conta": "1",
+    "tag": [],
+    "liv": 7,
+    "att": 3,
+    "pv": 5,
+    "mor": 0,
+    "tes": "x2",
+    "xp": true,
+    "note": "Si teletrasporta: attacca sempre per prima; ogni volta che è colpita ha 3 su 1d6 di evitare la ferita.",
+    "reazioni": [[1, 6, "combatte-sempre"]],
+    "attaccaPerPrimo": true,
+    "evitaFerita": {
+     "probabilita": 3,
+     "dado": "1d6"
+    }
+   },
+   {
+    "id": "a-lich",
+    "nome": "Lich",
+    "conta": "1",
+    "tag": ["non-morto"],
+    "liv": 10,
+    "att": 4,
+    "pv": 8,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "2 su 1d6 di avere 1d6 scheletri guerrieri a difesa (2 ferite se la difesa è 1). Chi lo incontra prende subito 1 follia e salva contro la paura (L6) o ha -1 in attacco finché il lich non ha 2 ferite. Ogni incantesimo contro di lui ha 1 su 1d6 di essere annullato. Corruzione: 300 p.o. oppure 1 oggetto magico a caso degli averi del gruppo.",
+    "reazioni": [[1, 3, "corruzione", 300, "totale"], [4, 5, "combatte"], [6, 6, "missione"]],
+    "tesMolt": 3,
+    "scorta": {
+     "probabilita": 2,
+     "dado": "1d6",
+     "numero": "1d6",
+     "id": "a-scheletro-guerriero"
+    },
+    "folliaIncontro": 1,
+    "paura": {
+     "tsLiv": 6,
+     "modAttacco": -1,
+     "finoAFerite": 2
+    },
+    "incantesimiAnnullati": {
+     "probabilita": 1,
+     "dado": "1d6"
+    },
+    "corruzioneAlternativa": "1 oggetto magico a caso tra gli averi del gruppo"
+   }
+  ],
+  "boss": [
+   {
+    "id": "a-draconico",
+    "nome": "Draconico",
+    "conta": "1",
+    "tag": [],
+    "liv": 9,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Al primo turno esplode un soffio di fiamme: 1 ferita a chi fallisce il TS contro il fuoco di drago (L8; elfi, furfanti e spadaccini +1). Poi solo artigli.",
+    "reazioni": [[1, 2, "corruzione", "3d6+100", "totale"], [3, 6, "combatte"]],
+    "sofLiv": 8,
+    "sofDanno": 1,
+    "sofBonus": {
+     "elfo": 1,
+     "furfante": 1,
+     "spadaccino": 1
+    },
+    "sofSoloPrimoTurno": true
+   },
+   {
+    "id": "a-urlatore-mentale",
+    "nome": "Urlatore mentale",
+    "conta": "1",
+    "tag": [],
+    "liv": 10,
+    "att": 3,
+    "pv": 9,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "3 su 1d6 di sorprendere il gruppo. Dardi psichici che ignorano armature e scudi: 2 ferite e 1 follia a colpo. Elfi e maghi aggiungono +L alla difesa.",
+    "reazioni": [[1, 1, "fugge"], [2, 2, "corruzione", 200, "totale"], [3, 5, "combatte"], [6, 6, "morte"]],
+    "sorpresaProb": 3,
+    "danno": 2,
+    "follia": true,
+    "ignoraArmatura": true,
+    "bonusDifesaClassi": {
+     "elfo": "L",
+     "mago": "L"
+    }
+   },
+   {
+    "id": "a-cervello-tentacolato",
+    "nome": "Cervello tentacolato",
+    "conta": "1",
+    "tag": [],
+    "liv": 9,
+    "att": 1,
+    "pv": 8,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Fluttua: contro incantesimi e armi da lancio è solo LIV 6. Non attacca: ogni turno, prima degli attacchi, tutti salvano (L5; maghi +L) o subiscono 1 ferita e 1 punto follia.",
+    "reazioni": [[1, 2, "fugge"], [3, 4, "corruzione", 300, "totale"], [5, 6, "combatte"]],
+    "livControDistanza": 6,
+    "nonAttacca": true,
+    "auraOgniTurno": {
+     "tsLiv": 5,
+     "bonusClassi": {
+      "mago": "L"
+     },
+     "ferite": 1,
+     "follia": 1,
+     "primaDegliAttacchi": true
+    }
+   },
+   {
+    "id": "a-re-ghoul",
+    "nome": "Re dei ghoul",
+    "conta": "1",
+    "tag": ["non-morto", "ghoul"],
+    "liv": 10,
+    "att": 4,
+    "pv": 10,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Chi è ferito salva contro il veleno (L5; elfi +L) o è paralizzato (colpito in automatico); Benedizione rimuove la paralisi. Combatte sempre fino alla morte.",
+    "reazioni": [[1, 6, "morte"]],
+    "paralisi": {
+     "liv": 5,
+     "tipo": "veleno",
+     "elfiImmuni": false,
+     "bonusElfi": "L",
+     "colpitoAutomatico": true,
+     "rimozione": ["Benedizione"]
+    }
+   },
+   {
+    "id": "a-signore-oscuro",
+    "nome": "Signore oscuro di Xichtul",
+    "conta": "1",
+    "tag": ["caos"],
+    "liv": 11,
+    "att": 4,
+    "pv": 12,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Ogni colpo infligge 2 ferite. Se chi usa uno scudo ottiene 1 in difesa, lo scudo va in frantumi.",
+    "reazioni": [[1, 2, "corruzione", 500, "totale"], [3, 6, "combatte"]],
+    "danno": 2,
+    "rompeScudoSu1": true,
+    "rimando": "Contro il Caos (stessa creatura; statistiche qui da Contro l'Abisso)"
+   },
+   {
+    "id": "a-vampiro-maggiore",
+    "nome": "Vampiro maggiore",
+    "conta": "1",
+    "tag": ["non-morto", "vampiro"],
+    "liv": 10,
+    "att": 1,
+    "pv": 11,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Chi è colpito salva contro la magia (L5) o perde 1 livello. Si colpisce solo con armi magiche, incantesimi, Cacciatore di vampiri, acqua santa (1 ferita a fiala) o attacchi da 2 ferite. Vedi regola Vampirismo.",
+    "reazioni": [[1, 3, "corruzione", 400, "totale"], [4, 6, "combatte"]],
+    "vampirismo": {
+     "tsLiv": 5,
+     "tipo": "magia",
+     "effetto": "perde 1 livello",
+     "regola": "vampirismo"
+    },
+    "vulnerabileSolo": ["arma magica", "incantesimo", "abilità Cacciatore di vampiri", "acqua santa (1 ferita per fiala)", "attacco da 2 ferite in un colpo"]
+   }
+  ],
+  "draghi": [
+   {
+    "id": "a-drago-viola",
+    "nome": "Drago viola",
+    "conta": "1",
+    "tag": ["drago"],
+    "liv": 10,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni turno 2 su 1d6 di scaricare elettricità: 1 ferita automatica a chi ha armatura pesante (gli altri fanno la difesa normale). Se non usa l'elettricità, attacca 2 PG a caso con gli artigli.",
+    "reazioni": [[1, 3, "corruzione", "3d6+100", "totale"], [4, 6, "combatte"]],
+    "drago": true,
+    "senzaSoffio": true,
+    "elettricita": {
+     "probabilita": 2,
+     "dado": "1d6",
+     "ferite": 1,
+     "bersagli": "armatura pesante",
+     "altriFannoDifesa": true,
+     "altrimenti": "attacca 2 PG a caso"
+    }
+   },
+   {
+    "id": "a-drago-miraggi",
+    "nome": "Drago dei miraggi",
+    "conta": "1",
+    "tag": ["drago"],
+    "liv": 9,
+    "att": 1,
+    "pv": 7,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Ogni turno, prima degli attacchi, tutti salvano contro le illusioni (L5; maghi +L, elfi +1): chi fallisce non attacca né lancia incantesimi e ha -1 in difesa. Il drago fa 1 solo attacco (2 ferite a colpo) contro un illuso a caso; se nessuno è illuso non attacca.",
+    "reazioni": [[1, 2, "dorme"], [3, 3, "corruzione", "3d6+120", "totale"], [4, 6, "combatte"]],
+    "drago": true,
+    "senzaSoffio": true,
+    "danno": 2,
+    "illusione": {
+     "tsLiv": 5,
+     "bonusClassi": {
+      "mago": "L",
+      "elfo": 1
+     },
+     "effetto": "niente attacco né incantesimi, -1 difesa",
+     "modDifesaIllusi": -1
+    }
+   },
+   {
+    "id": "a-fortundrago",
+    "nome": "Fortundrago",
+    "conta": "1",
+    "tag": ["drago"],
+    "liv": 9,
+    "att": 2,
+    "pv": 10,
+    "mor": 0,
+    "tes": 0,
+    "xp": true,
+    "note": "Se lo uccidi, ogni PG superstite ottiene 1 punto fortuna fino a fine avventura (come il mezzuomo). Se ci si sottrae al combattimento non attacca durante la ritirata o la fuga.",
+    "reazioni": [[1, 1, "dorme"], [2, 2, "amichevole"], [3, 4, "corruzione", 200, "totale"], [5, 6, "missione"]],
+    "drago": true,
+    "senzaSoffio": true,
+    "tesMolt": 4,
+    "premioMorte": {
+     "puntiFortuna": 1,
+     "aTuttiISuperstiti": true
+    },
+    "nonAttaccaInFuga": true
+   },
+   {
+    "id": "a-drago-ghoul",
+    "nome": "Drago ghoul",
+    "conta": "1",
+    "tag": ["drago", "non-morto", "ghoul"],
+    "liv": 10,
+    "att": 2,
+    "pv": 8,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Chi è ferito salva contro il veleno (L4; elfi +L) o è paralizzato (colpito in automatico); Benedizione rimuove la paralisi. Combatte sempre fino alla morte.",
+    "reazioni": [[1, 6, "morte"]],
+    "drago": true,
+    "senzaSoffio": true,
+    "paralisi": {
+     "liv": 4,
+     "tipo": "veleno",
+     "elfiImmuni": false,
+     "bonusElfi": "L",
+     "colpitoAutomatico": true,
+     "rimozione": ["Benedizione"]
+    }
+   },
+   {
+    "id": "a-drago-oscuro",
+    "nome": "Drago oscuro",
+    "conta": "1",
+    "tag": ["drago"],
+    "liv": 10,
+    "att": 4,
+    "pv": 12,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Se è colpito da Fulmine Magico subisce 4 ferite.",
+    "reazioni": [[1, 2, "corruzione", "1d3x100", "totale"], [3, 6, "combatte"]],
+    "drago": true,
+    "senzaSoffio": true,
+    "dannoDaIncantesimo": {
+     "Fulmine Magico": 4
+    }
+   },
+   {
+    "id": "a-drago-caos",
+    "nome": "Giovane drago del caos",
+    "conta": "1",
+    "tag": ["drago", "caos"],
+    "liv": 11,
+    "att": 5,
+    "pv": 10,
+    "mor": 0,
+    "tes": 1,
+    "xp": true,
+    "note": "Un chierico o un mago può lanciare Benedizione per spostare di 1 (in più o in meno) il tiro di reazione del drago.",
+    "reazioni": [[1, 1, "dorme"], [2, 2, "corruzione", "1d6x100", "totale"], [3, 3, "missione"], [4, 4, "amichevole"], [5, 5, "combatte"], [6, 6, "morte"]],
+    "drago": true,
+    "senzaSoffio": true,
+    "benedizioneModReazione": {
+     "classi": ["chierico", "mago"],
+     "spostamento": 1
+    },
+    "rimando": "Contro il Caos (stessa creatura; statistiche qui da Contro l'Abisso)"
+   }
+  ]
+ },
+ "tabelle": {
+  "contenuto": [
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "tesoro-boss",
+    "testo": "Tesoro: tira Tesori; poi 1d6, con 6 è custodito da un boss.",
+    "tesoro": true,
+    "guardiano": {
+     "dado": "1d6",
+     "da": 6,
+     "a": 6,
+     "tabella": "boss"
+    }
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "tesoro-trappola",
+    "testo": "Tesoro protetto da una trappola: tira Trappole e Tesori.",
+    "tesoro": true,
+    "trappola": true
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "evento",
+    "testo": "Evento unico (nessuna distinzione corridoio/stanza nel manuale).",
+    "tabella": "eventi"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "vuota-speciale",
+    "testo": "Corridoio: vuoto. Stanza: caratteristica speciale.",
+    "tabella": "caratteristiche"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "infestanti",
+    "testo": "Mostri infestanti.",
+    "tabella": "infestanti"
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "azione": "seguaci",
+    "testo": "Mostri seguaci.",
+    "tabella": "seguaci"
+   },
+   {
+    "da": 8,
+    "a": 8,
+    "azione": "seguaci-o-vuoto",
+    "testo": "Corridoio: vuoto. Stanza: mostri seguaci.",
+    "tabella": "seguaci"
+   },
+   {
+    "da": 9,
+    "a": 9,
+    "azione": "vuota-o-evento",
+    "testo": "Stanza vuota; con 5-6 su 1d6 evento unico (si ritira un evento già accaduto); esauriti gli eventi, trappola.",
+    "evento": {
+     "dado": "1d6",
+     "da": 5,
+     "a": 6,
+     "tabella": "eventi",
+     "ritiraGiaAccaduti": true,
+     "esauriti": "trappole"
+    }
+   },
+   {
+    "da": 10,
+    "a": 10,
+    "azione": "trappola-o-aberranti",
+    "testo": "Corridoio: trappola. Stanza: mostro aberrante.",
+    "corridoio": "trappole",
+    "stanza": "aberranti"
+   },
+   {
+    "da": 11,
+    "a": 11,
+    "azione": "boss-o-vuoto",
+    "testo": "Corridoio: vuoto. Stanza: mostro boss (possibile boss finale).",
+    "tabella": "boss",
+    "bossFinale": {
+     "dado": "1d6",
+     "piuMaggioriSconfitti": true,
+     "soglia": 6,
+     "oSpazioFinito": true
+    }
+   },
+   {
+    "da": 12,
+    "a": 12,
+    "azione": "drago-o-boss",
+    "testo": "Corridoio: vuoto. Stanza piccola: come 11. Stanza grande (12+ quadretti): tana di drago, tira Draghi.",
+    "stanzaPiccola": "boss-o-vuoto",
+    "stanzaGrande": {
+     "tabella": "draghi",
+     "elenco": "grandi"
+    },
+    "bossFinale": {
+     "come": 11
+    }
+   }
+  ],
+  "trappole": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Trappola lancia dardi",
+    "livExpr": "1d8+3",
+    "liv": null,
+    "bersaglio": "uno-a-caso",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "liv": "livello trappola",
+      "bonus": {}
+     },
+     {
+      "tipo": "veleno",
+      "liv": 4,
+      "bonus": {
+       "furfante": "L",
+       "mezzuomo": "L",
+       "barbaro": 1
+      }
+     }
+    ],
+    "danno": 2,
+    "testo": "Dardo avvelenato su un PG a caso: se fallisce il TS contro la trappola (Ld8+3) salva contro il veleno (L4) o subisce 2 ferite."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Sfera di metallo gigante",
+    "liv": 7,
+    "livStanza": 7,
+    "livCorridoio": 9,
+    "bersaglio": "tutti",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "liv": 7,
+      "livCorridoio": 9,
+      "bonus": {
+       "furfante": "L",
+       "elfo": "1/2L",
+       "mezzuomo": "1/2L",
+       "spadaccino": "1/2L",
+       "altri": "+1 armatura pesante, +1 scudo"
+      }
+     }
+    ],
+    "danno": 1,
+    "testo": "Sfera chiodata che rotola: 1 ferita a chi fallisce il TS (L7 in stanza, L9 in corridoio)."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Fossa del coccodrillo",
+    "liv": 6,
+    "azione": "fossa-coccodrillo",
+    "bersaglio": "uno-a-caso",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "liv": 6,
+      "bonus": {}
+     }
+    ],
+    "danno": 1,
+    "creatura": "a-coccodrillo-spinato",
+    "tesoroResti": {
+     "probabilita": 2,
+     "dado": "1d6",
+     "oro": "8d6",
+     "soloDopoUccisione": true
+    },
+    "testo": "Botola su un PG a caso: se fallisce (L6) cade nella fossa (1 ferita) e un coccodrillo spinato lo attacca per primo, fino alla morte. Con una corda si aiuta l'uscita; senza, si può scalare solo dopo aver ucciso il coccodrillo; scalando si subisce un suo attacco. Resti: 2 su 1d6 di 8d6 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Ghigliottina",
+    "livExpr": "1d6+2",
+    "liv": null,
+    "bersaglio": "uno-a-caso",
+    "salvezze": [
+     {
+      "tipo": "trappola",
+      "liv": "livello trappola",
+      "bonus": {
+       "furfante": "L",
+       "elfo": 1,
+       "mezzuomo": 1,
+       "spadaccino": 1
+      }
+     }
+    ],
+    "danno": 3,
+    "testo": "Lama dal soffitto su un PG a caso: TS contro Ld6+2 o 3 ferite."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Esplosione di elettricità",
+    "liv": 7,
+    "bersaglio": "tutti",
+    "salvezze": [
+     {
+      "tipo": "elettricità",
+      "liv": 7,
+      "bonus": {}
+     }
+    ],
+    "danno": 1,
+    "testo": "Tutti salvano contro l'elettricità (L7) o subiscono 1 ferita."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Lancia di metallo",
+    "liv": 7,
+    "azione": "lancia",
+    "bersaglio": "ordine-di-marcia",
+    "salvezze": [
+     {
+      "tipo": "schivata",
+      "liv": 7,
+      "bonus": {
+       "furfante": "L",
+       "elfo": "1/2L",
+       "mezzuomo": "1/2L"
+      }
+     }
+    ],
+    "parata": {
+     "liv": 9,
+     "soloConScudo": true,
+     "bonus": "scudo e armatura",
+     "bonusClassi": {
+      "barbaro": "L",
+      "guerriero": "L",
+      "nano": "L"
+     },
+     "scudoDistrutto": true,
+     "fermaLancia": true
+    },
+    "fallimento": {
+     "danno": 3,
+     "proseguePerOrdine": true,
+     "riduceLivello": 1
+    },
+    "schivataRiuscita": "la lancia prosegue verso il successivo",
+    "testo": "Ognuno in ordine di marcia schiva (TS L7) o, con scudo, para (difesa contro L9): la parata distrugge lo scudo e ferma la lancia; schivando la lancia prosegue. Chi fallisce subisce 3 ferite e la lancia prosegue con livello -1 (schivata L6, parata L8)."
+   }
+  ],
+  "caratteristiche": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Banchetto incantato",
+    "azione": "banchetto",
+    "tabella": "banchettoIncantato",
+    "unTiroPerPersonaggioCheMangia": true,
+    "testo": "Tavola sontuosa: chi mangia tira su Banchetto incantato (decidi prima di leggere gli esiti)."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Fiume di lava",
+    "azione": "lava",
+    "premio": {
+     "tabella": "tesoriMagici"
+    },
+    "salto": {
+     "liv": 6,
+     "bonus": {
+      "furfante": "L",
+      "elfo": 1,
+      "mezzuomo": 1,
+      "nano": -1,
+      "armaturaPesante": -1
+     },
+     "ritorno": true,
+     "dannoCaduta": "1d6",
+     "perOgniSalto": true
+    },
+    "testo": "Un oggetto magico (Tesori magici) è protetto da un fiume di lava: si salta con TS L6 e si deve saltare di nuovo per tornare; chi fallisce il ritorno subisce 1d6 ferite."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Stanza degli orrori",
+    "azione": "orrori",
+    "follia": 1,
+    "aTutti": true,
+    "salvezza": {
+     "tipo": "paura",
+     "liv": 6,
+     "bonus": {
+      "mago": 1,
+      "chierico": 1
+     }
+    },
+    "fallimento": {
+     "modAttacco": -1,
+     "durata": "finché non riceve Benedizione"
+    },
+    "testo": "Tutti prendono 1 follia e salvano contro la paura (L6; maghi e chierici +1) o hanno -1 in attacco fino a una Benedizione."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Mostro incatenato",
+    "azione": "incatenato",
+    "tabellaMostro": "boss",
+    "opzioni": ["lascia", "uccidi (senza ES né tesoro)", "libera"],
+    "liberazione": {
+     "oro": "1d6x1d6",
+     "indizi": 1,
+     "bossFinaleProb": 2,
+     "dado": "1d6",
+     "presenteConBossFinale": true
+    },
+    "testo": "Prigioniero un boss a caso. Se lo liberi dà 1d6x1d6 p.o. e 1 indizio, ma con 2 su 1d6 sarà nella stanza del boss finale."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Ricettacolo di segreta conoscenza",
+    "azione": "biblioteca",
+    "tiraErranti": true,
+    "indizi": 1,
+    "follia": {
+     "dado": "1d8",
+     "da": 1,
+     "a": 2,
+     "punti": 1
+    },
+    "testo": "Antica libreria: la ricerca richiede un tiro erranti, dà 1 indizio automatico e con 1-2 su 1d8 1 punto follia."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Stanza del rompicapo",
+    "azione": "rompicapo",
+    "livExpr": "1d8+4",
+    "liv": null,
+    "bonus": {
+     "mago": "L",
+     "furfante": "L"
+    },
+    "fallimento": {
+     "scelta": ["1 PV", "1 follia"]
+    },
+    "premio": {
+     "tabella": "tesori"
+    },
+    "testo": "Una cassa con serratura a rompicapo: tiro contro 1d8+4 (maghi e furfanti +L); ogni fallimento costa 1 PV o 1 follia; se riesce, tira Tesori."
+   }
+  ],
+  "eventi": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Libro dei segreti",
+    "azione": "libro",
+    "indizi": "1d6",
+    "salvezza": {
+     "liv": "indizi+2",
+     "bonus": {
+      "mago": "1/2L"
+     }
+    },
+    "fallimento": {
+     "follia": "1d3"
+    },
+    "testo": "Manoscritto: chi lo legge ottiene 1d6 indizi ma salva (livello indizi+2; maghi +1/2L) o prende 1d3 follia."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Peste oscura",
+    "azione": "peste",
+    "bersaglio": "un PG a caso",
+    "salvezza": {
+     "tipo": "malattia",
+     "liv": 5
+    },
+    "regola": "peste-oscura",
+    "testo": "Un PG a caso salva contro la malattia (L5) o si ammala di peste oscura."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "Sciame di insetti",
+    "azione": "sciame",
+    "annullatoDa": "Palla di Fuoco",
+    "ferite": 1,
+    "aTutti": true,
+    "testo": "Una Palla di Fuoco distrugge lo sciame, altrimenti tutti subiscono 1 ferita."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Scala segreta",
+    "azione": "scala",
+    "erranti": {
+     "probabilita": 1,
+     "dado": "1d6"
+    },
+    "senzaLivelloSuperiore": "stanza o corridoio casuale senza uscita: tira il contenuto 2 volte e scegli",
+    "testo": "Passaggio segreto a una stanza o corridoio del livello superiore (non l'ingresso né adiacenti); all'arrivo 1 su 1d6 di erranti."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Il fantasma dell'oro",
+    "azione": "fantasma",
+    "placare": {
+     "tesoroValore": 100
+    },
+    "maledizione": {
+     "modDifesa": -1,
+     "aTutti": true,
+     "rimozione": "Benedizione su ciascuno"
+    },
+    "testo": "Spirito di un cacciatore di tesori: lo plachi sacrificando un tesoro da 100 p.o., altrimenti tutti hanno -1 in difesa finché non ricevono Benedizione."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Risucchio di mana",
+    "azione": "risucchio",
+    "salvezza": {
+     "tipo": "risucchio di mana",
+     "liv": 7,
+     "bonusTutti": "1/2L"
+    },
+    "unTiroPerIncantesimo": true,
+    "immuni": ["oggetti magici", "pergamene"],
+    "unaVolta": true,
+    "testo": "Chi lancia incantesimi salva (L7; tutti +1/2L) o li perde (un tiro per incantesimo); oggetti e pergamene immuni; non si ripete."
+   }
+  ],
+  "tesori": [
+   {
+    "da": -99,
+    "a": 0,
+    "azione": "niente",
+    "nome": "Nessun tesoro",
+    "testo": "Nessun tesoro."
+   },
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "scelta",
+    "nome": "Oro o arma",
+    "opzioni": [
+     {
+      "azione": "oro",
+      "dadi": "1d8x5",
+      "testo": "1d8x5 pezzi d'oro"
+     },
+     {
+      "azione": "arma",
+      "testo": "Un'arma non magica"
+     }
+    ],
+    "testo": "1d8x5 p.o. oppure 1 arma non magica."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "scelta",
+    "nome": "Oro o oggetto utile",
+    "opzioni": [
+     {
+      "azione": "oro",
+      "dadi": "4d6x10",
+      "testo": "4d6x10 pezzi d'oro"
+     },
+     {
+      "azione": "utile",
+      "n": 1,
+      "testo": "Un oggetto utile a caso"
+     }
+    ],
+    "testo": "4d6x10 p.o. oppure 1 oggetto utile."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "pergamena",
+    "nome": "Pergamena",
+    "tabellaIncantesimi": "incantesimoCaso",
+    "testo": "Una pergamena con un incantesimo avanzato a caso."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "gemma",
+    "nome": "Gemma",
+    "dadi": "2d6x20",
+    "testo": "Una gemma da 2d6x20 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "scelta",
+    "nome": "Gioiello o oggetto utile",
+    "opzioni": [
+     {
+      "azione": "gioiello",
+      "dadi": "4d6x15",
+      "testo": "Un gioiello da 4d6x15 p.o."
+     },
+     {
+      "azione": "utile",
+      "n": 1,
+      "testo": "Un oggetto utile a caso"
+     }
+    ],
+    "testo": "Gioiello da 4d6x15 p.o. oppure 1 oggetto utile."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "magico",
+    "nome": "Oggetto magico",
+    "tabella": "tesoriMagici",
+    "testo": "Un oggetto dei Tesori magici."
+   },
+   {
+    "da": 7,
+    "a": 7,
+    "azione": "difesa-magica",
+    "nome": "Difesa magica",
+    "tabella": "difeseMagiche",
+    "testo": "Un oggetto dalle Difese magiche."
+   },
+   {
+    "da": 8,
+    "a": 99,
+    "azione": "scelta",
+    "nome": "Difesa magica o oro",
+    "opzioni": [
+     {
+      "azione": "difesa-magica",
+      "tabella": "difeseMagiche",
+      "testo": "Una difesa magica a caso"
+     },
+     {
+      "azione": "oro",
+      "dadi": "4d6x25",
+      "testo": "4d6x25 pezzi d'oro"
+     }
+    ],
+    "testo": "Una difesa magica oppure 4d6x25 p.o. (a scelta)."
+   }
+  ],
+  "tesoriMagici": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "a-amuleto-non-morti",
+    "nome": "Amuleto di protezione dai non-morti",
+    "testo": "+1 a difesa e tiri salvezza contro i non-morti; non cumulabile. Vale 250 p.o."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "a-medaglione-serpenti",
+    "nome": "Medaglione dell'incantatore di serpenti",
+    "testo": "Contro serpenti o uomini lucertola (anche i campioni di Ssiklis): 1d8+L >= LIV dei seguaci li rende amichevoli. Vale 100 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "a-pergamena-esilio",
+    "nome": "Pergamena di esilio",
+    "testo": "Solo maghi o chierici: 2 ferite automatiche a un demone o non-morto; monouso. Vale 100 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "a-bastone-rettitudine",
+    "nome": "Bastone della rettitudine",
+    "testo": "Arma contundente a una mano: +1 PV a chi colpisce a morte un maggiore. Vale 250 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "a-filtro-soffio-fuoco",
+    "nome": "Filtro del soffio di fuoco",
+    "testo": "Immunità al fuoco dei draghi per 1 incontro e un soffio (al posto dell'attacco): 2 ferite a un maggiore o 2 minori uccisi; non sui draghi. Vale 80 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "a-anello-tre-desideri",
+    "nome": "Anello dei tre desideri",
+    "dadi": "1d3",
+    "testo": "1d3 desideri (ritira un tiro, 2 ferite/2 minori, tesoro fino a 300 p.o., incantesimo base, cura totale); poi vale 3d8 p.o. Venduto con desideri: 200 p.o. l'uno."
+   }
+  ],
+  "oggettiUtili": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "scelta-equip",
+    "nome": "Corda, lanterna o arma",
+    "opzioni": ["corda", "lanterna", "arma a una mano da taglio", "arma a una mano contundente"],
+    "testo": "1 corda, 1 lanterna o 1 arma a una mano (taglio o contundente)."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "a-paletti",
+    "nome": "Paletti di legno benedetti",
+    "dadi": "1d6",
+    "prezzo": 5,
+    "testo": "Armi magiche solo contro i vampiri; 5 p.o. l'uno."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "a-aconito",
+    "nome": "Aconito",
+    "prezzo": 10,
+    "testo": "Lanciato contro un licantropo o lupo: morale immediato; colpisce in automatico ma costa l'attacco. 10 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "a-arma-argento",
+    "nome": "Arma d'argento",
+    "prezzo": 20,
+    "testo": "Spada o pugnale: +1 contro i lupi mannari. 20 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "a-ferro-cavallo",
+    "nome": "Ferro di cavallo fortunato",
+    "prezzo": 10,
+    "testo": "Ripeti 1 tiro una volta; non per barbari. 10 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "a-pane-elfico",
+    "nome": "Pane elfico",
+    "dadi": "1d3",
+    "prezzo": 10,
+    "testo": "Per razione: 1 ferita (elfi 3) o cura la peste oscura; una volta per avventura a testa. 10 p.o. a razione."
+   }
+  ],
+  "difeseMagiche": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "a-anello-difesa",
+    "nome": "Anello della difesa",
+    "testo": "+1 ai tiri di difesa; un solo anello per PG. Vale 200 p.o."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "a-croce-vampiri",
+    "nome": "Croce contro i vampiri",
+    "testo": "+2 alla difesa contro i vampiri; una sola croce per PG. Vale 100 p.o."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "a-protezione-folletti",
+    "nome": "Protezione dai folletti",
+    "testo": "I folletti (es. brounie) fanno subito un tiro di morale. Vale 50 p.o."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "a-scudo-magico",
+    "nome": "Scudo magico",
+    "testo": "+2 alla difesa, infrangibile, non per barbari. Vale 250 p.o."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "a-cotta-elfica",
+    "nome": "Cotta di maglia elfica",
+    "testo": "Armatura leggera +2 in difesa, non magica (anche barbari). Vale 200 p.o."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "a-armatura-incantata",
+    "nome": "Armatura incantata",
+    "testo": "Armatura pesante con +3 invece di +2, si adatta a chi la indossa. Vale 300 p.o."
+   }
+  ],
+  "banchettoIncantato": [
+   {
+    "da": 1,
+    "a": 1,
+    "nome": "Cibo magico",
+    "azione": "cibo-magico",
+    "cura": 3,
+    "ladro": {
+     "oro": "1d6x1d6",
+     "oppure": "l'oggetto magico, gemma o gioiello di maggior valore"
+    },
+    "maledizione": {
+     "campanellini": true,
+     "erranti": {
+      "da": 1,
+      "a": 3,
+      "dado": "1d6"
+     },
+     "rimozione": "Benedizione",
+     "seNullaDiValore": true
+    },
+    "testo": "Recupera 3 ferite, ma una creatura fatata ruba 1d6x1d6 p.o. o l'oggetto di maggior valore; se non c'è nulla, maledizione dei campanellini (erranti con 1-3) fino a Benedizione."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "nome": "Banchetto rinvigorente",
+    "azione": "cura",
+    "cura": 1,
+    "testo": "Recupera 1 ferita."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "nome": "L'agnello era guasto",
+    "azione": "avvelenato",
+    "salvezza": {
+     "tipo": "veleno",
+     "liv": 7,
+     "bonus": {
+      "mezzuomo": "L",
+      "barbaro": 1
+     }
+    },
+    "fallimento": {
+     "modAttacco": -1,
+     "incontri": 2
+    },
+    "testo": "TS contro il veleno (L7; mezzuomini +L, barbari +1) o -1 in attacco per 2 incontri."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "nome": "Pasto fantasma",
+    "azione": "visioni",
+    "salvezza": {
+     "tipo": "magia",
+     "liv": 6,
+     "bonus": {
+      "chierico": "1/2L",
+      "mago": "1/2L"
+     }
+    },
+    "fallimento": {
+     "follia": 1
+    },
+    "testo": "TS contro la magia (L6; chierici e maghi +1/2L) o 1 punto follia."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "nome": "Quel cibo è mio!",
+    "azione": "ogre",
+    "creatura": "a-ogre-due-teste",
+    "unicoPerDungeon": true,
+    "riTira": true,
+    "testo": "Un ogre a due teste attacca di sorpresa (primo attacco sul PG che ha tirato). Uno solo per dungeon: se ricapita, ritira."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "nome": "Banchetto fatato",
+    "azione": "incantesimo-fatato",
+    "tabellaIncantesimi": "incantesimoCasoBase",
+    "usi": 1,
+    "barbariIgnorano": true,
+    "testo": "Ottieni un incantesimo a caso della tabella base, lanciabile una volta; i barbari ignorano il risultato."
+   }
+  ],
+  "tesoroNascostoComplicazioni": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "errante",
+    "testo": "Scatta un allarme: arrivano i mostri erranti nella stanza."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "azione": "illusione",
+    "classe": "nano",
+    "salvezza": {
+     "liv": 5
+    },
+    "follia": 1,
+    "testo": "Il tesoro è un'illusione e svanisce al tocco; ogni nano salva (L5) o prende 1 follia."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "azione": "trappola",
+    "livDado": "1d6",
+    "disattiva": "furfante",
+    "senzaFurfante": {
+     "bersaglio": "un avventuriero a caso",
+     "danno": "1d3",
+     "seFallisceTS": true
+    },
+    "testo": "Il tesoro è protetto da una trappola (livello 1d6): un furfante può disattivarla, altrimenti colpisce un PG a caso (1d3 ferite se fallisce il TS)."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "azione": "ingombrante",
+    "portatori": 2,
+    "modDifesa": -1,
+    "valoreMolt": 2,
+    "testo": "Tesoro ingombrante (arazzo, statua): servono 2 PG, che hanno -1 in difesa contro gli erranti; il valore è raddoppiato."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "azione": "lite",
+    "partecipanti": 2,
+    "salvezza": {
+     "contro": "livello dell'altro +1"
+    },
+    "ferite": 1,
+    "testo": "Due membri a caso si azzuffano: ognuno salva contro il livello dell'altro +1 o subisce 1 ferita."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "azione": "cassa",
+    "creatura": "a-cassa-assassina",
+    "testo": "Il contenitore è una cassa assassina (ABERRANTE LIV 5, ATT 1, PV 6, TES NO): 2 ferite a colpo; un furfante con 1d6+L > LIV dà l'allarme."
+   }
+  ],
+  "incantesimoCaso": ["Aura di Terrore", "Dardo Infallibile", "Ondata di Guarigione", "Rifletti Sguardo", "Scambio Vitale", "Teletrasporto di Massa"],
+  "tramaCampagna": [
+   {
+    "da": 1,
+    "a": 1,
+    "id": "assassinio",
+    "nome": "Assassinio",
+    "pagina": 45,
+    "estesa": "ribellione",
+    "parametri": {
+     "prove": 3,
+     "dadoProva": "1d6",
+     "piuBossFinaliGiaSconfitti": true,
+     "sogliaProva": 4,
+     "imboscata": {
+      "tsLiv": 6,
+      "bonusLivello": true,
+      "moreSeFallisce": true,
+      "1sempreFallimento": true
+     },
+     "resurrezione": 1000
+    },
+    "testo": "Per ogni boss finale sconfitto tira 1d6 + boss finali già battuti: con 4+ ottieni una prova. Con 3 prove le consegni; imboscata di assassini: TS L6 (+L) o morte."
+   },
+   {
+    "da": 2,
+    "a": 2,
+    "id": "ribellione",
+    "nome": "Ribellione",
+    "pagina": 45,
+    "estesa": null,
+    "parametri": {
+     "ricchezza": 3000,
+     "battaglie": "1d3",
+     "tsLiv": 5,
+     "bonusLivello": true,
+     "esPerSopravvissuto": 1,
+     "resurrezione": 1000
+    },
+    "testo": "Accumula 3000 p.o.; poi 1d3 battaglie: a ognuna TS L5 (+L) o muori; chi riesce può fare 1 tiro ES. Vinci se uno sopravvive a tutte."
+   },
+   {
+    "da": 3,
+    "a": 3,
+    "id": "entita",
+    "nome": "Entità",
+    "pagina": 46,
+    "estesa": "invasione",
+    "parametri": {
+     "partiManufatto": 3,
+     "massimoPerDungeon": 1,
+     "sostituisceTiro": "tesoriMagici",
+     "follia": 2,
+     "follaATutti": true
+    },
+    "testo": "Al posto di un tiro Tesori magici puoi trovare 1 parte (max 1 per dungeon) di un manufatto; riunite le 3, ognuno prende 2 follia."
+   },
+   {
+    "da": 4,
+    "a": 4,
+    "id": "invasione",
+    "nome": "Invasione",
+    "pagina": 46,
+    "estesa": null,
+    "parametri": {
+     "indizi": 9,
+     "dungeonStanzeMax": 10,
+     "livelloBossFinaleExtra": 2,
+     "folliaPrimoPortatore": 1,
+     "folliaInizioAvventura": 1,
+     "folliaLancio": 2
+    },
+    "testo": "Porta un manufatto (follia a chi lo prende e a ogni avventura), spendi 9 indizi, vinci il boss finale (+2 livelli) di un dungeon di max 10 stanze e gettalo nel portale (2 follia al lanciatore)."
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "id": "rapimento",
+    "nome": "Rapimento",
+    "pagina": 47,
+    "estesa": "sortilegio",
+    "parametri": {
+     "dado": {
+      "livello1-4": "1d6",
+      "livello5-9": "1d8"
+     },
+     "soglia": "<= livello più basso del gruppo",
+     "perOgniSchieraInCorridoio": true,
+     "esclusiNonMorti": true,
+     "bossAllUscita": 2,
+     "tabellaBoss": {
+      "1-2": "base p.85",
+      "3-4": "base p.95",
+      "5-9": "boss p.69"
+     },
+     "gruppoAttaccaPerPrimo": true
+    },
+    "testo": "Per ogni schiera di minori (non non-morti) in corridoio tira 1d6 (liv 1-4) o 1d8 (liv 5-9): se <= livello minimo del gruppo hanno il prescelto. All'uscita 2 boss uguali."
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "id": "sortilegio",
+    "nome": "Sortilegio",
+    "pagina": 47,
+    "estesa": null,
+    "parametri": {
+     "fialeSangueDrago": 3,
+     "livelloMinimoPerDraghi": 3,
+     "bossFinaleTabella": "draghi",
+     "imboscata": {
+      "creatura": "a-lich",
+      "scorta": "1d6 scheletri guerrieri",
+      "attaccaPerPrimo": true,
+      "bonusBossFinale": true
+     }
+    },
+    "testo": "Servono 3 fiale di sangue di draghi diversi: dal livello 3 ogni boss finale è un drago. All'uscita l'incantatrice (un lich boss finale con 1d6 scheletri) tende un'imboscata."
+   }
+  ],
+  "errante": [
+   {
+    "da": 1,
+    "a": 2,
+    "tabella": "infestanti"
+   },
+   {
+    "da": 3,
+    "a": 4,
+    "tabella": "seguaci"
+   },
+   {
+    "da": 5,
+    "a": 5,
+    "tabella": "aberranti"
+   },
+   {
+    "da": 6,
+    "a": 6,
+    "tabella": "boss"
+   }
+  ],
+  "perquisire": [
+   {
+    "da": 1,
+    "a": 1,
+    "azione": "errante",
+    "testo": "Attacco di mostri erranti."
+   },
+   {
+    "da": 2,
+    "a": 4,
+    "testo": "Nulla di trovato."
+   },
+   {
+    "da": 5,
+    "a": 6,
+    "azione": "trova",
+    "testo": "Trovi, a scelta, un indizio, un tesoro nascosto o una porta segreta."
+   }
+  ]
+ },
+ "grandi": ["23", "25", "34", "35", "36", "41", "44", "52", "56", "61", "66"],
+ "eventiRegola": "Ogni evento accade una sola volta per avventura (si ritira se già accaduto); esauriti, si tira su Trappole.",
+ "tramaEstensione": {
+  "1": 1,
+  "2": 1,
+  "3": 3,
+  "4": 3,
+  "5": 5,
+  "6": 5
+ },
+ "tramaRicompensa": {
+  "oroPerSopravvissuto": "1d6x100",
+  "tiroES": 1,
+  "aUnPersonaggio": true
+ },
+ "creatureExtra": [
+  {
+   "id": "a-coccodrillo-spinato",
+   "nome": "Coccodrillo spinato",
+   "conta": "1",
+   "tag": [],
+   "liv": 7,
+   "att": 1,
+   "pv": 4,
+   "mor": "NO",
+   "tes": "NO",
+   "xp": true,
+   "note": "Vive nella fossa della trappola 3: attacca per primo e combatte fino alla morte. Tra i resti, 2 su 1d6 di trovare 8d6 p.o. (solo dopo averlo ucciso).",
+   "reazioni": [[1, 6, "morte"]],
+   "categoria": "aberranti",
+   "dove": "tabelle.trappole[3]",
+   "pagina": 57,
+   "attaccaPerPrimo": true,
+   "tesoroFossa": {
+    "probabilita": 2,
+    "dado": "1d6",
+    "oro": "8d6"
+   }
+  },
+  {
+   "id": "a-ogre-due-teste",
+   "nome": "Ogre a due teste",
+   "conta": "1",
+   "tag": [],
+   "liv": 7,
+   "att": 2,
+   "pv": 6,
+   "mor": 0,
+   "tes": "NO",
+   "xp": true,
+   "note": "Compare al banchetto incantato (5): attacca di sorpresa per primo, il 1° attacco sul PG che ha tirato; ogni colpo 2 ferite. Ce n'è uno solo per dungeon. Tesoro: posate d'argento da 100 p.o.",
+   "reazioni": [[1, 6, "morte"]],
+   "categoria": "boss",
+   "dove": "tabelle.banchettoIncantato[5]",
+   "pagina": 64,
+   "danno": 2,
+   "attaccaPerPrimo": true,
+   "sorpresa": true,
+   "oroFisso": "100",
+   "unicoPerDungeon": true
+  },
+  {
+   "id": "a-cassa-assassina",
+   "nome": "Cassa assassina",
+   "conta": "1",
+   "tag": [],
+   "liv": 5,
+   "att": 1,
+   "pv": 6,
+   "mor": 0,
+   "tes": "NO",
+   "xp": true,
+   "note": "Contenitore del tesoro nascosto, non si muove (chi si sottrae non è attaccato). Un furfante che supera il LIV con 1d6+L dà l'allarme e non si è sorpresi; altrimenti attacca un PG a caso: 2 ferite per colpo. Se vinci, prendi il tesoro. Reazioni non definite (assunto fino alla morte).",
+   "reazioni": [[1, 6, "morte"]],
+   "categoria": "aberranti",
+   "dove": "tabelle.tesoroNascostoComplicazioni[6]",
+   "pagina": 65,
+   "danno": 2,
+   "immobile": true,
+   "allarmeFurfante": {
+    "dado": "1d6+L",
+    "contro": "liv"
+   }
+  },
+  {
+   "id": "a-lupo-mannaro-pg",
+   "nome": "Lupo mannaro (PG trasformato)",
+   "conta": "1",
+   "tag": ["licantropo"],
+   "liv": 6,
+   "att": 2,
+   "pv": 5,
+   "mor": 0,
+   "tes": null,
+   "xp": true,
+   "note": "Un PG con follia oltre il livello si trasforma: è controllato dal gioco, combatte fino alla morte attaccando prima chi ha meno PV (anche alleati). Colpisce per primo salvo Sesto senso nel gruppo. Sonno lo addormenta senza ucciderlo.",
+   "reazioni": [[1, 6, "morte"]],
+   "categoria": "boss",
+   "dove": "regole.licantropia",
+   "pagina": 50,
+   "attaccaPerPrimo": true,
+   "bersagliPrioritari": "meno PV"
+  },
+  {
+   "id": "a-scheletro-guerriero",
+   "nome": "Scheletro guerriero",
+   "conta": "1d6",
+   "tag": ["non-morto"],
+   "liv": 5,
+   "att": 1,
+   "pv": 1,
+   "mor": 0,
+   "tes": "NO",
+   "xp": true,
+   "note": "Scorta del lich (come seguaci): armi a due mani, 2 ferite se la difesa del PG è 1. Reazioni non definite (assunto fino alla morte).",
+   "reazioni": [[1, 6, "morte"]],
+   "categoria": "seguaci",
+   "dove": "mostri.aberranti[a-lich]",
+   "pagina": 68,
+   "dannoSu1": 2
+  },
+  {
+   "id": "a-comandante-goblin",
+   "nome": "Comandante goblin",
+   "conta": "1",
+   "tag": ["goblin"],
+   "liv": 10,
+   "att": 1,
+   "pv": 4,
+   "mor": 0,
+   "tes": 0,
+   "xp": true,
+   "note": "Leader dei goblin irsuti (1 su 1d6). Reazioni non definite per lui: si usa quella dei goblin.",
+   "reazioni": [[1, 3, "corruzione", 10], [4, 5, "combatte"], [6, 6, "tenzone"]],
+   "categoria": "leader",
+   "dove": "mostri.seguaci[a-goblin-irsuti]",
+   "pagina": 67
+  },
+  {
+   "id": "a-campione-uomini-ratto",
+   "nome": "Campione degli uomini ratto",
+   "conta": "1",
+   "tag": ["ratto", "caos"],
+   "liv": "1d3+8",
+   "att": 1,
+   "pv": "1d6+2",
+   "mor": 0,
+   "tes": 1,
+   "xp": true,
+   "note": "Leader degli uomini ratto del caos (sempre presente): LIV 1d3+8 e PV 1d6+2 si tirano all'incontro. Reazioni non definite: si usa quella degli uomini ratto.",
+   "reazioni": [[1, 2, "corruzione", 20], [3, 5, "combatte"], [6, 6, "tenzone"]],
+   "categoria": "leader",
+   "dove": "mostri.seguaci[a-uomini-ratto]",
+   "pagina": 67
+  }
+ ],
+ "abilita": [
+  {
+   "id": "abbattere-i-deboli",
+   "nome": "Abbattere i deboli",
+   "pagina": 20,
+   "classi": ["barbaro", "guerriero", "nano"],
+   "requisiti": [],
+   "effetto": "Sul primo attacco a segno del combattimento contro minori, uccidi 1 minore in più ogni 2 punti pieni oltre il LIV richiesto.",
+   "usi": "1 per combattimento",
+   "condizione": "primo attacco a segno contro mostri minori",
+   "uccisioniExtraOgniPunti": 2,
+   "soloMinori": true
+  },
+  {
+   "id": "alchimia-delle-spore",
+   "nome": "Alchimia delle spore",
+   "pagina": 20,
+   "classi": ["elfo", "furfante", "mago", "mezzuomo"],
+   "requisiti": [],
+   "effetto": "Dopo aver sconfitto fungoidi o funghi stridenti prepari spore equivalenti a 1 uso di Sonno; conta come attacco; solo chi ha l'abilità le usa.",
+   "condizione": "dopo aver sconfitto fungoidi o funghi stridenti",
+   "equivaleA": "Sonno",
+   "usi": "1 dose per sconfitta di fungoidi/funghi",
+   "nonAgisceSu": ["immuni a Sonno", "immuni al veleno", "funghi"],
+   "contaComeAttacco": true
+  },
+  {
+   "id": "ammazzaorchi",
+   "nome": "Ammazzaorchi",
+   "pagina": 20,
+   "classi": ["elfo", "nano"],
+   "requisiti": [],
+   "effetto": "+1 ai tiri di attacco contro gli orchi (nome con \"orco\", comprese le orde).",
+   "modAttacco": 1,
+   "contro": "nome contiene orco",
+   "nonCumulabileCon": ["nemico-giurato", "sterminatore-di-draghi"]
+  },
+  {
+   "id": "attacco-penetrante",
+   "nome": "Attacco penetrante",
+   "pagina": 20,
+   "classi": ["furfante", "mago"],
+   "requisiti": ["arma leggera"],
+   "effetto": "Con un'arma leggera attacchi 2 volte per turno, senza il limite di una volta per incontro del Doppio attacco.",
+   "attacchiPerTurno": 2,
+   "usi": "illimitati"
+  },
+  {
+   "id": "cacciatore-di-vampiri",
+   "nome": "Cacciatore di vampiri",
+   "pagina": 21,
+   "classi": ["chierico", "guerriero", "mago"],
+   "requisiti": [],
+   "effetto": "+1 in attacco contro ogni vampiro, che colpisci anche senza arma magica o paletto; rincontrare un vampiro fuggito costa 1 indizio invece di 2.",
+   "modAttacco": 1,
+   "contro": "vampiri",
+   "colpisceSenzaArmaMagica": true,
+   "costoRincontroIndizi": 1
+  },
+  {
+   "id": "colpo-di-scudo",
+   "nome": "Colpo di scudo",
+   "pagina": 21,
+   "classi": ["guerriero"],
+   "requisiti": ["scudo"],
+   "effetto": "Con un risultato esplosivo in difesa fai un attacco gratuito a -1 contro chi ti attacca (arma contundente).",
+   "condizione": "risultato esplosivo nel tiro di difesa",
+   "modAttacco": -1,
+   "attaccoGratuito": true,
+   "tipoArma": "contundente"
+  },
+  {
+   "id": "colpo-mortale",
+   "nome": "Colpo mortale",
+   "pagina": 21,
+   "classi": ["barbaro", "guerriero"],
+   "requisiti": ["arma a due mani"],
+   "effetto": "Una volta per incontro un attacco con arma a due mani infligge 2 ferite; si dichiara prima del tiro e, se fallisce, l'uso è perso.",
+   "usi": "1 per incontro",
+   "ferite": 2,
+   "dichiaraPrimaDelTiro": true,
+   "nonCumulabileConAltriDanni": true
+  },
+  {
+   "id": "combattente-acrobatico",
+   "nome": "Combattente acrobatico",
+   "pagina": 21,
+   "classi": ["elfo", "mezzuomo", "spadaccino"],
+   "requisiti": [],
+   "effetto": "In combattimento scambi di posto con un compagno nell'ordine di marcia; costa 1 turno intero, senza attacco.",
+   "costo": "1 turno completo senza attacco"
+  },
+  {
+   "id": "conciatore-arcano",
+   "nome": "Conciatore arcano",
+   "pagina": 21,
+   "classi": ["barbaro", "mago"],
+   "requisiti": [],
+   "effetto": "Crei una pelliccia di pantera distorcente (Fuga come mago di 6° livello, 1 volta per avventura, non per barbari) o una pelle di drago (+1 TS contro il soffio, +1 difesa contro i draghi).",
+   "creazioni": ["pelliccia di pantera distorcente", "pelle di drago"],
+   "prezzoVendita": 150,
+   "modTSSoffioDrago": 1,
+   "modDifesaDraghi": 1
+  },
+  {
+   "id": "creare-acqua-santa",
+   "nome": "Creare acqua santa",
+   "pagina": 22,
+   "classi": ["chierico"],
+   "requisiti": [],
+   "effetto": "Prima di ogni avventura crei 1 fiala di acqua santa, a 10 p.o.; la fiala si può dare a chiunque.",
+   "usi": "1 fiala per avventura",
+   "costo": 10
+  },
+  {
+   "id": "creare-pergamene",
+   "nome": "Creare pergamene",
+   "pagina": 22,
+   "classi": ["chierico", "elfo", "mago"],
+   "requisiti": [],
+   "effetto": "Prima di ogni avventura scrivi 1 pergamena con un incantesimo che sai lanciare (il chierico solo Benedizione); materiali da 80 p.o.",
+   "usi": "1 pergamena per avventura",
+   "costo": 80,
+   "chiericoSoloBenedizione": true
+  },
+  {
+   "id": "doppio-attacco",
+   "nome": "Doppio attacco",
+   "pagina": 22,
+   "classi": ["elfo", "furfante", "guerriero"],
+   "requisiti": ["arma a una mano"],
+   "effetto": "2 attacchi in un turno (stesso bersaglio o diversi) con armi a una mano; 1 volta per incontro; non con leggere, due mani o a distanza.",
+   "attacchiPerTurno": 2,
+   "usi": "1 per incontro"
+  },
+  {
+   "id": "furia-del-berserker",
+   "nome": "Furia del berserker",
+   "pagina": 23,
+   "classi": ["barbaro"],
+   "requisiti": [],
+   "effetto": "1 attacco furioso in più per avventura (5° liv: 4, 6°: 5...); non vale per attacchi a distanza.",
+   "furieExtra": 1,
+   "nonADistanza": true
+  },
+  {
+   "id": "furia-terrificante",
+   "nome": "Furia terrificante",
+   "pagina": 23,
+   "classi": ["barbaro"],
+   "requisiti": [],
+   "effetto": "Quando uccidi minori e i superstiti tirano il morale, il tiro ha -1; più barbari non si sommano.",
+   "modMoraleNemici": -1,
+   "nonCumulabile": true
+  },
+  {
+   "id": "gladiatore",
+   "nome": "Gladiatore",
+   "pagina": 23,
+   "classi": ["barbaro", "guerriero", "spadaccino"],
+   "requisiti": [],
+   "effetto": "+1 in attacco e difesa in ogni combattimento nato dalla reazione Singolar tenzone.",
+   "modAttacco": 1,
+   "modDifesa": 1,
+   "condizione": "combattimento da Singolar tenzone"
+  },
+  {
+   "id": "incenso-protettivo",
+   "nome": "Incenso protettivo",
+   "pagina": 23,
+   "classi": ["chierico", "mago"],
+   "requisiti": [],
+   "effetto": "Una volta per incontro proteggi te o un compagno: +1 in difesa contro demoni e non-morti, cumulabile con altri bonus.",
+   "usi": "1 per incontro",
+   "modDifesa": 1,
+   "contro": ["demoni", "non-morti"]
+  },
+  {
+   "id": "intuizione",
+   "nome": "Intuizione",
+   "pagina": 23,
+   "classi": ["furfante", "mago", "mezzuomo"],
+   "requisiti": [],
+   "effetto": "Se un PG con questa abilità è nel gruppo, un 4 nel tiro per perquisire conta come 5; non cumulabile con Investigatore.",
+   "perquisire": {
+    "quattroComeCinque": true
+   },
+   "nonCumulabileCon": ["investigatore"]
+  },
+  {
+   "id": "investigatore",
+   "nome": "Investigatore",
+   "pagina": 23,
+   "classi": ["furfante", "mago"],
+   "requisiti": [],
+   "effetto": "+1 al tiro per perquisire una stanza vuota, ma il successo dà solo un indizio; da decidere prima del tiro.",
+   "perquisire": {
+    "modTiro": 1,
+    "soloIndizio": true
+   }
+  },
+  {
+   "id": "lanciatore-di-coltelli",
+   "nome": "Lanciatore di coltelli",
+   "pagina": 24,
+   "classi": ["furfante", "guerriero", "mago", "mezzuomo", "spadaccino"],
+   "requisiti": ["arma da taglio leggera"],
+   "effetto": "Lanci un'arma leggera da taglio come arma da lancio (a -1); fino a 5 coltelli in bandoliera; estrarre e lanciare è una sola azione; l'arma si recupera a fine incontro.",
+   "modAttacco": -1,
+   "coltelliMax": 5
+  },
+  {
+   "id": "leader-carismatico",
+   "nome": "Leader carismatico",
+   "pagina": 24,
+   "classi": ["guerriero", "mago"],
+   "requisiti": [],
+   "effetto": "Se sei in prima fila: +1 ai TS contro paura e terrore di tutti, +1 al morale dei mercenari, anche negli attacchi alle spalle e nelle sorprese.",
+   "condizione": "in prima fila nell'ordine di marcia",
+   "modTSPaura": 1,
+   "modMoraleMercenari": 1
+  },
+  {
+   "id": "lesto-di-piedi",
+   "nome": "Lesto di piedi",
+   "pagina": 24,
+   "classi": ["elfo", "furfante", "mezzuomo", "spadaccino"],
+   "requisiti": [],
+   "effetto": "+1 al tiro di difesa quando ti sottrai al combattimento (ritirata o fuga).",
+   "modDifesa": 1,
+   "condizione": "durante ritirata o fuga"
+  },
+  {
+   "id": "luce-perenne",
+   "nome": "Luce perenne",
+   "pagina": 24,
+   "classi": ["chierico", "mago"],
+   "requisiti": [],
+   "effetto": "Crei una luce magica pari a una lanterna su un oggetto portato (anche da un compagno); in combattimento costa l'attacco; non consuma incantesimi; svanisce se muori.",
+   "costoInCombattimento": "l'attacco del turno",
+   "consumaIncantesimi": false
+  },
+  {
+   "id": "mastro-tagliapietre",
+   "nome": "Mastro tagliapietre",
+   "pagina": 25,
+   "classi": ["nano"],
+   "requisiti": [],
+   "effetto": "Nel perquisire un 4 conta come 5, ma solo per trovare porte segrete; da decidere prima del tiro.",
+   "perquisire": {
+    "quattroComeCinque": true,
+    "soloPortaSegreta": true
+   }
+  },
+  {
+   "id": "mente-brillante",
+   "nome": "Mente brillante",
+   "pagina": 25,
+   "classi": ["mago"],
+   "requisiti": [],
+   "effetto": "+1 ai tiri per risolvere rompicapi e indovinelli.",
+   "modRompicapo": 1
+  },
+  {
+   "id": "mira-infallibile",
+   "nome": "Mira infallibile",
+   "pagina": 25,
+   "classi": ["elfo", "mezzuomo"],
+   "requisiti": [],
+   "effetto": "+1 in attacco con l'arco (elfi) o con la fionda (mezzuomini).",
+   "modAttacco": 1,
+   "armi": {
+    "elfo": "arco",
+    "mezzuomo": "fionda"
+   }
+  },
+  {
+   "id": "muori-combattendo",
+   "nome": "Muori combattendo",
+   "pagina": 25,
+   "classi": ["barbaro", "guerriero", "nano"],
+   "requisiti": [],
+   "effetto": "Quando perdi l'ultimo PV puoi fare subito un attacco a +1 prima di morire, anche fuori turno.",
+   "modAttacco": 1,
+   "attaccoGratuito": true,
+   "condizione": "perde l'ultimo punto vita"
+  },
+  {
+   "id": "negoziatore",
+   "nome": "Negoziatore",
+   "pagina": 25,
+   "classi": ["elfo", "furfante", "mago", "mezzuomo"],
+   "requisiti": [],
+   "effetto": "Nel tiro di reazione puoi spostare il dado di 1 in più o in meno, ma mai fino a Combatte o Combatte fino alla morte.",
+   "modReazione": 1,
+   "nonPuoOttenere": ["combatte", "morte"]
+  },
+  {
+   "id": "negromanzia-minore",
+   "nome": "Negromanzia minore",
+   "pagina": 25,
+   "classi": ["mago"],
+   "requisiti": [],
+   "effetto": "Alla morte di un compagno tiri 1d8+L contro il suo livello: se riesce, si rianima come non-morto con metà dei PV massimi e livello -1 (min 1), senza abilità né bonus, controllato da te; uno solo alla volta; non resuscitabile.",
+   "rituale": {
+    "tiro": "1d8+L",
+    "contro": "livello del defunto"
+   },
+   "pvMolt": 0.5,
+   "modLivello": -1,
+   "livelloMin": 1,
+   "controllatiMax": 1,
+   "immunita": ["Sonno", "veleni", "gas", "infezioni", "malattie"],
+   "scacciaTraNonMorti": "Scacciare i non-morti lo fa fuggire"
+  },
+  {
+   "id": "nemico-giurato",
+   "nome": "Nemico giurato",
+   "pagina": 26,
+   "classi": ["furfante", "guerriero"],
+   "requisiti": [],
+   "effetto": "Scegli un tipo di mostro seguace, aberrante o boss di qualunque volume: +1 in attacco contro di lui; lui ti odia e ti attacca se può.",
+   "modAttacco": 1,
+   "scelta": "un tipo da Seguaci/Aberranti/Boss",
+   "nonCumulabileCon": ["ammazzaorchi", "sterminatore-di-draghi"]
+  },
+  {
+   "id": "refrattario-al-veleno",
+   "nome": "Refrattario al veleno",
+   "pagina": 26,
+   "classi": ["barbaro", "mezzuomo", "nano"],
+   "requisiti": [],
+   "effetto": "Puoi ripetere una volta ogni tiro salvezza contro il veleno fallito.",
+   "ripetiTS": "veleno"
+  },
+  {
+   "id": "resistente",
+   "nome": "Resistente",
+   "pagina": 26,
+   "classi": ["barbaro", "guerriero", "nano"],
+   "requisiti": [],
+   "effetto": "Scegli un tipo di mostro infestante o seguace: +1 a tutti i tiri di difesa contro di lui; si può imparare più volte per tipi diversi.",
+   "modDifesa": 1,
+   "scelta": "un tipo da Infestanti/Seguaci",
+   "ripetibilePerTipiDiversi": true
+  },
+  {
+   "id": "rissaiolo",
+   "nome": "Rissaiolo",
+   "pagina": 27,
+   "classi": ["barbaro", "guerriero"],
+   "requisiti": [],
+   "effetto": "Gli attacchi disarmati hanno -1 invece di -2.",
+   "modAttaccoDisarmato": -1
+  },
+  {
+   "id": "scacciare-i-non-morti",
+   "nome": "Scacciare i non-morti",
+   "pagina": 27,
+   "classi": ["chierico"],
+   "requisiti": ["una mano libera"],
+   "effetto": "Una volta per incontro scacci 1d6 non-morti con 1d6+1/2L contro il loro livello (colpisce quelli di livello più basso); serve una mano libera per il simbolo sacro.",
+   "usi": "1 per incontro",
+   "bersagli": "1d6",
+   "tiro": "1d6+1/2L",
+   "contro": "livello dei non-morti"
+  },
+  {
+   "id": "scova-i-punti-deboli",
+   "nome": "Scova i punti deboli",
+   "pagina": 27,
+   "classi": ["furfante", "mago"],
+   "requisiti": [],
+   "effetto": "Quando un attacco colpisce con risultato esplosivo infliggi 1 ferita in più (solo mostri maggiori); il dado esplode comunque.",
+   "ferite": 1,
+   "condizione": "attacco con risultato esplosivo",
+   "soloMaggiori": true
+  },
+  {
+   "id": "sesto-senso",
+   "nome": "Sesto senso",
+   "pagina": 27,
+   "classi": ["barbaro", "elfo", "furfante", "mezzuomo", "spadaccino"],
+   "requisiti": [],
+   "effetto": "Se sei in retroguardia (posizione 3 o 4) il gruppo non è sorpreso dagli erranti: colpisce per primo e gli scudi proteggono.",
+   "condizione": "in posizione 3 o 4 dell'ordine di marcia",
+   "annullaSorpresaErranti": true
+  },
+  {
+   "id": "sopportare-il-dolore",
+   "nome": "Sopportare il dolore",
+   "pagina": 27,
+   "classi": ["barbaro", "furfante", "guerriero", "nano"],
+   "requisiti": [],
+   "effetto": "Una volta per combattimento ignori la prima ferita subita.",
+   "usi": "1 per combattimento",
+   "ignoraFerite": 1
+  },
+  {
+   "id": "sterminatore-di-draghi",
+   "nome": "Sterminatore di draghi",
+   "pagina": 27,
+   "classi": ["nano"],
+   "requisiti": [],
+   "effetto": "Contro i draghi il tuo primo attacco ha +1 e, se colpisce, infligge 2 ferite; dopo 1 turno il drago si adatta e l'effetto finisce.",
+   "modAttacco": 1,
+   "ferite": 2,
+   "contro": "draghi",
+   "durataTurni": 1,
+   "nonCumulabileCon": ["ammazzaorchi", "nemico-giurato"]
+  },
+  {
+   "id": "tiro-preciso",
+   "nome": "Tiro preciso",
+   "pagina": 28,
+   "classi": ["elfo", "mezzuomo"],
+   "requisiti": [],
+   "effetto": "Puoi ripetere una volta ogni tiro fallito con armi da lancio.",
+   "ripetiTiro": "armi da lancio"
+  },
+  {
+   "id": "udito-formidabile",
+   "nome": "Udito formidabile",
+   "pagina": 28,
+   "classi": ["elfo", "furfante", "mezzuomo", "spadaccino"],
+   "requisiti": [],
+   "effetto": "Prima di aprire una porta ascolti (tiro di 6 o più): se riesce tiri il contenuto della stanza in anticipo, sai che mostri ci sono (non quanti) e non ti sorprendono. Un tentativo per porta.",
+   "tiro": 6,
+   "usi": "1 tentativo per porta",
+   "annullaSorpresa": true
+  },
+  {
+   "id": "volonta-ferrea",
+   "nome": "Volontà ferrea",
+   "pagina": 28,
+   "classi": ["chierico", "mago", "nano"],
+   "requisiti": [],
+   "effetto": "Ignori il 1° punto follia ricevuto in un'avventura e hai +1 ai TS contro paura e terrore.",
+   "ignoraFollia": 1,
+   "modTSPaura": 1
+  },
+  {
+   "id": "vortice-di-lame",
+   "nome": "Vortice di lame",
+   "pagina": 28,
+   "classi": ["barbaro", "guerriero", "nano", "spadaccino"],
+   "requisiti": ["arma a una o due mani"],
+   "effetto": "Una volta per incontro, solo contro minori: se il tuo attacco ne uccide uno puoi attaccarne un altro nello stesso turno a -1 (max 3 attacchi: 0, -1, -2). Niente dadi esplosivi; non con Doppio attacco.",
+   "usi": "1 per incontro",
+   "soloMinori": true,
+   "attacchiMax": 3,
+   "modAttaccoSuccessivo": -1,
+   "senzaEsplosione": true,
+   "nonCumulabileCon": ["doppio-attacco"],
+   "dichiaraPrimaDelTiro": true
+  }
+ ],
+ "abilitaPerClasse": {
+  "barbaro": ["Abbattere i deboli", "Colpo mortale", "Conciatore arcano", "Furia del berserker", "Furia terrificante", "Gladiatore", "Muori combattendo", "Refrattario al veleno", "Resistente", "Rissaiolo", "Sesto senso", "Sopportare il dolore", "Vortice di lame"],
+  "chierico": ["Cacciatore di vampiri", "Creare acqua santa", "Creare pergamene", "Incenso protettivo", "Luce perenne", "Scacciare i non-morti", "Volontà ferrea"],
+  "elfo": ["Alchimia delle spore", "Ammazzaorchi", "Combattente acrobatico", "Creare pergamene", "Doppio attacco", "Lesto di piedi", "Mira infallibile", "Negoziatore", "Sesto senso", "Tiro preciso", "Udito formidabile"],
+  "furfante": ["Alchimia delle spore", "Attacco penetrante", "Doppio attacco", "Intuizione", "Investigatore", "Lanciatore di coltelli", "Lesto di piedi", "Negoziatore", "Nemico giurato", "Scova i punti deboli", "Sesto senso", "Sopportare il dolore", "Udito formidabile"],
+  "guerriero": ["Abbattere i deboli", "Cacciatore di vampiri", "Colpo di scudo", "Colpo mortale", "Doppio attacco", "Gladiatore", "Lanciatore di coltelli", "Leader carismatico", "Muori combattendo", "Nemico giurato", "Resistente", "Rissaiolo", "Sopportare il dolore", "Vortice di lame"],
+  "mago": ["Alchimia delle spore", "Attacco penetrante", "Cacciatore di vampiri", "Conciatore arcano", "Creare pergamene", "Incenso protettivo", "Intuizione", "Investigatore", "Lanciatore di coltelli", "Leader carismatico", "Luce perenne", "Mente brillante", "Negoziatore", "Negromanzia minore", "Scova i punti deboli", "Volontà ferrea"],
+  "mezzuomo": ["Alchimia delle spore", "Combattente acrobatico", "Intuizione", "Lanciatore di coltelli", "Lesto di piedi", "Mira infallibile", "Negoziatore", "Refrattario al veleno", "Sesto senso", "Tiro preciso", "Udito formidabile"],
+  "nano": ["Abbattere i deboli", "Ammazzaorchi", "Mastro tagliapietre", "Muori combattendo", "Refrattario al veleno", "Resistente", "Sopportare il dolore", "Sterminatore di draghi", "Volontà ferrea", "Vortice di lame"],
+  "spadaccino": ["Combattente acrobatico", "Gladiatore", "Lanciatore di coltelli", "Lesto di piedi", "Sesto senso", "Udito formidabile", "Vortice di lame"]
+ },
+ "incantesimi": [
+  {
+   "id": "a-aura-terrore",
+   "nome": "Aura di Terrore",
+   "pagina": 15,
+   "effetto": "Costringe un mostro maggiore o un gruppo di minori a un tiro di morale. Immuni: non-morti, chi non tira mai il morale, chi ha un attacco con TS contro la paura, il boss finale. Con seguaci guidati da un maggiore si tira per il maggiore: se fugge, fuggono anche i seguaci; se resiste, i seguaci non tirano.",
+   "bersaglio": "1 maggiore o 1 gruppo di minori",
+   "provoca": "morale",
+   "immuni": ["non-morti", "MOR NO", "attacco con TS paura", "boss finale"],
+   "conSeguaciELeader": "tira il leader"
+  },
+  {
+   "id": "a-dardo-infallibile",
+   "nome": "Dardo Infallibile",
+   "pagina": 15,
+   "effetto": "1 ferita automatica a un bersaglio; tira 1d8: se esplode infliggi un'altra ferita (allo stesso o a un altro bersaglio) e ritiri, finché non esce un non esplosivo. Ogni ferita uccide 1 minore. Dall'8° livello lanci 2 dardi, anche su bersagli diversi.",
+   "ferite": 1,
+   "dado": "1d8",
+   "esplosivo": [7, 8],
+   "ogniFeritaUccide": "1 minore",
+   "dardiDalLivello": {
+    "8": 2
+   }
+  },
+  {
+   "id": "a-ondata-guarigione",
+   "nome": "Ondata di Guarigione",
+   "pagina": 16,
+   "effetto": "Tutti i PG in gioco tranne l'incantatore recuperano 2 PV; ogni vampiro in gioco subisce 2 ferite.",
+   "cura": 2,
+   "esclusoIncantatore": true,
+   "dannoVampiri": 2
+  },
+  {
+   "id": "a-rifletti-sguardo",
+   "nome": "Rifletti Sguardo",
+   "pagina": 16,
+   "effetto": "Se devi salvarti da uno sguardo (medusa, catoblepa e simili) lo lanci in automatico, senza azione: sei al sicuro e tiri 1d8+L contro il livello del mostro; se riesce, il mostro subisce il proprio sguardo (la medusa diventa pietra, il catoblepa subisce 1 ferita).",
+   "reattivo": true,
+   "senzaAzione": true,
+   "tiro": "1d8+L",
+   "contro": "livello mostro",
+   "esitoMedusa": "pietrificata",
+   "esitoCatoblepa": "1 ferita"
+  },
+  {
+   "id": "a-scambio-vitale",
+   "nome": "Scambio Vitale",
+   "pagina": 17,
+   "effetto": "L'incantatore perde N PV e cura fino a N ferite a un compagno. Contro un vampiro infligge lo stesso numero di ferite a lui e all'incantatore, in automatico.",
+   "scambio": "N PV persi = N PV curati",
+   "controVampiri": {
+    "ferite": "N a entrambi",
+    "automatico": true
+   }
+  },
+  {
+   "id": "a-teletrasporto-massa",
+   "nome": "Teletrasporto di Massa",
+   "pagina": 17,
+   "effetto": "Come Fuga ma per tutto il gruppo, e verso qualunque stanza già visitata (o esagono) oltre che fuori dal dungeon. L'incantatore subisce 1 ferita per ogni essere trasportato oltre a sé (mercenari e animali compresi); chi resta indietro rischia (dividere il gruppo).",
+   "comeFuga": true,
+   "destinazione": "qualsiasi stanza già visitata",
+   "costoPV": "1 per ogni altro essere trasportato"
+  }
+ ],
+ "incantesimiRegole": {
+  "classi": ["mago", "elfo"],
+  "livelloMinimo": 5,
+  "acquisizione": {
+   "tiro": "1d8+2",
+   "contro": "livello",
+   "esplosivoSempreSuccesso": true
+  },
+  "usiPerAvventura": 1,
+  "memorizzabilePiuVolte": true,
+  "grimorio": true,
+  "pergamene": {
+   "usabiliDa": "tutti tranne i barbari",
+   "nonIncantatoriContanoLivello": 1,
+   "prezzoVendita": 150,
+   "tiroIncantesimo": "incantesimoCaso",
+   "impararleSenzaTiroES": true,
+   "impararlaDaPergamenaDaSoloIlRepertorio": true
+  },
+  "dadoIncantesimiBase": "1d8"
+ },
+ "segreti": [
+  {
+   "id": "a-setta-ammazzavampiri",
+   "nome": "Appartengo a una setta di ammazzavampiri",
+   "pagina": 41,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Colpisci i vampiri ignorando l'immunità alle armi non magiche, solo in questa avventura; per tenerlo serve 1 tiro ES per l'abilità Cacciatore di vampiri.",
+   "durata": "avventura corrente",
+   "permanenteCon": {
+    "tiroES": 1,
+    "abilita": "cacciatore-di-vampiri"
+   }
+  },
+  {
+   "id": "a-saloni-mio-popolo",
+   "nome": "Questi saloni appartenevano al mio popolo",
+   "pagina": 41,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Trovi subito una porta segreta in una stanza già visitata (anche quella attuale). Elfo o nano: in alternativa +1 in difesa per un intero incontro in una stanza a scelta.",
+   "portaSegretaImmediata": true,
+   "bonusElfoNano": {
+    "modDifesa": 1,
+    "durata": "un incontro, una stanza a scelta"
+   }
+  },
+  {
+   "id": "a-hai-ucciso-miei-fratelli",
+   "nome": "Hai ucciso i miei fratelli, preparati a morire",
+   "pagina": 41,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Contro un mostro maggiore: -1 in difesa ma 2 ferite per colpo a segno; devi combattere fino alla morte (gli altri possono andarsene).",
+   "modDifesa": -1,
+   "ferite": 2,
+   "combatteFinoAllaMorte": true,
+   "contro": "un mostro maggiore"
+  },
+  {
+   "id": "a-principe-elfico",
+   "nome": "Sono un principe elfico",
+   "pagina": 41,
+   "costoIndizi": 4,
+   "requisiti": ["solo un elfo"],
+   "effetto": "Fino a fine avventura: cura fino a 4 ferite, oppure +2 a un attacco con l'arco, oppure corrompi un mostro gratis (dopo un risultato Corruzione). Alla fine paga almeno 100 p.o. di festeggiamenti o perdi 1 livello (min 1). Una sola volta per gruppo.",
+   "cura": 4,
+   "modAttaccoArco": 2,
+   "corruzioneGratis": true,
+   "festa": 100,
+   "penalita": "-1 livello",
+   "unaVoltaPerGruppo": true
+  },
+  {
+   "id": "a-mostro-pieno-oro",
+   "nome": "Questo è il mostro pieno d'oro",
+   "pagina": 42,
+   "costoIndizi": 4,
+   "requisiti": ["contro un maggiore non drago"],
+   "effetto": "A fine incontro raddoppia i p.o. del tesoro del mostro; se non ha tesoro in monete trovi 50+5d6 p.o. (tira dopo aver scelto).",
+   "moltiplicatoreOro": 2,
+   "oroSeNiente": "50+5d6",
+   "escludeDraghi": true
+  },
+  {
+   "id": "a-riconosco-tracce",
+   "nome": "Riconosco queste tracce",
+   "pagina": 42,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Ripeti 1 tiro dei mostri erranti (il secondo è definitivo); puoi cambiare l'ordine di marcia, ma gli erranti attaccano comunque per primi.",
+   "ripetiTiro": "mostri erranti"
+  },
+  {
+   "id": "a-divinita-proteggono",
+   "nome": "Le divinità ci proteggono",
+   "pagina": 42,
+   "costoIndizi": 4,
+   "requisiti": ["almeno un chierico nel gruppo"],
+   "effetto": "+1 a tutti i TS del gruppo e dei mercenari, fino al primo TS fallito ma per almeno 1 turno completo del gruppo.",
+   "modTS": 1,
+   "durata": "fino al primo TS fallito (minimo 1 turno completo)"
+  },
+  {
+   "id": "a-ascolta-mia-storia",
+   "nome": "Ascolta la mia storia",
+   "pagina": 43,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Tutti i PG in gioco, narratore compreso, recuperano 1 punto follia.",
+   "follia": -1,
+   "aTutti": true
+  },
+  {
+   "id": "a-antiche-monete",
+   "nome": "Queste antiche monete hanno grande valore per i collezionisti",
+   "pagina": 43,
+   "costoIndizi": 4,
+   "requisiti": ["un mago o un nano nel gruppo"],
+   "effetto": "Aumenta del 50% (per eccesso) il valore in monete di un tesoro; scegli prima di tirare il numero di p.o.",
+   "moltiplicatoreOro": 1.5,
+   "arrotondamento": "per eccesso"
+  },
+  {
+   "id": "a-caos-si-muove",
+   "nome": "Il caos si sta muovendo",
+   "pagina": 43,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Trasforma un incontro con seguaci in fanatici del caos (risultato 6 dei Seguaci) in numero 1d6; nel 1° turno +1 in difesa a tutti contro di loro.",
+   "forzaIncontro": {
+    "tabella": "seguaci",
+    "voce": "a-fanatici",
+    "numero": "1d6"
+   },
+   "modDifesaPrimoTurno": 1
+  },
+  {
+   "id": "a-dove-conduce-corridoio",
+   "nome": "So dove conduce questo corridoio",
+   "pagina": 43,
+   "costoIndizi": 4,
+   "requisiti": [],
+   "effetto": "Ripeti 1 tiro per il contenuto della stanza (il secondo è definitivo).",
+   "ripetiTiro": "contenuto stanza"
+  },
+  {
+   "id": "a-so-cucinarlo",
+   "nome": "Questo so cucinarlo, ed è delizioso!",
+   "pagina": 43,
+   "costoIndizi": 4,
+   "requisiti": ["un mezzuomo nel gruppo"],
+   "effetto": "Fino a fine dungeon +1 ai TS di tutti contro malattia (peste oscura compresa), paura e follia.",
+   "modTS": 1,
+   "contro": ["malattia", "peste oscura", "paura", "follia"],
+   "durata": "fino alla fine del dungeon"
+  }
+ ],
+ "oggetti": [
+  {
+   "id": "a-amuleto-non-morti",
+   "nome": "Amuleto di protezione dai non-morti",
+   "categoria": "tesoro-magico",
+   "pagina": 61,
+   "magico": true,
+   "prezzo": 250,
+   "effetto": "+1 ai tiri di difesa e ai TS contro i non-morti; più amuleti non si sommano.",
+   "modDifesa": 1,
+   "modTS": 1,
+   "contro": "non-morti",
+   "cumulabile": false
+  },
+  {
+   "id": "a-medaglione-serpenti",
+   "nome": "Medaglione dell'incantatore di serpenti",
+   "categoria": "tesoro-magico",
+   "pagina": 61,
+   "magico": true,
+   "prezzo": 100,
+   "effetto": "Contro gruppi di serpenti o uomini lucertola (anche campioni di Ssiklis): 1d8+L >= LIV dei seguaci li rende amichevoli finché il gruppo lo porta o decide di attaccarli.",
+   "tiro": "1d8+L",
+   "contro": "serpente",
+   "esito": "amichevoli"
+  },
+  {
+   "id": "a-pergamena-esilio",
+   "nome": "Pergamena di esilio",
+   "categoria": "tesoro-magico",
+   "pagina": 61,
+   "magico": true,
+   "prezzo": 100,
+   "effetto": "Solo maghi o chierici: 2 ferite automatiche a un demone o a un non-morto; poi si sbriciola.",
+   "solo": ["mago", "chierico"],
+   "ferite": 2,
+   "contro": ["demone", "non-morto"],
+   "monouso": true
+  },
+  {
+   "id": "a-bastone-rettitudine",
+   "nome": "Bastone della rettitudine",
+   "categoria": "tesoro-magico",
+   "pagina": 61,
+   "magico": true,
+   "prezzo": 250,
+   "effetto": "Arma contundente a una mano: chi colpisce a morte un maggiore recupera 1 PV.",
+   "tipoArma": "contundente",
+   "mani": 1,
+   "curaSuUccisione": 1,
+   "contro": "maggiori"
+  },
+  {
+   "id": "a-filtro-soffio-fuoco",
+   "nome": "Filtro del soffio di fuoco",
+   "categoria": "tesoro-magico",
+   "pagina": 61,
+   "magico": true,
+   "prezzo": 80,
+   "effetto": "Immune al fuoco dei draghi per 1 incontro; una volta, al posto dell'attacco, soffio: 2 ferite a un maggiore o 2 minori uccisi; nessun effetto sui draghi.",
+   "durata": "1 incontro",
+   "ferite": 2,
+   "minoriUccisi": 2,
+   "nonSuDraghi": true,
+   "monouso": true
+  },
+  {
+   "id": "a-anello-tre-desideri",
+   "nome": "Anello dei tre desideri",
+   "categoria": "tesoro-magico",
+   "pagina": 61,
+   "magico": true,
+   "prezzo": 200,
+   "prezzoPer": "desiderio rimasto",
+   "effetto": "1d3 desideri, ciascuno a scelta fra: ritira un tiro fallito; 2 ferite a un maggiore o 2 minori uccisi; crea un tesoro non magico o equipaggiamento fino a 300 p.o.; lancia un incantesimo base; cura tutte le ferite e follia al portatore. Esauriti, vale 3d8 p.o.",
+   "desideri": "1d3",
+   "usi": ["ritiro", "ferite", "creazione fino a 300 po", "incantesimo base", "cura totale"],
+   "valoreFinale": "3d8"
+  },
+  {
+   "id": "a-anello-difesa",
+   "nome": "Anello della difesa",
+   "categoria": "difesa-magica",
+   "pagina": 63,
+   "magico": true,
+   "prezzo": 200,
+   "effetto": "+1 ai tiri di difesa; un solo anello per PG.",
+   "modDifesa": 1,
+   "cumulabile": false
+  },
+  {
+   "id": "a-croce-vampiri",
+   "nome": "Croce contro i vampiri",
+   "categoria": "difesa-magica",
+   "pagina": 63,
+   "magico": true,
+   "prezzo": 100,
+   "effetto": "+2 ai tiri di difesa contro i vampiri; una sola croce per PG.",
+   "modDifesa": 2,
+   "contro": "vampiri",
+   "cumulabile": false
+  },
+  {
+   "id": "a-protezione-folletti",
+   "nome": "Protezione dai folletti",
+   "categoria": "difesa-magica",
+   "pagina": 63,
+   "magico": true,
+   "prezzo": 50,
+   "effetto": "I folletti incontrati (es. brounie) fanno subito un tiro di morale.",
+   "provoca": "morale",
+   "contro": "folletti"
+  },
+  {
+   "id": "a-scudo-magico",
+   "nome": "Scudo magico",
+   "categoria": "difesa-magica",
+   "pagina": 63,
+   "magico": true,
+   "prezzo": 250,
+   "effetto": "+2 ai tiri di difesa; non si può infrangere; non per barbari.",
+   "modDifesa": 2,
+   "infrangibile": true,
+   "esclusi": ["barbaro"]
+  },
+  {
+   "id": "a-cotta-elfica",
+   "nome": "Cotta di maglia elfica",
+   "categoria": "difesa-magica",
+   "pagina": 63,
+   "magico": false,
+   "prezzo": 200,
+   "effetto": "Armatura leggera con +2 in difesa; non magica, usabile anche dai barbari.",
+   "tipoArmatura": "leggera",
+   "modDifesa": 2
+  },
+  {
+   "id": "a-armatura-incantata",
+   "nome": "Armatura incantata",
+   "categoria": "difesa-magica",
+   "pagina": 63,
+   "magico": true,
+   "prezzo": 300,
+   "effetto": "Vale come armatura pesante ma dà +3 invece di +2; si adatta a chi la indossa.",
+   "tipoArmatura": "pesante",
+   "modDifesa": 3
+  },
+  {
+   "id": "a-paletti",
+   "nome": "Paletti di legno benedetti",
+   "categoria": "utile",
+   "pagina": 62,
+   "magico": false,
+   "prezzo": 5,
+   "quantita": "1d6",
+   "effetto": "Solo contro i vampiri valgono come armi magiche; contro altri sono armi leggere a una mano (-1). Intinto in acqua santa, il primo attacco dà 2 ferite al vampiro (conta come attacco). Usabili da tutti, barbari compresi.",
+   "contro": "vampiri",
+   "modAttaccoAltri": -1,
+   "ferite": {
+    "conAcquaSanta": 2
+   }
+  },
+  {
+   "id": "a-aconito",
+   "nome": "Aconito",
+   "categoria": "utile",
+   "pagina": 62,
+   "magico": false,
+   "prezzo": 10,
+   "effetto": "Lanciato contro un licantropo o lupo gli fa fare subito un tiro di morale; colpisce in automatico ma costa l'attacco del turno.",
+   "provoca": "morale",
+   "contro": ["licantropi", "lupi"],
+   "costoAzione": "attacco"
+  },
+  {
+   "id": "a-arma-argento",
+   "nome": "Arma d'argento",
+   "categoria": "utile",
+   "pagina": 62,
+   "magico": false,
+   "prezzo": 20,
+   "effetto": "Spada (a una mano da taglio) o pugnale (leggera da taglio): +1 contro i lupi mannari.",
+   "modAttacco": 1,
+   "contro": "lupi mannari"
+  },
+  {
+   "id": "a-ferro-cavallo",
+   "nome": "Ferro di cavallo fortunato",
+   "categoria": "utile",
+   "pagina": 62,
+   "magico": false,
+   "prezzo": 10,
+   "effetto": "Ripeti un tiro qualsiasi, una sola volta; i barbari non lo usano.",
+   "usi": 1,
+   "ripetiTiro": true,
+   "esclusi": ["barbaro"]
+  },
+  {
+   "id": "a-pane-elfico",
+   "nome": "Pane elfico",
+   "categoria": "utile",
+   "pagina": 62,
+   "magico": false,
+   "prezzo": 10,
+   "quantita": "1d3",
+   "effetto": "Una razione: recupera 1 ferita (elfi 3) o cura la peste oscura; una volta per avventura per personaggio; non va a male, non è magico.",
+   "cura": 1,
+   "curaElfo": 3,
+   "curaPeste": true,
+   "usiPerAvventuraPerPersonaggio": 1
+  },
+  {
+   "id": "a-pelliccia-pantera",
+   "nome": "Pelliccia di pantera distorcente",
+   "categoria": "derivato",
+   "pagina": 21,
+   "magico": true,
+   "prezzo": 150,
+   "effetto": "Cappa blu: lancia Fuga come mago di 6° livello, 1 volta per avventura; non per barbari; non è armatura.",
+   "incantesimo": "Fuga",
+   "livelloIncantatore": 6,
+   "usiPerAvventura": 1,
+   "esclusi": ["barbaro"],
+   "creataDa": "conciatore-arcano"
+  },
+  {
+   "id": "a-pelle-drago",
+   "nome": "Pelle di drago",
+   "categoria": "derivato",
+   "pagina": 22,
+   "magico": false,
+   "prezzo": 150,
+   "effetto": "Veste non magica: +1 ai TS contro il soffio del drago e +1 in difesa contro i draghi; si cumula con scudo e armatura; anche per i barbari.",
+   "modTSSoffio": 1,
+   "modDifesa": 1,
+   "contro": "draghi",
+   "creataDa": "conciatore-arcano"
+  },
+  {
+   "id": "a-acqua-santa",
+   "nome": "Acqua santa",
+   "categoria": "derivato",
+   "pagina": 22,
+   "magico": false,
+   "prezzo": 10,
+   "effetto": "Fiala creata dal chierico: 1 ferita a un vampiro per fiala lanciata; il paletto intinto fa 2 ferite al primo attacco.",
+   "ferite": 1,
+   "contro": "vampiri",
+   "creataDa": "creare-acqua-santa"
+  },
+  {
+   "id": "a-pergamena-creata",
+   "nome": "Pergamena creata",
+   "categoria": "derivato",
+   "pagina": 22,
+   "magico": true,
+   "costoMateriali": 80,
+   "effetto": "1 incantesimo noto al creatore; i materiali si consumano al lancio.",
+   "creataDa": "creare-pergamene"
+  }
+ ],
+ "mercenariRegole": {
+  "livello": 0,
+  "dado": "1d6",
+  "tiriES": false,
+  "massimo": 2,
+  "compensoAnticipato": true,
+  "compensoPer": "singola avventura",
+  "moraleSoglia": {
+   "dado": "1d6",
+   "successoDa": 4,
+   "conLeaderCarismatico": 3
+  },
+  "moraleQuando": "muore, è pietrificato o impazzisce un mercenario o un membro del gruppo",
+  "chiFuggeNonTornaMai": true,
+  "bonusMorale": {
+   "parteDelTesoro": "2x compenso",
+   "modMorale": 1
+  },
+  "resurrezione": {
+   "automatica": true,
+   "dopo": "lealtà fanatica: non tira più il morale"
+  },
+  "occupaPostoNellOrdineDiMarcia": true,
+  "nonUsaOroPropri": true,
+  "equipaggiamentoPagatoDalGruppo": true
+ },
+ "mercenari": [
+  {
+   "id": "m-accolito",
+   "nome": "Accolito",
+   "pagina": 32,
+   "costo": 8,
+   "pv": 2,
+   "armi": "qualsiasi a una mano",
+   "armatura": "leggera",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": true,
+   "requisiti": ["almeno un chierico nel gruppo (assegnato a uno specifico chierico)"],
+   "posizione": "accanto al chierico servito",
+   "effetto": "Una volta per avventura, dopo una Benedizione, il chierico tira 1d6+L: con 7 o più l'incantesimo non si consuma. Se il chierico muore porta fuori il corpo.",
+   "benedizioneNonConsumata": {
+    "dado": "1d6+L",
+    "soglia": 7,
+    "usiPerAvventura": 1
+   }
+  },
+  {
+   "id": "m-armigero",
+   "nome": "Armigero",
+   "pagina": 32,
+   "costo": 20,
+   "pv": 4,
+   "armi": "tutte",
+   "armatura": "qualsiasi",
+   "scudo": true,
+   "mor": 1,
+   "modAttacco": 1,
+   "saLeggere": false,
+   "requisiti": ["gruppo senza barbari, guerrieri o nani"],
+   "effetto": "Guerriero di livello 0 con +1 in attacco e al morale.",
+   "classeEquivalente": "guerriero lv0"
+  },
+  {
+   "id": "m-attendente",
+   "nome": "Attendente",
+   "pagina": 32,
+   "costo": 12,
+   "pv": 2,
+   "armi": "quella che porta; poi spada",
+   "armatura": "leggera",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": false,
+   "requisiti": [],
+   "effetto": "Porta scudo e un'arma di un PG: cambiare arma o imbracciare lo scudo non costa un attacco.",
+   "cambioArmaGratis": true
+  },
+  {
+   "id": "m-cerusico",
+   "nome": "Cerusico",
+   "pagina": 33,
+   "costo": 25,
+   "pv": 2,
+   "armi": "leggere",
+   "armatura": "nessuna",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": true,
+   "requisiti": [],
+   "effetto": "Oltre alle bende cura 2 PV per avventura a ciascun PG oppure 1 PV a sé; porta 1 benda per sé.",
+   "cura": {
+    "perPersonaggio": 2,
+    "perSe": 1
+   }
+  },
+  {
+   "id": "m-guardia-corpo",
+   "nome": "Guardia del corpo",
+   "pagina": 33,
+   "costo": 30,
+   "pv": 3,
+   "armi": "tutte (2 mani con +1)",
+   "armatura": "qualsiasi",
+   "scudo": true,
+   "mor": 1,
+   "modAttacco": 0,
+   "saLeggere": false,
+   "requisiti": [],
+   "posizione": "accanto al protetto",
+   "effetto": "Può subire al posto del protetto ogni attacco (anche a bersaglio casuale); riassegnabile tra una stanza e l'altra.",
+   "assorbeAttacchi": true,
+   "classeEquivalente": "guerriero lv0"
+  },
+  {
+   "id": "m-guida",
+   "nome": "Guida",
+   "pagina": 33,
+   "costo": 7,
+   "costoPerLivello": 7,
+   "costoMax": 28,
+   "livelliMax": 4,
+   "pv": 2,
+   "armi": "leggere",
+   "armatura": "leggera",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": false,
+   "requisiti": [],
+   "effetto": "Ogni livello permette 1 ripetizione di tiro per avventura: generazione stanza, contenuto stanza, perquisire, mostri erranti. Mai due volte lo stesso tiro; il secondo risultato è definitivo.",
+   "ripetizioni": ["generazione stanza", "contenuto stanza", "perquisire", "mostri erranti"],
+   "ripetizioniPerLivello": 1
+  },
+  {
+   "id": "m-lanterniere",
+   "nome": "Lanterniere",
+   "pagina": 34,
+   "costo": 4,
+   "pv": 2,
+   "armi": "una mano",
+   "armatura": "leggera",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": false,
+   "requisiti": [],
+   "effetto": "Porta e ricarica la lanterna; se muore, fugge o è pietrificato la lascia cadere.",
+   "portaLanterna": true
+  },
+  {
+   "id": "m-menestrello",
+   "nome": "Menestrello",
+   "pagina": 34,
+   "costo": 6,
+   "pv": 2,
+   "armi": "leggere",
+   "armatura": "nessuna",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": false,
+   "requisiti": [],
+   "effetto": "Una volta per avventura una canzone toglie 1 punto follia a tutti i PG; ha sempre una mano occupata dallo strumento.",
+   "follia": -1,
+   "aTutti": true,
+   "usiPerAvventura": 1
+  },
+  {
+   "id": "m-portatore",
+   "nome": "Portatore",
+   "pagina": 34,
+   "costo": 4,
+   "pv": 2,
+   "armi": "leggere (facoltative)",
+   "armatura": "leggera (facoltativa)",
+   "scudo": false,
+   "mor": -1,
+   "saLeggere": false,
+   "requisiti": [],
+   "effetto": "Trasporta fino a 400 p.o. o 2 oggetti ingombranti; -1 al morale; se fugge lascia tutto.",
+   "capacitaPO": 400,
+   "oggettiIngombranti": 2
+  },
+  {
+   "id": "m-sterminatore-ratti",
+   "nome": "Sterminatore di ratti",
+   "pagina": 34,
+   "costo": 6,
+   "pv": 2,
+   "armi": "una mano",
+   "armatura": "leggera",
+   "scudo": false,
+   "mor": 0,
+   "saLeggere": false,
+   "requisiti": [],
+   "effetto": "Contro i ratti normali uccide 1d6 ratti con un'azione; contro altre creature con \"ratto\" o \"topo\" nel nome (anche scheletrici e uomini ratto del caos) infligge 1 ferita; +2 in difesa contro ogni ratto.",
+   "ratti": {
+    "uccisi": "1d6",
+    "altriRatti": {
+     "ferite": 1
+    },
+    "modDifesa": 2
+   }
+  }
+ ],
+ "artigianiRegole": {
+  "massimoServigiTraAvventure": 3,
+  "ripartibili": "su un solo personaggio o tra più membri",
+  "compensoPer": "singolo uso",
+  "nonHannoStatisticheCombattimento": true
+ },
+ "artigiani": [
+  {
+   "id": "r-alchimista",
+   "nome": "Alchimista",
+   "pagina": 35,
+   "costo": 50,
+   "massimo": 1,
+   "effetto": "Prepara 1 pozione scelta prima dell'avventura; i materiali si pagano in anticipo; a fine avventura riesce se 1d6 supera la difficoltà.",
+   "tiro": "1d6 > difficoltà",
+   "pozioni": [
+    {
+     "id": "guarigione",
+     "nome": "Pozione di guarigione",
+     "difficolta": null,
+     "costo": 10,
+     "effetto": "Come nel manuale base (p. 33): cura i PV persi.",
+     "rimando": "manuale base p.33"
+    },
+    {
+     "id": "scurovisione",
+     "nome": "Pozione di scurovisione",
+     "difficolta": 2,
+     "costo": 15,
+     "effetto": "Vede al buio: niente -2 in attacco e difesa senza lanterna, per l'avventura.",
+     "durata": "avventura"
+    },
+    {
+     "id": "vigore",
+     "nome": "Pozione del vigore",
+     "difficolta": 2,
+     "costo": 10,
+     "effetto": "+1 ai TS contro veleno o gas e immunità alla peste oscura per l'avventura.",
+     "modTS": 1,
+     "contro": ["veleno", "gas"],
+     "immuneA": "peste oscura",
+     "durata": "avventura"
+    },
+    {
+     "id": "aglio",
+     "nome": "Impiastro di aglio",
+     "difficolta": null,
+     "costo": 1,
+     "effetto": "Immune alla perdita di livelli dei vampiri per l'avventura (subisce comunque le ferite); si applica prima di partire.",
+     "immuneA": "perdita livello vampiro"
+    },
+    {
+     "id": "argento",
+     "nome": "Argento polverizzato",
+     "difficolta": null,
+     "costo": 10,
+     "effetto": "+1 in difesa contro i lupi mannari; si applica prima dell'avventura.",
+     "modDifesa": 1,
+     "contro": "lupi mannari"
+    },
+    {
+     "id": "sangue-elfico",
+     "nome": "Unguento del sangue elfico",
+     "difficolta": 3,
+     "costo": 35,
+     "effetto": "Immune alla paralisi di ghoul e drago ghoul.",
+     "immuneA": "paralisi ghoul"
+    },
+    {
+     "id": "mentesalda",
+     "nome": "Estratto di mentesalda",
+     "difficolta": 4,
+     "costo": 60,
+     "effetto": "+2 in difesa contro gli attacchi psichici degli urlatori mentali e +2 ai TS contro il potere dei cervelli tentacolati, fino a fine avventura.",
+     "modDifesa": 2,
+     "modTS": 2,
+     "contro": ["urlatore mentale", "cervello tentacolato"]
+    },
+    {
+     "id": "elisir",
+     "nome": "Elisir di lunga vita",
+     "difficolta": 5,
+     "costo": 1000,
+     "effetto": "Se vieni ucciso tira 1d6+livello: con 6 o più non muori e recuperi 1d6 PV (fino al massimo).",
+     "tiro": "1d6+L",
+     "soglia": 6,
+     "cura": "1d6"
+    }
+   ]
+  },
+  {
+   "id": "r-armaiolo",
+   "nome": "Armaiolo",
+   "pagina": 36,
+   "costo": 6,
+   "effetto": "Affila l'arma da taglio principale: +1 in attacco per il 1° incontro (non contro mostri che danno malus alle armi da taglio).",
+   "modAttacco": 1,
+   "durata": "1° incontro"
+  },
+  {
+   "id": "r-cantastorie",
+   "nome": "Cantastorie",
+   "pagina": 37,
+   "costo": 5,
+   "effetto": "+1 al 1° tiro di morale dei mercenari del gruppo nella prossima avventura, finché il PG è vivo.",
+   "modMoraleMercenari": 1,
+   "durata": "1° tiro di morale"
+  },
+  {
+   "id": "r-chiromante",
+   "nome": "Chiromante",
+   "pagina": 37,
+   "costo": 15,
+   "esclusi": ["barbaro"],
+   "massimoPerAvventura": 1,
+   "effetto": "Tira 2d8 e scegli un risultato: nella prossima avventura puoi sostituirlo a un qualsiasi tiro.",
+   "tiro": "2d8",
+   "scelta": 1
+  },
+  {
+   "id": "r-confessore",
+   "nome": "Confessore",
+   "pagina": 37,
+   "costo": 6,
+   "effetto": "Rimuove 1 punto follia (6 p.o. a seduta, una sola tra due avventure).",
+   "follia": -1
+  },
+  {
+   "id": "r-erborista",
+   "nome": "Erborista",
+   "pagina": 37,
+   "costo": 10,
+   "effetto": "+1 ai TS contro veleno e malattia (peste oscura compresa) nella prossima avventura.",
+   "modTS": 1,
+   "contro": ["veleno", "malattia"]
+  },
+  {
+   "id": "r-esperto-veleni",
+   "nome": "Esperto di veleni",
+   "pagina": 37,
+   "costo": 25,
+   "requisiti": ["furfante di livello 5 o più"],
+   "effetto": "Avvelena un'arma da taglio o 1 freccia: il 1° attacco ha +1 contro un minore (non non-morto né immune); contro un maggiore il furfante tira 1d8+L contro il suo livello e, se riesce, ne riduce il livello di 1 per l'incontro. Non-morti, draghi, elementali, automi e golem sono immuni.",
+   "modAttacco": 1,
+   "tiroMaggiore": "1d8+L",
+   "riduceLivello": 1,
+   "immuni": ["non-morti", "draghi", "elementali", "automi", "golem"]
+  },
+  {
+   "id": "r-fabbricante-scudi",
+   "nome": "Fabbricante di scudi",
+   "pagina": 38,
+   "costo": 8,
+   "effetto": "Il PG ripete il 1° tiro di difesa fallito dell'avventura (non contro attacchi che ignorano gli scudi) e lo scudo non si può più distruggere.",
+   "ripetiDifesa": 1,
+   "scudoInfrangibile": true
+  },
+  {
+   "id": "r-fabbro",
+   "nome": "Fabbro",
+   "pagina": 38,
+   "costo": 20,
+   "costoDueMani": 40,
+   "effetto": "Riveste d'argento la lama di un'arma da taglio a una mano (40 p.o. a due mani) o le punte di 5 frecce: +1 in attacco contro lupi mannari e altri licantropi.",
+   "modAttacco": 1,
+   "contro": "licantropi",
+   "frecce": 5
+  },
+  {
+   "id": "r-saggio",
+   "nome": "Saggio",
+   "pagina": 38,
+   "costo": 10,
+   "effetto": "Il 1° indizio trovato dal PG nella prossima avventura vale 2 indizi.",
+   "indizioPrimo": 2
+  },
+  {
+   "id": "r-sarto",
+   "nome": "Sarto",
+   "pagina": 38,
+   "costo": 10,
+   "effetto": "Una sola volta, nel 1° tiro di reazione di un mostro, puoi spostare il risultato di 1 se così ottieni Corruzione; poi l'effetto è perso.",
+   "modReazione": 1,
+   "soloPer": "corruzione",
+   "usi": 1
+  }
+ ],
+ "regole": [
+  {
+   "id": "gruppo-esperto",
+   "nome": "Gruppo esperto (livello avanzato)",
+   "pagina": 5,
+   "sintesi": "Dal momento in cui tutti i PG sono di 5° livello e hanno speso 1 tiro ES o 500 p.o. a testa, il gruppo è esperto e usa il d8.",
+   "parametri": {
+    "livelloMin": 5,
+    "tiroESPerPG": 1,
+    "oroPerPG": 500,
+    "dado": "d8"
+   }
+  },
+  {
+   "id": "ingresso-abisso",
+   "nome": "Addentrarsi nell'Abisso",
+   "pagina": 6,
+   "sintesi": "Quattro modi per entrare: durante l'avventura via scale, tra avventure con tiri ES, tra avventure pagando, oppure con un'avventura già pronta. Vedi livelli.ingresso.",
+   "parametri": {
+    "modi": 4,
+    "tiriESAccumulati": 4,
+    "oroPerPG": 500
+   }
+  },
+  {
+   "id": "d8-esplosivo",
+   "nome": "D8 esplosivo",
+   "pagina": 6,
+   "sintesi": "Gli esperti tirano 1d8 per attacco, difesa, incantesimi (anche base), tutti i tiri salvezza e ogni azione; il dado esplode con 7-8, l'1 è sempre un fallimento. Il d6 resta per generare stanze, per le tabelle (salvo diversa indicazione) e per perquisire.",
+   "parametri": {
+    "dado": 8,
+    "esplosivo": [7, 8],
+    "fallimentoAutomatico": 1,
+    "probEsplosione": "2 su 8",
+    "usaD6PerStanze": true,
+    "usaD6PerTabelle": true,
+    "usaD6PerPerquisire": true,
+    "livelloBaseUsaD6": true,
+    "mercenariUsanoD6": true
+   }
+  },
+  {
+   "id": "tiri-es",
+   "nome": "Tiri ES e esperienza raddoppiata",
+   "pagina": 8,
+   "sintesi": "Il tiro ES è 1d8+2. Ottieni 2 ES per ogni maggiore sconfitto e 1 ES ogni 5 incontri con seguaci o infestanti. In un dungeon base resta 1d6 (liv 1-2) o 1d6+1 (liv 3-4).",
+   "parametri": {
+    "tiro": "1d8+2",
+    "esPerMaggiore": 2,
+    "incontriPerES": 5,
+    "dungeonBase": {
+     "livello1-2": "1d6",
+     "livello3-4": "1d6+1"
+    },
+    "esPerBoss": 2
+   }
+  },
+  {
+   "id": "avanzamento-livelli-6-9",
+   "nome": "Livelli 6-9: avanzamento, PV e tiri",
+   "pagina": 8,
+   "sintesi": "L'avanzamento segue il manuale base con il d8 al posto del d6; i bonus dei livelli 1-4 si mantengono (es. guerriero 6°: 1d8+6; mago 6° lancia Sonno con 1d8+6). Un tiro ES riesce se supera il livello o con 7-8 naturale. Scudi e armature restano invariati.",
+   "parametri": {
+    "salitaLivello": "tiro ES > livello oppure naturale 7-8",
+    "pvPerLivello": 1,
+    "pvPerLivelloFonte": "manuale base p.51 (il supplemento non lo riporta)",
+    "pvTabellaLivelli6a9": null,
+    "bonusMantenuti": true,
+    "scudiArmatureInvariati": true,
+    "tetto": 9,
+    "abilitaInvecediLivello": true
+   }
+  },
+  {
+   "id": "incantesimi-avanzati",
+   "nome": "Incantesimi avanzati: acquisizione",
+   "pagina": 15,
+   "sintesi": "Un mago o elfo di almeno 5° livello sceglie un incantesimo avanzato e fa 1 tiro ES (1d8+2): se riesce, entra nel grimorio e si lancia 1 volta per avventura; lo si può memorizzare più volte nei limiti di classe e livello.",
+   "parametri": {
+    "classi": ["mago", "elfo"],
+    "livelloMin": 5,
+    "tiro": "1d8+2",
+    "usiPerAvventura": 1,
+    "incantesimiTotali": 6
+   }
+  },
+  {
+   "id": "abilita-avanzate",
+   "nome": "Abilità avanzate: acquisizione",
+   "pagina": 19,
+   "sintesi": "Un PG che passa un tiro ES può imparare 1 abilità scelta invece di salire di livello (1d8+2; 7-8 naturale è sempre un successo). Ogni abilità si impara una sola volta, senza limite di numero e senza aumentare la difficoltà.",
+   "parametri": {
+    "tiro": "1d8+2",
+    "esplosivoSempreSuccesso": true,
+    "unaVoltaPerAbilita": true,
+    "limiteNumero": null,
+    "aumentaDifficolta": false,
+    "abilitaTotali": 41
+   }
+  },
+  {
+   "id": "livello-base-nell-abisso",
+   "nome": "Personaggi base nell'Abisso",
+   "pagina": 10,
+   "sintesi": "Si possono mandare PG di livello 1-4 (sconsigliato; meglio almeno 3°): tirano 1d6 e supereranno certi pericoli solo con un 6.",
+   "parametri": {
+    "livelloSuggeritoMin": 3,
+    "dado": "1d6"
+   }
+  },
+  {
+   "id": "pg-menomati",
+   "nome": "Rimuovere i personaggi menomati",
+   "pagina": 10,
+   "sintesi": "Un PG troppo debole (livelli persi, maledizioni, follia) può ritirarsi: porta con sé oggetti magici/speciali e una parte equa del tesoro (nell'esempio un quarto) e arriva un nuovo PG di 5° livello con 100 p.o. di equipaggiamento (prestiti solo da ciò che il gruppo ha con sé).",
+   "parametri": {
+    "nuovoLivello": 5,
+    "equipaggiamentoPO": 100,
+    "parteTesoroEsempio": "1/4",
+    "lasciaEquipaggiamento": false
+   }
+  },
+  {
+   "id": "partenza-livello-5",
+   "nome": "Partire con un gruppo di 5° livello",
+   "pagina": 10,
+   "sintesi": "Per cominciare direttamente: PG di 5° livello con 100 p.o. extra e 1 tiro sui Tesori magici del manuale base.",
+   "parametri": {
+    "livello": 5,
+    "oro": 100,
+    "tiriTesoriMagici": 1
+   }
+  },
+  {
+   "id": "seguaci-con-leader",
+   "nome": "Seguaci con un leader",
+   "pagina": 11,
+   "sintesi": "In corridoio il leader si attacca solo dopo i seguaci. In stanza un PG è il campione e combatte in duello col leader mentre gli altri affrontano i seguaci; incantesimi e armi a distanza contro il leader solo al 1° turno (salvo che l'incantatore sia il campione). Se il leader muore o fugge, i seguaci con morale tirano a -1. Finché il leader c'è, i seguaci non tirano il morale.",
+   "parametri": {
+    "inCorridoio": "leader attaccabile solo dopo i seguaci",
+    "inStanza": "campione contro leader",
+    "incantesimiControLeaderSoloPrimoTurno": true,
+    "lancioControLeaderSoloPrimoTurno": true,
+    "moraleSeguaciSenzaLeader": -1,
+    "seguaciNonTiranoMoraleFinoAlLeader": true,
+    "campioneNonPuoRitirarsi": true
+   }
+  },
+  {
+   "id": "singolo-contro-maggiori",
+   "nome": "Un singolo PG contro 2+ maggiori",
+   "pagina": 12,
+   "sintesi": "Il PG sceglie un nemico primario (cambiabile nel proprio turno o dopo le difese) e ha -1 in difesa contro gli altri maggiori. I poteri dei mostri non colpiscono i loro simili.",
+   "parametri": {
+    "modDifesaAltri": -1,
+    "nemicoPrimarioCambiabile": true
+   }
+  },
+  {
+   "id": "maggiori-multipli",
+   "nome": "Stanze con più mostri maggiori",
+   "pagina": 12,
+   "sintesi": "Con 2 maggiori si divide il gruppo a metà e si giocano gli scontri in contemporanea; chi finisce aiuta i compagni (anche i mostri fanno lo stesso). Con 3 maggiori un PG ciascuno e il quarto sceglie il bersaglio.",
+   "parametri": {
+    "maggioriMax": 3,
+    "divisione": "metà e metà",
+    "treMaggiori": "1 PG ciascuno + il quarto a scelta"
+   }
+  },
+  {
+   "id": "maggiori-con-minori",
+   "nome": "Maggiori con minori",
+   "pagina": 54,
+   "sintesi": "Si divide il gruppo e si gioca ogni scontro in parallelo; morale separato per i due gruppi; si ottengono 2 tiri ES e si tira il tesoro solo del maggiore.",
+   "parametri": {
+    "esPerIncontro": 2,
+    "tesoroSoloMaggiore": true,
+    "moraleSeparato": true
+   }
+  },
+  {
+   "id": "piu-esperienza",
+   "nome": "Più esperienza: infestanti come seguaci",
+   "pagina": 54,
+   "sintesi": "Ai fini dei tiri ES gli infestanti contano come seguaci: si sommano gli incontri con seguaci e infestanti e a 5 si fa 1 tiro ES. Si contano gli incontri superati, non i mostri uccisi.",
+   "parametri": {
+    "incontriPerES": 5,
+    "infestantiComeSeguaci": true,
+    "contaIncontriNonMostri": true
+   }
+  },
+  {
+   "id": "singolar-tenzone",
+   "nome": "Singolar tenzone",
+   "pagina": 13,
+   "sintesi": "Nuova reazione: i mostri propongono un duello tra il loro miglior guerriero (maggiore, o un seguace con +2 livelli) e un PG a scelta. Dura 1d6 turni; chi attacca per primo si decide con 1d6 (1-3 il PG, 4-6 il mostro); niente magia né distanza; vince chi uccide o infligge più ferite (pareggio: si prosegue). Chi perde lascia passare il gruppo finché il vincitore è in grado di combattere; se vincono i mostri, il gruppo deve andarsene o li affronta con +1 al loro livello.",
+   "parametri": {
+    "durataTurni": "1d6",
+    "primoAttaccante": {
+     "dado": "1d6",
+     "pg": [1, 3],
+     "mostro": [4, 6]
+    },
+    "modLivelloSeguace": 2,
+    "magiaPermessa": false,
+    "distanzaPermessa": false,
+    "pareggio": "un altro turno",
+    "sePerdonoMostri": "lasciano passare finché il vincitore è nel gruppo e in grado di combattere",
+    "seVincono": {
+     "gruppoLasciaStanza": true,
+     "seAttaccanoModLivello": 1
+    }
+   }
+  },
+  {
+   "id": "orde",
+   "nome": "Orde",
+   "pagina": 13,
+   "sintesi": "Un'orda (molte piccole creature) vale come un solo mostro maggiore e fa 1 attacco per turno contro ogni PG; le più potenti ne fanno 2.",
+   "parametri": {
+    "contaComeMaggiore": true,
+    "attacchiPerPG": 1,
+    "attacchiPerPGOrdeForti": 2
+   }
+  },
+  {
+   "id": "spadaccino",
+   "nome": "Spadaccino",
+   "pagina": 13,
+   "sintesi": "Classe del volume \"Acque Oscure e Altre Avventure\" (p. 5): può essere usata nell'Abisso e ha le sue liste di abilità (p. 72). Le statistiche non sono nel manuale.",
+   "parametri": {
+    "rimando": "Acque Oscure e Altre Avventure p.5",
+    "abilita": 7
+   }
+  },
+  {
+   "id": "mercenari",
+   "nome": "Regole dei mercenari",
+   "pagina": 31,
+   "sintesi": "Livello 0, d6 per i tiri, niente tiri ES. Massimo 2, compenso anticipato per avventura, equipaggiamento a carico del gruppo. Morale con 1d6 (4+, 3+ con Leader carismatico) quando cade un mercenario o un PG; chi fugge non torna. Con una parte di tesoro pari al doppio del compenso hanno +1 al morale. La resurrezione è automatica e li rende fanatici.",
+   "parametri": {
+    "massimo": 2,
+    "livello": 0,
+    "dado": "1d6",
+    "moraleSoglia": 4,
+    "moraleSogliaLeader": 3,
+    "bonusMoraleParteTesoro": "2x compenso",
+    "bonusMorale": 1
+   }
+  },
+  {
+   "id": "artigiani",
+   "nome": "Regole degli artigiani",
+   "pagina": 35,
+   "sintesi": "Tra un'avventura e l'altra si usano al massimo 3 servigi di artigiani, su un PG o ripartiti; il compenso vale per un uso; non hanno statistiche di combattimento.",
+   "parametri": {
+    "massimoServigi": 3
+   }
+  },
+  {
+   "id": "follia",
+   "nome": "Follia",
+   "pagina": 49,
+   "sintesi": "Ogni punto follia segna l'erosione mentale. Chi ne ha almeno 1 non può scambiare oggetti o tesoro con altri. Se i punti superano il livello (il mago conta 1 livello in più) il PG impazzisce, fugge portando i suoi averi e scompare. Si tolgono con Benedizione, \"Ascolta la mia storia\" o canzone del menestrello (1 punto), con l'uscita dal dungeon dopo aver sconfitto almeno un maggiore (1 punto a testa) e dal confessore (6 p.o., 1 punto).",
+   "parametri": {
+    "sogliaFollia": "punti > livello",
+    "bonusMagoLivello": 1,
+    "scambioOggettiBloccato": true,
+    "rimozione": {
+     "benedizione": 1,
+     "ascoltaMiaStoria": 1,
+     "menestrello": 1,
+     "usciDalDungeonConMaggioreSconfitto": 1,
+     "confessore": 1,
+     "confessoreCostoPO": 6
+    },
+    "maxRimozioniTraAvventure": 1
+   }
+  },
+  {
+   "id": "licantropia",
+   "nome": "Licantropia",
+   "pagina": 50,
+   "sintesi": "Chi subisce almeno 1 ferita da un lupo mannaro salva alla fine dell'incontro contro la maledizione (L5; elfi e mezzuomini +1/2L). L'infetto getta argento e rifiuta la lanterna; se la follia supera il livello si trasforma in lupo mannaro boss (LIV 6, ATT 2, PV 5) controllato dal gioco. Cura: monastero a 400 p.o. e nuovo TS a +1; con 1 muore (resurrezione 1000 p.o., resta maledetto); con risultato esplosivo diventa immune. Benedizione e guarigione non servono.",
+   "parametri": {
+    "tsLiv": 5,
+    "bonusClassi": {
+     "elfo": "1/2L",
+     "mezzuomo": "1/2L"
+    },
+    "quando": "a fine incontro, per ogni PG ferito da un tiro di difesa fallito",
+    "trasformazione": {
+     "quando": "follia > livello",
+     "creatura": "a-lupo-mannaro-pg",
+     "liv": 6,
+     "att": 2,
+     "pv": 5
+    },
+    "cura": {
+     "costoPO": 400,
+     "modTS": 1,
+     "ripetibile": true,
+     "con1Muore": true,
+     "conEsplosivoImmune": true,
+     "benedizioneInutile": true
+    },
+    "resurrezionePO": 1000
+   }
+  },
+  {
+   "id": "peste-oscura",
+   "nome": "Peste oscura",
+   "pagina": 51,
+   "sintesi": "Chi entra in contatto salva contro la malattia (L10; mezzuomini +1/2L per difetto) o si ammala: a ogni stanza tira 1d8 e con 1 perde 1 PV. Se resta nel gruppo, a ogni stanza gli altri salvano (L10) finché sono tutti infetti. Cura: Benedizione con 1d8+L >= 10 (tentativi finché ha incantesimi), pane elfico (1 per PG), chiesa (chierico di 5° livello, 1d6 con 5-6). Chi passa il primo TS o guarisce è immune per l'avventura.",
+   "parametri": {
+    "tsLiv": 10,
+    "bonusClassi": {
+     "mezzuomo": "1/2L"
+    },
+    "dannoDado": "1d8",
+    "dannoSu": 1,
+    "dannoPV": 1,
+    "ogni": "stanza",
+    "contagioTsLiv": 10,
+    "curaBenedizione": {
+     "tiro": "1d8+L",
+     "soglia": 10
+    },
+    "curaPane": true,
+    "curaChiesa": {
+     "livelloChierico": 5,
+     "dado": "1d6",
+     "successo": [5, 6]
+    },
+    "immunitaPerAvventura": true,
+    "ritornoDaSoloConErranti": true
+   }
+  },
+  {
+   "id": "vampirismo",
+   "nome": "Vampirismo",
+   "pagina": 53,
+   "sintesi": "Chi subisce ferite da un vampiro salva subito contro il livello del vampiro o perde 1 livello (con PV e vantaggi collegati; il mago perde un incantesimo non usato). A livello 0 o PV 0 per questo effetto non c'è resurrezione: torna come vampiro, a meno di bruciare il corpo/paletto o uccidere il vampiro che l'ha causato prima di resuscitarlo. Se il vampiro sfugge, 2 indizi (1 con Cacciatore di vampiri) lo fanno incontrare di nuovo nella stanza successiva, senza tirare il contenuto, ferite non guarite e 2 su 1d6 con seguaci. L'impiastro di aglio evita la perdita di livello.",
+   "parametri": {
+    "tsLiv": "livello del vampiro",
+    "perditaLivello": 1,
+    "perdePVeVantaggi": true,
+    "resurrezionePossibile": false,
+    "ritornaVampiro": "livello 0 o ultimo PV perso per questo effetto",
+    "rincontro": {
+     "costoIndizi": 2,
+     "costoIndiziCacciatore": 1,
+     "tiraContenuto": false,
+     "seguaciProb": 2,
+     "dado": "1d6",
+     "tabellaSeguaci": "seguaci",
+     "vampiroNonGuarito": true
+    },
+    "antidoto": "impiastro di aglio"
+   }
+  },
+  {
+   "id": "addestramento",
+   "nome": "Addestramento (opzionale)",
+   "pagina": 43,
+   "sintesi": "Tra due avventure ogni PG si allena una sola volta pagando 100 p.o. per livello in anticipo; poi tenta 1 tiro ES (livello o abilità). Se fallisce non si recupera il denaro. Prima si pagano tutti, poi si tirano. Ci si può riaddestrare solo se nell'ultima avventura il gruppo ha fatto almeno 1 tiro ES.",
+   "parametri": {
+    "costoPerLivello": 100,
+    "volteTraAvventure": 1,
+    "pagamentoAnticipato": true,
+    "tiro": "1d8+2",
+    "rimborsoSeFallisce": false,
+    "richiedeTiroESNellUltimaAvventura": true
+   }
+  },
+  {
+   "id": "trame",
+   "nome": "Trame per le campagne (opzionale)",
+   "pagina": 44,
+   "sintesi": "Si tira 1d6 sulla tabella Trama della campagna (6 trame). Per le campagne estese 1-2 vale 1, 3-4 vale 3, 5-6 vale 5. Ricompensa: 1d6x100 p.o. a ogni sopravvissuto e 1 tiro ES a uno di loro.",
+   "parametri": {
+    "dado": "1d6",
+    "estese": {
+     "1-2": 1,
+     "3-4": 3,
+     "5-6": 5
+    },
+    "ricompensaOro": "1d6x100",
+    "ricompensaES": 1
+   }
+  },
+  {
+   "id": "resurrezione",
+   "nome": "Resurrezione dal 6° livello",
+   "pagina": 7,
+   "sintesi": "Per i personaggi dal 6° livello in su il rituale è automatico, ma costa comunque 1.000 p.o.",
+   "parametri": {
+    "livelloMin": 6,
+    "automatica": true,
+    "costoPO": 1000
+   }
+  },
+  {
+   "id": "ts-o-morte",
+   "nome": "Pericoli «tiro salvezza o morte»",
+   "pagina": 7,
+   "sintesi": "Alcuni pericoli (veleni potenti, pozzi di lava) uccidono automaticamente chi fallisce il tiro, a prescindere dai PV.",
+   "parametri": {
+    "mortePerFallimento": true
+   }
+  },
+  {
+   "id": "boss-finale",
+   "nome": "Boss finale",
+   "pagina": 56,
+   "sintesi": "Quando esce un boss dalla tabella Contenuti (11 o 12), tira 1d6 + 1 per ogni maggiore già sconfitto (anche erranti): con 6 o più, o se lo spazio sul foglio è finito, è il boss finale.",
+   "parametri": {
+    "dado": "1d6",
+    "piuMaggioriSconfitti": 1,
+    "soglia": 6,
+    "oSpazioFinito": true,
+    "esPerBoss": 2
+   }
+  },
+  {
+   "id": "tana-drago",
+   "nome": "Tana del drago",
+   "pagina": 56,
+   "sintesi": "Un 12 sul contenuto in una stanza grande (12+ quadretti: 23, 25, 34, 35, 36, 41, 44, 52, 56, 61, 66) è la tana di un drago: tira sulla tabella Draghi. Nelle stanze piccole vale come 11. Con la trama Sortilegio i boss finali sono draghi.",
+   "parametri": {
+    "stanzeGrandi": ["23", "25", "34", "35", "36", "41", "44", "52", "56", "61", "66"],
+    "tabella": "draghi"
+   }
+  },
+  {
+   "id": "mostri-erranti",
+   "nome": "Mostri erranti",
+   "pagina": 56,
+   "sintesi": "Compaiono con 1 su 1d6 attraversando stanze già visitate o con un 1 nel perquisire. Tipo con 1d6: 1-2 infestanti, 3-4 seguaci, 5 aberranti, 6 boss.",
+   "parametri": {
+    "probabilita": 1,
+    "dado": "1d6",
+    "tipo": {
+     "1-2": "infestanti",
+     "3-4": "seguaci",
+     "5": "aberranti",
+     "6": "boss"
+    }
+   }
+  },
+  {
+   "id": "perquisire",
+   "nome": "Perquisire stanze vuote",
+   "pagina": 56,
+   "sintesi": "1d6: con 5-6 trovi a scelta un indizio, un tesoro nascosto o una porta segreta; con 1 arrivano gli erranti.",
+   "parametri": {
+    "dado": "1d6",
+    "successo": [5, 6],
+    "errante": [1, 1]
+   }
+  },
+  {
+   "id": "reazioni-nuove",
+   "nome": "Nuove reazioni dei mostri",
+   "pagina": 13,
+   "sintesi": "Il supplemento aggiunge Singolar tenzone, Missione, Dorme, Amichevole e il caso dei funghi (restano fermi e urlano). Per Missione, Dorme e Amichevole il manuale non dà regole: vedi ambiguità.",
+   "parametri": {
+    "nuove": ["tenzone", "missione", "dorme", "amichevole", "immobile"],
+    "elencoSingolare": true
+   }
+  },
+  {
+   "id": "sigle-statistiche",
+   "nome": "Sigle e statistiche dei mostri",
+   "pagina": 54,
+   "sintesi": "Formato: nome (numero), categoria, LIV, ATT, PV, MOR, TES; MOR e TES possono essere numeri, NO (assente) o ST (standard). \"Metà livello\" si arrotonda per difetto. Si sostituiscono le tabelle base con quelle del volume. Le reazioni sono al singolare.",
+   "parametri": {
+    "moraleTesoroValori": ["numero", "NO", "ST"],
+    "mezzoLivello": "per difetto"
+   }
+  },
+  {
+   "id": "stanze-d66",
+   "nome": "Generazione delle stanze",
+   "pagina": 6,
+   "sintesi": "Le stanze si generano come nel manuale base (d66 e stessi diagrammi); il contenuto si determina con le tabelle del supplemento.",
+   "parametri": {
+    "dado": "d66",
+    "rimando": "manuale base p.40-43"
+   }
+  }
+ ],
+ "rimandi": [
+  {
+   "cosa": "Spadaccino (classe)",
+   "libro": "Acque Oscure e Altre Avventure",
+   "pagina": 5
+  },
+  {
+   "cosa": "Uomini ratto del caos, fanatici del caos, signore oscuro di Xichtul, giovane drago del caos",
+   "libro": "Contro il Caos",
+   "pagina": null
+  },
+  {
+   "cosa": "Tabelle Mostri boss per la trama Rapimento (liv 1-2 e 3-4)",
+   "libro": "Manuale base",
+   "pagina": "85 e 95"
+  },
+  {
+   "cosa": "Tesori magici di partenza, Incantesimo a caso base, pozione di guarigione, punti fortuna del mezzuomo",
+   "libro": "Manuale base",
+   "pagina": "81, 28, 33, 22"
+  }
+ ],
+ "ambiguita": [
+  {
+   "punto": "Tabella Tesori: l'indice (p. 3) dice d6, il titolo (p. 60) d8, con righe \"0 o meno\" e \"8 o più\".",
+   "scelta": "Adottato d8 (titolo). Le righe estreme sono da=-99/a=0 (nessun tesoro) e da=8/a=99; il modificatore da applicare al d8 (es. TES +1/-1) è quello dei mostri del manuale base, non spiegato qui."
+  },
+  {
+   "punto": "Serpente gigante costrittore: reazioni elencate solo per 1 e 4-6; 2-3 mancano.",
+   "scelta": "2-3 assunti Combatte; segnato con reazioniMancanti [2,3]."
+  },
+  {
+   "punto": "Reazione \"Missione\" (vampiro minore, lich, fortundrago, giovane drago del caos) non è descritta nel manuale.",
+   "scelta": "Tipo 'missione' del programma (tabella Missioni già presente nei set caos/avanzate); nessuna tabella Missioni in abisso.json."
+  },
+  {
+   "punto": "Reazioni \"Dorme\" e \"Amichevole\" non definite; i funghi stridenti \"restano fermi e urlano\".",
+   "scelta": "Dorme come nel programma (+2 al primo attacco); amichevole = non attacca e lascia passare, senza tesoro (assunto); funghi: tipo 'immobile'."
+  },
+  {
+   "punto": "Cassa assassina, scheletri guerrieri, comandante goblin e campione degli uomini ratto non hanno elenco di reazioni.",
+   "scelta": "Cassa e scheletri: Combatte fino alla morte; comandante e campione: stessa tabella dei rispettivi seguaci."
+  },
+  {
+   "punto": "Lupo mannaro (PG trasformato): manca il tesoro.",
+   "scelta": "tes = null."
+  },
+  {
+   "punto": "Contenuti stanza riga 4 (Eventi unici): non si dice cosa succede in un corridoio.",
+   "scelta": "Azione 'evento' ovunque (il manuale non distingue)."
+  },
+  {
+   "punto": "Contenuti stanza riga 9: \"ritirando un qualsiasi evento unico già accaduto\" è ambiguo (ripetibile o da ritirare).",
+   "scelta": "Letto come da ritirare (coerente con la nota della tabella Eventi); esauriti, Trappole. Il set caos del programma legge invece 'ripetibili'."
+  },
+  {
+   "punto": "Peste oscura: l'evento unico dice TS malattia L5, la regola a p. 51 L10.",
+   "scelta": "Evento: L5 (testo specifico); contagio e altri contatti: L10."
+  },
+  {
+   "punto": "Trappola 1 (lancia dardi): i bonus di furfanti, mezzuomini e barbari sono citati solo per il TS contro il veleno.",
+   "scelta": "Applicati solo al TS veleno; il TS contro il livello della trappola non ha bonus."
+  },
+  {
+   "punto": "Trappola 2 (sfera): \"altri personaggi\" +1 con armatura pesante e +1 con scudo.",
+   "scelta": "Intesi come i PG non citati (non furfanti/elfi/mezzuomini/spadaccini)."
+  },
+  {
+   "punto": "Draghi: nessuno ha un soffio descritto, ma il Filtro del soffio di fuoco ne presuppone uno.",
+   "scelta": "Aggiunto senzaSoffio=true ai 6 draghi (il codice non deve applicare il soffio generico)."
+  },
+  {
+   "punto": "Il draconico (boss) è dracomorfo ma non è nella tabella Draghi.",
+   "scelta": "drago=false (quindi non bersaglio di Sterminatore di draghi o filtro)."
+  },
+  {
+   "punto": "Medaglione dell'incantatore di serpenti: il testo parla di \"amuleto\" e di seguaci \"uomini lucertola\".",
+   "scelta": "Letto come il medaglione; tag 'serpente' per i campioni di Ssiklis."
+  },
+  {
+   "punto": "Guida (mercenario): \"non più di 4 livelli o comprare lo stesso tipo di tiro\".",
+   "scelta": "Max 4 livelli, uno per tipo di ripetizione (4 tipi)."
+  },
+  {
+   "punto": "Follia: l'uscita dal dungeon e il confessore danno ciascuno 1 punto, ma si dice max 1 punto rimosso nella pausa tra avventure.",
+   "scelta": "Massimo 1 punto per pausa in totale (maxRimozioniTraAvventure=1)."
+  },
+  {
+   "punto": "Addestramento: la frase sul riaddestramento (solo se nell'ultima avventura si è fatto almeno 1 tiro ES) è collocata a metà della tabella Trama.",
+   "scelta": "Attribuita alla regola Addestramento."
+  },
+  {
+   "punto": "Livelli 6-9: il manuale non dà tabelle di PV né nuovi bonus per livello.",
+   "scelta": "Rimando al base: +1 PV per livello (p.51); pvTabellaLivelli6a9=null. La regola \"non salire due volte di fila\" del base non è ripresa: non applicata (da decidere)."
+  },
+  {
+   "punto": "Abilità: l'indice dice 41 voci, il censimento ne contava 40.",
+   "scelta": "Trascritte 41; controllo incrociato sigle/appendice p.72 eseguito: nessuna discrepanza."
+  },
+  {
+   "punto": "Rapimento: tabelle boss del base (p.85, p.95) richiamate per livelli 1-4.",
+   "scelta": "Indicate come rimando; non presenti in abisso.json."
+  },
+  {
+   "punto": "Banchetto fatato: incantesimo a caso dalla tabella a p.28 del manuale base.",
+   "scelta": "Riferito come 'incantesimoCasoBase' (la tabella base del programma)."
+  },
+  {
+   "punto": "Boss finale: il manuale non dice se valgono i bonus del base (+1 PV, +1 ATT).",
+   "scelta": "Nessuna regola nuova qui; il programma applica già i bonus base."
+  },
+  {
+   "punto": "Stanza grande/\"spazio sul foglio\" per il boss finale non è misurabile.",
+   "scelta": "Parametro oSpazioFinito=true: decisione manuale del giocatore."
+  },
+  {
+   "punto": "Vampiri: \"attacchi che infliggono 2 ferite in un solo colpo\" colpiscono anche senza arma magica.",
+   "scelta": "Tradotto in vulnerabileSolo come voce testuale (es. Colpo mortale, paletto con acqua santa)."
+  },
+  {
+   "punto": "Conciatore arcano: la pelliccia di pantera distorcente non dice come si ottiene dal mostro.",
+   "scelta": "Nessun automatismo: oggetto 'derivato' creabile con l'abilità."
+  },
+  {
+   "punto": "Spadaccino e mostri affini a \"Contro il Caos\" (uomini ratto, fanatici, signore oscuro, drago del caos) richiamano altri volumi.",
+   "scelta": "Statistiche prese da qui; campo 'rimando' dove pertinente."
+  }
+ ]
+}

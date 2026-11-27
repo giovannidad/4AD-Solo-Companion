@@ -1,0 +1,48 @@
+{
+  "formato": "4ad-avventura",
+  "versione": 1,
+  "nome": "La fortezza di cenere",
+  "autore": "Esempio incluso nel programma",
+  "licenza": "CC0 (pubblico dominio)",
+  "lingua": "it",
+  "descrizione": "Assalto a una fortezza in rovina per un gruppo di livello 6-8, con le tabelle di «Contro l'Abisso». Mostra come mescolare mostri delle tabelle e mostri personalizzati ad alto livello.",
+  "introduzione": "La fortezza bruciò un secolo fa e da allora la cenere non si è mai raffreddata del tutto. Qualcuno ha riacceso i bracieri nella sala del trono.",
+  "conclusione": "I bracieri si spengono uno dopo l'altro. Dalla fortezza sale solo fumo, poi più nulla.",
+  "livello": { "min": 6, "max": 8 },
+  "eroi": { "min": 4, "max": 5 },
+  "set": "abisso",
+  "stanze": [
+    { "id": "cancello", "nome": "Cancello annerito", "tipo": "ingresso", "rettangolo": [0, 5, 3, 3],
+      "testo": "Due battenti di ferro fuso, piegati dal calore. Oltre si intravede un cortile coperto di cenere grigia." },
+    { "id": "cortile", "nome": "Cortile della cenere", "rettangolo": [3, 5, 5, 4],
+      "testo": "Sagome ferme tra le macerie. Quando entrate, si voltano.",
+      "contenuto": [ { "tipo": "mostri", "tabella": "seguaci", "id": "a-ghoul", "quantita": 4 } ] },
+    { "id": "armeria", "nome": "Armeria", "rettangolo": [8, 5, 3, 3],
+      "testo": "Rastrelliere carbonizzate. Una cassa di ferro è rimasta intatta.",
+      "contenuto": [
+        { "tipo": "trappola", "tira": true },
+        { "tipo": "tesoro", "fisso": [ { "tipo": "armatura-magica", "testo": "Corazza annerita +1 alla difesa (armatura pesante)", "bonusDifesa": 1, "armaturaTipo": "armatura pesante" } ] }
+      ] },
+    { "id": "scala", "nome": "Scala delle prigioni", "tipo": "corridoio", "rettangolo": [5, 9, 1, 3],
+      "testo": "Gradini stretti che scendono. L'aria sa di bruciato e di carne vecchia." },
+    { "id": "prigioni", "nome": "Prigioni", "rettangolo": [3, 12, 5, 4],
+      "testo": "Celle aperte, catene spezzate. In fondo qualcosa sta appeso al soffitto e vi osserva.",
+      "contenuto": [
+        { "tipo": "mostri", "tabella": "aberranti", "id": "a-vampiro-minore" },
+        { "tipo": "evento", "nome": "Il carceriere", "testo": "Su un tavolo c'è un mazzo di chiavi con un cartiglio: «Sala del trono, braciere nord». Chi lo legge e lo porta con sé aggiunge 1 al primo tiro di perquisizione nella sala del trono." }
+      ] },
+    { "id": "trono", "nome": "Sala del trono", "rettangolo": [11, 4, 5, 5],
+      "testo": "Quattro bracieri accesi attorno a un trono di ossidiana. Sul trono, una figura coperta di cenere alza la testa.",
+      "contenuto": [
+        { "tipo": "mostri", "tabella": "boss", "id": "a-re-ghoul", "finale": true },
+        { "tipo": "tesoro", "tira": true, "mod": 1 }
+      ] }
+  ],
+  "porte": [
+    { "da": "cancello", "a": "cortile", "x": 2, "y": 6, "lato": "e" },
+    { "da": "cortile", "a": "armeria", "x": 7, "y": 6, "lato": "e" },
+    { "da": "cortile", "a": "scala", "x": 5, "y": 8, "lato": "s" },
+    { "da": "scala", "a": "prigioni", "x": 5, "y": 11, "lato": "s" },
+    { "da": "armeria", "a": "trono", "x": 10, "y": 6, "lato": "e" }
+  ]
+}

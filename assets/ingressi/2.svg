@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="704" height="704" viewBox="-0.25 -0.25 5.5 5.5">
+<defs><filter id="m" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="0.07"/></filter></defs>
+<path d="M4 5L5 5 M5 4L5 5 M2 5L3 5 M1 2L2 2 M0 5L1 5 M0 4L0 5 M2 1L2 2 M3 1L3 2 M3 5L4 5 M5 3L5 4 M0 3L0 4 M2 0L2 1 M3 0L3 1 M1 5L2 5 M4 2L5 2 M5 2L5 3 M0 2L1 2 M0 2L0 3 M3 2L4 2" fill="none" stroke="#8d8a84" stroke-opacity=".5" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0 2h1v1h-1zM0 3h1v1h-1zM0 4h1v1h-1zM1 2h1v1h-1zM1 3h1v1h-1zM1 4h1v1h-1zM2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM2 3h1v1h-1zM2 4h1v1h-1zM3 2h1v1h-1zM3 3h1v1h-1zM3 4h1v1h-1zM4 2h1v1h-1zM4 3h1v1h-1zM4 4h1v1h-1z" fill="#fbf8ee"/>
+<path d="M1 2v1 M0 3h1 M1 3v1 M0 4h1 M1 4v1 M2 2v1 M1 3h1 M2 3v1 M1 4h1 M2 4v1 M2 1h1 M2 2h1 M3 2v1 M2 3h1 M3 3v1 M2 4h1 M3 4v1 M4 2v1 M3 3h1 M4 3v1 M3 4h1 M4 4v1 M4 3h1 M4 4h1" fill="none" stroke="#6f8fb5" stroke-opacity=".45" stroke-width=".03"/>
+<g filter="url(#m)"><path d="M4 5L5 5 M5 4L5 5 M2 5L3 5 M1 2L2 2 M0 5L1 5 M0 4L0 5 M2 1L2 2 M3 1L3 2 M3 5L4 5 M5 3L5 4 M0 3L0 4 M2 0L2 1 M3 0L3 1 M1 5L2 5 M4 2L5 2 M5 2L5 3 M0 2L1 2 M0 2L0 3 M3 2L4 2" fill="none" stroke="#25252d" stroke-width=".2" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#fbf8ee" stroke="#25252d" stroke-width=".07"><rect x="0.14" y="1.83" width="0.72" height="0.34" rx="0.08"/><rect x="2.14" y="4.83" width="0.72" height="0.34" rx="0.08"/><rect x="4.83" y="3.14" width="0.34" height="0.72" rx="0.08"/></g></g>
+</svg>
