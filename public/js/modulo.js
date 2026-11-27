@@ -301,7 +301,7 @@ export function porteDi(m, id) {
   return out;
 }
 
-const PX = 128, PAD = 0.25;   // pixel per quadretto e margine intorno alla stanza (come le tessere vettoriali del gioco)
+const PX = 128, PAD = 0.5;   // pixel per quadretto e margine intorno alla stanza (come le tessere vettoriali del gioco)
 /**
  * Dati di una tessera per il foglio: immagine SVG vettoriale della stanza (pavimento, griglia, pareti, porte) e geometria
  * (`celle`, `porte`) nello stesso formato di data/rules/tiles.json, così funzionano uscite e posizionamento.
@@ -319,24 +319,85 @@ export function costruisciTessera(m, s, [ox, oy], rivelate = new Set()) {
     return p.lato === 'n' ? ['h', i, j] : p.lato === 's' ? ['h', i, j + 1] : p.lato === 'o' ? ['v', i, j] : ['v', i + 1, j];
   });
   const f = n => +n.toFixed(3);
-  let pav = '', griglia = '', pareti = '', porteSvg = '';
+  let griglia = '', tratti = '', porteSvg = '', colonne = '';
+  // inchiostro alla Dyson Logos: pareti nere spesse con angoli arrotondati sui gradini, pavimento chiaro con griglia, tratteggio fuori
+  let sem = 0; for (const ch of `${m.titolo || ''}${s.id}`) sem = (sem * 31 + ch.charCodeAt(0)) >>> 0;
+  const rnd = () => (sem = (sem * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const portaSu = new Set(gp.map(([o, i, j]) => `${o}${i},${j}`));
+  const tratteggia = (ax, ay, nx, ny, tx, ty, haPorta) => {   // un lato di parete: (ax,ay) angolo, (nx,ny) verso l'esterno, (tx,ty) direzione del lato
+    if (haPorta) return;
+    for (let k = 0; k < 12; k++) {
+      const u = (k + 0.1 + rnd() * 0.8) / 12, d0 = 0.03 + rnd() * 0.08, len = 0.18 + rnd() * 0.3;
+      const ang = (rnd() < 0.5 ? 1 : -1) * (0.5 + rnd() * 0.6), c = Math.cos(ang), sn = Math.sin(ang);
+      const dx = nx * c - ny * sn, dy = nx * sn + ny * c;
+      const bx = ax + tx * u + nx * d0, by = ay + ty * u + ny * d0;
+      tratti += `M${f(bx)} ${f(by)}l${f(dx * len)} ${f(dy * len)}`;
+    }
+  };
+  const lati = new Map();   // lati di parete orientati con il pavimento a destra: "x,y" di partenza -> elenco di vertici di arrivo
+  const lato = (x1, y1, x2, y2) => { const k = `${x1},${y1}`; if (!lati.has(k)) lati.set(k, []); lati.get(k).push([x2, y2]); };
   for (const [i, j] of celle) {
-    pav += `M${i} ${j}h1v1h-1z`;
     griglia += `M${i + 1} ${j}v1M${i} ${j + 1}h1`;
-    if (!set.has(chiave(i, j - 1))) pareti += `M${i} ${j}h1`;
-    if (!set.has(chiave(i, j + 1))) pareti += `M${i} ${j + 1}h1`;
-    if (!set.has(chiave(i - 1, j))) pareti += `M${i} ${j}v1`;
-    if (!set.has(chiave(i + 1, j))) pareti += `M${i + 1} ${j}v1`;
+    if (!set.has(chiave(i, j - 1))) { lato(i, j, i + 1, j); tratteggia(i, j, 0, -1, 1, 0, portaSu.has(`h${i},${j}`)); }
+    if (!set.has(chiave(i, j + 1))) { lato(i + 1, j + 1, i, j + 1); tratteggia(i, j + 1, 0, 1, 1, 0, portaSu.has(`h${i},${j + 1}`)); }
+    if (!set.has(chiave(i - 1, j))) { lato(i, j + 1, i, j); tratteggia(i, j, -1, 0, 0, 1, portaSu.has(`v${i},${j}`)); }
+    if (!set.has(chiave(i + 1, j))) { lato(i + 1, j, i + 1, j + 1); tratteggia(i + 1, j, 1, 0, 0, 1, portaSu.has(`v${i + 1},${j}`)); }
+  }
+  // contorni chiusi: a un incrocio si gira a destra, così le celle toccate solo per un angolo restano separate
+  const cappi = [];
+  while (lati.size) {
+    const [k0] = lati.keys(); let [x, y] = k0.split(',').map(Number); const via = [[x, y]]; let dir = null;
+    for (;;) {
+      const k = `${x},${y}`, opz = lati.get(k); if (!opz) break;
+      let sc = 0;
+      if (opz.length > 1 && dir) { const dx = dir[0], dy = dir[1]; const dest = opz.findIndex(([a2, b2]) => (a2 - x) * -dy + (b2 - y) * dx > 0 && Math.sign(a2 - x) * Math.sign(dx) + Math.sign(b2 - y) * Math.sign(dy) === 0); sc = dest >= 0 ? dest : 0; }
+      const [nx, ny] = opz.splice(sc, 1)[0]; if (!opz.length) lati.delete(k);
+      dir = [nx - x, ny - y]; x = nx; y = ny;
+      if (x === via[0][0] && y === via[0][1]) break;
+      via.push([x, y]);
+    }
+    cappi.push(via);
+  }
+  const sulLatoPorta = (ax, ay, bx, by) => gp.some(([o, i, j]) => o === 'h' ? ay === j && by === j && Math.min(ax, bx) <= i && Math.max(ax, bx) >= i + 1 : ax === i && bx === i && Math.min(ay, by) <= j && Math.max(ay, by) >= j + 1);
+  let pareti = '';
+  for (const via of cappi) {
+    // si fondono i lati allineati in segmenti tra un angolo e l'altro
+    let pts = via.filter((p, n) => { const a2 = via[(n + via.length - 1) % via.length], b2 = via[(n + 1) % via.length]; return (p[0] - a2[0]) * (b2[1] - p[1]) - (p[1] - a2[1]) * (b2[0] - p[0]) !== 0; });
+    if (pts.length < 3) pts = via;
+    const n = pts.length, len = (p, q) => Math.abs(p[0] - q[0]) + Math.abs(p[1] - q[1]);
+    const raggio = pts.map((p, k) => {
+      const a2 = pts[(k + n - 1) % n], b2 = pts[(k + 1) % n], l1 = len(a2, p), l2 = len(p, b2);
+      if (Math.max(l1, l2) > 2 || sulLatoPorta(a2[0], a2[1], p[0], p[1]) || sulLatoPorta(p[0], p[1], b2[0], b2[1])) return 0;
+      return Math.min(0.5, l1 / 2, l2 / 2);
+    });
+    const verso = (p, q, r) => { const l = len(p, q) || 1; return [p[0] + (q[0] - p[0]) / l * r, p[1] + (q[1] - p[1]) / l * r]; };
+    let d = '';
+    for (let k = 0; k < n; k++) {
+      const p = pts[k], a2 = pts[(k + n - 1) % n], b2 = pts[(k + 1) % n], r = raggio[k];
+      const q1 = verso(p, a2, r), q2 = verso(p, b2, r);
+      d += `${k ? 'L' : 'M'}${f(q1[0])} ${f(q1[1])}`;
+      if (r) d += `Q${p[0]} ${p[1]} ${f(q2[0])} ${f(q2[1])}`; else d += `L${p[0]} ${p[1]}`;
+    }
+    pareti += d + 'Z';
+  }
+  // colonne nelle sale rettangolari grandi, sugli incroci della griglia (non intralciano i segnalini)
+  if (celle.length >= 20 && celle.length === bw * bh) {
+    for (let j = 1; j < bh; j++) for (let i = 1; i < bw; i++) {
+      if ((i + (bw % 2 ? 0 : 1)) % 3 === 1 && j % 3 === 1 && j < bh - 0 && i < bw && !gp.some(([o, a2, b2]) => Math.abs(a2 - i) <= 1 && Math.abs(b2 - j) <= 1)) colonne += `<circle cx="${i}" cy="${j}" r=".17" fill="#f7f4ea" stroke="#141217" stroke-width=".06"/>`;
+    }
   }
   for (const [o, i, j] of gp) {
     porteSvg += o === 'h'
       ? `<rect x="${f(i + 0.14)}" y="${f(j - 0.1)}" width="0.72" height="0.2" rx=".04" fill="#9a6532" stroke="#2c1a0b" stroke-width=".04"/>`
       : `<rect x="${f(i - 0.1)}" y="${f(j + 0.14)}" width="0.2" height="0.72" rx=".04" fill="#9a6532" stroke="#2c1a0b" stroke-width=".04"/>`;
   }
-  const w = (bw + 2 * PAD) * PX, h = (bh + 2 * PAD) * PX;
+  const w = (bw + 2 * PAD) * PX, h = (bh + 2 * PAD) * PX, cid = `p${s.id}`.replace(/[^a-z0-9]/gi, '');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${-PAD} ${-PAD} ${bw + 2 * PAD} ${bh + 2 * PAD}">`
-    + `<path d="${pav}" fill="#d9d2c0"/><path d="${griglia}" fill="none" stroke="#9c9482" stroke-width=".02" stroke-linecap="round"/>`
-    + `<path d="${pareti}" fill="none" stroke="#1c1a1f" stroke-width=".1" stroke-linecap="round" stroke-linejoin="round"/>${porteSvg}</svg>`;
+    + `<defs><clipPath id="${cid}"><path d="${pareti}" clip-rule="evenodd"/></clipPath></defs>`
+    + `<path d="${tratti}" fill="none" stroke="#1c1a1f" stroke-width=".02" stroke-linecap="round"/>`
+    + `<path d="${pareti}" fill="#f7f4ea" fill-rule="evenodd"/>`
+    + `<g clip-path="url(#${cid})"><path d="${griglia}" fill="none" stroke="#a9a595" stroke-width=".018" stroke-linecap="round"/></g>`
+    + `<path d="${pareti}" fill="none" stroke="#141217" stroke-width=".13" stroke-linecap="round" stroke-linejoin="round"/>${colonne}${porteSvg}</svg>`;
   return {
     w, h, cx: PX, cy: PX, ox: PX * PAD, oy: PX * PAD, svg: true,
     src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg),

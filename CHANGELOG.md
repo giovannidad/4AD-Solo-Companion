@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.21.0
+- **Nuova resa delle mappe a inchiostro:** pareti nere spesse con angoli morbidi sui gradini, pavimento chiaro con griglia sottile, tratteggio a penna fuori dalle pareti e colonne nelle sale rettangolari grandi.
+- **Dungeon della campagna «Il Cartografo dell'Oblio» rigenerati:** sale a cupola, ovali, grotte irregolari e sale lunghe con nicchie; corridoi dritti, a curva, a S, ad arco o a gradini. Stesso numero di stanze di prima (25, 15, 23, 24 e 22); trama, mostri, tesori e finali non cambiano.
+
 ## 1.20.1
 - **Correzione:** nel pannello dell'incontro non compare più la scritta «null» sopra «Turno del gruppo» quando il mostro non ha un leader.
 
